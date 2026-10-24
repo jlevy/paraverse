@@ -27,7 +27,7 @@ struct WorldPlannerPanel: View {
     private var visibleEvents: [PlannedSession] { filtered(browsing ? Self.catalog["external"] ?? [] : planner.sideEvents) }
     private var visiblePeople: [WorldSpeaker] {
         WorldSpeaker.directoryPeople.filter {
-            search.isEmpty || "\($0.name) \($0.role) \($0.company) \($0.biography)".localizedCaseInsensitiveContains(search)
+            $0.matchesDirectorySearch(search)
         }
     }
     var close: () -> Void
@@ -215,7 +215,7 @@ struct WorldPlannerPanel: View {
                                     }
                                     VStack(alignment: .leading, spacing: 4) {
                                         Text(person.name).font(.headline)
-                                        Text([person.role, person.company].filter { !$0.isEmpty }.joined(separator: " · "))
+                                        Text(person.isJudge ? person.directorySummary : [person.role, person.company].filter { !$0.isEmpty }.joined(separator: " · "))
                                             .font(.caption).foregroundStyle(Brand.welcomeSubtitle)
                                     }
                                     Spacer()
