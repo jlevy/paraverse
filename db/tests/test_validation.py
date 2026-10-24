@@ -6,6 +6,7 @@ refuses to load a KB with a broken artifact, however the dataset is named.
 
 from __future__ import annotations
 
+import json
 import shutil
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -15,7 +16,7 @@ import pytest
 from paraverse_graph.cli import main
 from paraverse_graph.connection import graph_exists, open_db
 from paraverse_graph.datasets import KB_ENV, graph_name
-from paraverse_graph.kb import DEFAULT_DATASET, KB_RELATIVE_PATH, find_kb_root
+from paraverse_graph.kb import DEFAULT_DATASET, KB_RELATIVE_PATH, KbError, find_kb_root, load_kb
 from paraverse_graph.validation import ArtifactProblem, artifact_paths, validate_artifacts
 
 SAMPLE = "sessions/1809k.md"
@@ -161,3 +162,48 @@ def test_a_problem_line_bounds_its_errors():
     errors = ["first\n  wrapped", "second", "third", "fourth", "fifth"]
     line = ArtifactProblem(path="sessions/a.md", errors=errors).line()
     assert line == "sessions/a.md: first wrapped; second; third; and 2 more"
+
+
+def _one_person_kb(kb: Path, contract_line: str) -> None:
+    """A KB with one person node, whose artifact has `contract_line` in its block."""
+    (kb / "_graph").mkdir(parents=True)
+    (kb / "people").mkdir()
+    node = {"id": "person:p0", "kind": "person", "name": "P0", "path": "people/p0.md"}
+    (kb / "_graph" / "nodes.jsonl").write_text(json.dumps(node) + "\n")
+    (kb / "_graph" / "edges.jsonl").write_text("")
+    (kb / "_graph" / "stats.json").write_text('{"nodes": {"person": 1}, "edges": {}}')
+    (kb / "people" / "p0.md").write_text(
+        f"---\nsoftschema:\n{contract_line}  envelope: person\n"
+        "person:\n  id: person:p0\n  name: P0\n---\n"
+    )
+
+
+_NO_CONTRACT = {
+    "missing": "",
+    "null": "  contract: null\n",
+    "tilde": "  contract: ~\n",
+    "empty": "  contract: ''\n",
+    "blank": "  contract: '   '\n",
+    "number": "  contract: 5\n",
+}
+
+
+@pytest.mark.parametrize("contract_line", _NO_CONTRACT.values(), ids=list(_NO_CONTRACT))
+def test_an_ordinary_load_needs_a_contract_name(
+    contract_line: str, tmp_path: Path, capsys: pytest.CaptureFixture[str]
+):
+    """Without `--validate`, a node's artifact must still name a contract."""
+    kb = tmp_path / "nocontract" / "kb"
+    _one_person_kb(kb, contract_line)
+    with pytest.raises(KbError, match="names no softschema contract"):
+        load_kb(kb)
+    db_file = tmp_path / "test.rdb"
+    assert main(["load", "--kb", str(kb), "--db", str(db_file)]) == 1
+    assert "names no softschema contract" in " ".join(capsys.readouterr().err.split())
+    assert not graph_exists(open_db(db_file), graph_name("nocontract"))
+
+
+def test_an_ordinary_load_reads_a_contract_name(tmp_path: Path):
+    kb = tmp_path / "kb"
+    _one_person_kb(kb, "  contract: test:Person/v1\n")
+    assert load_kb(kb).artifacts["people/p0.md"].contract == "test:Person/v1"

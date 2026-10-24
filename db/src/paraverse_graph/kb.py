@@ -167,7 +167,7 @@ def read_artifact(path: Path, rel_path: str, *, envelope_hint: str | None = None
         raise KbError(f"{rel_path}: envelope `{envelope}` is incompatible with `{envelope_hint}`")
     if not isinstance(payload, dict):
         raise KbError(f"{rel_path}: envelope `{envelope}` is not a mapping")
-    # Only a nonempty string names a contract; str() would turn null into "None".
+    # Only a nonempty string names a contract; `str()` would turn `null` into "None".
     contract = block.get("contract")
     contract = contract.strip() if isinstance(contract, str) else ""
     return Artifact(path=rel_path, contract=contract, envelope=envelope, payload=payload)
