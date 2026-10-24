@@ -4,6 +4,10 @@ Start with the data policy; it sets what this public repository may contain.
 
 - [Data policy](data-policy.md): what may and may not be committed, how generated text
   is handled, and how removal requests work.
+- [Hackathon demo](hackathon-demo.md): Paraverse at Patch the Conference, the Bright
+  Data, FalkorDB and Qodo integrations, and the demo flow.
+- [KB readiness review](project/research/review-2026-10-24-kb-readiness.md): the current
+  dataset audit, reproducibility gaps and prerequisites for a complete demo.
 
 ## Graph Database and Browser
 
