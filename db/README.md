@@ -232,9 +232,9 @@ everything and so explain nothing.
   Changes to the KB root, exports, artifacts or schemas during a load abort it before
   publication. Direct-graph `--watch` retries failed loads with exponential backoff,
   capped at a minute. Selected views retry transient database and IO failures after 30
-  seconds, doubling to a five-minute cap.
-  Invalid source content and failed staging checks are retried after the build signature
-  changes or an explicit selection request.
+  seconds, doubling to a five-minute cap; database constraint-readiness timeouts use the
+  same backoff. Invalid source content and failed staging count or uniqueness checks are
+  retried after the build signature changes or an explicit selection request.
   Build producers must publish complete builds atomically; an in-place build paused in a
   mixed state cannot always be identified from file metadata.
 

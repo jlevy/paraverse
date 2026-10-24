@@ -66,7 +66,11 @@ FULLTEXT_INDEXES: tuple[tuple[str, tuple[str, ...]], ...] = (
 
 
 class LoadError(RuntimeError):
-    """The staging graph did not match the knowledge base, so nothing was replaced."""
+    """The staging graph could not be prepared, so nothing was replaced."""
+
+
+class TransientLoadError(LoadError):
+    """A staging operation may succeed later without changing the source build."""
 
 
 @dataclass
@@ -336,7 +340,9 @@ def _create_unique_id_constraint(db: Any, graph_name: str, timeout: float = 30.0
         if "FAILED" in statuses:
             raise LoadError(f"unique constraint on {ENTITY_LABEL}.id failed in `{graph_name}`")
         if time.monotonic() > deadline:
-            raise LoadError(f"unique constraint on {ENTITY_LABEL}.id still building: {statuses}")
+            raise TransientLoadError(
+                f"unique constraint on {ENTITY_LABEL}.id still building: {statuses}"
+            )
         time.sleep(0.05)
 
 

@@ -15,7 +15,7 @@ from redis.exceptions import RedisError
 from paraverse_graph.composition import compose_kbs
 from paraverse_graph.connection import delete_graph
 from paraverse_graph.kb import KbError
-from paraverse_graph.loader import LoadError, load_graph
+from paraverse_graph.loader import LoadError, TransientLoadError, load_graph
 
 type SourceSignatures = tuple[tuple[int, int, int] | None, ...]
 
@@ -113,7 +113,8 @@ class DatasetSelection:
             kb = compose_kbs({name: self.sources[name] for name in names})
             labels = {
                 name: self._event_label(
-                    name, [node.name for node in source.nodes if node.kind == "event" and node.name]
+                    name,
+                    [str(node.name) for node in source.nodes if node.kind == "event" and node.name],
                 )
                 for name, source in kb.source_kbs.items()
             }
@@ -126,7 +127,9 @@ class DatasetSelection:
             # Invalid source content needs a new build. IO and database failures can
             # recover without a source edit, so retry with a capped backoff instead.
             cause: BaseException | None = exc
-            while cause is not None and not isinstance(cause, (RedisError, OSError)):
+            while cause is not None and not isinstance(
+                cause, (TransientLoadError, RedisError, OSError)
+            ):
                 cause = cause.__cause__
             if cause is not None:
                 self._retry_at = time.monotonic() + self._retry_delay

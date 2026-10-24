@@ -8,6 +8,7 @@ import subprocess
 import threading
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any
 
 import pytest
@@ -15,7 +16,7 @@ import yaml
 from redis.exceptions import RedisError
 from starlette.testclient import TestClient
 
-from paraverse_graph import cli
+from paraverse_graph import cli, loader
 from paraverse_graph import selection as selection_module
 from paraverse_graph.browser import create_app
 from paraverse_graph.composition import compose_kbs
@@ -23,6 +24,7 @@ from paraverse_graph.connection import open_db
 from paraverse_graph.kb import KbError
 from paraverse_graph.loader import LoadError, load_graph
 from paraverse_graph.selection import DatasetSelection, SelectionError
+from tests.test_composition import write_kb
 from tests.test_frontend_review import HARNESS, WEB
 from tests.test_selection import source
 
@@ -434,3 +436,68 @@ assert.deepEqual(state.meta, versionBefore, 'the forced refresh needs no new loa
         timeout=15,
     )
     assert result.returncode == 0, result.stdout + result.stderr
+
+
+@pytest.mark.parametrize("titles", [[42], [42, 43], [{"bad": 1}, ["bad"]]])
+def test_snapshot_labels_normalize_non_string_export_names(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, titles: list[Any]
+) -> None:
+    root = write_kb(
+        tmp_path / "alpha",
+        [("event", {"id": f"event:{i}", "name": f"Event {i}"}) for i in range(len(titles))],
+    )
+    nodes = root / "_graph/nodes.jsonl"
+    rows = [json.loads(line) for line in nodes.read_text().splitlines()]
+    for row, title in zip(rows, titles, strict=True):
+        row["name"] = title
+    nodes.write_text("".join(json.dumps(row) + "\n" for row in rows))
+    monkeypatch.setattr(selection_module, "load_graph", lambda *_args, **_kwargs: None)
+    selection = DatasetSelection(None, {"alpha": root}, "browser")
+    selection.select(["alpha"])
+    expected = str(titles[0]) if len(titles) == 1 else "alpha"
+    assert selection.describe()["datasets"][0]["name"] == expected
+    publish_build(root, "refresh")
+    assert selection.refresh_if_changed()
+    assert selection.describe()["datasets"][0]["name"] == expected
+
+
+def test_constraint_wait_timeout_is_transient_and_selection_retries_without_source_edits(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    graph = SimpleNamespace(
+        ro_query=lambda *_args, **_kwargs: SimpleNamespace(result_set=[["UNDER CONSTRUCTION"]])
+    )
+    db = SimpleNamespace(
+        connection=SimpleNamespace(execute_command=lambda *_args: None),
+        select_graph=lambda _name: graph,
+    )
+    ticks = iter([0.0, 31.0])
+    with monkeypatch.context() as clock:
+        clock.setattr("time.monotonic", lambda: next(ticks))
+        with pytest.raises(loader.TransientLoadError, match="still building") as failed:
+            loader._create_unique_id_constraint(db, "staging")  # pyright: ignore[reportPrivateUsage]
+
+    root = source(tmp_path / "alpha", "alpha")
+    now = [0.0]
+    blocked = [False]
+    attempts = []
+
+    def load(*_args: Any, **_kwargs: Any) -> None:
+        attempts.append(now[0])
+        if blocked[0]:
+            raise failed.value
+
+    monkeypatch.setattr(selection_module, "load_graph", load)
+    monkeypatch.setattr("time.monotonic", lambda: now[0])
+    selection = DatasetSelection(None, {"alpha": root}, "browser")
+    selection.select(["alpha"])
+    publish_build(root, "changed")
+    blocked[0] = True
+    with pytest.raises(SelectionError):
+        selection.refresh_if_changed()
+    now[0] = 29
+    assert not selection.refresh_if_changed()
+    blocked[0] = False
+    now[0] = 30
+    assert selection.refresh_if_changed()
+    assert attempts == [0, 0, 30]
