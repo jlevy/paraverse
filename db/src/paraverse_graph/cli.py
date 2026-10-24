@@ -298,9 +298,10 @@ def _serve(args: argparse.Namespace) -> int:
 def _reload(db: Any, kb_root: Path, graph_name: str) -> None:
     """
     Rebuild the graph from the KB. The loader publishes `graph.loaded`, which reaches
-    every open browser.
+    every open browser. A failed reload deletes its staging graph, since the watch
+    retries and a kept copy per attempt would fill the database.
     """
-    report = load_graph(db, load_kb(kb_root), graph_name)
+    report = load_graph(db, load_kb(kb_root), graph_name, keep_failed=False)
     err.print(f"Reloaded `{graph_name}` from KB {report.kb_digest}.")
 
 

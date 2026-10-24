@@ -11,6 +11,7 @@ good graph.
 
 from __future__ import annotations
 
+import contextlib
 import json
 import os
 import secrets
@@ -21,7 +22,7 @@ from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import Any
 
-from paraverse_graph.connection import engine_version
+from paraverse_graph.connection import delete_graph, engine_version
 from paraverse_graph.datasets import dataset_name
 from paraverse_graph.kb import KnowledgeBase
 from paraverse_graph.mapping import (
@@ -100,7 +101,12 @@ class LoadReport:
 
 
 def load_graph(
-    db: Any, kb: KnowledgeBase, graph_name: str, *, batch_size: int = BATCH_SIZE
+    db: Any,
+    kb: KnowledgeBase,
+    graph_name: str,
+    *,
+    batch_size: int = BATCH_SIZE,
+    keep_failed: bool = True,
 ) -> LoadReport:
     """
     Rebuild `graph_name` from `kb`. Raises `LoadError` and leaves the live graph
@@ -109,11 +115,29 @@ def load_graph(
     Each load writes its own staging graph, `<graph>__staging_<pid>_<random>`, so a
     `serve --watch` reload and a manual `paraverse-graph load` against the same server cannot
     overwrite each other's staging graph. If any step fails, the staging graph is kept
-    for inspection; nothing deletes it automatically, because another process's
-    staging graph may still be loading. Delete it with `GRAPH.DELETE` when done.
+    for inspection, or deleted when `keep_failed` is false, as a watch that reloads
+    every build must, or each broken build would leave a full copy behind. Only this
+    load's own staging graph is ever deleted, since another process's may still be
+    loading. Delete a kept one with `GRAPH.DELETE` when done.
+    """
+    staging = f"{graph_name}{STAGING_INFIX}{os.getpid()}_{secrets.token_hex(3)}"
+    try:
+        return _load_via(db, kb, graph_name, staging, batch_size)
+    except BaseException:
+        if not keep_failed:
+            # Best effort, so the load's own error is the one reported.
+            with contextlib.suppress(Exception):
+                delete_graph(db, staging)
+        raise
+
+
+def _load_via(
+    db: Any, kb: KnowledgeBase, graph_name: str, staging: str, batch_size: int
+) -> LoadReport:
+    """
+    Build the staging graph, check it, and rename it over the live graph.
     """
     started = time.monotonic()
-    staging = f"{graph_name}{STAGING_INFIX}{os.getpid()}_{secrets.token_hex(3)}"
     graph = db.select_graph(staging)
 
     # The `id` lookups that attach every relationship need this index to exist first.

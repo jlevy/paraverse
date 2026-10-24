@@ -172,6 +172,7 @@ everything and so explain nothing.
   never see a partial graph, and publish a `graph.loaded` event on the Redis channel
   `paraverse-graph:<graph>`. A failed load leaves the live graph untouched and keeps its
   `<graph>__staging_*` graph for inspection; delete it with `GRAPH.DELETE`.
+  A failed `serve --watch` reload deletes its staging graph instead.
 
 ## Layout
 
