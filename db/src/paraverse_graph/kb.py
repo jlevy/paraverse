@@ -77,6 +77,19 @@ class KbEdge:
     attrs: dict[str, Any] = field(default_factory=dict)
 
 
+@dataclass(frozen=True)
+class KindSchema:
+    """One entity kind's compiled schema and browser field descriptions."""
+
+    kind: str
+    title: str
+    description: str
+    contract: str
+    fields: list[dict[str, Any]]
+    defs: dict[str, list[dict[str, Any]]]
+    schema: dict[str, Any]
+
+
 @dataclass
 class KnowledgeBase:
     """
@@ -92,11 +105,23 @@ class KnowledgeBase:
     artifacts: dict[str, Artifact]
     digest: str
     snapshot: dict[str, tuple[int, ...]] | None = field(default=None, repr=False)
+    source_kbs: dict[str, KnowledgeBase] = field(default_factory=dict, repr=False)
+    kind_schemas: dict[str, KindSchema] | None = field(default=None, repr=False)
+
+    @property
+    def source_names(self) -> tuple[str, ...]:
+        """Named inputs of a composition, in deterministic precedence order."""
+        return tuple(sorted(self.source_kbs))
 
     def check_unchanged(self) -> None:
         """Reject a build replaced or edited since its graph/artifact reads began."""
         if self.snapshot is not None and build_snapshot(self.root) != self.snapshot:
             raise KbError("KB changed while reading; retry after the build finishes")
+        for name, source in self.source_kbs.items():
+            try:
+                source.check_unchanged()
+            except KbError as e:
+                raise KbError(f"{name}: {e}") from e
 
     def payload_for(self, node: KbNode) -> dict[str, Any] | None:
         """

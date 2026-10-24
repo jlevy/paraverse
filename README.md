@@ -31,6 +31,8 @@ existing clone.
 To browse the hackathon dataset, run `make install` and
 `make load serve DATASET=ptc2026-md` from `db/`. Each dataset uses its own graph, so
 loading the hackathon preserves the Universe graph.
+The browser’s **Datasets** control can select either dataset or combine both in one
+view. People retain their event roles and links in the combined graph.
 
 ## Data Policy
 

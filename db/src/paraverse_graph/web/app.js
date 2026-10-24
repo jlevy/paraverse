@@ -3,6 +3,7 @@
 // Views live in ./js/; this file only wires them together.
 
 import { api, state } from './js/api.js';
+import { datasetSelectionPending, installDatasetSelector, refreshDatasetSelector } from './js/datasets.js';
 import { closeMenus, fill, fmtNumber, h, hideTooltip, installCopy, installTooltips, relativeAge, wireMenu } from './js/dom.js';
 import { icon } from './js/icons.js';
 import { hideCard, installPopovers } from './js/popover.js';
@@ -351,6 +352,7 @@ function toast(text) {
 }
 
 async function graphLoaded() {
+  if (datasetSelectionPending()) return;
   api.clearCaches();
   try {
     await api.meta();
@@ -358,6 +360,7 @@ async function graphLoaded() {
     return; // the next event or reconnect tries again
   }
   renderShell();
+  refreshDatasetSelector();
   await render({ live: true });
   api.review().then(renderReviewCount, () => {});
   const badge = $('digest');
@@ -374,6 +377,8 @@ async function boot() {
   installCopy();
   installPopovers();
   wireShell();
+  installDatasetSelector();
+  refreshDatasetSelector();
   setRenderer(() => render({ replaced: true }));
   document.addEventListener('keydown', onKeydown);
   // A click on a link inside a row (a chip, the name) leaves focus where it was.

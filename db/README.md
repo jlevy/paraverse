@@ -54,8 +54,8 @@ make validate  # validate every artifact of the dataset with softschema, then lo
 swift test --package-path clients/swift   # the Swift client
 ```
 
-`make load`, `make validate` and `make serve` take `DATASET=<name>` for another
-dataset under `vendor/`, or `KB=<dir>` for any KB directory (relative to `db/`), as in
+`make load`, `make validate` and `make serve` take `DATASET=<name>` for another dataset
+under `vendor/`, or `KB=<dir>` for any KB directory (relative to `db/`), as in
 `make load serve DATASET=other`.
 
 `uv run paraverse-graph serve --watch` reloads the graph whenever a KB build rewrites
@@ -109,11 +109,41 @@ after the KB directory itself if it is not called `kb`. `--graph NAME` overrides
 graph name. The browser shows the loaded dataset’s name in its header, and `/api/meta`
 returns it as `dataset`.
 
+### Selecting and Combining Datasets
+
+The browser’s **Datasets** control selects one or several sources.
+With multiple datasets selected, tables, search and records show their combined view.
+Selection is shared by browsers using the same server address.
+The source datasets and their individual graphs remain unchanged.
+
+`serve` offers built datasets found under `vendor/` and loads the initially selected
+view before opening the server.
+`--include-kb NAME=DIR` adds another local source; `--select-all` initially combines
+every available source:
+
+```bash
+UV_CONFIG_FILE=uv.toml uv run paraverse-graph serve --dataset universe2026-md \
+  --include-kb ptc2026-md=../vendor/ptc2026-md/kb --select-all
+```
+
+Shared entity IDs join records.
+Person ID collisions require shared verified accounts; names alone never merge people.
+Source citations and event participation roles are preserved.
+Conflicting scalar values retain source-specific variants under
+`_composition.conflicts`, with the first non-null value in dataset-name order used for
+the table’s primary value.
+A failed selection leaves the last valid view active.
+
+Browser views use `<source-graph>__browser_<port>`, separate from source graphs.
+`--watch` refreshes the current selection when a selected source build changes.
+When the requested dataset has no local source, serving an already loaded graph still
+works without the selector.
+
 ## Commands
 
 ```bash
 uv run paraverse-graph load [--dataset NAME | --kb DIR] [--graph NAME] [--db FILE | --url redis://HOST:PORT] [--validate]
-uv run paraverse-graph serve [--dataset NAME | --kb DIR] [--port 8766] [--watch] [--open]
+uv run paraverse-graph serve [--dataset NAME | --kb DIR] [--include-kb NAME=DIR ...] [--select-all] [--port 8766] [--watch] [--open]
 uv run paraverse-graph datasets                                # the datasets under vendor/
 uv run paraverse-graph queries                                 # the named query catalog
 uv run paraverse-graph query similar_people id=person:april-leonard
@@ -122,8 +152,9 @@ uv run paraverse-graph cypher "MATCH (s:Session) RETURN count(s)"  # ad hoc, rea
 ```
 
 Every command takes `--format json` for machine-readable output on stdout.
-Every command but `datasets` and `queries` works on the graph of the dataset its options
-name (see [Datasets](#datasets)).
+Query and load commands work on the graph of the dataset their options name (see
+[Datasets](#datasets)). The browser serves a separate selected view when local sources
+are available.
 
 ## Browser API
 
@@ -164,10 +195,10 @@ everything and so explain nothing.
   statistics.
 - **Indexes and constraints:** `id` indexes on every label, filter indexes, full-text
   search, and a unique constraint on `Entity.id`.
-- **Validation:** every load checks that each node’s artifact declares the envelope
-  of the node’s kind and names a contract.
-  `load --validate` also runs softschema on every artifact (about 40 s for the full
-  KB), the way `softschema validate <artifact>` does: against the compiled schema the
+- **Validation:** every load checks that each node’s artifact declares the envelope of
+  the node’s kind and names a contract.
+  `load --validate` also runs softschema on every artifact (about 40 s for the full KB),
+  the way `softschema validate <artifact>` does: against the compiled schema the
   artifact itself names, at the status it declares.
   It loads nothing if any artifact fails.
   The KB build’s own validation adds its Pydantic models on top.
