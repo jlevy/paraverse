@@ -16,13 +16,13 @@ its reload-cache fix.
 
 ## Follow-Up: Overview and a New Dataset Snapshot
 
-The Overview integration was checked separately at Paraverse `818f6c6`, using Universe
-KB snapshot `c6b4faa9`. The earlier audit tables below retain their original revisions
-and counts.
+The Overview integration was checked separately at Paraverse `474d7b5`, on merged base
+`beabb16`, using Universe KB snapshot `c6b4faa9`. The earlier audit tables below retain
+their original revisions and counts.
 
 | Follow-up check | Result |
 | --- | --- |
-| Full graph-component check | Lint and type checks passed; 134 tests passed, no skips |
+| Full graph-component check | Lint and type checks passed; 148 tests passed, no skips |
 | Artifact validation | All 5,092 artifacts valid |
 | Isolated FalkorDB import | 5,522 entities, 25,544 relationships, 18 entity kinds, 41 relationship types |
 | Browser summary | Live totals match the imported graph; source, coverage and quality tables available |
