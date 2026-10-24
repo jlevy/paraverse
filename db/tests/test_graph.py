@@ -24,7 +24,15 @@ from typing import Any
 import pytest
 
 from paraverse_graph.connection import delete_graph, open_db
-from paraverse_graph.kb import DEFAULT_DATASET, Artifact, KbError, KbNode, KnowledgeBase, load_kb
+from paraverse_graph.kb import (
+    DEFAULT_DATASET,
+    Artifact,
+    KbEdge,
+    KbError,
+    KbNode,
+    KnowledgeBase,
+    load_kb,
+)
 from paraverse_graph.loader import STAGING_INFIX, LoadError, events_channel, load_graph
 from paraverse_graph.mapping import LABELS
 from paraverse_graph.queries import CATALOG, run_query
@@ -54,6 +62,46 @@ def test_load_matches_export_counts():
     assert report.nodes_by_kind == kb.stats["nodes"]
     assert report.edges_by_relation == kb.stats["edges"]
     assert set(report.nodes_by_kind) <= set(LABELS)
+
+
+def test_load_judge_participation(tmp_path: Path):
+    person = KbNode("person:judge", "person", "Example Judge", "people/judge.md")
+    event = KbNode("event:test-2026", "event", "Test Event", "events/test-2026.md")
+    evidence = [{"url": "https://example.org/event/judges"}]
+    attrs = {"role": "judge", "status": "confirmed", "evidence": evidence}
+    participation = {"event": event.id, **attrs}
+    kb = KnowledgeBase(
+        root=tmp_path,
+        nodes=[person, event],
+        edges=[KbEdge(person.id, "participates_in", event.id, attrs)],
+        stats={"nodes": {"person": 1, "event": 1}, "edges": {"participates_in": 1}},
+        artifacts={
+            person.path: Artifact(
+                person.path, "", "person", {"id": person.id, "participations": [participation]}
+            ),
+            event.path: Artifact(event.path, "", "event", {"id": event.id, "name": event.name}),
+        },
+        digest="judge-test",
+    )
+    db = open_db(tmp_path / "judge.rdb")
+    try:
+        report = load_graph(db, kb, "judge_test")
+        assert report.problems == []
+        rows = (
+            db.select_graph("judge_test")
+            .ro_query(
+                "MATCH (p:Person:Judge:Entity)-[r:PARTICIPATES_IN]->(e:Event) "
+                "RETURN p.id, p.participation_roles, p.participation_statuses, "
+                "r.role, r.status, r.evidence_json, e.id"
+            )
+            .result_set
+        )
+        assert len(rows) == 1
+        assert rows[0][:5] == [person.id, ["judge"], ["confirmed"], "judge", "confirmed"]
+        assert json.loads(rows[0][5]) == evidence
+        assert rows[0][6] == event.id
+    finally:
+        db.close()
 
 
 def _staging_graphs(db: Any, graph_name: str) -> set[str]:

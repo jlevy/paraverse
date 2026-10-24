@@ -56,6 +56,7 @@ PARTICIPATION_LABELS = {
     "organizer": "Organizer",
     "sponsor_representative": "SponsorRep",
     "host": "Host",
+    "judge": "Judge",
     "volunteer": "Volunteer",
 }
 
