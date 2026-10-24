@@ -575,6 +575,21 @@ def test_load_events_reach_sse_clients():
             {"type": "graph.loaded", "kb_digest": "x", "loaded_at": "t"},
         ]
         assert names == ["hello", "graph.loaded"]
+        # A missed pub/sub event must be recovered by the reconnect itself, without
+        # an intervening API request refreshing the catalog's cached metadata.
+        graph.query("MATCH (m:GraphMeta) SET m.load_id = 'reconnected'")
+        try:
+            with httpx2.stream(
+                "GET", f"http://127.0.0.1:{port}/api/events", timeout=10
+            ) as response:
+                for line in response.iter_lines():
+                    if line.startswith("data: "):
+                        assert json.loads(line.removeprefix("data: "))["load_id"] == "reconnected"
+                        break
+        finally:
+            graph.query(
+                "MATCH (m:GraphMeta) SET m.load_id = $original", {"original": meta["load_id"]}
+            )
         deadline = time.monotonic() + 5
         while app.state.bus.clients and time.monotonic() < deadline:
             time.sleep(0.05)

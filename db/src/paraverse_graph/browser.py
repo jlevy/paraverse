@@ -480,6 +480,7 @@ def create_app(
                 "dataset": info["dataset"],
                 "kb_digest": info["kb_digest"],
                 "loaded_at": info["loaded_at"],
+                "load_id": info["load_id"],
                 "node_total": sum(counts.values()),
                 "edge_total": sum(info["stats"].get("edges", {}).values()),
                 "groups": groups,
@@ -692,6 +693,7 @@ def create_app(
 
     async def hello() -> dict[str, Any]:
         try:
+            await run_in_threadpool(catalog.revalidate)
             info = await run_in_threadpool(catalog.meta)
         except Exception:
             # A stamp no client has makes the browser refetch `/api/meta`, which
@@ -708,6 +710,7 @@ def create_app(
     async def events(request: Request) -> Response:
         # A graph that cannot be read is a JSON 503 before the stream starts, not a
         # stream that breaks after its headers. EventSource reconnects either way.
+        await run_in_threadpool(catalog.revalidate)
         await run_in_threadpool(catalog.meta)
 
         async def stream() -> AsyncIterator[bytes]:
