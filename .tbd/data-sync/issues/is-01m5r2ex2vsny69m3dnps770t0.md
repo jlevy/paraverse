@@ -5,7 +5,7 @@ title: Review native app PRs 13 and 14 at pinned heads
 kind: task
 status: in_progress
 priority: 1
-version: 6
+version: 7
 delegate: codex@spud10.local
 labels: []
 dependencies: []
@@ -16,10 +16,10 @@ child_order_hints:
 hold: null
 hold_until: null
 created_at: 2026-10-24T23:03:16.314Z
-updated_at: 2026-10-24T23:29:24.403Z
+updated_at: 2026-10-24T23:42:35.727Z
 started_at: 2026-10-24T23:03:56.343Z
 ---
-Independent strong-max senior, security, performance and correctness reviews for native app/local backend PR13 at7f9d33b and KB integration PR14 at1c626659. Read-only isolated worktrees; publish formal pinned review artifacts; no code edits or merges. Track findings with the owner/coordinator after publication.
+Independent strong-max senior, security, performance and correctness reviews for PR13 at7f9d33b/basec78d29b and PR14 at1186a567/base7f9d33b; later PR15 trackedchildpv-jrkz. Formal original-pin artifacts published and verified. Read-only isolated worktrees, no code edits or merges. Landing coordinator owns priority fixes, deferred finding beads/dispositions and13/14/15stack merges. Final exactrestacked fix-delta carryforward pending; original tests/reviews do not certify unseen final code.
 
 ## Notes
 
