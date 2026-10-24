@@ -132,9 +132,10 @@ def read_artifact(path: Path, rel_path: str) -> Artifact:
     payload = data.get(envelope)
     if not isinstance(payload, dict):
         raise KbError(f"{rel_path}: envelope `{envelope}` is not a mapping")
-    return Artifact(
-        path=rel_path, contract=str(block.get("contract", "")), envelope=envelope, payload=payload
-    )
+    # Only a nonempty string names a contract; `str()` would turn `null` into "None".
+    contract = block.get("contract")
+    contract = contract.strip() if isinstance(contract, str) else ""
+    return Artifact(path=rel_path, contract=contract, envelope=envelope, payload=payload)
 
 
 def load_kb(root: Path) -> KnowledgeBase:
