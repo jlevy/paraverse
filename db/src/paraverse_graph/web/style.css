@@ -414,6 +414,21 @@ body.busy #view { opacity: 0.6; transition-delay: 200ms; }
 .menu label.menu-item { cursor: pointer; }
 .menu-item .muted { margin-left: auto; padding-left: 12px; }
 
+/* Dataset selection uses checkboxes and an explicit Apply action. */
+.brand-graph[hidden], .dataset-selector[hidden] { display: none; }
+.dataset-trigger { max-width: 320px; }
+#dataset-label { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dataset-menu { width: 340px; padding: 12px; }
+.dataset-menu h2 { margin: 0 0 6px; font-size: var(--font-size-title); }
+.dataset-hint { margin: 0 0 8px; font-size: var(--font-size-small); }
+.dataset-option { padding: 7px 4px; align-items: flex-start; }
+.dataset-option input { margin: 2px 0; flex-shrink: 0; }
+.dataset-option:has(input:disabled) { color: var(--muted); cursor: default; }
+.dataset-minimum, .dataset-error { margin: 8px 0; color: var(--error); font-size: var(--font-size-small); }
+.dataset-minimum[hidden], .dataset-error[hidden] { display: none; }
+.dataset-actions { display: flex; align-items: center; gap: 12px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); }
+.dataset-progress { flex: 1; font-size: var(--font-size-small); }
+
 /* ── Primitives: tags, chips, links ───────────────────────────── */
 .tag {
   /* Adapted from tbd's .tag. */

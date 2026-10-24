@@ -3,10 +3,12 @@
 // Views live in ./js/; this file only wires them together.
 
 import { api, state } from './js/api.js';
+import { datasetSelectionPending, installDatasetSelector, refreshDatasetSelector } from './js/datasets.js';
 import { closeMenus, fill, fmtNumber, h, hideTooltip, installCopy, installTooltips, relativeAge, wireMenu } from './js/dom.js';
 import { icon } from './js/icons.js';
 import { hideCard, installPopovers } from './js/popover.js';
 import { mountRecord } from './js/record.js';
+import { sameGraphVersion, tableRouteAfterReload, watchGraphVersion } from './js/reconcile.js';
 import { go, parseRoute, setRenderer } from './js/router.js';
 import { closePalette, mountSearch, openPalette, paletteOpen } from './js/search.js';
 import { mountTable, moveRowFocus } from './js/table.js';
@@ -17,6 +19,7 @@ const $ = (id) => document.getElementById(id);
 const THEME_KEY = 'paraverse-kb.themeMode';
 let current = null; // the mounted view: {key, el, update?, fit?, title, kind?, id?}
 let renderSeq = 0;
+let displayedMeta = null; // last load whose route and view were reconciled successfully
 
 // Where the reader was in each view, keyed by hash, so Back returns to the same
 // scroll position and row. A history entry this page has shown carries `kbEntry`
@@ -79,7 +82,7 @@ const MOUNTS = { table: mountTable, entity: mountRecord, review: mountReview, ch
  * re-renders in place after a graph reload, keeping the scroll position and focus;
  * `replaced` is a history entry rewritten in place (typing in a filter).
  */
-async function render({ live = false, replaced = false } = {}) {
+async function render({ live = false, replaced = false, preserveDraft = true } = {}) {
   const route = parseRoute(location.hash);
   const mine = ++renderSeq;
   // Back or Forward to a view shown before; only then is the old place restored.
@@ -106,7 +109,7 @@ async function render({ live = false, replaced = false } = {}) {
   if (!live) remember();
   const focus = live ? focusKey() : null;
   const previous = current;
-  const preserveDraft = live && previous?.key === route.key && previous?.draftFilter;
+  const retainDraft = preserveDraft && live && previous?.key === route.key && previous?.draftFilter;
   previous?.destroy?.();
   if (previous) previous.disposed = true;
   closeMenus();
@@ -121,7 +124,7 @@ async function render({ live = false, replaced = false } = {}) {
   document.body.classList.remove('busy');
   const main = $('main');
   const scroll = main.scrollTop;
-  const draft = preserveDraft ? previous.draftFilter() : null;
+  const draft = retainDraft ? previous.draftFilter() : null;
   $('view').replaceChildren(view.el);
   current = view;
   if (draft !== null) view.restoreDraft?.(draft);
@@ -294,6 +297,10 @@ function onKeydown(event) {
 // ── Live updates: reconnect and backoff adapted from metabrowser ──────────
 
 function connectEvents() {
+  const reconciliation = watchGraphVersion(() => displayedMeta || state.meta, () => graphLoaded());
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) reconciliation.check();
+  });
   if (typeof EventSource === 'undefined') return;
   let source = null;
   let backoff = 2000;
@@ -320,7 +327,7 @@ function connectEvents() {
       let hello = null;
       try { hello = JSON.parse(event.data); } catch { /* a malformed hello is ignored */ }
       // A reload that happened while we were disconnected.
-      if (hello && state.meta && (hello.load_id !== state.meta.load_id || hello.kb_digest !== state.meta.kb_digest || hello.loaded_at !== state.meta.loaded_at)) graphLoaded();
+      if (hello && state.meta && !sameGraphVersion(hello, displayedMeta || state.meta)) graphLoaded();
     });
     source.addEventListener('graph.loaded', () => graphLoaded());
     source.addEventListener('resync', () => reconnect(500));
@@ -350,15 +357,49 @@ function toast(text) {
   toastTimer = setTimeout(() => { el.hidden = true; }, 4000);
 }
 
-async function graphLoaded() {
+let reloadPending = null;
+let reloadAgain = false;
+
+function graphLoaded() {
+  if (datasetSelectionPending()) return Promise.resolve();
+  reloadAgain = true;
+  if (!reloadPending) {
+    reloadPending = (async () => {
+      do {
+        reloadAgain = false;
+        await refreshGraph();
+      } while (reloadAgain && !datasetSelectionPending());
+    })().finally(() => { reloadPending = null; });
+  }
+  return reloadPending;
+}
+
+async function refreshGraph() {
+  const previous = displayedMeta || state.meta;
+  displayedMeta ??= previous;
   api.clearCaches();
   try {
     await api.meta();
   } catch {
     return; // the next event or reconnect tries again
   }
+  const datasetChanged = Boolean(previous && previous.dataset !== state.meta.dataset);
+  const hash = location.hash;
+  let repaired = false;
+  try {
+    const next = await tableRouteAfterReload(hash, state.kinds, datasetChanged);
+    // A navigation during the schema request takes precedence over this reload.
+    if (location.hash === hash && next !== hash) {
+      history.replaceState(history.state, '', next);
+      repaired = true;
+    }
+  } catch {
+    return; // keep the previous load stamp so reconciliation retries a failed schema request
+  }
   renderShell();
-  await render({ live: true });
+  refreshDatasetSelector();
+  await render({ live: true, preserveDraft: !datasetChanged && !repaired });
+  displayedMeta = state.meta;
   api.review().then(renderReviewCount, () => {});
   const badge = $('digest');
   badge.classList.remove('flash');
@@ -374,6 +415,8 @@ async function boot() {
   installCopy();
   installPopovers();
   wireShell();
+  installDatasetSelector();
+  refreshDatasetSelector();
   setRenderer(() => render({ replaced: true }));
   document.addEventListener('keydown', onKeydown);
   // A click on a link inside a row (a chip, the name) leaves focus where it was.
@@ -390,6 +433,7 @@ async function boot() {
   }
   renderShell();
   await render(); // first, so the slower review checks never delay the first view
+  displayedMeta = state.meta;
   api.review().then(renderReviewCount, () => {});
 }
 

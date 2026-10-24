@@ -1,5 +1,5 @@
 // The JSON API client and the small caches the views share. Every call is a
-// same-origin GET; errors carry the server's `{error}` message and status.
+// same-origin request; errors carry the server's `{error}` message and status.
 
 export class ApiError extends Error {
   constructor(message, status) {
@@ -11,9 +11,13 @@ export class ApiError extends Error {
 async function get(path, params) {
   const search = params ? new URLSearchParams(Object.entries(params).filter(([, v]) => v != null && v !== '')) : null;
   const url = search && [...search].length ? `${path}?${search}` : path;
+  return request(url);
+}
+
+async function request(url, options = {}) {
   let response;
   try {
-    response = await fetch(url, { headers: { Accept: 'application/json' } });
+    response = await fetch(url, { ...options, headers: { Accept: 'application/json', ...options.headers } });
   } catch {
     throw new ApiError('The server is not reachable.', 0);
   }
@@ -36,6 +40,12 @@ let reviewPending = null;
 export const state = { meta: null, kinds: new Map(), review: null };
 
 export const api = {
+  datasets: () => get('/api/datasets'),
+  selectDatasets: (datasets) => request('/api/datasets/select', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ datasets }),
+  }),
   async meta() {
     const meta = await get('/api/meta');
     state.meta = meta;

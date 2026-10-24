@@ -54,8 +54,8 @@ make validate  # validate every artifact of the dataset with softschema, then lo
 swift test --package-path clients/swift   # the Swift client
 ```
 
-`make load`, `make validate` and `make serve` take `DATASET=<name>` for another
-dataset under `vendor/`, or `KB=<dir>` for any KB directory (relative to `db/`), as in
+`make load`, `make validate` and `make serve` take `DATASET=<name>` for another dataset
+under `vendor/`, or `KB=<dir>` for any KB directory (relative to `db/`), as in
 `make load serve DATASET=other`.
 
 `uv run paraverse-graph serve --watch` reloads the graph whenever a KB build rewrites
@@ -109,11 +109,50 @@ after the KB directory itself if it is not called `kb`. `--graph NAME` overrides
 graph name. The browser shows the loaded dataset’s name in its header, and `/api/meta`
 returns it as `dataset`.
 
+### Selecting and Combining Datasets
+
+The browser’s **Datasets** control selects one or several sources.
+With multiple datasets selected, tables, search and records show their combined view.
+Selection is shared by browsers using the same server address.
+The source datasets and their individual graphs remain unchanged.
+
+Local `serve` offers built datasets found under `vendor/` and loads the initially
+selected view before opening the server.
+`--include-kb NAME=DIR` adds another local source; `--select-all` initially combines
+every available source:
+
+```bash
+UV_CONFIG_FILE=uv.toml uv run paraverse-graph serve --dataset universe2026-md \
+  --include-kb ptc2026-md=../vendor/ptc2026-md/kb --select-all
+```
+
+Shared entity IDs join records.
+Person ID collisions require shared verified accounts; names alone never merge people.
+Source citations and event participation roles are preserved.
+Conflicting scalar values retain source-specific variants under
+`_composition.conflicts`, with the first non-null value in dataset-name order used for
+the table’s primary value.
+A failed selection leaves the last valid view active.
+
+Selected browser views use `<source-graph>__browser_<port>`, separate from source
+graphs. They check selected source builds every five seconds and refresh after a build
+changes, including when it is loaded separately with `make load`; `--watch` is not
+required for these views.
+When the requested dataset has no local source, serving an already loaded graph still
+works without the selector.
+
+Passing `--graph NAME` or `--url` serves the existing graph directly without rebuilding
+it or offering the selector.
+This mode needs no local KB unless `--watch` is used.
+Add `--include-kb` or `--select-all` to explicitly enable a selected browser view with
+these options. Its separate graph is created in the chosen database, using the explicit
+graph name as the prefix when supplied.
+
 ## Commands
 
 ```bash
 uv run paraverse-graph load [--dataset NAME | --kb DIR] [--graph NAME] [--db FILE | --url redis://HOST:PORT] [--validate]
-uv run paraverse-graph serve [--dataset NAME | --kb DIR] [--port 8766] [--watch] [--open]
+uv run paraverse-graph serve [--dataset NAME | --kb DIR] [--graph NAME] [--db FILE | --url redis://HOST:PORT] [--include-kb NAME=DIR ...] [--select-all] [--port 8766] [--watch] [--open]
 uv run paraverse-graph datasets                                # the datasets under vendor/
 uv run paraverse-graph queries                                 # the named query catalog
 uv run paraverse-graph query similar_people id=person:april-leonard
@@ -122,25 +161,31 @@ uv run paraverse-graph cypher "MATCH (s:Session) RETURN count(s)"  # ad hoc, rea
 ```
 
 Every command takes `--format json` for machine-readable output on stdout.
-Every command but `datasets` and `queries` works on the graph of the dataset its options
-name (see [Datasets](#datasets)).
+Query and load commands work on the graph of the dataset their options name (see
+[Datasets](#datasets)). Local serving offers a separate selected view when sources are
+available; explicit graph and remote server targets require selection options to enable
+it.
 
 ## Browser API
 
-The API is read-only GET with JSON responses.
+Data queries use read-only GET requests with JSON responses.
+The dataset selection POST changes the server’s shared browser view while preserving the
+source datasets and their graphs.
 It accepts only loopback Host headers.
 
-| Endpoint | Returns |
-| --- | --- |
-| `/api/meta` | Graph, dataset, KB digest and load time; kinds grouped for navigation, with counts |
-| `/api/schema/<kind>` | Fields from the compiled softschema schema, nested shapes, default and relationship columns |
-| `/api/rows/<kind>` | A page of rows. Takes `offset`, `limit`, `sort`, `order`, `q`, `cols`, `f.<field>=<value>`, `rel=<in\|out>:<TYPE>:<id>` |
-| `/api/entity/<id>` | The full payload, names for every reference in it, relationships grouped by type |
-| `/api/card/<id>` | A compact card for link popovers |
-| `/api/search?q=` | Full-text search across every kind |
-| `/api/review`, `/api/review/<check>` | Data-quality checks and their rows |
-| `/api/query/<name>` | A named query from the catalog, such as `connecting_paths?a=<id>&b=<id>` |
-| `/api/events` | Server-sent events: `hello`, `graph.loaded`, heartbeats |
+| Method | Endpoint | Returns |
+| --- | --- | --- |
+| GET | `/api/meta` | Graph, dataset, KB digest and load time; kinds grouped for navigation, with counts |
+| GET | `/api/datasets` | Available datasets, selected IDs and whether selection is enabled |
+| POST | `/api/datasets/select` | Selected IDs and the browser graph after loading the JSON body `{"datasets":["<id>","<id>"]}`; a failed load keeps the previous view |
+| GET | `/api/schema/<kind>` | Fields from the compiled softschema schema, nested shapes, default and relationship columns |
+| GET | `/api/rows/<kind>` | A page of rows. Takes `offset`, `limit`, `sort`, `order`, `q`, `cols`, `f.<field>=<value>`, `rel=<in\|out>:<TYPE>:<id>` |
+| GET | `/api/entity/<id>` | The full payload, names for every reference in it, relationships grouped by type |
+| GET | `/api/card/<id>` | A compact card for link popovers |
+| GET | `/api/search?q=` | Full-text search across every kind |
+| GET | `/api/review`, `/api/review/<check>` | Data-quality checks and their rows |
+| GET | `/api/query/<name>` | A named query from the catalog, such as `connecting_paths?a=<id>&b=<id>` |
+| GET | `/api/events` | Server-sent events: `hello`, `graph.loaded`, heartbeats |
 
 `connecting_paths` returns paths of one to three hops between two entities, shortest
 first. It skips paths through hub nodes (events, days and facets), which connect almost
@@ -164,10 +209,10 @@ everything and so explain nothing.
   statistics.
 - **Indexes and constraints:** `id` indexes on every label, filter indexes, full-text
   search, and a unique constraint on `Entity.id`.
-- **Validation:** every load checks that each node’s artifact declares the envelope
-  of the node’s kind and names a contract.
-  `load --validate` also runs softschema on every artifact (about 40 s for the full
-  KB), the way `softschema validate <artifact>` does: against the compiled schema the
+- **Validation:** every load checks that each node’s artifact declares the envelope of
+  the node’s kind and names a contract.
+  `load --validate` also runs softschema on every artifact (about 40 s for the full KB),
+  the way `softschema validate <artifact>` does: against the compiled schema the
   artifact itself names, at the status it declares.
   It loads nothing if any artifact fails.
   The KB build’s own validation adds its Pydantic models on top.
@@ -179,9 +224,12 @@ everything and so explain nothing.
   `<graph>__staging_*` graph for inspection; delete it with `GRAPH.DELETE`. A failed
   `serve --watch` reload deletes its staging graph instead.
   Changes to the KB root, exports, artifacts or schemas during a load abort it before
-  publication. The watch retries failed loads with exponential backoff, capped at a
-  minute. Build producers must publish complete builds atomically; an in-place build
-  paused in a mixed state cannot always be identified from file metadata.
+  publication. Direct-graph `--watch` retries failed loads with exponential backoff,
+  capped at a minute. Selected views retry transient database and IO failures after 30
+  seconds, doubling to a five-minute cap.
+  Invalid source content is retried after its build signature changes or an explicit
+  selection request. Build producers must publish complete builds atomically; an in-place
+  build paused in a mixed state cannot always be identified from file metadata.
 
 ## Layout
 
