@@ -1,0 +1,1861 @@
+{
+  "id": "qcon-sf-2026",
+  "name": "QCon San Francisco",
+  "host": "QCon",
+  "start_date": "2026-11-16",
+  "end_date": "2026-11-18",
+  "city": "San Francisco",
+  "venue": "Hyatt Regency Embarcadero",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "software engineering"
+  ],
+  "price": null,
+  "source_url": "https://qconsf.com/venue",
+  "retrieved_at": "2026-10-23T19:41:30.977968-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/qcon-sf-2026.json",
+  "evidence_quotes": [
+    "Conference: Nov 16-18, 2026",
+    "5 Embarcadero Center, San Francisco, CA 94111, USA"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "published_schedule",
+  "sessions": [
+    {
+      "title": "Live Resharding Without Regret: Lessons from Building Valkey's Atomic Slot Migration",
+      "date": "2026-11-16",
+      "start_time": "10:35",
+      "end_time": "11:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/live-resharding-without-regret-lessons-building-valkeys-atomic-slot-migration",
+      "speakers": [
+        {
+          "name": "Jacob Murphy",
+          "source_url": "https://qconsf.com/speakers/jacobmurphy",
+          "role_company_text": "Jacob Murphy - Google"
+        }
+      ],
+      "room": "Ballroom BC",
+      "track": "Architectures You've Always Wondered About",
+      "description": "Sharding is easy. Resharding under heavy load is notoriously difficult. How do you move gigabytes of state across live database nodes without dropping keys, blocking the main event loop, or breaking client abstractions?"
+    },
+    {
+      "title": "Token Efficiency at Uber",
+      "date": "2026-11-16",
+      "start_time": "10:35",
+      "end_time": "11:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/token-efficiency-uber",
+      "speakers": [],
+      "room": "Ballroom A",
+      "track": "Guardrails & Safety Nets (Evals) for the New Landscape",
+      "description": "Details coming soon."
+    },
+    {
+      "title": "APIs That Can't Afford to Be Wrong: Lessons from Moving Money",
+      "date": "2026-11-16",
+      "start_time": "10:35",
+      "end_time": "11:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/apis-cant-afford-be-wrong-lessons-moving-money",
+      "speakers": [
+        {
+          "name": "Fawziyah Alebiosu",
+          "source_url": "https://qconsf.com/speakers/fawziyahalebiosu",
+          "role_company_text": "Fawziyah Alebiosu - Imprint"
+        }
+      ],
+      "room": "Pacific DEKJ",
+      "track": "Modern API Design for Humans and Agents",
+      "description": "Most API design advice assumes a forgiving environment: retries are cheap, data has a single source of truth, and a slow response is only an inconvenience. Financial infrastructure assumes none of that. Card networks give you three seconds to auth or decline."
+    },
+    {
+      "title": "The Freeze Paradox: Why Stopping Deployments Doesn't Stop Failures",
+      "date": "2026-11-16",
+      "start_time": "10:35",
+      "end_time": "11:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/freeze-paradox-why-stopping-deployments-doesnt-stop-failures",
+      "speakers": [
+        {
+          "name": "Prachi Jain",
+          "source_url": "https://qconsf.com/speakers/prachijain",
+          "role_company_text": "Prachi Jain - Netflix"
+        },
+        {
+          "name": "Sandhya Narayan",
+          "source_url": "https://qconsf.com/speakers/sandhyanarayan",
+          "role_company_text": "Sandhya Narayan - Netflix"
+        }
+      ],
+      "room": "Seacliff ABC",
+      "track": "Resilience Engineering: Everything Fails All the Time",
+      "description": "When systems fail at Netflix and in an environment this complex, they sometimes will, the instinctive response is to freeze deployments."
+    },
+    {
+      "title": "Legacy vs. AI-Native Is the Wrong Question: Architecting the Modern Platform",
+      "date": "2026-11-16",
+      "start_time": "10:35",
+      "end_time": "11:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/legacy-vs-ai-native-wrong-question-architecting-modern-platform",
+      "speakers": [
+        {
+          "name": "Payal Patel",
+          "source_url": "https://qconsf.com/speakers/payalpatelfreshworkscom",
+          "role_company_text": "Payal Patel - Freshworks"
+        },
+        {
+          "name": "Saiprasad Murali",
+          "source_url": "https://qconsf.com/speakers/saiprasadmuralifreshworkscom",
+          "role_company_text": "Saiprasad Murali - Freshworks"
+        }
+      ],
+      "room": "Pacific LM",
+      "track": "Sponsored Solution Track I",
+      "description": "Engineering leaders modernizing operational platforms are often presented with a false binary: choose the control and reliability of established enterprise platforms or embrace AI-native tools optimized for speed, automation, and intelligent experiences."
+    },
+    {
+      "title": "Model-Harness Co-Training: Data-Driven Optimization Toward Pareto-Optimal Agents",
+      "date": "2026-11-16",
+      "start_time": "10:35",
+      "end_time": "11:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/model-harness-co-training-data-driven-optimization-toward-pareto-optimal",
+      "speakers": [],
+      "room": "Marina",
+      "track": "Sponsored Solution Track II",
+      "description": "Teams with agents in production are chasing the optimal agent. Usually they pick one lever: tune the harness (the prompts, tools, memory, and workflow around the model), or fine-tune the model, but the two depend on each other."
+    },
+    {
+      "title": "Architecting Nubank's Global Financial Infrastructure",
+      "date": "2026-11-16",
+      "start_time": "11:45",
+      "end_time": "12:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/architecting-nubanks-global-financial-infrastructure",
+      "speakers": [],
+      "room": "Ballroom BC",
+      "track": "Architectures You've Always Wondered About",
+      "description": "Instant payment frameworks are transforming global finance, but few institutions have faced the infrastructure scale required by Brazil's Pix network."
+    },
+    {
+      "title": "How Airbnb Guardrailed Its AI Customer Support Agent",
+      "date": "2026-11-16",
+      "start_time": "11:45",
+      "end_time": "12:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/how-airbnb-guardrailed-its-ai-customer-support-agent",
+      "speakers": [
+        {
+          "name": "Weiping Peng",
+          "source_url": "https://qconsf.com/speakers/weipingpeng",
+          "role_company_text": "Weiping Peng - Airbnb"
+        }
+      ],
+      "room": "Ballroom A",
+      "track": "Guardrails & Safety Nets (Evals) for the New Landscape",
+      "description": "When Airbnb launched its AI customer support assistant, the feature made the news \u2014 the guardrails built to make it safe to ship did not. Yet an AI agent that talks to millions of customers, remembers a conversation across turns, and can trigger account actions is a"
+    },
+    {
+      "title": "Everything I Knew About Developer Experience Is Wrong for Agents",
+      "date": "2026-11-16",
+      "start_time": "11:45",
+      "end_time": "12:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/everything-i-knew-about-developer-experience-wrong-agents",
+      "speakers": [
+        {
+          "name": "Emmanuel Paraskakis",
+          "source_url": "https://qconsf.com/speakers/emmanuelparaskakis",
+          "role_company_text": "Emmanuel Paraskakis - Level 250"
+        }
+      ],
+      "room": "Pacific DEKJ",
+      "track": "Modern API Design for Humans and Agents",
+      "description": "Most of what we know about developer experience we learned from humans. Agents are a different user, and some of our best practices quietly work against them."
+    },
+    {
+      "title": "Adapt or Drift: Resilience Engineering When AI Moves the Operating Point",
+      "date": "2026-11-16",
+      "start_time": "11:45",
+      "end_time": "12:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/adapt-or-drift-resilience-engineering-when-ai-moves-operating-point",
+      "speakers": [
+        {
+          "name": "Andrew Hatch",
+          "source_url": "https://qconsf.com/speakers/andrewhatch",
+          "role_company_text": "Andrew Hatch - CISCO ThousandEyes"
+        }
+      ],
+      "room": "Seacliff ABC",
+      "track": "Resilience Engineering: Everything Fails All the Time",
+      "description": "Resilient systems do not stay resilient by standing still. They survive by adapting. But adaptation comes with risk: under sustained pressure, organizations and systems can slowly drift toward failure while still appearing to operate normally."
+    },
+    {
+      "title": "Sponsored Session",
+      "date": "2026-11-16",
+      "start_time": "11:45",
+      "end_time": "12:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/sponsored-session",
+      "speakers": [],
+      "room": "Pacific LM",
+      "track": "Sponsored Solution Track I",
+      "description": "Details coming soon!"
+    },
+    {
+      "title": "Sponsored session",
+      "date": "2026-11-16",
+      "start_time": "11:45",
+      "end_time": "12:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/sponsored-session-2",
+      "speakers": [],
+      "room": "Marina",
+      "track": "Sponsored Solution Track II",
+      "description": null
+    },
+    {
+      "title": "How to Build a Real-Time Voice Agent",
+      "date": "2026-11-16",
+      "start_time": "13:35",
+      "end_time": "14:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/how-build-real-time-voice-agent",
+      "speakers": [
+        {
+          "name": "Rishabh Bhargava",
+          "source_url": "https://qconsf.com/speakers/rishabhbhargava",
+          "role_company_text": "Rishabh Bhargava"
+        }
+      ],
+      "room": "Ballroom BC",
+      "track": "Architectures You've Always Wondered About",
+      "description": "A voice agent looks like a chatbot with a microphone."
+    },
+    {
+      "title": "LLM Flip-Flops: From Reliability Risk to a Hill-Climbing Signal",
+      "date": "2026-11-16",
+      "start_time": "13:35",
+      "end_time": "14:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/llm-flip-flops-reliability-risk-hill-climbing-signal",
+      "speakers": [
+        {
+          "name": "Dianhuan Lin",
+          "source_url": "https://qconsf.com/speakers/dianhuanlin",
+          "role_company_text": "Dianhuan Lin - Datadog"
+        }
+      ],
+      "room": "Ballroom A",
+      "track": "Guardrails & Safety Nets (Evals) for the New Landscape",
+      "description": "Run the same task through the same LLM twice, and you may get two materially different answers. This behavior is often dismissed as the stochastic nature of LLMs, but it creates a serious product risk."
+    },
+    {
+      "title": "The Schema Was Never Enough: The World in Protocols",
+      "date": "2026-11-16",
+      "start_time": "13:35",
+      "end_time": "14:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/schema-was-never-enough-world-protocols",
+      "speakers": [
+        {
+          "name": "Ryan Scott Brown",
+          "source_url": "https://qconsf.com/speakers/ryanscottbrown",
+          "role_company_text": "Ryan Scott Brown - Crunchyroll"
+        }
+      ],
+      "room": "Pacific DEKJ",
+      "track": "Modern API Design for Humans and Agents",
+      "description": "Every reliable process in the world is a protocol: auctions, double-entry bookkeeping, brokerage account transfers, or APIs. Protocols reduce ambiguity but the world remains messy."
+    },
+    {
+      "title": "Your Agents Lack Context: Here's How to Fix 'You're absolutely right!\"'",
+      "date": "2026-11-16",
+      "start_time": "13:35",
+      "end_time": "14:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/your-agents-lack-context-heres-how-fix-youre-absolutely-right",
+      "speakers": [
+        {
+          "name": "Brandon Waselnuk",
+          "source_url": "https://qconsf.com/speakers/brandongetunblockedcom",
+          "role_company_text": "Brandon Waselnuk - UNBLOCKED"
+        }
+      ],
+      "room": "Pacific LM",
+      "track": "Sponsored Solution Track I",
+      "description": "Every AI coding tool can generate code. Very few can generate the right code for your organization, because they\u2019re missing context."
+    },
+    {
+      "title": "Sponsored session",
+      "date": "2026-11-16",
+      "start_time": "13:35",
+      "end_time": "14:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/sponsored-session-3",
+      "speakers": [],
+      "room": "Marina",
+      "track": "Sponsored Solution Track II",
+      "description": "Details coming soon!"
+    },
+    {
+      "title": "Inside the Disaggregated Architecture Serving LLM Inference",
+      "date": "2026-11-16",
+      "start_time": "14:45",
+      "end_time": "15:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/inside-disaggregated-architecture-serving-llm-inference",
+      "speakers": [
+        {
+          "name": "Nancy Zheng",
+          "source_url": "https://qconsf.com/speakers/nancyzheng",
+          "role_company_text": "Nancy Zheng - Cerebras"
+        }
+      ],
+      "room": "Ballroom BC",
+      "track": "Architectures You've Always Wondered About",
+      "description": "Every LLM request is really two very different jobs. Reading your prompt (prefill) is compute-intensive, while generating the response token by token (decode) is dominated by memory bandwidth. For years, the industry ran both phases on the same hardware and accepted the compromise."
+    },
+    {
+      "title": "No New Backend: The API Layer Behind 800+ Agent-Built Apps at Duolingo",
+      "date": "2026-11-16",
+      "start_time": "14:45",
+      "end_time": "15:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/no-new-backend-api-layer-behind-800-agent-built-apps-duolingo",
+      "speakers": [
+        {
+          "name": "Sarah Deitke",
+          "source_url": "https://qconsf.com/speakers/sarahdeitke",
+          "role_company_text": "Sarah Deitke - Duolingo"
+        }
+      ],
+      "room": "Pacific DEKJ",
+      "track": "Modern API Design for Humans and Agents",
+      "description": "At Duolingo, anyone (engineer or not) can describe an internal tool and get a working app back, deployed against real company systems. That's BuildingHub, and 350 Duolingo employees have created at least one app with it."
+    },
+    {
+      "title": "Saturation: How Your Software Will Fail at Scale",
+      "date": "2026-11-16",
+      "start_time": "14:45",
+      "end_time": "15:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/saturation-how-your-software-will-fail-scale",
+      "speakers": [
+        {
+          "name": "Lorin Hochstein",
+          "source_url": "https://qconsf.com/speakers/lorinhochstein",
+          "role_company_text": "Lorin Hochstein - Airbnb"
+        }
+      ],
+      "room": "Seacliff ABC",
+      "track": "Resilience Engineering: Everything Fails All the Time",
+      "description": "Even in the ethereal world of software, everything has a limit. And, once that limit is reached, very bad things can happen. In this talk, we will explore the problem of saturation: when a software system runs into one of these limits."
+    },
+    {
+      "title": "Wait, You're Still Doing PRs?",
+      "date": "2026-11-16",
+      "start_time": "14:45",
+      "end_time": "15:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/wait-youre-still-doing-prs",
+      "speakers": [
+        {
+          "name": "Lee Faus",
+          "source_url": "https://qconsf.com/speakers/leeatomicdev",
+          "role_company_text": "Lee Faus - Atomic"
+        }
+      ],
+      "room": "Pacific LM",
+      "track": "Sponsored Solution Track I",
+      "description": "PRs were built for open source. A non-maintainer wanted to contribute, a maintainer needed a gate, and you opened the PR early so the two of you could work through the change together while it was still forming. That was the point. The PR was where the thinking happened."
+    },
+    {
+      "title": "The Context Gap: Why Correct Agents Fail",
+      "date": "2026-11-16",
+      "start_time": "14:45",
+      "end_time": "15:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/context-gap-why-correct-agents-fail",
+      "speakers": [
+        {
+          "name": "Xiaowei Jiang",
+          "source_url": "https://qconsf.com/speakers/xiaoweitacnodeio",
+          "role_company_text": "Xiaowei Jiang - Tacnode Inc."
+        }
+      ],
+      "room": "Marina",
+      "track": "Sponsored Solution Track II",
+      "description": "Two agents edit different files. Git merges clean. The program is broken. No conflict was thrown, because the collision was in meaning, not in text \u2014 and business decisions are almost all semantic."
+    },
+    {
+      "title": "Architecting Real-Time Timeline Engines for 100 Million Active Users",
+      "date": "2026-11-16",
+      "start_time": "15:55",
+      "end_time": "16:45",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/architecting-real-time-timeline-engines-100-million-active-users",
+      "speakers": [],
+      "room": "Ballroom BC",
+      "track": "Architectures You've Always Wondered About",
+      "description": "Details coming soon."
+    },
+    {
+      "title": "Practical Concerns Running Agents in Production",
+      "date": "2026-11-16",
+      "start_time": "15:55",
+      "end_time": "16:45",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/practical-concerns-running-agents-production",
+      "speakers": [
+        {
+          "name": "Amanda Walker",
+          "source_url": "https://qconsf.com/speakers/amandawalker",
+          "role_company_text": "Amanda Walker - Google"
+        }
+      ],
+      "room": "Ballroom A",
+      "track": "Guardrails & Safety Nets (Evals) for the New Landscape",
+      "description": "Details coming soon."
+    },
+    {
+      "title": "What Is Incident Severity, but a Lie Agreed Upon?",
+      "date": "2026-11-16",
+      "start_time": "15:55",
+      "end_time": "16:45",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/what-incident-severity-lie-agreed-upon",
+      "speakers": [
+        {
+          "name": "Em Ruppe",
+          "source_url": "https://qconsf.com/speakers/emruppe",
+          "role_company_text": "Em Ruppe - Chime"
+        }
+      ],
+      "room": "Seacliff ABC",
+      "track": "Resilience Engineering: Everything Fails All the Time",
+      "description": "Is your incident severity a complex word problem? Do you arbitrate which severity an incident should be during the incident itself? Do you know what the difference between your severities are? Do you even have incident severity in your org?"
+    },
+    {
+      "title": "AI Amplifies Everything, Including Your Mess: Lessons from Delivering with AI at Global Scale",
+      "date": "2026-11-16",
+      "start_time": "15:55",
+      "end_time": "16:45",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/ai-amplifies-everything-including-your-mess-lessons-delivering-ai-global-scale",
+      "speakers": [
+        {
+          "name": "Caio Sousa",
+          "source_url": "https://qconsf.com/speakers/caiosousa",
+          "role_company_text": "Caio Sousa - NU"
+        }
+      ],
+      "room": "Pacific LM",
+      "track": "Sponsored Solution Track I",
+      "description": "AI doesn\u2019t fix how a team works. It multiplies it. This talk shares real lessons from an engineering team rebuilding its software development lifecycle around AI while delivering Nu Global, a product that scales financial services globally on top of crypto rails."
+    },
+    {
+      "title": "Sponsored Session",
+      "date": "2026-11-16",
+      "start_time": "15:55",
+      "end_time": "16:45",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/sponsored-session-1",
+      "speakers": [],
+      "room": "Marina",
+      "track": "Sponsored Solution Track II",
+      "description": "Details coming soon!"
+    },
+    {
+      "title": "Testing & Verification for Code-Generating Agents",
+      "date": "2026-11-16",
+      "start_time": "17:05",
+      "end_time": "17:55",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/testing-verification-code-generating-agents",
+      "speakers": [],
+      "room": "Ballroom A",
+      "track": "Guardrails & Safety Nets (Evals) for the New Landscape",
+      "description": "Details coming soon."
+    },
+    {
+      "title": "Stop Fighting the Remodel: API Design for Models That Outgrew Their Boundaries",
+      "date": "2026-11-16",
+      "start_time": "17:05",
+      "end_time": "17:55",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/stop-fighting-remodel-api-design-models-outgrew-their-boundaries",
+      "speakers": [
+        {
+          "name": "Aarti Gupta",
+          "source_url": "https://qconsf.com/speakers/aartigupta2",
+          "role_company_text": "Aarti Gupta - Netflix"
+        }
+      ],
+      "room": "Pacific DEKJ",
+      "track": "Modern API Design for Humans and Agents",
+      "description": "Every domain model has a breaking point. At Netflix, ours arrived all at once\u2014Ads, Games, Live events, and entirely new kinds of content. Each pulled the core entities in different, sometimes contradictory directions."
+    },
+    {
+      "title": "It's Never the Thing That Broke: Learning From Incidents at (AI) Speed",
+      "date": "2026-11-16",
+      "start_time": "17:05",
+      "end_time": "17:55",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/its-never-thing-broke-learning-incidents-ai-speed",
+      "speakers": [],
+      "room": "Seacliff ABC",
+      "track": "Resilience Engineering: Everything Fails All the Time",
+      "description": "When something breaks, our first instinct is to focus on the thing that failed. But in complex systems, the failure is usually the result of many things going right, changing, and interacting in ways we didn't anticipate."
+    },
+    {
+      "title": "Apache Spark: Structured Streaming Real-Time Mode",
+      "date": "2026-11-16",
+      "start_time": "17:05",
+      "end_time": "17:55",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/apache-spark-structured-streaming-real-time-mode",
+      "speakers": [
+        {
+          "name": "Jerry Peng",
+          "source_url": "https://qconsf.com/speakers/jerrypeng",
+          "role_company_text": "Jerry Peng - Databricks"
+        }
+      ],
+      "room": "Pacific LM",
+      "track": "Sponsored Solution Track I",
+      "description": "Apache Spark Structured Streaming is a distributed stream processing engine built on Spark SQL and is widely used for ETL-style workloads, where seconds- to minutes-level latency is acceptable. But millisecond-latency use cases have historically been out of reach."
+    },
+    {
+      "title": "Sponsored session",
+      "date": "2026-11-16",
+      "start_time": "17:05",
+      "end_time": "17:55",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/sponsored-session-4",
+      "speakers": [],
+      "room": "Marina",
+      "track": "Sponsored Solution Track II",
+      "description": "Details coming soon!"
+    },
+    {
+      "title": "Orderly Keys, Wild Values: Adaptive Compression for Distributed Key-Value Storage",
+      "date": "2026-11-17",
+      "start_time": "10:35",
+      "end_time": "11:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/orderly-keys-wild-values-adaptive-compression-distributed-key-value-storage",
+      "speakers": [
+        {
+          "name": "Joseph Lynch",
+          "source_url": "https://qconsf.com/speakers/joeylynch",
+          "role_company_text": "Joseph Lynch - Netflix"
+        },
+        {
+          "name": "Ayushi Singh",
+          "source_url": "https://qconsf.com/speakers/ayushisingh",
+          "role_company_text": "Ayushi Singh - Netflix"
+        }
+      ],
+      "room": "Ballroom BC",
+      "track": "Distributed Systems in Production",
+      "description": "At Netflix scale - billions of requests per day and petabytes of key-value data - even small inefficiencies in storage and network paths become expensive."
+    },
+    {
+      "title": "Skills, Memory, or Fine-Tuning? The Engineering Loop Behind Self-Improving Agents",
+      "date": "2026-11-17",
+      "start_time": "10:35",
+      "end_time": "11:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/skills-memory-or-fine-tuning-engineering-loop-behind-self-improving-agents",
+      "speakers": [
+        {
+          "name": "Abhinav Sinha",
+          "source_url": "https://qconsf.com/speakers/abhinavsinha",
+          "role_company_text": "Abhinav Sinha - Lucidic AI"
+        }
+      ],
+      "room": "Ballroom A",
+      "track": "Engineering AI Systems",
+      "description": "As agents become mainstream, everyone wants to improve theirs either by making fewer mistakes on existing tasks or by taking on harder ones. This usually happens once an agent is already deployed in production."
+    },
+    {
+      "title": "Nobody Knows Everything (and That's OK): Building Alignment in Complex, Rapidly Changing Environments",
+      "date": "2026-11-17",
+      "start_time": "10:35",
+      "end_time": "11:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/nobody-knows-everything-and-thats-ok-building-alignment-complex-rapidly",
+      "speakers": [
+        {
+          "name": "Kaye Mason",
+          "source_url": "https://qconsf.com/speakers/kayemason",
+          "role_company_text": "Kaye Mason - Meta"
+        }
+      ],
+      "room": "Pacific DEKJ",
+      "track": "Staff+ Engineering Skills",
+      "description": "Successful Staff+ engineers build alignment across organizational and technical boundaries, including domains where they aren't the deepest expert."
+    },
+    {
+      "title": "Breaking Down the Walls to Python & Big Data + AI Performance with Transpilation and LLMs",
+      "date": "2026-11-17",
+      "start_time": "10:35",
+      "end_time": "11:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/breaking-down-walls-python-big-data-ai-performance-transpilation-and-llms",
+      "speakers": [
+        {
+          "name": "Holden Karau",
+          "source_url": "https://qconsf.com/speakers/holdenkarau",
+          "role_company_text": "Holden Karau - Snowflake"
+        }
+      ],
+      "room": "Seacliff ABC",
+      "track": "Data Platforms Reimagined",
+      "description": "Many of us have a love hate relationship with Apache Spark, especially when it comes to PySpark. Especially in Python, the UDF performance can be a dumpster fire."
+    },
+    {
+      "title": "Feeling Faster Isn\u2019t a Metric: Measuring AI\u2019s Real Engineering Impact",
+      "date": "2026-11-17",
+      "start_time": "10:35",
+      "end_time": "11:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/feeling-faster-isnt-metric-measuring-ais-real-engineering-impact",
+      "speakers": [
+        {
+          "name": "Jeremy Castile",
+          "source_url": "https://qconsf.com/speakers/jeremycastile",
+          "role_company_text": "Jeremy Castile - GitKraken"
+        }
+      ],
+      "room": "Pacific L-O",
+      "track": "Sponsored Solution Track III",
+      "description": "AI adoption in engineering is settled. In GitKraken\u2019s 2026 State of AI in Engineering survey of 554 developers and engineering leaders, 96% of teams had adopted AI coding tools and 84% of developers said they feel more productive. Only about one in five can actually measure the impact."
+    },
+    {
+      "title": "How to Build Online Systems with Object Storage",
+      "date": "2026-11-17",
+      "start_time": "11:45",
+      "end_time": "12:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/how-build-online-systems-object-storage",
+      "speakers": [
+        {
+          "name": "Almog Gavra",
+          "source_url": "https://qconsf.com/speakers/almoggavra",
+          "role_company_text": "Almog Gavra - responsive.dev"
+        }
+      ],
+      "room": "Ballroom BC",
+      "track": "Distributed Systems in Production",
+      "description": "\u201cDiskless\u201d systems that delegate durability to object storage are everywhere, and for three good reasons:"
+    },
+    {
+      "title": "Inside Asimov: BlackRock\u2019s Platform Architecture for Applied AI at Scale",
+      "date": "2026-11-17",
+      "start_time": "11:45",
+      "end_time": "12:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/inside-asimov-blackrocks-platform-architecture-applied-ai-scale",
+      "speakers": [
+        {
+          "name": "Dan Wolf",
+          "source_url": "https://qconsf.com/speakers/danwolf",
+          "role_company_text": "Dan Wolf - BlackRock"
+        },
+        {
+          "name": "Sri Annapurna Bhupatiraju",
+          "source_url": "https://qconsf.com/speakers/sriannapurnabhupatiraju",
+          "role_company_text": "Sri Annapurna Bhupatiraju - BlackRock"
+        }
+      ],
+      "room": "Ballroom A",
+      "track": "Engineering AI Systems",
+      "description": "BlackRock\u2019s Portfolio Management Group is transforming how investment teams conduct research by combining deep investment expertise with shared AI capabilities."
+    },
+    {
+      "title": "Use AI to Multiply Your Team as a Staff Engineer",
+      "date": "2026-11-17",
+      "start_time": "11:45",
+      "end_time": "12:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/use-ai-multiply-your-team-staff-engineer",
+      "speakers": [
+        {
+          "name": "Jordan Cutler",
+          "source_url": "https://qconsf.com/speakers/jordancutler",
+          "role_company_text": "Jordan Cutler - Pinterest"
+        }
+      ],
+      "room": "Pacific DEKJ",
+      "track": "Staff+ Engineering Skills",
+      "description": "Most \"AI for engineers\" content is about typing faster. That's IC-level work. Staff engineers have a different question to answer. When AI raises the floor on what every engineer can ship, what is the staff engineer's job, and where does the leverage actually come from now?"
+    },
+    {
+      "title": "Building a Data Platform with AI",
+      "date": "2026-11-17",
+      "start_time": "11:45",
+      "end_time": "12:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/building-data-platform-ai",
+      "speakers": [
+        {
+          "name": "Mouli Mukherjee",
+          "source_url": "https://qconsf.com/speakers/moulimukherjee",
+          "role_company_text": "Mouli Mukherjee - OpenAI"
+        }
+      ],
+      "room": "Seacliff ABC",
+      "track": "Data Platforms Reimagined",
+      "description": "Data platform sits at the intersection of infrastructure, governance, operations, and user experience."
+    },
+    {
+      "title": "Notes From 300 Installs Inside Someone Else's Cloud",
+      "date": "2026-11-17",
+      "start_time": "11:45",
+      "end_time": "12:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/notes-300-installs-inside-someone-elses-cloud",
+      "speakers": [
+        {
+          "name": "Adam Hicks",
+          "source_url": "https://qconsf.com/speakers/adamhicksgroundcovercom",
+          "role_company_text": "Adam Hicks - Groundcover"
+        }
+      ],
+      "room": "Pacific LM",
+      "track": "Sponsored Solution Track III",
+      "description": "We run our storage and query backend inside our customers' own VPCs. They own the infrastructure. We own the pager. I'm the person who helps installs it, so I've watched this architecture meet a few hundred different production Kubernetes environments and I've kept notes on what went wrong."
+    },
+    {
+      "title": "Autoscaling 800 Valkey Clusters: Distributed Systems Lessons from Scaling Stateful Fleets",
+      "date": "2026-11-17",
+      "start_time": "13:35",
+      "end_time": "14:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/autoscaling-800-valkey-clusters-distributed-systems-lessons-scaling-stateful",
+      "speakers": [
+        {
+          "name": "Kishor Yadav Kommanaboina",
+          "source_url": "https://qconsf.com/speakers/kishoreyadav",
+          "role_company_text": "Kishor Yadav Kommanaboina - Snap Inc"
+        }
+      ],
+      "room": "Ballroom BC",
+      "track": "Distributed Systems in Production",
+      "description": "Autoscaling stateless services is a solved problem. In a sharded datastore, a resize is not a capacity change \u2014 it's moving ownership of key ranges between nodes while the cluster serves live traffic, and rebalancing takes long enough that reacting to a traffic peak is already too late."
+    },
+    {
+      "title": "The Revenge of the Data Scientist: Why Reliable AI Needs Evals, Traces, and Metrics",
+      "date": "2026-11-17",
+      "start_time": "13:35",
+      "end_time": "14:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/revenge-data-scientist-why-reliable-ai-needs-evals-traces-and-metrics",
+      "speakers": [
+        {
+          "name": "Hamel Husain",
+          "source_url": "https://qconsf.com/speakers/hamelhusain",
+          "role_company_text": "Hamel Husain"
+        }
+      ],
+      "room": "Ballroom A",
+      "track": "Engineering AI Systems",
+      "description": "Most teams can now ship an AI prototype by calling a foundation-model API. The hard part is knowing whether that system works when real users, messy data, and business consequences arrive."
+    },
+    {
+      "title": "Scaling Tech by Aligning Humans",
+      "date": "2026-11-17",
+      "start_time": "13:35",
+      "end_time": "14:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/scaling-tech-aligning-humans",
+      "speakers": [
+        {
+          "name": "Scott Behrens",
+          "source_url": "https://qconsf.com/speakers/scottbehrens",
+          "role_company_text": "Scott Behrens - Netflix"
+        }
+      ],
+      "room": "Pacific DEKJ",
+      "track": "Staff+ Engineering Skills",
+      "description": "Scaling a complex technology can get messy without a clear north star or a shared technical strategy. Product strategies from different functions can each deliver impact but may lead to disconnected solutions or inadvertently introduce various forms of technical debt."
+    },
+    {
+      "title": "One Does Not Simply Add Synchronous Writes - Bridging Batch and Real Time with Apache Iceberg",
+      "date": "2026-11-17",
+      "start_time": "13:35",
+      "end_time": "14:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/one-does-not-simply-add-synchronous-writes-bridging-batch-and-real-time-apache",
+      "speakers": [
+        {
+          "name": "Paige Elinson",
+          "source_url": "https://qconsf.com/speakers/paigeelinson",
+          "role_company_text": "Paige Elinson - Datadog"
+        }
+      ],
+      "room": "Seacliff ABC",
+      "track": "Data Platforms Reimagined",
+      "description": "What happens when a batch ingestion platform needs to behave like an operational database? Datadog\u2019s Reference Tables product was designed for asynchronous uploads of large datasets, but customers increasingly needed synchronous row-level edits, without sacrificing batch scale."
+    },
+    {
+      "title": "Why Your Document AI Fails in Production \u2014 And How to Fix the Infrastructure Underneath It",
+      "date": "2026-11-17",
+      "start_time": "13:35",
+      "end_time": "14:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/why-your-document-ai-fails-production-and-how-fix-infrastructure-underneath-it",
+      "speakers": [
+        {
+          "name": "Pavitter Josan",
+          "source_url": "https://qconsf.com/speakers/pavitterjosannutrientio",
+          "role_company_text": "Pavitter Josan - Nutrient"
+        }
+      ],
+      "room": "Pacific LM",
+      "track": "Sponsored Solution Track III",
+      "description": "The session explains why document AI that works in demos can fail in production: document structure can be lost during ingestion, rendering can break on edge cases, and extraction can vary across runs. When agents make routing or approval decisions, teams also need governance."
+    },
+    {
+      "title": "Lessons from Building a $100M Product in Six Weeks at OpenAI",
+      "date": "2026-11-17",
+      "start_time": "14:45",
+      "end_time": "15:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/lessons-building-100m-product-six-weeks-openai",
+      "speakers": [
+        {
+          "name": "Brian Yang",
+          "source_url": "https://qconsf.com/speakers/brianyang",
+          "role_company_text": "Brian Yang - OpenAI"
+        }
+      ],
+      "room": "Ballroom A",
+      "track": "Engineering AI Systems",
+      "description": "Engineering is shifting from synchronous, line-by-line implementation to an asynchronous model in which agents execute, verify, and retry while humans own intent, architecture, constraints, and release decisions.&nbsp;"
+    },
+    {
+      "title": "Transitioning From a Startup to a Mature Platform",
+      "date": "2026-11-17",
+      "start_time": "14:45",
+      "end_time": "15:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/transitioning-startup-mature-platform",
+      "speakers": [],
+      "room": "Ballroom BC",
+      "track": "Staff+ Engineering Skills",
+      "description": "What you need to succeed in a startup with zero customers is different from what you need when you have a few thousand, and this changes many times as the company grows. Some of these changes are code and architectural changes, some are organizational changes, and some are mindset shifts."
+    },
+    {
+      "title": "Building a StreamHouse: Turning Kafka Streams into a Millisecond Query Layer",
+      "date": "2026-11-17",
+      "start_time": "14:45",
+      "end_time": "15:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/building-streamhouse-turning-kafka-streams-millisecond-query-layer",
+      "speakers": [],
+      "room": "Seacliff ABC",
+      "track": "Data Platforms Reimagined",
+      "description": "AI agents have compressed business decisions from minutes to seconds. Data systems need to keep up."
+    },
+    {
+      "title": "Trust, but Verify: Delivering Quality with Agentic Workflows",
+      "date": "2026-11-17",
+      "start_time": "14:45",
+      "end_time": "15:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/trust-verify-delivering-quality-agentic-workflows",
+      "speakers": [
+        {
+          "name": "Adrian Hatch",
+          "source_url": "https://qconsf.com/speakers/adrianhatchantithesiscom",
+          "role_company_text": "Adrian Hatch - Antithesis"
+        }
+      ],
+      "room": "Pacific LM",
+      "track": "Sponsored Solution Track III",
+      "description": "In spite of all the recent panic, nothing has really changed about software development. We\u2019re worried about agents being unreliable. Newsflash: human devs are too. We\u2019re worried about agents producing more code than we can read, but did you ever really do all your reviews within 24 hours?"
+    },
+    {
+      "title": "When Your Users Are Agents: Lessons from a Distributed Postgres Platform",
+      "date": "2026-11-17",
+      "start_time": "15:55",
+      "end_time": "16:45",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/when-your-users-are-agents-lessons-distributed-postgres-platform",
+      "speakers": [
+        {
+          "name": "Gwen Shapira",
+          "source_url": "https://qconsf.com/speakers/gwenshapira",
+          "role_company_text": "Gwen Shapira - Nile Platform Inc"
+        }
+      ],
+      "room": "Ballroom BC",
+      "track": "Distributed Systems in Production",
+      "description": "Distributed systems are built around assumptions about workload behavior: connections have reasonable lifetimes, retries eventually stop, traffic spikes have recognizable causes, and application code produces somewhat predictable query patterns."
+    },
+    {
+      "title": "Bridging Retrieval and Ranking: From LLM Embeddings and Graph Features to a GPU-Served DLRM",
+      "date": "2026-11-17",
+      "start_time": "15:55",
+      "end_time": "16:45",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/bridging-retrieval-and-ranking-llm-embeddings-and-graph-features-gpu-served",
+      "speakers": [
+        {
+          "name": "Sudarshan Srinivasa Ramanujam",
+          "source_url": "https://qconsf.com/speakers/sudarshansrinivasaramanujam",
+          "role_company_text": "Sudarshan Srinivasa Ramanujam - LinkedIn"
+        }
+      ],
+      "room": "Ballroom A",
+      "track": "Engineering AI Systems",
+      "description": "The LinkedIn Feed retrieval layer selects, within 120 ms, the handful of posts each member sees from hundreds of millions of candidates. This split-second decision shapes what over a billion professionals read and engage with every day."
+    },
+    {
+      "title": "Learning What\u2019s Already There: A Breadth-Based Approach To Onboarding",
+      "date": "2026-11-17",
+      "start_time": "15:55",
+      "end_time": "16:45",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/learning-whats-already-there-breadth-based-approach-onboarding",
+      "speakers": [
+        {
+          "name": "Laura de Vesine",
+          "source_url": "https://qconsf.com/speakers/lauradevesine",
+          "role_company_text": "Laura de Vesine"
+        }
+      ],
+      "room": "Pacific DEKJ",
+      "track": "Staff+ Engineering Skills",
+      "description": "When onboarding to a new organization, it's vital to bootstrap your network and context quickly."
+    },
+    {
+      "title": "From Datasets to Data Products: Powering Trusted AI for Social Impact",
+      "date": "2026-11-17",
+      "start_time": "15:55",
+      "end_time": "16:45",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/datasets-data-products-powering-trusted-ai-social-impact",
+      "speakers": [
+        {
+          "name": "Shannon McKenzie",
+          "source_url": "https://qconsf.com/speakers/shannonmckenzie",
+          "role_company_text": "Shannon McKenzie - Blackbaud"
+        }
+      ],
+      "room": "Seacliff ABC",
+      "track": "Data Platforms Reimagined",
+      "description": "When an AI agent acts on a nonprofit's behalf, it's only as trustworthy as the data underneath it. At Blackbaud, we build software for the social impact sector, and nonprofits have relied on our data for decades."
+    },
+    {
+      "title": "Your Agents Have Amnesia: Lessons from Building a Memory Layer for Multi-Agent Systems",
+      "date": "2026-11-17",
+      "start_time": "15:55",
+      "end_time": "16:45",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/your-agents-have-amnesia-lessons-building-memory-layer-multi-agent-systems",
+      "speakers": [
+        {
+          "name": "Heather Downing",
+          "source_url": "https://qconsf.com/speakers/heatherdowningyugabytecom",
+          "role_company_text": "Heather Downing - YugabyteDB"
+        }
+      ],
+      "room": "Pacific LM",
+      "track": "Sponsored Solution Track III",
+      "description": "Multi-agent systems have a data problem nobody warns you about. Agent B sees Agent A's final output and nothing else; the reasoning, the dead ends, and whatever Agent A figured out three steps in all get thrown away."
+    },
+    {
+      "title": "Adaptive Systems in Production: What Recommendation Systems Can Teach Us About Agents",
+      "date": "2026-11-17",
+      "start_time": "17:05",
+      "end_time": "17:55",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/adaptive-systems-production-what-recommendation-systems-can-teach-us-about",
+      "speakers": [
+        {
+          "name": "Mallika Rao",
+          "source_url": "https://qconsf.com/speakers/mallikarao",
+          "role_company_text": "Mallika Rao - Zocdoc"
+        }
+      ],
+      "room": "Ballroom BC",
+      "track": "Distributed Systems in Production",
+      "description": "As organizations race to build AI agents, many teams are encountering challenges that feel new: evaluation uncertainty, feedback loops, behavioral drift, exploration versus exploitation, and maintaining user trust in systems that continuously adapt.But these challenges are not new."
+    },
+    {
+      "title": "Failing in Layers: Lessons from Rebuilding Netflix's ML Serving Platform",
+      "date": "2026-11-17",
+      "start_time": "17:05",
+      "end_time": "17:55",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/failing-layers-lessons-rebuilding-netflixs-ml-serving-platform",
+      "speakers": [
+        {
+          "name": "Rajat Shah",
+          "source_url": "https://qconsf.com/speakers/rajatshah",
+          "role_company_text": "Rajat Shah - Netflix"
+        },
+        {
+          "name": "Wenbing Bai",
+          "source_url": "https://qconsf.com/speakers/wenbingbai",
+          "role_company_text": "Wenbing Bai - Netflix"
+        }
+      ],
+      "room": "Ballroom A",
+      "track": "Engineering AI Systems",
+      "description": "Everyone talks about model quality. Fewer people talk about what happens when that model has to serve real traffic without falling over, or why the system ended up shaped the way it did in the first place."
+    },
+    {
+      "title": "Iceberg V4: The Next Chapter in Table Formats",
+      "date": "2026-11-17",
+      "start_time": "17:05",
+      "end_time": "17:55",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/iceberg-v4-next-chapter-table-formats",
+      "speakers": [
+        {
+          "name": "Daniel Weeks",
+          "source_url": "https://qconsf.com/speakers/danielweeks",
+          "role_company_text": "Daniel Weeks - Databricks"
+        }
+      ],
+      "room": "Seacliff ABC",
+      "track": "Data Platforms Reimagined",
+      "description": "Apache Iceberg V3 adoption is growing and the community is already shaping what comes next. This talk walks through the emerging scope and priorities for the V4 table spec and progress of the proposals currently underway."
+    },
+    {
+      "title": "Sponsored Session",
+      "date": "2026-11-17",
+      "start_time": "17:05",
+      "end_time": "17:55",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/sponsored-session-5",
+      "speakers": [],
+      "room": "Pacific LM",
+      "track": "Sponsored Solution Track III",
+      "description": "Details coming soon!"
+    },
+    {
+      "title": "How Netflix Retrofitted Its SDLC for AI Coding Agents",
+      "date": "2026-11-18",
+      "start_time": "10:35",
+      "end_time": "11:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/how-netflix-retrofitted-its-sdlc-ai-coding-agents",
+      "speakers": [
+        {
+          "name": "Mark Khuzam",
+          "source_url": "https://qconsf.com/speakers/markkhuzam",
+          "role_company_text": "Mark Khuzam - Netflix"
+        }
+      ],
+      "room": "Ballroom BC",
+      "track": "Architecting for Agents: Beneath the Loop",
+      "description": "Agentic tools amplify what\u2019s already in the codebase. The agent works through your code, your architecture decisions, and the documentation around them. It follows what it can read and guesses at the rest."
+    },
+    {
+      "title": "Features vs Futures",
+      "date": "2026-11-18",
+      "start_time": "10:35",
+      "end_time": "11:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/features-vs-futures",
+      "speakers": [
+        {
+          "name": "Kent Beck",
+          "source_url": "https://qconsf.com/speakers/kentbeck",
+          "role_company_text": "Kent Beck"
+        }
+      ],
+      "room": "Ballroom A",
+      "track": "Engineering the Developer Experience",
+      "description": "Details coming soon."
+    },
+    {
+      "title": "Platform Engineering\u2019s Second Act: From Vending Machine to Passport Control",
+      "date": "2026-11-18",
+      "start_time": "10:35",
+      "end_time": "11:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/platform-engineerings-second-act-vending-machine-passport-control",
+      "speakers": [
+        {
+          "name": "Smruti Patel",
+          "source_url": "https://qconsf.com/speakers/smrutipatel",
+          "role_company_text": "Smruti Patel - Apollo Graph"
+        },
+        {
+          "name": "Alex Mann",
+          "source_url": "https://qconsf.com/speakers/alexmann",
+          "role_company_text": "Alex Mann - Apollo Graph"
+        }
+      ],
+      "room": "Pacific DEKJ",
+      "track": "Real World Platform Engineering",
+      "description": "Three years ago on the QCon SF stage, I made the case for \u201cAcceleration, Autonomy, and Accountability\u201d as the pillars of a successful platform. Those pillars haven't moved. AI has just rewritten what each one requires, and the platform team's job along with it."
+    },
+    {
+      "title": "Builder-Driven Development: Rebuilding the Organization Around the Builder",
+      "date": "2026-11-18",
+      "start_time": "10:35",
+      "end_time": "11:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/builder-driven-development-rebuilding-organization-around-builder",
+      "speakers": [
+        {
+          "name": "Jyothi Nookula",
+          "source_url": "https://qconsf.com/speakers/jyothinookula",
+          "role_company_text": "Jyothi Nookula"
+        }
+      ],
+      "room": "Seacliff ABC",
+      "track": "Code Beyond Engineers & Engineering Teams",
+      "description": "Most teams still run agent development the way they run traditional software projects. Requirements are written up front, builders execute against them, and a demo closes out the cycle. That model works poorly for agents, because the most useful information rarely comes from a planning document."
+    },
+    {
+      "title": "Simulating the Universe, 100 Times Over: Engineering Highly- Concurrent Agent Testing",
+      "date": "2026-11-18",
+      "start_time": "10:35",
+      "end_time": "11:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/simulating-universe-100-times-over-engineering-highly-concurrent-agent-testing",
+      "speakers": [],
+      "room": "Pacific LM",
+      "track": "Sponsored Solution Track IV",
+      "description": "Testing AI agents properly is surprisingly hard. Production data sources are moving targets, static datasets go stale, and pointing agents at real systems is risky and impossible to reproduce."
+    },
+    {
+      "title": "Making Production Legible to Agents: Lessons From Building an Observability MCP",
+      "date": "2026-11-18",
+      "start_time": "11:45",
+      "end_time": "12:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/making-production-legible-agents-lessons-building-observability-mcp",
+      "speakers": [
+        {
+          "name": "Liz Fong-Jones",
+          "source_url": "https://qconsf.com/speakers/lizfong-jones",
+          "role_company_text": "Liz Fong-Jones - Honeycomb.io"
+        }
+      ],
+      "room": "Ballroom BC",
+      "track": "Architecting for Agents: Beneath the Loop",
+      "description": "An agent that can query production telemetry can test its own hypotheses against reality, rather than hallucinate fictions. Observability tooling allows our agents to close the loop and benefit from production wisdom."
+    },
+    {
+      "title": "No More Small Systems, How AI May Bring Large System Problems to Everyone",
+      "date": "2026-11-18",
+      "start_time": "11:45",
+      "end_time": "12:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/no-more-small-systems-how-ai-may-bring-large-system-problems-everyone",
+      "speakers": [
+        {
+          "name": "Adam Bender",
+          "source_url": "https://qconsf.com/speakers/adambender",
+          "role_company_text": "Adam Bender - Google"
+        }
+      ],
+      "room": "Ballroom A",
+      "track": "Engineering the Developer Experience",
+      "description": "Once you figure out how to use AI to make your organization productive, you will soon find you have a whole new set of problems. While some of those problems will be novel thanks to LLMs, many of them are just the result of there being \"more stuff\"."
+    },
+    {
+      "title": "Beyond the Kubernetes API: Building LinkedIn\u2019s Compute Platform",
+      "date": "2026-11-18",
+      "start_time": "11:45",
+      "end_time": "12:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/beyond-kubernetes-api-building-linkedins-compute-platform",
+      "speakers": [
+        {
+          "name": "Ronak Nathani",
+          "source_url": "https://qconsf.com/speakers/ronaknathani",
+          "role_company_text": "Ronak Nathani - LinkedIn"
+        }
+      ],
+      "room": "Pacific DEKJ",
+      "track": "Real World Platform Engineering",
+      "description": "LinkedIn\u2019s Kubernetes-based compute platform spans more than 500k bare-metal machines, 5M pods, with thousands of developers doing more than 110k deploys a week. We don\u2019t expose raw Kubernetes to developers and instead, provide a curated set of platform offerings."
+    },
+    {
+      "title": "Legacy as Leverage: How Brownfield Work Builds Technical Judgment",
+      "date": "2026-11-18",
+      "start_time": "11:45",
+      "end_time": "12:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/legacy-leverage-how-brownfield-work-builds-technical-judgment",
+      "speakers": [
+        {
+          "name": "Shine Garg",
+          "source_url": "https://qconsf.com/speakers/shinegarg",
+          "role_company_text": "Shine Garg - Uncharted Path Breakthroughs"
+        }
+      ],
+      "room": "Seacliff ABC",
+      "track": "Code Beyond Engineers & Engineering Teams",
+      "description": "Legacy systems are often treated as a necessary evil: work to be endured before moving on to more \u201creal, strategic\u201d projects."
+    },
+    {
+      "title": "The Men in Black Know What's in Your JavaScript and How to Fix it!",
+      "date": "2026-11-18",
+      "start_time": "11:45",
+      "end_time": "12:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/men-black-know-whats-your-javascript-and-how-fix-it",
+      "speakers": [
+        {
+          "name": "Chris DeMars",
+          "source_url": "https://qconsf.com/speakers/cdemars86gmailcom",
+          "role_company_text": "Chris DeMars - TuxCare"
+        }
+      ],
+      "room": "Pacific LM",
+      "track": "Sponsored Solution Track IV",
+      "description": "Ever wonder what\u2019s lurking in the dark corners of your node_modules, like unidentified flying dependencies sneaking aboard your project? In an age of escalating software supply chain attacks, knowing exactly what you're shipping is as vital as tracking strange lights in the sky."
+    },
+    {
+      "title": "Efficient GPU Agents: Infra for Autonomous LLM Perf Optimization",
+      "date": "2026-11-18",
+      "start_time": "13:35",
+      "end_time": "14:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/efficient-gpu-agents-infra-autonomous-llm-perf-optimization",
+      "speakers": [
+        {
+          "name": "Ben Segal",
+          "source_url": "https://qconsf.com/speakers/bensegal",
+          "role_company_text": "Ben Segal - Parasail"
+        }
+      ],
+      "room": "Ballroom BC",
+      "track": "Architecting for Agents: Beneath the Loop",
+      "description": "Parasail serves open-weight LLMs on distributed clusters of GPUs managed by Kubernetes. The typical performance optimization loop is to reproduce a problem or measure a regression, iterate on code or config, set up and run benchmarks, and decide whether the change is worth shipping."
+    },
+    {
+      "title": "Growing Engineers in the Era of Agentic Coding",
+      "date": "2026-11-18",
+      "start_time": "13:35",
+      "end_time": "14:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/growing-engineers-era-agentic-coding",
+      "speakers": [
+        {
+          "name": "Adam Berry",
+          "source_url": "https://qconsf.com/speakers/adamberry",
+          "role_company_text": "Adam Berry - Netflix"
+        }
+      ],
+      "room": "Ballroom A",
+      "track": "Engineering the Developer Experience",
+      "description": "Early-career engineers are learning the craft in an environment where the surface they touch is often an agent, not a codebase. The instinct is to treat this as a rupture in how engineers grow. It isn't."
+    },
+    {
+      "title": "Observability: The Missing Control Plane for Agentic Engineering",
+      "date": "2026-11-18",
+      "start_time": "13:35",
+      "end_time": "14:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/observability-missing-control-plane-agentic-engineering",
+      "speakers": [
+        {
+          "name": "Rachael Wonnacott",
+          "source_url": "https://qconsf.com/speakers/rachaelwonnacott",
+          "role_company_text": "Rachael Wonnacott"
+        }
+      ],
+      "room": "Pacific DEKJ",
+      "track": "Real World Platform Engineering",
+      "description": "As AI agents move from generating code to testing, deploying, and operating it, the important question is no longer \u201cHow autonomous is the agent?\u201d It\u2019s \u201cWhat can this agent safely decide without a human?\u201d"
+    },
+    {
+      "title": "The Death of the Code Review",
+      "date": "2026-11-18",
+      "start_time": "13:35",
+      "end_time": "14:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/death-code-review",
+      "speakers": [
+        {
+          "name": "Laurie Voss",
+          "source_url": "https://qconsf.com/speakers/laurievoss",
+          "role_company_text": "Laurie Voss - Arize AI"
+        }
+      ],
+      "room": "Seacliff ABC",
+      "track": "Code Beyond Engineers & Engineering Teams",
+      "description": "Code review was built for a world where humans wrote all the code."
+    },
+    {
+      "title": "Sponsored session",
+      "date": "2026-11-18",
+      "start_time": "13:35",
+      "end_time": "14:25",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/sponsored-session-6",
+      "speakers": [],
+      "room": "Pacific LM",
+      "track": "Sponsored Solution Track IV",
+      "description": "Details coming soon!"
+    },
+    {
+      "title": "Dreams on Paper: How Agents Learn from Experience",
+      "date": "2026-11-18",
+      "start_time": "14:45",
+      "end_time": "15:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/dreams-paper-how-agents-learn-experience",
+      "speakers": [
+        {
+          "name": "Brian Douglas",
+          "source_url": "https://qconsf.com/speakers/briandouglas",
+          "role_company_text": "Brian Douglas - Paper Compute Co."
+        }
+      ],
+      "room": "Ballroom BC",
+      "track": "Architecting for Agents: Beneath the Loop",
+      "description": "Agents produce high-fidelity traces of everything they do. But traces alone don't produce memory. This talk introduces three primitives for turning session history into something actionable:"
+    },
+    {
+      "title": "Shipping Faster, Understanding Less",
+      "date": "2026-11-18",
+      "start_time": "14:45",
+      "end_time": "15:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/shipping-faster-understanding-less",
+      "speakers": [
+        {
+          "name": "Margaret-Anne Storey",
+          "source_url": "https://qconsf.com/speakers/margaret-annestorey",
+          "role_company_text": "Margaret-Anne Storey - University of Victoria"
+        }
+      ],
+      "room": "Ballroom A",
+      "track": "Engineering the Developer Experience",
+      "description": "AI is changing software development faster than our engineering practices are evolving, and yet many teams are facing growing pressure to ship features faster. But moving faster can create three related threats to software health: technical debt, cognitive debt, and intent debt."
+    },
+    {
+      "title": "Why Most Platform Teams Fail: The Adoption Problem Nobody Wants to Own",
+      "date": "2026-11-18",
+      "start_time": "14:45",
+      "end_time": "15:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/why-most-platform-teams-fail-adoption-problem-nobody-wants-own",
+      "speakers": [
+        {
+          "name": "Shweta Vohra",
+          "source_url": "https://qconsf.com/speakers/shwetavohra",
+          "role_company_text": "Shweta Vohra - Booking.com"
+        }
+      ],
+      "room": "Pacific DEKJ",
+      "track": "Real World Platform Engineering",
+      "description": "We have all seen the moment: the platform goes live, the launch deck looks sharp, the portal is polished, the golden paths are documented, and yet teams quietly continue doing things the old way. Not always because the platform is bad, but because adoption was assumed, not owned."
+    },
+    {
+      "title": "You Can't Read the Code Anymore - Verifying Software in the Age of AI",
+      "date": "2026-11-18",
+      "start_time": "14:45",
+      "end_time": "15:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/you-cant-read-code-anymore-verifying-software-age-ai",
+      "speakers": [
+        {
+          "name": "Omer van Kloeten",
+          "source_url": "https://qconsf.com/speakers/omervankloeten",
+          "role_company_text": "Omer van Kloeten - Forter"
+        }
+      ],
+      "room": "Seacliff ABC",
+      "track": "Code Beyond Engineers & Engineering Teams",
+      "description": "AI writes most of the code now, so the hard part of engineering has moved from authoring to the part we\u2019re worse at - verifying. With the incentives all pushing toward shipping faster and faster - the rational move is to skim the diff, click through a little manual QA, and ship on vibes."
+    },
+    {
+      "title": "Sponsored session",
+      "date": "2026-11-18",
+      "start_time": "14:45",
+      "end_time": "15:35",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/sponsored-session-7",
+      "speakers": [],
+      "room": "Pacific LM",
+      "track": "Sponsored Solution Track IV",
+      "description": "Details coming soon!"
+    },
+    {
+      "title": "Avoiding Prompt Debt & Other Context Failures",
+      "date": "2026-11-18",
+      "start_time": "15:55",
+      "end_time": "16:45",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/avoiding-prompt-debt-other-context-failures",
+      "speakers": [
+        {
+          "name": "Drew Breunig",
+          "source_url": "https://qconsf.com/speakers/drewbreunig",
+          "role_company_text": "Drew Breunig - CMPND"
+        }
+      ],
+      "room": "Ballroom BC",
+      "track": "Architecting for Agents: Beneath the Loop",
+      "description": "As agents evolve, prompts get unruly. Edge cases are patched with one-line hotfixes, or with stacked instructions of escalating severity when an issue proves stubborn. Over time, those instructions pile up into a brittle artifact, overfit to an aging model."
+    },
+    {
+      "title": "The Diary of an AI Adopter: How I Went From Skeptical to Enthusiastic in Our Organization\u2019s AI Migration Efforts",
+      "date": "2026-11-18",
+      "start_time": "15:55",
+      "end_time": "16:45",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/diary-ai-adopter-how-i-went-skeptical-enthusiastic-our-organizations-ai",
+      "speakers": [
+        {
+          "name": "Tara Hernandez",
+          "source_url": "https://qconsf.com/speakers/tarahernandez",
+          "role_company_text": "Tara Hernandez - MongoDB"
+        }
+      ],
+      "room": "Ballroom A",
+      "track": "Engineering the Developer Experience",
+      "description": "From market research reporting questionable success of AI adoption in enterprise, to CEOs announcing layoffs due to AI, to companies announcing they\u2019re cutting back or eliminating AI due to prohibitive costs or technical missteps, it can be hard to know what the path to success should look like."
+    },
+    {
+      "title": "Building a Migration Platform: Moving 100+ Netflix RDBMS Workloads to Aurora PostgreSQL",
+      "date": "2026-11-18",
+      "start_time": "15:55",
+      "end_time": "16:45",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/building-migration-platform-moving-100-netflix-rdbms-workloads-aurora",
+      "speakers": [
+        {
+          "name": "Ammar Khaku",
+          "source_url": "https://qconsf.com/speakers/ammarkhaku",
+          "role_company_text": "Ammar Khaku - Netflix"
+        },
+        {
+          "name": "Kshitij Gupta",
+          "source_url": "https://qconsf.com/speakers/kshitijgupta",
+          "role_company_text": "Kshitij Gupta - Netflix"
+        }
+      ],
+      "room": "Pacific DEKJ",
+      "track": "Real World Platform Engineering",
+      "description": "In late 2024, Netflix made a bet: consolidate the vast majority of our relational database use cases onto a single engine: Amazon Aurora PostgreSQL."
+    },
+    {
+      "title": "When Everyone Can Code, Who Owns Production?",
+      "date": "2026-11-18",
+      "start_time": "15:55",
+      "end_time": "16:45",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/when-everyone-can-code-who-owns-production",
+      "speakers": [
+        {
+          "name": "Sanjay Singh",
+          "source_url": "https://qconsf.com/speakers/sanjaysingh",
+          "role_company_text": "Sanjay Singh - LinkedIn"
+        }
+      ],
+      "room": "Seacliff ABC",
+      "track": "Code Beyond Engineers & Engineering Teams",
+      "description": "AI is making it dramatically easier to create and change software, but writing code is only one part of the software lifecycle. Every change still needs to be deployed, observed, operated, diagnosed, and kept reliable in production."
+    },
+    {
+      "title": "Sponsored session",
+      "date": "2026-11-18",
+      "start_time": "15:55",
+      "end_time": "16:45",
+      "timezone": "America/Los_Angeles",
+      "source_url": "https://qconsf.com/presentation/nov2026/sponsored-session-8",
+      "speakers": [],
+      "room": "Pacific LM",
+      "track": "Sponsored Solution Track IV",
+      "description": "Details coming soon!"
+    }
+  ],
+  "speakers": [
+    {
+      "name": "Jacob Murphy",
+      "source_url": "https://qconsf.com/speakers/jacobmurphy",
+      "role_company_text": "Jacob Murphy - Google"
+    },
+    {
+      "name": "Fawziyah Alebiosu",
+      "source_url": "https://qconsf.com/speakers/fawziyahalebiosu",
+      "role_company_text": "Fawziyah Alebiosu - Imprint"
+    },
+    {
+      "name": "Prachi Jain",
+      "source_url": "https://qconsf.com/speakers/prachijain",
+      "role_company_text": "Prachi Jain - Netflix"
+    },
+    {
+      "name": "Sandhya Narayan",
+      "source_url": "https://qconsf.com/speakers/sandhyanarayan",
+      "role_company_text": "Sandhya Narayan - Netflix"
+    },
+    {
+      "name": "Payal Patel",
+      "source_url": "https://qconsf.com/speakers/payalpatelfreshworkscom",
+      "role_company_text": "Payal Patel - Freshworks"
+    },
+    {
+      "name": "Saiprasad Murali",
+      "source_url": "https://qconsf.com/speakers/saiprasadmuralifreshworkscom",
+      "role_company_text": "Saiprasad Murali - Freshworks"
+    },
+    {
+      "name": "Weiping Peng",
+      "source_url": "https://qconsf.com/speakers/weipingpeng",
+      "role_company_text": "Weiping Peng - Airbnb"
+    },
+    {
+      "name": "Emmanuel Paraskakis",
+      "source_url": "https://qconsf.com/speakers/emmanuelparaskakis",
+      "role_company_text": "Emmanuel Paraskakis - Level 250"
+    },
+    {
+      "name": "Andrew Hatch",
+      "source_url": "https://qconsf.com/speakers/andrewhatch",
+      "role_company_text": "Andrew Hatch - CISCO ThousandEyes"
+    },
+    {
+      "name": "Rishabh Bhargava",
+      "source_url": "https://qconsf.com/speakers/rishabhbhargava",
+      "role_company_text": "Rishabh Bhargava"
+    },
+    {
+      "name": "Dianhuan Lin",
+      "source_url": "https://qconsf.com/speakers/dianhuanlin",
+      "role_company_text": "Dianhuan Lin - Datadog"
+    },
+    {
+      "name": "Ryan Scott Brown",
+      "source_url": "https://qconsf.com/speakers/ryanscottbrown",
+      "role_company_text": "Ryan Scott Brown - Crunchyroll"
+    },
+    {
+      "name": "Brandon Waselnuk",
+      "source_url": "https://qconsf.com/speakers/brandongetunblockedcom",
+      "role_company_text": "Brandon Waselnuk - UNBLOCKED"
+    },
+    {
+      "name": "Nancy Zheng",
+      "source_url": "https://qconsf.com/speakers/nancyzheng",
+      "role_company_text": "Nancy Zheng - Cerebras"
+    },
+    {
+      "name": "Sarah Deitke",
+      "source_url": "https://qconsf.com/speakers/sarahdeitke",
+      "role_company_text": "Sarah Deitke - Duolingo"
+    },
+    {
+      "name": "Lorin Hochstein",
+      "source_url": "https://qconsf.com/speakers/lorinhochstein",
+      "role_company_text": "Lorin Hochstein - Airbnb"
+    },
+    {
+      "name": "Lee Faus",
+      "source_url": "https://qconsf.com/speakers/leeatomicdev",
+      "role_company_text": "Lee Faus - Atomic"
+    },
+    {
+      "name": "Xiaowei Jiang",
+      "source_url": "https://qconsf.com/speakers/xiaoweitacnodeio",
+      "role_company_text": "Xiaowei Jiang - Tacnode Inc."
+    },
+    {
+      "name": "Amanda Walker",
+      "source_url": "https://qconsf.com/speakers/amandawalker",
+      "role_company_text": "Amanda Walker - Google"
+    },
+    {
+      "name": "Em Ruppe",
+      "source_url": "https://qconsf.com/speakers/emruppe",
+      "role_company_text": "Em Ruppe - Chime"
+    },
+    {
+      "name": "Caio Sousa",
+      "source_url": "https://qconsf.com/speakers/caiosousa",
+      "role_company_text": "Caio Sousa - NU"
+    },
+    {
+      "name": "Aarti Gupta",
+      "source_url": "https://qconsf.com/speakers/aartigupta2",
+      "role_company_text": "Aarti Gupta - Netflix"
+    },
+    {
+      "name": "Jerry Peng",
+      "source_url": "https://qconsf.com/speakers/jerrypeng",
+      "role_company_text": "Jerry Peng - Databricks"
+    },
+    {
+      "name": "Joseph Lynch",
+      "source_url": "https://qconsf.com/speakers/joeylynch",
+      "role_company_text": "Joseph Lynch - Netflix"
+    },
+    {
+      "name": "Ayushi Singh",
+      "source_url": "https://qconsf.com/speakers/ayushisingh",
+      "role_company_text": "Ayushi Singh - Netflix"
+    },
+    {
+      "name": "Abhinav Sinha",
+      "source_url": "https://qconsf.com/speakers/abhinavsinha",
+      "role_company_text": "Abhinav Sinha - Lucidic AI"
+    },
+    {
+      "name": "Kaye Mason",
+      "source_url": "https://qconsf.com/speakers/kayemason",
+      "role_company_text": "Kaye Mason - Meta"
+    },
+    {
+      "name": "Holden Karau",
+      "source_url": "https://qconsf.com/speakers/holdenkarau",
+      "role_company_text": "Holden Karau - Snowflake"
+    },
+    {
+      "name": "Jeremy Castile",
+      "source_url": "https://qconsf.com/speakers/jeremycastile",
+      "role_company_text": "Jeremy Castile - GitKraken"
+    },
+    {
+      "name": "Almog Gavra",
+      "source_url": "https://qconsf.com/speakers/almoggavra",
+      "role_company_text": "Almog Gavra - responsive.dev"
+    },
+    {
+      "name": "Dan Wolf",
+      "source_url": "https://qconsf.com/speakers/danwolf",
+      "role_company_text": "Dan Wolf - BlackRock"
+    },
+    {
+      "name": "Sri Annapurna Bhupatiraju",
+      "source_url": "https://qconsf.com/speakers/sriannapurnabhupatiraju",
+      "role_company_text": "Sri Annapurna Bhupatiraju - BlackRock"
+    },
+    {
+      "name": "Jordan Cutler",
+      "source_url": "https://qconsf.com/speakers/jordancutler",
+      "role_company_text": "Jordan Cutler - Pinterest"
+    },
+    {
+      "name": "Mouli Mukherjee",
+      "source_url": "https://qconsf.com/speakers/moulimukherjee",
+      "role_company_text": "Mouli Mukherjee - OpenAI"
+    },
+    {
+      "name": "Adam Hicks",
+      "source_url": "https://qconsf.com/speakers/adamhicksgroundcovercom",
+      "role_company_text": "Adam Hicks - Groundcover"
+    },
+    {
+      "name": "Kishor Yadav Kommanaboina",
+      "source_url": "https://qconsf.com/speakers/kishoreyadav",
+      "role_company_text": "Kishor Yadav Kommanaboina - Snap Inc"
+    },
+    {
+      "name": "Hamel Husain",
+      "source_url": "https://qconsf.com/speakers/hamelhusain",
+      "role_company_text": "Hamel Husain"
+    },
+    {
+      "name": "Scott Behrens",
+      "source_url": "https://qconsf.com/speakers/scottbehrens",
+      "role_company_text": "Scott Behrens - Netflix"
+    },
+    {
+      "name": "Paige Elinson",
+      "source_url": "https://qconsf.com/speakers/paigeelinson",
+      "role_company_text": "Paige Elinson - Datadog"
+    },
+    {
+      "name": "Pavitter Josan",
+      "source_url": "https://qconsf.com/speakers/pavitterjosannutrientio",
+      "role_company_text": "Pavitter Josan - Nutrient"
+    },
+    {
+      "name": "Brian Yang",
+      "source_url": "https://qconsf.com/speakers/brianyang",
+      "role_company_text": "Brian Yang - OpenAI"
+    },
+    {
+      "name": "Adrian Hatch",
+      "source_url": "https://qconsf.com/speakers/adrianhatchantithesiscom",
+      "role_company_text": "Adrian Hatch - Antithesis"
+    },
+    {
+      "name": "Gwen Shapira",
+      "source_url": "https://qconsf.com/speakers/gwenshapira",
+      "role_company_text": "Gwen Shapira - Nile Platform Inc"
+    },
+    {
+      "name": "Sudarshan Srinivasa Ramanujam",
+      "source_url": "https://qconsf.com/speakers/sudarshansrinivasaramanujam",
+      "role_company_text": "Sudarshan Srinivasa Ramanujam - LinkedIn"
+    },
+    {
+      "name": "Laura de Vesine",
+      "source_url": "https://qconsf.com/speakers/lauradevesine",
+      "role_company_text": "Laura de Vesine"
+    },
+    {
+      "name": "Shannon McKenzie",
+      "source_url": "https://qconsf.com/speakers/shannonmckenzie",
+      "role_company_text": "Shannon McKenzie - Blackbaud"
+    },
+    {
+      "name": "Heather Downing",
+      "source_url": "https://qconsf.com/speakers/heatherdowningyugabytecom",
+      "role_company_text": "Heather Downing - YugabyteDB"
+    },
+    {
+      "name": "Mallika Rao",
+      "source_url": "https://qconsf.com/speakers/mallikarao",
+      "role_company_text": "Mallika Rao - Zocdoc"
+    },
+    {
+      "name": "Rajat Shah",
+      "source_url": "https://qconsf.com/speakers/rajatshah",
+      "role_company_text": "Rajat Shah - Netflix"
+    },
+    {
+      "name": "Wenbing Bai",
+      "source_url": "https://qconsf.com/speakers/wenbingbai",
+      "role_company_text": "Wenbing Bai - Netflix"
+    },
+    {
+      "name": "Daniel Weeks",
+      "source_url": "https://qconsf.com/speakers/danielweeks",
+      "role_company_text": "Daniel Weeks - Databricks"
+    },
+    {
+      "name": "Mark Khuzam",
+      "source_url": "https://qconsf.com/speakers/markkhuzam",
+      "role_company_text": "Mark Khuzam - Netflix"
+    },
+    {
+      "name": "Kent Beck",
+      "source_url": "https://qconsf.com/speakers/kentbeck",
+      "role_company_text": "Kent Beck"
+    },
+    {
+      "name": "Smruti Patel",
+      "source_url": "https://qconsf.com/speakers/smrutipatel",
+      "role_company_text": "Smruti Patel - Apollo Graph"
+    },
+    {
+      "name": "Alex Mann",
+      "source_url": "https://qconsf.com/speakers/alexmann",
+      "role_company_text": "Alex Mann - Apollo Graph"
+    },
+    {
+      "name": "Jyothi Nookula",
+      "source_url": "https://qconsf.com/speakers/jyothinookula",
+      "role_company_text": "Jyothi Nookula"
+    },
+    {
+      "name": "Liz Fong-Jones",
+      "source_url": "https://qconsf.com/speakers/lizfong-jones",
+      "role_company_text": "Liz Fong-Jones - Honeycomb.io"
+    },
+    {
+      "name": "Adam Bender",
+      "source_url": "https://qconsf.com/speakers/adambender",
+      "role_company_text": "Adam Bender - Google"
+    },
+    {
+      "name": "Ronak Nathani",
+      "source_url": "https://qconsf.com/speakers/ronaknathani",
+      "role_company_text": "Ronak Nathani - LinkedIn"
+    },
+    {
+      "name": "Shine Garg",
+      "source_url": "https://qconsf.com/speakers/shinegarg",
+      "role_company_text": "Shine Garg - Uncharted Path Breakthroughs"
+    },
+    {
+      "name": "Chris DeMars",
+      "source_url": "https://qconsf.com/speakers/cdemars86gmailcom",
+      "role_company_text": "Chris DeMars - TuxCare"
+    },
+    {
+      "name": "Ben Segal",
+      "source_url": "https://qconsf.com/speakers/bensegal",
+      "role_company_text": "Ben Segal - Parasail"
+    },
+    {
+      "name": "Adam Berry",
+      "source_url": "https://qconsf.com/speakers/adamberry",
+      "role_company_text": "Adam Berry - Netflix"
+    },
+    {
+      "name": "Rachael Wonnacott",
+      "source_url": "https://qconsf.com/speakers/rachaelwonnacott",
+      "role_company_text": "Rachael Wonnacott"
+    },
+    {
+      "name": "Laurie Voss",
+      "source_url": "https://qconsf.com/speakers/laurievoss",
+      "role_company_text": "Laurie Voss - Arize AI"
+    },
+    {
+      "name": "Brian Douglas",
+      "source_url": "https://qconsf.com/speakers/briandouglas",
+      "role_company_text": "Brian Douglas - Paper Compute Co."
+    },
+    {
+      "name": "Margaret-Anne Storey",
+      "source_url": "https://qconsf.com/speakers/margaret-annestorey",
+      "role_company_text": "Margaret-Anne Storey - University of Victoria"
+    },
+    {
+      "name": "Shweta Vohra",
+      "source_url": "https://qconsf.com/speakers/shwetavohra",
+      "role_company_text": "Shweta Vohra - Booking.com"
+    },
+    {
+      "name": "Omer van Kloeten",
+      "source_url": "https://qconsf.com/speakers/omervankloeten",
+      "role_company_text": "Omer van Kloeten - Forter"
+    },
+    {
+      "name": "Drew Breunig",
+      "source_url": "https://qconsf.com/speakers/drewbreunig",
+      "role_company_text": "Drew Breunig - CMPND"
+    },
+    {
+      "name": "Tara Hernandez",
+      "source_url": "https://qconsf.com/speakers/tarahernandez",
+      "role_company_text": "Tara Hernandez - MongoDB"
+    },
+    {
+      "name": "Ammar Khaku",
+      "source_url": "https://qconsf.com/speakers/ammarkhaku",
+      "role_company_text": "Ammar Khaku - Netflix"
+    },
+    {
+      "name": "Kshitij Gupta",
+      "source_url": "https://qconsf.com/speakers/kshitijgupta",
+      "role_company_text": "Kshitij Gupta - Netflix"
+    },
+    {
+      "name": "Sanjay Singh",
+      "source_url": "https://qconsf.com/speakers/sanjaysingh",
+      "role_company_text": "Sanjay Singh - LinkedIn"
+    }
+  ],
+  "registration_url": null,
+  "agenda_url": "https://qconsf.com/schedule/nov2026",
+  "agenda_note": "All 85 presentation links in saved official Nov 16\u201318 schedule extracted. DOM ancestor timestamps independently agree with staged extraction. Training Nov 19\u201320, breaks and non-presentation blocks excluded. Some session details/speakers pending organizer updates.",
+  "agenda_source_url": "https://qconsf.com/schedule/nov2026",
+  "agenda_evidence_file": "sources/qcon-agenda-2026.html",
+  "agenda_checked_at": "2026-10-24T12:03:50.662504-07:00"
+}

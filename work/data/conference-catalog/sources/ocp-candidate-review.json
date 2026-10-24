@@ -1,0 +1,17 @@
+{
+  "checked_at": "2026-10-24T10:33:24.704972-07:00",
+  "retrieval_method": "Web tool official OCP events list and search",
+  "candidates": [
+    {
+      "name": "Digital Infrastructure World",
+      "url": "https://www.opencompute.org/events/",
+      "dates": "February 3\u20134, 2027",
+      "city": "San Jose",
+      "status": "Organizer page and conference scope require verification; not counted"
+    },
+    {
+      "name": "OCP Global Summit 2027",
+      "status": "Conflicting dates October 4\u20137 vs October 11\u201314 across listings; not counted pending primary edition confirmation"
+    }
+  ]
+}

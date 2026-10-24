@@ -1,0 +1,35 @@
+{
+  "id": "wearedevelopers-na-2027",
+  "name": "WeAreDevelopers World Congress North America 2027",
+  "start_date": "2027-09-28",
+  "end_date": "2027-09-30",
+  "city": "San Jose",
+  "venue": "McEnery Convention Center",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "software engineering",
+    "AI",
+    "developer tools",
+    "cloud"
+  ],
+  "price": {
+    "amount": 249,
+    "currency": "USD",
+    "ticket": "Congress Pass; displayed rate at last check",
+    "standard_amount": 1399
+  },
+  "source_url": "https://www.wearedevelopers.com/world-congress-north-america",
+  "retrieved_at": "2026-10-24T20:03:57.266606+00:00",
+  "retrieval_method": "Web tool official organizer and venue pages",
+  "evidence_file": "sources/wearedevelopers-na-2027.json",
+  "evidence_quotes": [
+    "WeAreDevelopers World Congress North America 2027: 2027-09-28 through 2027-09-30, McEnery Convention Center, San Jose."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_yet_announced",
+  "agenda_note": "Official agenda explicitly labels highlights as 2026 references, not confirmed 2027 programming. Speakers also explicitly from 2026; 2027 lineup pending. No old sessions or speakers imported.",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": "https://www.wearedevelopers.com/world-congress-north-america/tickets",
+  "agenda_url": "https://www.wearedevelopers.com/world-congress-north-america/agenda"
+}

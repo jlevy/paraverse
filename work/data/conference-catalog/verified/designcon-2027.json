@@ -1,0 +1,28 @@
+{
+  "id": "designcon-2027",
+  "name": "DesignCon 2027",
+  "start_date": "2027-02-02",
+  "end_date": "2027-02-04",
+  "city": "Santa Clara",
+  "venue": "Santa Clara Convention Center",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "hardware engineering",
+    "electronic systems",
+    "chip design"
+  ],
+  "price": null,
+  "source_url": "https://www.designcon.com/",
+  "retrieved_at": "2026-10-24T10:03:00.601492-07:00",
+  "retrieval_method": "Web tool, official organizer website",
+  "evidence_file": "sources/designcon-2027.json",
+  "evidence_quotes": [
+    "February 2-4, 2027; Santa Clara Convention Center; Santa Clara, CA"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_found_on_checked_sources",
+  "agenda_note": "Homepage links previous 2026 program, not a verified 2027 session agenda. Prior-year speakers and sessions excluded.",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

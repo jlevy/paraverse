@@ -1,0 +1,17 @@
+{
+  "checked_at": "2026-10-24T20:34:05.753734+00:00",
+  "candidates": [
+    {
+      "name": "DAX 2027",
+      "url": "https://daxconference.com/",
+      "status": "retrieval_failed",
+      "reason": "Web extraction empty; direct HTTP 403. Search snippet suggests May 6, 2027 SF, not promoted without page verification."
+    },
+    {
+      "name": "MSST 2027",
+      "url": "https://msstconference.org/2026/index.html",
+      "status": "location_confirmation_pending",
+      "reason": "Save-the-date confirms week May 17\u201321 2027. Santa Clara University venue text explicitly tied to 2026; 2027 location needs confirmation."
+    }
+  ]
+}

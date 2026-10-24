@@ -1,0 +1,29 @@
+{
+  "id": "aidevsummit-2027",
+  "name": "AI DevSummit",
+  "start_date": "2027-09-08",
+  "end_date": "2027-09-10",
+  "city": "Santa Clara",
+  "venue": null,
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "software engineering",
+    "data engineering"
+  ],
+  "price": null,
+  "source_url": "https://aidevsummit.co/",
+  "retrieved_at": "2026-10-23T23:26:14.059760-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/aidevsummit-2027.json",
+  "evidence_quotes": [
+    "September 8-10, 2027",
+    "Santa Clara, CA"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_found_on_checked_sources",
+  "agenda_note": "Homepage highlights 2026 sessions and speakers: excluded from 2027. Detailed 2027 agenda unverified. Co-located CloudX not counted separately pending registration overlap review.",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

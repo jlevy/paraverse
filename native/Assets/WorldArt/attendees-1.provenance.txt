@@ -1,0 +1,5 @@
+Generated with built-in imagegen, 2026-10-24.
+Reference images: native/Assets/attendee-TechnoTimLive.jpg, native/Assets/attendee-rishabincloud.jpg, native/Assets/attendee-jessehouwing.jpg, native/Assets/attendee-mishrasangeet.jpg
+Style reference: person-0.png
+2x2 atlas; row-major identities: TechnoTimLive, rishabincloud, jessehouwing, mishrasangeet
+Illustrative sprites based on saved X avatars, not exact likenesses.

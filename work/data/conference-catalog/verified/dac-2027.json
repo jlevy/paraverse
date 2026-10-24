@@ -1,0 +1,31 @@
+{
+  "id": "dac-2027",
+  "name": "Design Automation Conference (DAC) 2027",
+  "start_date": "2027-07-11",
+  "end_date": "2027-07-14",
+  "city": "San Jose",
+  "venue": "San Jose Convention Center",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "electronic design",
+    "engineering",
+    "AI",
+    "EDA",
+    "security",
+    "systems"
+  ],
+  "price": null,
+  "source_url": "https://dac.com/2027",
+  "retrieved_at": "2026-10-24T20:49:07.806059+00:00",
+  "retrieval_method": "Web tool official organizer pages",
+  "evidence_file": "sources/dac-2027.json",
+  "evidence_quotes": [
+    "DAC 2027: July 11\u201314, 2027, San Jose Convention Center, San Jose, California."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_found_on_checked_sources",
+  "agenda_note": "Research and engineering submissions are open. No named 2027 sessions, speaker lineup or ticket prices found on checked homepage and Attend DAC page. Committee members are not treated as speakers.",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

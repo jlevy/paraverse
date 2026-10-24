@@ -1,0 +1,5 @@
+Generated with built-in imagegen, 2026-10-24.
+Reference images: native/Assets/attendee-BenMilshtein.jpg, native/Assets/attendee-thisistonydang.jpg, native/Assets/attendee-fkadev.jpg, native/Assets/attendee-scottsauber.jpg
+Style reference: person-0.png
+2x2 atlas; row-major identities: BenMilshtein, thisistonydang, fkadev, scottsauber
+Illustrative sprites based on saved X avatars, not exact likenesses.

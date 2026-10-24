@@ -1,0 +1,21 @@
+{
+  "url": "https://2027.naacl.org/",
+  "retrieved_at": "2026-10-24T09:47:58.007931-07:00",
+  "retrieval_method": "Web tool, official page",
+  "text": "San Francisco, California, United States; June 1 - 5, 2027",
+  "note": "Official program, venue and registration pages each state Coming soon; named agenda not yet published on program overview.",
+  "additional_pages": [
+    {
+      "url": "https://2027.naacl.org/program/",
+      "text": "Coming soon!"
+    },
+    {
+      "url": "https://2027.naacl.org/venue/",
+      "text": "Coming soon!"
+    },
+    {
+      "url": "https://2027.naacl.org/registration/",
+      "text": "Coming soon!"
+    }
+  ]
+}

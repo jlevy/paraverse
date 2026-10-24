@@ -1,0 +1,35 @@
+{
+  "id": "ride-ai-2027",
+  "name": "Ride AI",
+  "start_date": "2027-04-07",
+  "end_date": "2027-04-07",
+  "city": "San Francisco",
+  "venue": "SFJAZZ Center",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "autonomous mobility",
+    "infrastructure"
+  ],
+  "price": {
+    "amount": 899,
+    "currency": "USD",
+    "ticket": "Early bird, if application accepted",
+    "valid_through": "2026-10-31"
+  },
+  "source_url": "https://www.rideai.org/events/ride-ai-2027",
+  "retrieved_at": "2026-10-23T23:26:13.880469-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/ride-ai-2027.json",
+  "evidence_quotes": [
+    "Wednesday, April 7, 2027",
+    "SFJAZZ Center, San Francisco"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_found_on_checked_sources",
+  "agenda_note": "2027 speaker roster explicitly coming in future months. Past speakers excluded. Application acceptance required.",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null,
+  "speakers_status": "not_announced"
+}

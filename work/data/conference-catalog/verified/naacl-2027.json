@@ -1,0 +1,29 @@
+{
+  "id": "naacl-2027",
+  "name": "NAACL 2027",
+  "start_date": "2027-06-01",
+  "end_date": "2027-06-05",
+  "city": "San Francisco",
+  "venue": null,
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "natural language processing",
+    "computational linguistics",
+    "machine learning"
+  ],
+  "price": null,
+  "source_url": "https://2027.naacl.org/",
+  "retrieved_at": "2026-10-24T09:47:58.007931-07:00",
+  "retrieval_method": "Web tool, official page",
+  "evidence_file": "sources/naacl-2027.json",
+  "evidence_quotes": [
+    "San Francisco, California, United States; June 1 - 5, 2027"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_yet_announced",
+  "agenda_note": "Official program, venue and registration pages each state Coming soon; named agenda not yet published on program overview.",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

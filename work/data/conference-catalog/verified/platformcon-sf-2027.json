@@ -1,0 +1,33 @@
+{
+  "id": "platformcon-sf-2027",
+  "name": "PlatformCon San Francisco & AgenticCon",
+  "start_date": "2027-02-24",
+  "end_date": "2027-02-25",
+  "city": "San Francisco",
+  "venue": null,
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "platform engineering",
+    "AI",
+    "security",
+    "infrastructure",
+    "developer productivity"
+  ],
+  "price": null,
+  "source_url": "https://sanfrancisco.platformcon.com/",
+  "retrieved_at": "2026-10-23T22:57:02.854366-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/platformcon-sf-2027.json",
+  "evidence_quotes": [
+    "24-25 February 2027",
+    "PlatformCon San Francisco focus areas",
+    "One registration covers both days"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "sessions_without_times",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null,
+  "agenda_note": "Combined two-day ticket counted as one conference. Static page duplicates tabbed schedule, so session dates are not assigned until day tabs can be verified. Source retains all visible titles/times. Venue and prices not found on retrieved source.",
+  "agenda_raw_excerpt": "9:00 AM Opening keynote: Thinking in Platforms Unassigned The Agentic Development Platform: How to design golden paths for your agents Main Stage 9:30 AM Building a secure sandbox for running untrusted agent-written code Workshop Room 1 Standing up a real-time cost-attribution pipeline for multi-team cloud spend Workshop Room 2 Agent sprawl and shadow AI - who's cleaning it up? Roundtables 10:00 AM What broke when we let coding agents merge to main unsupervised for six months (AI-native scale-up case study) Main Stage 10:30 AM Break 30 min 11:00 AM The metrics that actually predict attrition (Developer experience case study) Main Stage Chaos engineering for distributed systems: what actually happens when you kill the wrong pod Workshop Room 1 Designing multi-cluster failover for your highest-uptime workloads Workshop Room 2 Tokenomics and platform engineering: next gen FinOps in the agentic era Roundtables 11:30 AM How we cut token costs by 60% without a single team feeling the pain (FinOps case study) Main Stage 12:00 PM Lunch 30 min 1:30 PM Rethinking access control in a world of shadow AI (Security case study) Main Stage Designing a credential broker that agents can't social-engineer Workshop Room 1 Writing policy-as-code that governs multi-step agent actions, not just single API calls Workshop Room 2 Build vs buy for 2027: platform tooling and agent infrastructure Roundtables 2:00 PM Security panel: The SolarWinds moment of agentic AI Main Stage 2:30 PM Break 30 min 3:00 PM The org design nobody tells you about when platform adoption scales past a hundred teams (Platform-as-product case study) Main Stage Building distributed tracing that actually survives a postmortem Workshop Room 1 Building an audit trail that survives financial compliance Workshop Room 2 What does platform maturity even mean when every team measures it differently? Roundtables 3:30 PM Retiring our service mesh: what we replaced it with and why Main Stage 4:00 PM Closing panel: The future of platform engineering and what to build next Unassigned 4:30 PM Booth crawl and drinks 30 min "
+}

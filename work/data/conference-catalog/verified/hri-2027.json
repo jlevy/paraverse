@@ -1,0 +1,30 @@
+{
+  "id": "hri-2027",
+  "name": "ACM/IEEE Human-Robot Interaction",
+  "start_date": "2027-03-08",
+  "end_date": "2027-03-12",
+  "city": "Santa Clara",
+  "venue": null,
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "robotics",
+    "human-computer interaction",
+    "design"
+  ],
+  "price": null,
+  "source_url": "https://humanrobotinteraction.org/2027/",
+  "retrieved_at": "2026-10-23T23:26:14.387610-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/hri-2027.json",
+  "evidence_quotes": [
+    "March 8\u201312, 2027",
+    "Santa Clara, CA, USA"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_found_on_checked_sources",
+  "agenda_note": "Submission deadlines published. No named sessions on checked homepage; attending/program pages not yet checked.",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

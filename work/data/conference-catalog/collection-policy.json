@@ -1,0 +1,56 @@
+{
+  "target_count": 100,
+  "window_start": "2026-10-23",
+  "window_end": "2027-10-23",
+  "geography": [
+    "San Francisco",
+    "Silicon Valley"
+  ],
+  "topics": [
+    "software engineering",
+    "data",
+    "AI",
+    "design"
+  ],
+  "verification_requirements": [
+    "organizer source",
+    "confirmed edition date in window",
+    "in-scope location",
+    "relevant conference program"
+  ],
+  "exclude": [
+    "individual sessions counted as conferences",
+    "side events counted as conferences",
+    "unconfirmed recurring editions"
+  ],
+  "collection_fields": [
+    "dates",
+    "timezone",
+    "venue",
+    "registration_url",
+    "price",
+    "image_url",
+    "topics",
+    "speakers",
+    "sessions",
+    "tracks",
+    "session_start_end",
+    "source_urls",
+    "checked_at"
+  ],
+  "agenda_states": [
+    "not_checked",
+    "not_found_on_checked_sources",
+    "speakers_only",
+    "sessions_without_times",
+    "scheduled",
+    "retrieval_failed"
+  ],
+  "proposed_refresh_days": {
+    "over_90_days_away": 7,
+    "within_90_days": 3,
+    "within_30_days": 1
+  },
+  "scheduler_implemented": false,
+  "note": "Store successful snapshots and content hashes; failures must not erase previously collected data. No historical speaker or session list may be attributed to a new edition."
+}

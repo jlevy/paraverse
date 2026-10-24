@@ -1,0 +1,57 @@
+{
+  "id": "stripe-sessions-2027",
+  "name": "Stripe Sessions 2027",
+  "start_date": "2027-05-04",
+  "end_date": "2027-05-06",
+  "city": "San Francisco",
+  "venue": "Moscone North & South",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "agents",
+    "developer tools",
+    "APIs",
+    "payments",
+    "product design"
+  ],
+  "price": {
+    "amount": 599,
+    "currency": "USD",
+    "ticket": "Early-bird admission",
+    "valid_through": "2027-01-27",
+    "standard_amount": 999
+  },
+  "source_url": "https://stripesessions.com/",
+  "retrieved_at": "2026-10-24T10:33:24.704972-07:00",
+  "retrieval_method": "Web tool, official edition homepage",
+  "evidence_file": "sources/stripe-sessions-2027.json",
+  "evidence_quotes": [
+    "May 4\u20136, 2027; Moscone North & South, San Francisco"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "overview_only",
+  "agenda_note": "Day-level blocks saved separately; no named 2027 speakers or detailed session times published on homepage. Past highlights excluded.",
+  "agenda_overview": {
+    "2027-05-04": [
+      "Partner Summit (Stripe partners only)",
+      "Opening keynote",
+      "Fireside chat",
+      "Welcome reception"
+    ],
+    "2027-05-05": [
+      "Product keynote",
+      "Breakout sessions",
+      "Developer keynote",
+      "Fireside chat",
+      "Sessions celebration"
+    ],
+    "2027-05-06": [
+      "Keynote",
+      "Breakout sessions",
+      "Fireside chat"
+    ]
+  },
+  "sessions": [],
+  "speakers": [],
+  "registration_url": "https://register.stripesessions.com/"
+}

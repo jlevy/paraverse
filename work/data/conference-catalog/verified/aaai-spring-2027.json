@@ -1,0 +1,28 @@
+{
+  "id": "aaai-spring-2027",
+  "name": "AAAI Spring Symposium Series",
+  "start_date": "2027-03-22",
+  "end_date": "2027-03-24",
+  "city": "Santa Clara",
+  "venue": "Santa Clara University",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "research"
+  ],
+  "price": null,
+  "source_url": "https://aaai.org/conference/spring-symposia/aaai-2027-spring-symposium-series/",
+  "retrieved_at": "2026-10-23T23:26:13.910647-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/aaai-spring-2027.json",
+  "evidence_quotes": [
+    "March 22 \u2013 March 24, 2027",
+    "Santa Clara University | Santa Clara, CA, USA"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_found_on_checked_sources",
+  "agenda_note": "General session blocks published; individual symposium titles and speaker programs need checking. Parallel symposia counted once.",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

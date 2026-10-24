@@ -1,0 +1,38 @@
+{
+  "id": "ai-big-data-na-2027",
+  "name": "AI & Big Data Expo North America 2027 (TechEx)",
+  "start_date": "2027-06-16",
+  "end_date": "2027-06-17",
+  "city": "San Jose",
+  "venue": "San Jose McEnery Convention Center",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "data",
+    "analytics",
+    "software engineering",
+    "automation"
+  ],
+  "price": null,
+  "source_url": "https://www.ai-expo.net/northamerica/",
+  "retrieved_at": "2026-10-24T11:33:48.860929-07:00",
+  "retrieval_method": "Web tool official homepage",
+  "evidence_file": "sources/ai-big-data-na-2027.json",
+  "evidence_quotes": [
+    "AI & Big Data Expo North America; June 16-17, 2027; San Jose McEnery Convention Center, CA"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "linked_agenda_pending_verification",
+  "agenda_note": "2027 tracks linked; detailed session extraction pending. Headliners not imported because speaker link is labeled 2026. Shared TechEx co-located events not counted as separate conferences.",
+  "tracks": [
+    "AI Leadership",
+    "Enterprise AI",
+    "AI Builders",
+    "Data & Analytics",
+    "Future AI",
+    "AI Developer"
+  ],
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

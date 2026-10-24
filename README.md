@@ -55,3 +55,9 @@ Work is tracked with [tbd](https://github.com/jlevy/tbd), and records are valida
 <!-- This document follows common-doc-guidelines.md.
 See github.com/jlevy/practical-prose and review guidelines before editing.
 -->
+
+## macOS conference demo
+
+The `native/` SwiftUI app and `backend/` local service provide the Paraverse demo.
+See [native/README.md](native/README.md) for build, configuration, and test steps.
+They sit alongside the PR #10 database and its vendor datasets.

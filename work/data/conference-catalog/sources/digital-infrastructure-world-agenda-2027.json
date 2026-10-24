@@ -1,0 +1,157 @@
+{
+  "url": "https://difusionforum.com/education/agenda/",
+  "retrieved_at": "2026-10-24T11:03:52.460399-07:00",
+  "retrieval_method": "Web tool official agenda",
+  "extracted_sessions": [
+    {
+      "date": "2027-02-03",
+      "start_time": "11:10",
+      "end_time": "11:40",
+      "track": "Cluster",
+      "title": "OCP Cluster - Track Keynote",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-03",
+      "start_time": "11:45",
+      "end_time": "12:05",
+      "track": "Cluster",
+      "title": "Open Networking Software",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-03",
+      "start_time": "12:10",
+      "end_time": "12:30",
+      "track": "Cluster",
+      "title": "AI Inference Clusters",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-03",
+      "start_time": "13:50",
+      "end_time": "14:10",
+      "track": "Cluster",
+      "title": "Neocloud AI Cluster Designs",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-03",
+      "start_time": "14:15",
+      "end_time": "14:35",
+      "track": "Cluster",
+      "title": "Scale-Across Between Data Centers",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-03",
+      "start_time": "14:40",
+      "end_time": "15:00",
+      "track": "Cluster",
+      "title": "AI Training Clusters",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-03",
+      "start_time": "15:40",
+      "end_time": "16:00",
+      "track": "Cluster",
+      "title": "Scale-Out Fabrics for AI Clusters",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-03",
+      "start_time": "16:05",
+      "end_time": "16:40",
+      "track": "Cluster",
+      "title": "Architecting 1M GPU Clusters",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-04",
+      "start_time": "08:30",
+      "end_time": "08:50",
+      "track": "Mainstage",
+      "title": "IT and Data Centers, Designed as One",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-04",
+      "start_time": "08:50",
+      "end_time": "09:25",
+      "track": "Mainstage",
+      "title": "Panel: The Neocloud Giants of AI",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-04",
+      "start_time": "09:25",
+      "end_time": "09:45",
+      "track": "Mainstage",
+      "title": "Fireside Chat: Frontier Factories for AI Training",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-04",
+      "start_time": "09:45",
+      "end_time": "10:15",
+      "track": "Mainstage",
+      "title": "Panel: 3P Data Centers, At the Speed of AI",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    }
+  ],
+  "coverage": "Partial; Cluster day one and mainstage day two morning only",
+  "speaker_source_url": "https://difusionforum.com/",
+  "announced_speaker_names": [
+    "Kyle Chien",
+    "Arun Anbumani",
+    "Ella Zhou",
+    "Ian Wright",
+    "Jack Backes",
+    "Dudy Cohen",
+    "Vishal Singh",
+    "Moshe Tanach",
+    "Saloni Garg",
+    "Satarupa Bal",
+    "John Lyntton",
+    "Brian Deckard",
+    "Harshada Jadhao",
+    "Scott Willis",
+    "Astrid Atkinson",
+    "Andrejka Bernatova",
+    "Nicole Dierksheide",
+    "Shahar Noy",
+    "Jigar Savla",
+    "Kiran Thakkar",
+    "Paul Quigley",
+    "Jake Ring",
+    "Daniel Medina",
+    "Jeffery Potvin",
+    "Shripad Chandrachood",
+    "Tom Moyer"
+  ]
+}

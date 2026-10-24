@@ -1,0 +1,29 @@
+{
+  "id": "gtc-2027",
+  "name": "NVIDIA GTC",
+  "start_date": "2027-03-14",
+  "end_date": "2027-03-18",
+  "city": "San Jose",
+  "venue": "San Jose McEnery Convention Center",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "accelerated computing",
+    "engineering"
+  ],
+  "price": null,
+  "source_url": "https://www.nvidia.com/gtc/faq/",
+  "retrieved_at": "2026-10-23T19:09:21.713384-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/gtc-2027.json",
+  "evidence_quotes": [
+    "March 14\u201318, 2027",
+    "San Jose McEnery Convention Center"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_checked",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null,
+  "agenda_note": "FAQ includes March 14; navigation advertises March 15\u201318. Preserve this distinction pending detailed schedule."
+}

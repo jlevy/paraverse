@@ -1,0 +1,30 @@
+{
+  "id": "svcc-2027",
+  "name": "Silicon Valley Cybersecurity Conference 2027",
+  "start_date": "2027-06-21",
+  "end_date": "2027-06-23",
+  "city": "San Jose",
+  "venue": "Northeastern University, Silicon Valley Campus",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "security",
+    "privacy",
+    "cloud",
+    "software engineering",
+    "data protection"
+  ],
+  "price": null,
+  "source_url": "https://www.svcc-svcsi.org/",
+  "retrieved_at": "2026-10-24T11:18:24.483200-07:00",
+  "retrieval_method": "Web tool official organizer homepage",
+  "evidence_file": "sources/svcc-2027.json",
+  "evidence_quotes": [
+    "June 21-23, 2027; Northeastern University, Silicon Valley Campus; San Jose, California, USA. Registration opens in 2027."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_found_on_checked_sources",
+  "agenda_note": "Submission calls are published. No named 2027 sessions or speaker roster found on checked homepage; promotional counts are not actual collected records.",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}
