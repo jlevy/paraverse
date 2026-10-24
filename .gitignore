@@ -208,6 +208,9 @@ tempCodeRunnerFile.py
 # Ruff stuff:
 .ruff_cache/
 
+# Qodo: local review context that coding agents write for `qodo review`
+.qodo/session-context.json
+
 # PyPI configuration file
 .pypirc
 

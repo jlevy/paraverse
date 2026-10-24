@@ -1,0 +1,35 @@
+# Qodo pull-request review settings for this repository.
+#
+# Qodo reads this file from the root of the default branch, so changes apply to pull
+# requests opened after they merge. For the keys it sets, it takes precedence over the
+# Qodo portal; everything else comes from the portal (Configurations).
+# Use only keys from the configuration reference:
+# https://docs.qodo.ai/configuration/configuration-and-command-reference
+
+[github_app]
+# Coding agents open most pull requests here. Qodo skips PRs it identifies as opened by
+# bots or AI agents unless this is false.
+ignore_bot_pr = false
+
+[review_agent]
+# Extra instructions for the Compliance agent, which checks rules on every review.
+compliance_user_guidelines = '''
+This repository is public: anything committed can be copied and indexed, and it stays in
+git history. docs/data-policy.md sets what may be committed. Flag as action required:
+
+1. A pull request that adds or changes knowledge-base data, source caches, curation
+   files, generated bios or summaries, test fixtures, or examples in docs, but whose
+   description lacks the Review Checklist from docs/data-policy.md.
+2. Contact details in committed content: email addresses, phone numbers, or postal
+   addresses, even when the person published them.
+3. Sensitive personal attributes, stated or inferred: health, religion, political
+   views, sexual orientation, ethnicity, family and relationships, immigration status,
+   finances, birth date or age, or any location finer than a city or metro area.
+4. Data from non-public sources (behind a login, paywall, or other access control), or
+   data about other people carried inside a scraped profile.
+5. Credentials or machine details: API keys, tokens, cookies, browser session state,
+   absolute local paths, host names, or local account names.
+6. A Python project whose pyproject.toml dependencies change without the matching
+   uv.lock update in the same directory. Each Python project is managed with uv in its
+   own directory.
+'''
