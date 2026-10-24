@@ -86,8 +86,8 @@ async function render({ live = false, replaced = false } = {}) {
   const returning = !live && !replaced && Boolean(history.state?.kbEntry);
   hideCard();
   hideTooltip();
-  if (current?.update && current.key === route.key) {
-    // Same view, new parameters (or a live reload): refresh the data in place, so the
+  if (!live && current?.update && current.key === route.key) {
+    // Same view, new parameters: refresh the data in place, so the
     // filter keeps focus and open menus stay open, e.g. the column picker.
     if (!live && !replaced) remember();
     const focus = focusKey();

@@ -11,7 +11,9 @@ import json
 import socket
 import threading
 import time
+from datetime import UTC, datetime
 from importlib.resources import files
+from pathlib import Path
 from typing import Any
 from urllib.parse import quote
 
@@ -20,14 +22,50 @@ import uvicorn
 from starlette.testclient import TestClient
 
 from paraverse_graph.browser import COMPUTED_COLUMNS, MAX_LIMIT, create_app, redis_subscriber
-from paraverse_graph.kb import DEFAULT_DATASET
-from paraverse_graph.loader import events_channel
+from paraverse_graph.connection import open_db
+from paraverse_graph.kb import DEFAULT_DATASET, load_kb
+from paraverse_graph.loader import events_channel, load_graph
 from paraverse_graph.mapping import LABELS
 from paraverse_graph.review import CHECKS
 from tests.kb_graph import GRAPH, loaded
 
 # Starlette's TestClient sends `Host: testserver`, which production does not allow.
 TEST_HOSTS = frozenset({"testserver"})
+
+
+def test_schema_reload_without_pubsub_in_the_same_second(tmp_path: Path, monkeypatch: Any):
+    class FixedClock:
+        @staticmethod
+        def now(_tz: Any) -> datetime:
+            return datetime(2026, 1, 1, tzinfo=UTC)
+
+    monkeypatch.setattr("paraverse_graph.loader.datetime", FixedClock)
+    kb = tmp_path / "kb"
+    for directory in ("_graph", "_schemas", "people"):
+        (kb / directory).mkdir(parents=True)
+    node = {"id": "person:test", "kind": "person", "name": "Test", "path": "people/test.md"}
+    (kb / "_graph/nodes.jsonl").write_text(json.dumps(node) + "\n")
+    (kb / "_graph/edges.jsonl").write_text("")
+    (kb / "_graph/stats.json").write_text('{"nodes": {"person": 1}, "edges": {}}')
+    (kb / "people/test.md").write_text(
+        "---\nsoftschema:\n  envelope: person\n  contract: test:Person/v1\n"
+        "person:\n  id: person:test\n  name: Test\n---\n"
+    )
+    schema = {"title": "Version 1", "type": "object", "properties": {"name": {"type": "string"}}}
+    schema_path = kb / "_schemas/person.schema.yaml"
+    schema_path.write_text(json.dumps(schema))
+    db = open_db(tmp_path / "reload.rdb")
+    graph = db.select_graph("reload")
+    try:
+        load_graph(db, load_kb(kb), "reload")
+        client = TestClient(create_app(graph, extra_hosts=TEST_HOSTS))
+        assert _get(client, "/api/schema/person")["title"] == "Version 1"
+        schema["title"] = "Version 2"
+        schema_path.write_text(json.dumps(schema))
+        load_graph(db, load_kb(kb), "reload")
+        assert _get(client, "/api/schema/person")["title"] == "Version 2"
+    finally:
+        graph.delete()
 
 
 def _client(**kwargs: Any) -> TestClient:
