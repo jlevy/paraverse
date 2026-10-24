@@ -109,3 +109,25 @@ def test_load_validate_refuses_a_broken_kb(
     assert main(args) == 1
     assert "failed validation" in " ".join(capsys.readouterr().err.split())
     assert not graph_exists(open_db(db_file), graph_name(name))
+
+
+_MALFORMED = {
+    "bad-flow.md": "---\nsoftschema: {contract: x\n---\n",
+    "tab-indent.md": "---\nsoftschema:\n\tcontract: x\n---\n",
+    "unclosed.md": "---\nsoftschema:\n  contract: x\n",
+    "list-frontmatter.md": "---\n- a\n- b\n---\n",
+    "bad-quote.yaml": 'softschema:\n  contract: "x\n',
+    "list-root.yaml": "- a\n- b\n",
+    "scalar-root.yaml": "just a string\n",
+}
+
+
+@pytest.mark.parametrize(("name", "text"), _MALFORMED.items(), ids=list(_MALFORMED))
+def test_a_malformed_document_is_reported_not_raised(name: str, text: str, tmp_path: Path):
+    """Bad YAML, or YAML that is not a mapping, is one more failed artifact."""
+    (tmp_path / "kb" / "sessions").mkdir(parents=True)
+    (tmp_path / "kb" / "sessions" / name).write_text(text)
+    report = validate_artifacts(tmp_path / "kb")
+    assert report.checked == 1 and not report.ok
+    [problem] = report.problems
+    assert problem.path == f"sessions/{name}" and problem.errors
