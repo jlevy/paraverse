@@ -96,7 +96,7 @@ class KnowledgeBase:
 
     def check_unchanged(self) -> None:
         """Reject a build replaced or edited since its graph/artifact reads began."""
-        if self.snapshot is not None and _build_snapshot(self.root) != self.snapshot:
+        if self.snapshot is not None and build_snapshot(self.root) != self.snapshot:
             raise KbError("KB changed while reading; retry after the build finishes")
 
     def payload_for(self, node: KbNode) -> dict[str, Any]:
@@ -117,29 +117,40 @@ class KnowledgeBase:
         return payload
 
 
-def read_artifact(path: Path, rel_path: str, *, envelope_hint: str | None = None) -> Artifact:
-    """
-    Read a frontmatter-md or pure-yaml artifact and return its envelope payload.
-    `envelope_hint` comes from the graph kind and identifies an unwrapped YAML root.
-    """
+def referenced_artifact_paths(root: Path) -> set[str]:
+    """Every artifact path the graph export will load, regardless of its extension."""
+    nodes = root / "_graph" / "nodes.jsonl"
+    if not nodes.is_file():
+        return set()
+    return {row["path"] for row in _parse_jsonl(nodes.read_bytes(), nodes, ("id", "kind", "path"))}
+
+
+def read_artifact_document(path: Path, rel_path: str) -> tuple[dict[str, Any], bool]:
+    """Read portable YAML and report whether the document has Markdown frontmatter."""
     try:
         text = path.read_text(encoding="utf-8")
-        pure_yaml = path.suffix in (".yaml", ".yml")
-        match = None if pure_yaml else _FRONTMATTER.match(text)
-        if not pure_yaml and text.startswith("---\n") and match is None:
-            raise KbError(f"{rel_path}: unterminated frontmatter")
+        match = _FRONTMATTER.match(text)
         data = yaml.load(match.group(1) if match else text, Loader=_PortableScalarLoader)
     except (UnicodeDecodeError, yaml.YAMLError) as e:
         raise KbError(f"{rel_path}: cannot parse: {e}") from e
     if not isinstance(data, dict):
         raise KbError(f"{rel_path}: not a YAML mapping")
+    return data, match is not None
+
+
+def read_artifact(path: Path, rel_path: str, *, envelope_hint: str | None = None) -> Artifact:
+    """
+    Read a frontmatter-md or pure-yaml artifact and return its envelope payload.
+    `envelope_hint` comes from the graph kind and identifies an unwrapped YAML root.
+    """
+    data, frontmatter = read_artifact_document(path, rel_path)
     block = data.get("softschema")
     if not isinstance(block, dict):
         raise KbError(f"{rel_path}: missing softschema block")
     if "envelope" in block:
         envelope = block["envelope"]
         payload = data.get(envelope) if isinstance(envelope, str) else None
-    elif match is not None:
+    elif frontmatter:
         candidates = [key for key in data if key != "softschema"]
         if len(candidates) != 1:
             raise KbError(f"{rel_path}: ambiguous frontmatter envelope")
@@ -156,9 +167,10 @@ def read_artifact(path: Path, rel_path: str, *, envelope_hint: str | None = None
         raise KbError(f"{rel_path}: envelope `{envelope}` is incompatible with `{envelope_hint}`")
     if not isinstance(payload, dict):
         raise KbError(f"{rel_path}: envelope `{envelope}` is not a mapping")
-    return Artifact(
-        path=rel_path, contract=str(block.get("contract", "")), envelope=envelope, payload=payload
-    )
+    # Only a nonempty string names a contract; str() would turn null into "None".
+    contract = block.get("contract")
+    contract = contract.strip() if isinstance(contract, str) else ""
+    return Artifact(path=rel_path, contract=contract, envelope=envelope, payload=payload)
 
 
 def load_kb(root: Path) -> KnowledgeBase:
@@ -170,7 +182,7 @@ def load_kb(root: Path) -> KnowledgeBase:
         if not (graph_dir / name).is_file():
             raise KbError(f"{graph_dir / name} not found; the KB graph export is incomplete")
 
-    snapshot = _build_snapshot(root)
+    snapshot = build_snapshot(root)
 
     sha = hashlib.sha256()
     node_bytes = (graph_dir / "nodes.jsonl").read_bytes()
@@ -210,6 +222,7 @@ def load_kb(root: Path) -> KnowledgeBase:
         if not path.is_file():
             raise KbError(f"{rel_path}: referenced by the graph export but missing")
         artifacts[rel_path] = read_artifact(path, rel_path, envelope_hint=next(iter(envelopes)))
+    _check_envelopes(nodes, artifacts)
 
     kb = KnowledgeBase(
         root=root,
@@ -226,7 +239,7 @@ def load_kb(root: Path) -> KnowledgeBase:
     return kb
 
 
-def _build_snapshot(root: Path) -> dict[str, tuple[int, ...]]:
+def build_snapshot(root: Path) -> dict[str, tuple[int, ...]]:
     """
     Track the root, build marker, exports, artifacts and compiled schemas. Comparing
     metadata detects edits and directory swaps during a read. The producer must
@@ -236,11 +249,7 @@ def _build_snapshot(root: Path) -> dict[str, tuple[int, ...]]:
     try:
         paths = [
             root,
-            *(
-                p
-                for p in root.rglob("*")
-                if p.suffix in (".md", ".yaml", ".json", ".jsonl") and p.is_file()
-            ),
+            *(p for p in root.rglob("*") if p.is_file()),
         ]
         result: dict[str, tuple[int, ...]] = {}
         for path in paths:
@@ -255,6 +264,28 @@ def _build_snapshot(root: Path) -> dict[str, tuple[int, ...]]:
         return result
     except OSError as e:
         raise KbError(f"KB changed while reading; cannot inspect {e.filename}") from e
+
+
+def _check_envelopes(nodes: list[KbNode], artifacts: dict[str, Artifact]) -> None:
+    """
+    Each node's artifact must declare the envelope of the node's kind (a day lives in
+    an event, a term in a facet) and a contract. A mismatch means the graph export
+    points at the wrong file, which would otherwise load silently with the wrong data.
+    """
+    problems = []
+    for node in nodes:
+        artifact = artifacts[node.path]
+        expected = _PARENT_ENVELOPE.get(node.kind, node.kind)
+        if artifact.envelope != expected:
+            problems.append(
+                f"{node.id}: {node.path} has envelope `{artifact.envelope}`, expected `{expected}`"
+            )
+        elif not artifact.contract:
+            problems.append(f"{node.id}: {node.path} names no softschema contract")
+    if problems:
+        raise KbError(
+            f"{len(problems)} nodes point at the wrong artifact: " + "; ".join(problems[:5])
+        )
 
 
 def find_kb_root(start: Path | None = None, dataset: str = DEFAULT_DATASET) -> Path | None:
@@ -366,3 +397,20 @@ def test_nested_payload_lookup():
     term = KbNode(id="term:level/100", kind="term", name="100", path="taxonomy/level.yaml")
     assert kb.payload_for(facet) == kb.artifacts["taxonomy/level.yaml"].payload
     assert kb.payload_for(term) == {"id": "term:level/100", "label": "100"}
+
+
+def test_envelope_must_match_the_node_kind():
+    session = Artifact(path="s.md", contract="x:Session/v1", envelope="session", payload={})
+    event = Artifact(path="e.md", contract="x:Event/v1", envelope="event", payload={})
+    ok = [
+        KbNode(id="session:a", kind="session", name="A", path="s.md"),
+        KbNode(id="day:2026-10-28", kind="day", name="Day 1", path="e.md"),
+    ]
+    _check_envelopes(ok, {"s.md": session, "e.md": event})
+    wrong = [KbNode(id="person:a", kind="person", name="A", path="s.md")]
+    try:
+        _check_envelopes(wrong, {"s.md": session})
+    except KbError as e:
+        assert "expected `person`" in str(e)
+    else:
+        raise AssertionError("a person node pointing at a session artifact should fail")

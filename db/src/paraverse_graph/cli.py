@@ -97,6 +97,12 @@ def _parser() -> argparse.ArgumentParser:
         formatter_class=RichHelpFormatter,
         help="Rebuild the graph from the knowledge base.",
     )
+    load.add_argument(
+        "--validate",
+        action="store_true",
+        help="Validate every artifact with softschema first and load nothing if any fails "
+        "(adds about 40 s on the full KB).",
+    )
     load.set_defaults(handler=_load)
 
     datasets = commands.add_parser(
@@ -175,9 +181,26 @@ def _open_graph(
     return db, db.select_graph(graph_name)
 
 
+def _validate_kb(dataset: Dataset, kb_root: Path) -> None:
+    from paraverse_graph.validation import validate_artifacts
+
+    err.print(f"Validating dataset `{dataset.name}` at {kb_root} with softschema …")
+    report = validate_artifacts(kb_root)
+    if not report.ok:
+        details = "; ".join(f"{p.path}: {', '.join(p.errors[:2])}" for p in report.problems[:5])
+        raise CLIError(
+            f"{len(report.problems)} of {report.checked:,} artifacts failed validation; "
+            f"nothing was loaded. {details}"
+        )
+    contracts = ", ".join(f"{c.split(':')[-1]} {n:,}" for c, n in sorted(report.contracts.items()))
+    err.print(f"All {report.checked:,} artifacts are valid ({contracts}).")
+
+
 def _load(args: argparse.Namespace) -> int:
     dataset, graph_name = _target(args)
     kb_root = dataset.require_kb()
+    if args.validate:
+        _validate_kb(dataset, kb_root)
     err.print(f"Reading dataset `{dataset.name}` from {kb_root} …")
     kb = load_kb(kb_root)
     db, _ = _open_graph(args, graph_name, must_exist=False)
