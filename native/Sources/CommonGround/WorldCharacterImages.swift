@@ -1,7 +1,7 @@
 import AppKit
 
 extension WorldCharacter {
-    // Slice the generated 2×2 atlases once, rather than decoding them while scrolling.
+    // Slice the generated sprite atlases once, rather than decoding them while scrolling.
     @MainActor private static let portraits: [String: NSImage] = {
         var result: [String: NSImage] = [:]
         var sheets: [String: NSBitmapImageRep] = [:]
@@ -12,6 +12,7 @@ extension WorldCharacter {
                     sheets[character.sprite] = NSBitmapImageRep(data: data)
                 }
                 guard let sheet = sheets[character.sprite]?.cgImage else { continue }
+                guard cell >= 0, cell < 4 else { continue }
                 let width = sheet.width / 2, height = sheet.height / 2
                 let rect = CGRect(x: (cell % 2) * width, y: (cell / 2) * height, width: width, height: height)
                 guard let cellImage = sheet.cropping(to: rect) else { continue }

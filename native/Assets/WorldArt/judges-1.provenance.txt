@@ -1,0 +1,10 @@
+Generated with built-in imagegen, 2026-10-24.
+Style reference: attendees-0.png.
+2x2 transparent atlas, row-major identities: satyam-singh, yash-bhatia, vivek-gopal-ramaswamy, neutral robot placeholder.
+Illustrative pixel sprites based on public LinkedIn profile photos; not exact likenesses.
+Roster source: https://www.wemakedevs.org/hackathons/ptc/judges
+Photo references recorded in vendor/ptc2026-md public account dataset:
+https://www.linkedin.com/in/satyamsingh2003/
+https://www.linkedin.com/in/yyash-bhatia/
+https://www.linkedin.com/in/vivekgr/
+The neutral robot is used for Pooja Ravi, Dipen Chawla, and Husan Mavlonov because usable photo references were unavailable. Their profiles explicitly label it a placeholder.

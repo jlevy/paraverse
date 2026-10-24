@@ -17,7 +17,10 @@ struct WorldSpeaker: Codable, Identifiable {
     let sessions: [Session]
     var attendee: Bool?
     var avatarAsset: String?
+    var avatarNote: String?
+    var isJudge: Bool { id.hasPrefix("ptc-judge:") }
     static let all: [WorldSpeaker] = (try? JSONDecoder().decode([WorldSpeaker].self, from: Data(contentsOf: worldAsset("world-speakers.json")))) ?? []
+    static let judges: [WorldSpeaker] = (try? JSONDecoder().decode([WorldSpeaker].self, from: Data(contentsOf: worldAsset("ptc-judges.json")))) ?? []
     static let directoryPeople: [WorldSpeaker] = {
         let known = (try? PublicAttendee.load()) ?? []
         let speakers = all
@@ -29,7 +32,7 @@ struct WorldSpeaker: Codable, Identifiable {
         }.map { person in
             WorldSpeaker(id:"attendee:" + person.id,name:person.name,role:person.role ?? "Attendee",company:"",biography:person.about ?? person.evidence,sourceURL:person.source_url,photo:nil,linkedinURL:person.linkedin_url,xURL:person.profile_url,githubURL:person.github_url,sessions:[],attendee:true,avatarAsset:person.avatar_asset)
         }
-        return (speakers + extras).sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+        return (speakers + extras + judges).sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
     }()
 
 }
@@ -171,7 +174,7 @@ struct UniverseWorld: View {
                 HStack { Text("ATTENDEES").font(.system(size:20,weight:.bold,design:.monospaced)); Spacer(); Button("CLOSE") { directory = false }.buttonStyle(WorldButtonStyle()) }
                 HStack(spacing: 10) {
                     PixelSearchIcon().fill(Brand.welcomeSubtitle).frame(width: 16, height: 16).accessibilityHidden(true)
-                    TextField("Search speakers and attendees", text: $search).textFieldStyle(.plain)
+                    TextField("Search speakers, attendees, and judges", text: $search).textFieldStyle(.plain)
                 }
                 .padding(12)
                 .background(PixelPanel().fill(.black.opacity(0.18)))
@@ -231,7 +234,7 @@ struct UniverseWorld: View {
             .accessibilityLabel(ambientPaused ? "Resume activity":"Pause activity")
     }
     private func directorySubtitle(_ person: WorldSpeaker) -> String {
-        let category = person.attendee == true ? "Attendee" : "Speaker"
+        let category = person.isJudge ? "Judge" : (person.attendee == true ? "Attendee" : "Speaker")
         return [category, person.company, person.role]
             .filter { !$0.isEmpty }
             .reduce(into: [String]()) { result, item in
@@ -250,11 +253,14 @@ struct UniverseWorld: View {
                 VStack(alignment:.leading,spacing:6) { Text((WorldCharacter.all.first { $0.personID == person.id }?.roles ?? [person.attendee == true ? "attendee" : "speaker"]).joined(separator: " · ").uppercased()).font(.caption).foregroundStyle(.secondary); Text(person.name).font(.system(size:23,weight:.bold,design:.monospaced)); Text(person.role); Text(person.company).foregroundStyle(.secondary) }
                 Spacer(); Button { selected = nil } label: { Image(systemName: "xmark") }.buttonStyle(PlannerQuietButtonStyle()).accessibilityLabel(assistantOpen ? "Back to recommendations" : "Close profile")
             }
+            if !person.isJudge {
             Button(person.attendee == true ? "ASK ABOUT THIS PERSON" : "PLAN AROUND THIS SPEAKER") {
                 planner.prompt = person.attendee == true ? "What do I have in common with " + person.name + "?" : "Help me plan my day around sessions by " + person.name + "."
                 selected=nil;planTab=false;assistantOpen=true
             }.buttonStyle(WorldButtonStyle(teal:true))
+            }
             ScrollView { VStack(alignment:.leading,spacing:18) {
+                if let note = person.avatarNote { Text(note).font(.caption).foregroundStyle(.secondary) }
                 WorldSocialLinks(linkedin:person.linkedinURL,x:person.xURL,github:person.githubURL)
                 if !person.biography.isEmpty { Text(person.biography).textSelection(.enabled) }
                 if !person.sessions.isEmpty { Text("SESSIONS AT UNIVERSE").font(.system(size:13,weight:.bold,design:.monospaced)) }
@@ -264,7 +270,7 @@ struct UniverseWorld: View {
                         Text([session.date,session.start,session.room].filter{ !$0.isEmpty }.joined(separator:" · ")).font(.caption).foregroundStyle(.secondary)
                     }
                 }
-                if let url = URL(string:person.sourceURL) { Link(person.attendee == true ? "Public attendance post ↗" : "Official speaker profile ↗",destination:url) }
+                if let url = URL(string:person.sourceURL) { Link(person.isJudge ? "Official judging panel ↗" : (person.attendee == true ? "Public attendance post ↗" : "Official speaker profile ↗"),destination:url) }
                 Text("Character artwork and location are illustrative. This is not live attendance or an exact venue map.").font(.caption).foregroundStyle(.secondary)
             }.frame(maxWidth:.infinity,alignment:.leading) }
         }.padding(10)

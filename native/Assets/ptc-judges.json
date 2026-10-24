@@ -1,0 +1,115 @@
+[
+  {
+    "id": "ptc-judge:riken-shah",
+    "name": "Riken Shah",
+    "role": "Judge \u00b7 Patch the Conference",
+    "company": "xAI",
+    "biography": "Human Data Team (Contractor), xAI. Listed on the official Patch the Conference judging panel.",
+    "sourceURL": "https://www.wemakedevs.org/hackathons/ptc/judges",
+    "photo": null,
+    "linkedinURL": "https://www.linkedin.com/in/shah-riken",
+    "sessions": []
+  },
+  {
+    "id": "ptc-judge:nitish-mane",
+    "name": "Nitish Mane",
+    "role": "Judge \u00b7 Patch the Conference",
+    "company": "Philo",
+    "biography": "Software Engineer, Philo. Listed on the official Patch the Conference judging panel.",
+    "sourceURL": "https://www.wemakedevs.org/hackathons/ptc/judges",
+    "photo": null,
+    "linkedinURL": "https://www.linkedin.com/in/nitish-mane/",
+    "sessions": []
+  },
+  {
+    "id": "ptc-judge:manpreet-singh",
+    "name": "Manpreet Singh",
+    "role": "Judge \u00b7 Patch the Conference",
+    "company": "Northwest Bank",
+    "biography": "Software Engineer II, Northwest Bank. Listed on the official Patch the Conference judging panel.",
+    "sourceURL": "https://www.wemakedevs.org/hackathons/ptc/judges",
+    "photo": null,
+    "linkedinURL": "https://www.linkedin.com/in/manpoffc",
+    "sessions": []
+  },
+  {
+    "id": "ptc-judge:schezeen-fazulbhoy",
+    "name": "Schezeen Fazulbhoy",
+    "role": "Judge \u00b7 Patch the Conference",
+    "company": "Adobe",
+    "biography": "Senior Software Engineer, Adobe. Listed on the official Patch the Conference judging panel.",
+    "sourceURL": "https://www.wemakedevs.org/hackathons/ptc/judges",
+    "photo": null,
+    "linkedinURL": "https://www.linkedin.com/in/schezeenfazulbhoy",
+    "sessions": []
+  },
+  {
+    "id": "ptc-judge:pooja-ravi",
+    "name": "Pooja Ravi",
+    "role": "Judge \u00b7 Patch the Conference",
+    "company": "Netflix",
+    "biography": "Senior Software Engineer, Netflix. Listed on the official Patch the Conference judging panel.",
+    "sourceURL": "https://www.wemakedevs.org/hackathons/ptc/judges",
+    "photo": null,
+    "linkedinURL": "https://www.linkedin.com/in/pravi20",
+    "sessions": [],
+    "avatarNote": "Photo unavailable \u00b7 placeholder avatar"
+  },
+  {
+    "id": "ptc-judge:satyam-singh",
+    "name": "Satyam Singh",
+    "role": "Judge \u00b7 Patch the Conference",
+    "company": "Simulithic",
+    "biography": "Co-Founder, CTO, Simulithic. Listed on the official Patch the Conference judging panel.",
+    "sourceURL": "https://www.wemakedevs.org/hackathons/ptc/judges",
+    "photo": null,
+    "linkedinURL": "https://www.linkedin.com/in/Satyamsingh2003",
+    "sessions": []
+  },
+  {
+    "id": "ptc-judge:yash-bhatia",
+    "name": "Yash Bhatia",
+    "role": "Judge \u00b7 Patch the Conference",
+    "company": "Meta",
+    "biography": "Senior Data Engineer, Meta. Listed on the official Patch the Conference judging panel.",
+    "sourceURL": "https://www.wemakedevs.org/hackathons/ptc/judges",
+    "photo": null,
+    "linkedinURL": "https://www.linkedin.com/in/yyash-bhatia",
+    "sessions": []
+  },
+  {
+    "id": "ptc-judge:dipen-chawla",
+    "name": "Dipen Chawla",
+    "role": "Judge \u00b7 Patch the Conference",
+    "company": "Microsoft",
+    "biography": "Software Engineer 2, Microsoft. Listed on the official Patch the Conference judging panel.",
+    "sourceURL": "https://www.wemakedevs.org/hackathons/ptc/judges",
+    "photo": null,
+    "linkedinURL": null,
+    "sessions": [],
+    "avatarNote": "Photo unavailable \u00b7 placeholder avatar"
+  },
+  {
+    "id": "ptc-judge:vivek-gopal-ramaswamy",
+    "name": "Vivek Gopal Ramaswamy",
+    "role": "Judge \u00b7 Patch the Conference",
+    "company": "Agility Robitics",
+    "biography": "AI Product Manager, Agility Robitics. Listed on the official Patch the Conference judging panel.",
+    "sourceURL": "https://www.wemakedevs.org/hackathons/ptc/judges",
+    "photo": null,
+    "linkedinURL": null,
+    "sessions": []
+  },
+  {
+    "id": "ptc-judge:husan-mavlonov",
+    "name": "Husan Mavlonov",
+    "role": "Judge \u00b7 Patch the Conference",
+    "company": "Defex Robotics, Inc.",
+    "biography": "CEO, Defex Robotics, Inc. Listed on the official Patch the Conference judging panel.",
+    "sourceURL": "https://www.wemakedevs.org/hackathons/ptc/judges",
+    "photo": null,
+    "linkedinURL": null,
+    "sessions": [],
+    "avatarNote": "Photo unavailable \u00b7 placeholder avatar"
+  }
+]

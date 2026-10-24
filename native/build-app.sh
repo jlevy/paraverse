@@ -14,6 +14,7 @@ done
 cp -R Assets/CachedImages "$app/Contents/Resources/"
 cp Assets/Paraverse.icns "$app/Contents/Resources/Paraverse.icns"
 cp Assets/world-speakers.json "$app/Contents/Resources/"
+cp Assets/ptc-judges.json "$app/Contents/Resources/"
 cp Assets/browse-events.json "$app/Contents/Resources/"
 cp Assets/session-descriptions.json "$app/Contents/Resources/"
 cp -R Assets/SpeakerPhotos "$app/Contents/Resources/"
