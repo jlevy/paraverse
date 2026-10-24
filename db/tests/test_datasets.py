@@ -130,8 +130,10 @@ def test_kb_rejects_a_build_changed_while_reading(
     (root / "_schemas" / "person.schema.yaml").write_text("type: object\n")
     original = kb.read_artifact
 
-    def read_then_change(path: Path, rel_path: str) -> kb.Artifact:
-        artifact = original(path, rel_path)
+    def read_then_change(
+        path: Path, rel_path: str, *, envelope_hint: str | None = None
+    ) -> kb.Artifact:
+        artifact = original(path, rel_path, envelope_hint=envelope_hint)
         if change == "root":
             replacement = tmp_path / "replacement"
             shutil.copytree(root, replacement)
