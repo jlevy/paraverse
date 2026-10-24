@@ -13,6 +13,11 @@ Start with the data policy; it sets what this public repository may contain.
 
 These docs cover `db/`, which loads a conference knowledge base into FalkorDB.
 
+- [Layered architecture](../README.md#architecture): Bright Data collection, the KB
+  build, FalkorDB, application access and the developer tools used in the project.
+- [Softschema, sync and app access](app-integration.md): how contracts enter the graph,
+  how updates are published, and how an app should read the data.
+
 Architecture, describing how the system works now:
 
 - [Conference graph database](project/architecture/arch-2026-10-24-graph-database.md):

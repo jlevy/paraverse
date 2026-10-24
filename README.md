@@ -26,6 +26,69 @@ conference knowledge base:
 See the [hackathon demo guide](docs/hackathon-demo.md) for the integration details,
 review evidence, dataset prerequisites and demo flow.
 
+## Architecture
+
+**Bright Data** supplies profile and company enrichment.
+**FalkorDB** serves the connected knowledge base.
+The dataset repository builds the records; Paraverse imports and serves them.
+
+```mermaid
+flowchart TB
+    subgraph COLLECTION["1 · Collect public sources"]
+        BD("Bright Data<br/>LinkedIn and X enrichment<br/>Snapshot API")
+        API("Catalog and public APIs<br/>RainFocus · GitHub · social APIs<br/>Websites · package registries")
+    end
+
+    subgraph KNOWLEDGE["2 · Build the knowledge base · universe2026-md"]
+        BUILD("Python · Pydantic · PyYAML · softschema<br/>Normalize · resolve identities · validate<br/>Source manifests and cited bios")
+        KB[("Versioned KB artifacts<br/>YAML and Markdown · JSON Schema<br/>Graph and search JSONL · statistics")]
+    end
+
+    subgraph GRAPH["3 · Import and query · Paraverse"]
+        LOAD("Paraverse loader<br/>Python · PyYAML · watchfiles<br/>Validate · stage · atomic replacement")
+        FALKOR[("FalkorDB<br/>FalkorDBLite locally · Redis · Cypher<br/>Entities · relationships · indexes · schemas")]
+    end
+
+    subgraph APPLICATIONS["4 · Serve applications"]
+        SERVICE("Read-only API<br/>Starlette · Uvicorn<br/>JSON endpoints · server-sent events")
+        WEB("KB browser<br/>HTML · CSS · JavaScript<br/>Lucide SVG icons")
+        APP("App clients<br/>HTTP · Swift · Foundation<br/>URLSession · Swift Package Manager")
+    end
+
+    BD --> BUILD
+    API --> BUILD
+    BUILD --> KB
+    KB --> LOAD
+    LOAD --> FALKOR
+    FALKOR --> SERVICE
+    SERVICE --> WEB
+    SERVICE --> APP
+
+    classDef bright fill:#d1fae5,stroke:#047857,color:#064e3b,stroke-width:3px
+    classDef falkor fill:#ede9fe,stroke:#6d28d9,color:#3b0764,stroke-width:3px
+    class BD bright
+    class FALKOR falkor
+```
+
+The diagram shows the implemented data path.
+Full softschema validation is opt-in at import; source and privacy review remain
+separate checks. See [softschema, sync and app access](docs/app-integration.md) for the
+update flow and client integration, and the
+[detailed graph architecture](docs/project/architecture/arch-2026-10-24-graph-database.md)
+for the storage mapping.
+
+## Developer Tools
+
+| Tool | How it is used |
+| --- | --- |
+| **Qodo** | Pull-request code review and public-data-policy checks. |
+| **tbd** | Git-native beads, plans, engineering guidelines and agent coordination. |
+| **softschema** | Versioned record contracts, compiled JSON Schemas and artifact validation; also part of the data pipeline. |
+| Git and GitHub | Versioned code and datasets, submodule pins, pull requests and reviews. |
+| uv and Make | Component environments, locked dependencies and build/check commands. The producer uses `uv_build`; the graph package uses Hatchling. |
+| pytest, Node.js and Swift tests | Python integration tests, JavaScript lifecycle checks and Swift client tests. |
+| Ruff, basedpyright, codespell and Flowmark | Code checks, type checks, spelling and Markdown formatting. |
+
 ## Layout
 
 - `db/`: paraverse-graph, which loads a knowledge-base dataset into FalkorDB and serves
