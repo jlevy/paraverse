@@ -1,0 +1,28 @@
+{
+  "id": "ai-engineer-2027",
+  "name": "AI Engineer World's Fair",
+  "host": "AI Engineer",
+  "start_date": "2027-06-29",
+  "end_date": "2027-07-01",
+  "city": "San Francisco",
+  "venue": "Moscone West",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "engineering"
+  ],
+  "price": null,
+  "source_url": "https://ai.engineer/worldsfair/2027",
+  "retrieved_at": "2026-10-23T19:41:32.414074-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/ai-engineer-2027.json",
+  "evidence_quotes": [
+    "JUNE 29 \u2013 JULY 1, 2027 \u2022 MOSCONE WEST, SAN FRANCISCO",
+    "Full program, speakers, and tickets announcing soon"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_announced",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

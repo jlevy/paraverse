@@ -1,0 +1,250 @@
+{
+  "id": "uxdx-sf-2026",
+  "name": "UXDX San Francisco",
+  "host": "UXDX",
+  "start_date": "2026-11-05",
+  "end_date": "2026-11-06",
+  "city": "San Francisco",
+  "venue": "August Hall",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "design",
+    "product",
+    "engineering"
+  ],
+  "price": null,
+  "source_url": "https://uxdx.com/sanfran/2026/",
+  "retrieved_at": "2026-10-23T19:09:21.074329-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/uxdx-sf-2026.json",
+  "evidence_quotes": [
+    "San Francisco 2026 \u00b7 Nov 05-06",
+    "August Hall"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "scheduled",
+  "sessions": [
+    {
+      "id": "uxdx-sf-2026-session-1",
+      "title": "Is AI Killing Design?",
+      "date": "2026-11-05",
+      "start_time": "9:15 am",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "timezone_note": "Source labels local timezone PDT, but November 5\u20136 is PST; IANA timezone used for date-aware conversion.",
+      "speakers": [
+        "Richard Dalton"
+      ],
+      "source_url": "https://uxdx.com/sanfran/2026/agenda/",
+      "evidence_quote": "Is AI Killing Design? The story is everywhere: AI is coming for design. Wireframes, mockups, prototypes, specs \u2014 produced by a model in seconds. The panic is loud, and most of it is aimed at the wrong half of the work. In this keynote, Richard makes a more uncomfortable case: AI isn't the threat designers think it is \u2014 it's exposing a different problem they should have been worried about all along. Attendees will learn how to: Spot the part of design work that's about to disappear, and the part about to define the next decade. Identify the documents that turn generic AI output into work that reflects real users, real businesses, and real context. Rethink design roles, titles, and team structure for a world where production is no longer the job. Richard Dalton",
+      "retrieved_at": "2026-10-23T23:11:14.497598-07:00"
+    },
+    {
+      "id": "uxdx-sf-2026-session-2",
+      "title": "Who Controls the Customer Journey in Agentic AI?",
+      "date": "2026-11-05",
+      "start_time": "9:50 am",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "timezone_note": "Source labels local timezone PDT, but November 5\u20136 is PST; IANA timezone used for date-aware conversion.",
+      "speakers": [
+        "Alex Burke",
+        "Rachel Been",
+        "Purvi Shah",
+        "Chris Stang"
+      ],
+      "source_url": "https://uxdx.com/sanfran/2026/agenda/",
+      "evidence_quote": "Who Controls the Customer Journey in Agentic AI? As AI systems become more capable, products are increasingly able to act on behalf of users, recommending, planning, personalizing, purchasing, and completing tasks with minimal intervention. While these experiences can dramatically reduce effort, they also introduce new challenges around trust, transparency, consent, and control. The most successful AI-powered products are not those that automate the most. They are the ones that help users feel confident, informed, and in control as automation increases. Moderated by Alex Burke, CEO of Optimal, this session will explore how leading consumer product organizations are designing agentic experiences that deliver convenience without sacrificing user agency. Determining which actions should be automated and which require explicit user approval based on risk, context, and customer expectations. Designing transparency, consent, and intervention mechanisms that help users understand, monitor, and influence AI-driven decisions. Building trust in products that interpret intent, handle personal data, and take action on behalf of users in real-world scenarios. Creating agentic experiences that reduce friction while maintaining user confidence, accountability, and control. Alex Burke CEO Optimal Rachel Been SVP of Design Expedia Group Purvi Shah SVP, Head of User Experience Design, Research, and Accessibility Target Chris Stang",
+      "retrieved_at": "2026-10-23T23:11:14.497598-07:00"
+    },
+    {
+      "id": "uxdx-sf-2026-session-3",
+      "title": "When Your Customer Is an AI: Building Ad Platforms for the Age of Autonomous Marketing",
+      "date": "2026-11-05",
+      "start_time": "10:35 am",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "timezone_note": "Source labels local timezone PDT, but November 5\u20136 is PST; IANA timezone used for date-aware conversion.",
+      "speakers": [
+        "Shobha Diwakar"
+      ],
+      "source_url": "https://uxdx.com/sanfran/2026/agenda/",
+      "evidence_quote": "When Your Customer Is an AI: Building Ad Platforms for the Age of Autonomous Marketing As AI agents increasingly create campaigns, generate creative assets, allocate budgets, optimize performance, and analyze results, advertising platforms are undergoing a fundamental shift. The primary user is no longer just the marketer. Increasingly, it is the AI acting on their behalf. Drawing on her experience leading Ads Platform at Snap, Shobha Diwakar",
+      "retrieved_at": "2026-10-23T23:11:14.497598-07:00"
+    },
+    {
+      "id": "uxdx-sf-2026-session-4",
+      "title": "The Intent Steward Model: How Sephora is Redesigning Product Delivery for AI-Native Teams",
+      "date": "2026-11-05",
+      "start_time": "11:35 am",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "timezone_note": "Source labels local timezone PDT, but November 5\u20136 is PST; IANA timezone used for date-aware conversion.",
+      "speakers": [
+        "Sneha Narahalli"
+      ],
+      "source_url": "https://uxdx.com/sanfran/2026/agenda/",
+      "evidence_quote": "The Intent Steward Model: How Sephora is Redesigning Product Delivery for AI-Native Teams What had to change inside Sephora when customer journeys became fluid, with customers entering through search, social, AI assistants and other unpredictable entry points. How Sephora's Intent Steward model helps teams design systems that understand customer intent, apply context and determine the next best action in real time. The operating model, guardrails and cross-functional collaboration required to build and govern AI-powered decisioning systems. A detailed case study showing how Sephora applied these principles to a real customer or partner experience, and how the team's role shifted from shipping features to orchestrating outcomes. Sneha Narahalli",
+      "retrieved_at": "2026-10-23T23:11:14.497598-07:00"
+    },
+    {
+      "id": "uxdx-sf-2026-session-5",
+      "title": "Beyond the Pilot: Scaling AI from Experimentation to Business Impact",
+      "date": "2026-11-05",
+      "start_time": "12:10 pm",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "timezone_note": "Source labels local timezone PDT, but November 5\u20136 is PST; IANA timezone used for date-aware conversion.",
+      "speakers": [
+        "Maz Brumand"
+      ],
+      "source_url": "https://uxdx.com/sanfran/2026/agenda/",
+      "evidence_quote": "Beyond the Pilot: Scaling AI from Experimentation to Business Impact Most organizations have launched AI experiments. Far fewer have successfully scaled them into products, workflows, and operating models that deliver measurable customer and business value. Moving from isolated pilots to organization-wide adoption requires new approaches to governance, measurement, risk management, and prioritization. This session explores what separates successful AI transformations from costly experimentation. Prioritizing AI initiatives based on customer value, business outcomes, and implementation effort. Establishing governance frameworks that balance innovation, compliance, and risk. Measuring the impact of AI initiatives beyond usage metrics and experimentation. Scaling successful AI capabilities across teams, products, and customer experiences. Maz Brumand",
+      "retrieved_at": "2026-10-23T23:11:14.497598-07:00"
+    },
+    {
+      "id": "uxdx-sf-2026-session-6",
+      "title": "AI Is Blurring Product Roles. Now What?",
+      "date": "2026-11-05",
+      "start_time": "1:45 pm",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "timezone_note": "Source labels local timezone PDT, but November 5\u20136 is PST; IANA timezone used for date-aware conversion.",
+      "speakers": [
+        "Ashley Nutter"
+      ],
+      "source_url": "https://uxdx.com/sanfran/2026/agenda/",
+      "evidence_quote": "AI Is Blurring Product Roles. Now What? AI tools are reshaping how product, design and engineering work together, where responsibilities sit, and what it means to contribute to product development. In this session, Ashley Nutter",
+      "retrieved_at": "2026-10-23T23:11:14.497598-07:00"
+    },
+    {
+      "id": "uxdx-sf-2026-session-7",
+      "title": "How Do You Evolve a Product Billions of People Trust?",
+      "date": "2026-11-05",
+      "start_time": "2:20 pm",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "timezone_note": "Source labels local timezone PDT, but November 5\u20136 is PST; IANA timezone used for date-aware conversion.",
+      "speakers": [
+        "Rhiannon \u201cRhi\u201d Bell"
+      ],
+      "source_url": "https://uxdx.com/sanfran/2026/agenda/",
+      "evidence_quote": "How Do You Evolve a Product Billions of People Trust? Google Search is undergoing one of the most consequential transformations in its history as AI changes how people find, understand and act on information. In this fireside, Rhi Bell shares the real decisions behind evolving a product used by billions: what changes, what must remain familiar, and how the team balances speed and creative possibility with trust, user agency and judgment. The conversation will explore the tradeoffs, challenges and lessons from designing new AI-powered Search experiences, not just the finished vision. Rhiannon \u201cRhi\u201d Bell",
+      "retrieved_at": "2026-10-23T23:11:14.497598-07:00"
+    },
+    {
+      "id": "uxdx-sf-2026-session-8",
+      "title": "When Everyone Can Build, What Happens to Product Teams?",
+      "date": "2026-11-05",
+      "start_time": "3:20 pm",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "timezone_note": "Source labels local timezone PDT, but November 5\u20136 is PST; IANA timezone used for date-aware conversion.",
+      "speakers": [
+        "David Hoang",
+        "Josh Clemm"
+      ],
+      "source_url": "https://uxdx.com/sanfran/2026/agenda/",
+      "evidence_quote": "When Everyone Can Build, What Happens to Product Teams? AI is enabling designers, engineers and product managers to move from an idea to a polished prototype or working product faster than ever. But when almost anyone can build, speed is no longer the main constraint. The bigger risk is building the wrong thing faster. Josh Clemm",
+      "retrieved_at": "2026-10-23T23:11:14.497598-07:00"
+    },
+    {
+      "id": "uxdx-sf-2026-session-9",
+      "title": "Building Products in the Age of AI: Inside Uber\u2019s Software Factory",
+      "date": "2026-11-05",
+      "start_time": "3:55 pm",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "timezone_note": "Source labels local timezone PDT, but November 5\u20136 is PST; IANA timezone used for date-aware conversion.",
+      "speakers": [
+        "Uday Kiran Medisetty",
+        "Sumanth Sukumar"
+      ],
+      "source_url": "https://uxdx.com/sanfran/2026/agenda/",
+      "evidence_quote": "Building Products in the Age of AI: Inside Uber\u2019s Software Factory AI is changing how teams at Uber build products, reshaping every step from the first idea to what customers experience. In this session, we'll share how Uber built its Software Factory: a lifecycle-wide system of agents, infrastructure, and workflows that spans Plan \u2192 Build \u2192 Validate \u2192 Deploy \u2192 Observe \u2192 Maintain, and what we're learning as these new ways of working evolve at scale. We'll walk through how work moves through the lifecycle today, where agents take on tasks that once required a handoff between product, design, and engineering, and how that is compressing the loop between understanding a problem, shaping an idea, prototyping it, shipping it, and learning from customers. A growing share of that work is no longer initiated by a person at all: managed agents review code, heal failing builds, complete end-to-end changes with visual validation, triage alerts, and handle maintenance, with humans reviewing and escalating. Today, more than 70% of Uber's pull requests originate from local or cloud agents, and teams have built thousands of reusable agent skills across the lifecycle. We'll also look at the technology behind this shift, including how we enable agents to securely understand Uber's systems through a company-wide context graph, gateways for models and tools, and cloud development environments, and how we measure whether each agent is delivering value, not just output. Along the way, we'll share what changed, the challenges we hit, and where human creativity, context, and judgment remain essential. Uday Kiran Medisetty VP, Distinguished Engineer Uber Sumanth Sukumar",
+      "retrieved_at": "2026-10-23T23:11:14.497598-07:00"
+    },
+    {
+      "id": "uxdx-sf-2026-session-10",
+      "title": "The Next Interface Is the Organization",
+      "date": "2026-11-05",
+      "start_time": "4:30 pm",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "timezone_note": "Source labels local timezone PDT, but November 5\u20136 is PST; IANA timezone used for date-aware conversion.",
+      "speakers": [
+        "Jod Kaftan",
+        "Cynthia Kaschub",
+        "Payal Fofadiya",
+        "Shipra Kayan"
+      ],
+      "source_url": "https://uxdx.com/sanfran/2026/agenda/",
+      "evidence_quote": "The Next Interface Is the Organization AI isn\u2019t just changing what teams build. It\u2019s redesigning work itself. As roles and workflows shift, product, design and engineering leaders must move beyond products and services to shape how the organization works. Even the strongest AI vision will fail if the organization cannot absorb it. This session explores how to design organizations that are ready to turn AI\u2019s potential into real change: How do we redesign jobs and workflows around AI? What can design bring to organizational transformation? Why do traditional change programs fail to change how work actually happens? How can employees help shape the AI-driven organization they\u2019ll work within? Jod Kaftan Digital Experience Design Senior Director NTT DATA Cynthia Kaschub Senior Director, Workforce Innovation Salesforce Payal Fofadiya Engineering Manager, Agent Platform LinkedIn Shipra Kayan",
+      "retrieved_at": "2026-10-23T23:11:14.497598-07:00"
+    },
+    {
+      "id": "uxdx-sf-2026-session-11",
+      "title": "AI and User Research: What Should Be Automated and What Shouldn't?",
+      "date": "2026-11-06",
+      "start_time": "9:30 am",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "timezone_note": "Source labels local timezone PDT, but November 5\u20136 is PST; IANA timezone used for date-aware conversion.",
+      "speakers": [
+        "Shipra Kayan"
+      ],
+      "source_url": "https://uxdx.com/sanfran/2026/agenda/",
+      "evidence_quote": "In-Person only AI and User Research: What Should Be Automated and What Shouldn't? AI can now generate discussion guides, summarize interviews, identify patterns, and produce research reports in minutes. But not every part of the research process should be automated. The most successful teams understand where AI adds value, where human judgment remains essential, and how to combine both effectively. This workshop explores how AI is reshaping user research and provides practical frameworks for deciding what to automate, what to augment, and what should remain human-led. In this workshop, you'll learn how to: Evaluate which research activities can be effectively automated and where human researchers continue to provide unique value. Use AI to accelerate analysis, synthesis, and insight generation without compromising research quality or rigor. Design research workflows that combine AI efficiency with human judgment to improve speed and decision-making. Avoid common risks and biases in AI-assisted research while maintaining confidence in customer insights and recommendations. Ideal for: UX Researchers, Designers, Research & Design Leads, Research Operations, and UX Managers within enterprise organisations who are already using AI in parts of their workflow and want practical guidance on applying it more effectively. Registration required Gabe Young Head of Product Innovation Optimal Josh Walker Senior Product Designer Optimal In-Person only AI-Powered Product Discovery: Finding Opportunities Faster and Validating Ideas at Scale \"AI is transforming how teams discover customer needs, identify opportunities, and validate ideas. The challenge is no longer accessing customer feedback. It's knowing how to combine AI-powered analysis with customer conversations, research, and human judgment to make better product decisions faster. In this hands-on workshop, you'll explore how leading product teams are integrating AI into their discovery process while avoiding the common pitfalls of over-relying on automated insights. In this workshop, you'll learn how to: Identify customer problems and emerging opportunities faster by combining AI-powered analysis with continuous customer discovery. Accelerate opportunity validation using AI-assisted research, synthesis, and feedback analysis techniques. Prioritize customer needs with greater confidence by balancing AI-generated insights with qualitative research and business context. Build scalable discovery workflows that help product teams stay connected to customers without slowing down delivery.\" Registration required Shipra Kayan",
+      "retrieved_at": "2026-10-23T23:11:14.497598-07:00"
+    },
+    {
+      "id": "uxdx-sf-2026-session-12",
+      "title": "How to Measure AI-Powered Experiences",
+      "date": "2026-11-06",
+      "start_time": "1:15 pm",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "timezone_note": "Source labels local timezone PDT, but November 5\u20136 is PST; IANA timezone used for date-aware conversion.",
+      "speakers": [
+        "Marina Lin",
+        "Amit Sathe"
+      ],
+      "source_url": "https://uxdx.com/sanfran/2026/agenda/",
+      "evidence_quote": "In-Person only How to Measure AI-Powered Experiences Teams are rapidly introducing AI features but there is still no established way to measure whether those experiences are accurate, understandable and worthy of users\u2019 trust. Traditional UX metrics alone may not capture what happens when outputs are generated by AI and can change from one interaction to the next. In this hands-on workshop you\u2019ll learn how to build a practical measurement framework for AI-powered experiences. Using their evolving UX Scorecard approach you\u2019ll explore how to define and apply metrics across trust, transparency and the accuracy of AI outputs. You\u2019ll work with others to evaluate a realistic AI use case before applying the approach to your own product or experience. You\u2019ll leave with a practical starting point that your team can adapt as its AI capabilities and measurement maturity develop. By the end of the workshop you\u2019ll be able to: Identify where traditional UX metrics fall short when evaluating AI-powered experiences Define meaningful measures of trust, transparency and output accuracy Build a practical scorecard for evaluating an AI feature or user journey Adapt the approach to your own product, users and organizational context Use measurement findings to guide research, product decisions and improvements to the experience Registration required Marina Lin Sr UX Research Manager Docusign Amit Sathe",
+      "retrieved_at": "2026-10-23T23:11:14.497598-07:00"
+    }
+  ],
+  "speakers": [
+    {
+      "name": "Chris Stang"
+    },
+    {
+      "name": "Shobha Diwakar"
+    },
+    {
+      "name": "Sumanth Sukumar"
+    },
+    {
+      "name": "Shipra Kayan"
+    },
+    {
+      "name": "Maz Brumand"
+    },
+    {
+      "name": "Rachel Been"
+    },
+    {
+      "name": "Josh Clemm"
+    },
+    {
+      "name": "Uday Kiran Medisetty"
+    },
+    {
+      "name": "Purvi Shah"
+    }
+  ],
+  "registration_url": null,
+  "agenda_note": "Partial structured extraction: 10 substantive Nov 5 talks/panels and two Nov 6 workshops. Complete source cached, but parallel workshops, end times, opening/closing remarks and social activities require further parsing; not claimed complete.",
+  "agenda_source_url": "https://uxdx.com/sanfran/2026/agenda/",
+  "agenda_evidence_file": "sources/uxdx-agenda-2026.json"
+}

@@ -1,0 +1,229 @@
+{
+  "name": "Rishab Kumar",
+  "username": "rishabincloud",
+  "x_user_id": "924756476",
+  "profile_url": "https://x.com/rishabincloud",
+  "event": "GitHub Universe 2026",
+  "attendance_status": "self_reported_going",
+  "attendance_mode": "unspecified",
+  "source_url": "https://x.com/rishabincloud/status/2112932522657268059",
+  "post_date": "2026-10-21T15:42:24.000Z",
+  "evidence": "see you all next week at @github universe! https://t.co/tSknh9wX5v",
+  "retrieval_method": "X API",
+  "speaker_check": "No matching name in saved 139-session catalog; not definitive proof of non-speaker status.",
+  "matching_opt_in": false,
+  "ticket_verified": false,
+  "role": "Developer Relations · Twilio",
+  "avatar_url": "https://pbs.twimg.com/profile_images/1746197729204654081/5OjnEu8g_normal.jpg",
+  "avatar_asset": "attendee-rishabincloud",
+  "about": "Bio lists a part-time cloud professor role and core-maintainer role at @learntocloud. Described transitioning from help-desk/tech support to cloud engineering in 2024.",
+  "generated_title": "Staff Developer Evangelist at Twilio",
+  "interests": [
+    {
+      "label": "Real-time voice AI agents",
+      "category": "professional",
+      "confidence": "medium",
+      "reason": "Built and demonstrated a Python voice agent connecting Twilio Agent Connect with Gemini Live, with dated support from October 2026.",
+      "sourceURL": "https://www.linkedin.com/posts/rishabkumar7_imagine-calling-a-phone-number-and-having-activity-7519090834957365248-GJ0Q",
+      "evidence": [
+        {
+          "sourceURL": "https://www.linkedin.com/posts/rishabkumar7_imagine-calling-a-phone-number-and-having-activity-7519090834957365248-GJ0Q",
+          "quote": "I built a Python demo connecting Twilio Agent Connect with Gemini Live.",
+          "date": null
+        },
+        {
+          "sourceURL": "https://x.com/rishabincloud/status/2113642440876081239",
+          "quote": "I built a Python voice agent that handles real-time phone conversations, interruptions, function calls",
+          "date": "2026-10-23T14:43:22.000Z"
+        }
+      ]
+    },
+    {
+      "label": "Azure AI applications and agents",
+      "category": "professional",
+      "confidence": "medium",
+      "reason": "Repeatedly shared Azure AI certification achievements and study resources. Evidence includes a 2024 exam result and undated AI-103 preparation posts.",
+      "sourceURL": "https://x.com/rishabincloud/status/1803449501010588145",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/rishabincloud/status/1803449501010588145",
+          "quote": "Passed my Azure AI Engineer Associate AI-102 exam!",
+          "date": "2024-06-19T15:27:22.000Z"
+        },
+        {
+          "sourceURL": "https://www.linkedin.com/posts/rishabkumar7_how-i-passed-azure-ai-103-certification-activity-7516886941964001281-bZmZ",
+          "quote": "It's agents, tools, RAG, and Microsoft Foundry.",
+          "date": null
+        },
+        {
+          "sourceURL": "https://www.linkedin.com/posts/rishabkumar7_just-published-my-ai-103-azure-ai-apps-and-activity-7513616103399456769-NWtf",
+          "quote": "Just published my AI-103 Azure AI Apps and Agents Developer Associate notes",
+          "date": null
+        }
+      ]
+    },
+    {
+      "label": "Hands-on cloud and DevOps education",
+      "category": "professional",
+      "confidence": "medium",
+      "reason": "Created courses and practical learning projects, particularly in 2023–2025; an undated bio also identifies a cloud teaching role.",
+      "sourceURL": "https://cn.linkedin.com/in/rishabkumar7",
+      "evidence": [
+        {
+          "sourceURL": "https://cn.linkedin.com/in/rishabkumar7",
+          "quote": "part-time cloud professor",
+          "date": null
+        },
+        {
+          "sourceURL": "https://x.com/rishabincloud/status/1840788299222311313",
+          "quote": "The goal is same, to teach DevOps practices, hands-on way.",
+          "date": "2024-09-30T16:18:25.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/rishabincloud/status/1877762743614185703",
+          "quote": "Get your hands dirty with the Linux Command Line CTF Challenges on @learntocloud",
+          "date": "2025-01-10T17:01:39.000Z"
+        }
+      ]
+    },
+    {
+      "label": "Terraform and infrastructure as code",
+      "category": "professional",
+      "confidence": "medium",
+      "reason": "Repeatedly published and discussed Terraform courses across AWS, Azure, and GCP during 2023–2025. This is a documented historical topic, not a confirmed current focus.",
+      "sourceURL": "https://x.com/rishabincloud/status/1682000890276765696",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/rishabincloud/status/1682000890276765696",
+          "quote": "And I have created some courses for you that you can take for free on YouTube!",
+          "date": "2023-07-20T12:13:56.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/rishabincloud/status/1776299149329043705",
+          "quote": "Now I have a full playlist of Terraform Courses covering all three major cloud providers!",
+          "date": "2024-04-05T17:21:33.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/rishabincloud/status/1958180300577538222",
+          "quote": "Terraform introductory course for Azure passed 45K views!",
+          "date": "2025-08-20T14:52:19.000Z"
+        }
+      ]
+    },
+    {
+      "label": "Containers and CI/CD",
+      "category": "professional",
+      "confidence": "medium",
+      "reason": "Studied Docker in 2023 and developed hands-on containerization and CI/CD learning materials in 2024.",
+      "sourceURL": "https://x.com/rishabincloud/status/1666796344915161093",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/rishabincloud/status/1666796344915161093",
+          "quote": "As I am learning all the fun stuff with Docker and containers",
+          "date": "2023-06-08T13:16:30.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/rishabincloud/status/1828432675301958113",
+          "quote": "Containerization: docker & k8s",
+          "date": "2024-08-27T14:01:35.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/rishabincloud/status/1823374922791502083",
+          "quote": "Setting up CI/CD with GitHub Actions for Docker images.",
+          "date": "2024-08-13T15:03:52.000Z"
+        }
+      ]
+    },
+    {
+      "label": "Linux and command-line skills",
+      "category": "professional",
+      "confidence": "medium",
+      "reason": "Earned a Linux certification in 2023 and built or shared command-line labs in 2024–2025.",
+      "sourceURL": "https://x.com/rishabincloud/status/1664652268581396480",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/rishabincloud/status/1664652268581396480",
+          "quote": "passed my linux essentials certification",
+          "date": "2023-06-02T15:16:43.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/rishabincloud/status/1841510782493659182",
+          "quote": "Building a Linux lab for better command line skills",
+          "date": "2024-10-02T16:09:18.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/rishabincloud/status/1877762743614185703",
+          "quote": "Linux Command Line CTF Challenges",
+          "date": "2025-01-10T17:01:39.000Z"
+        }
+      ]
+    },
+    {
+      "label": "AWS serverless application projects",
+      "category": "professional",
+      "confidence": "medium",
+      "reason": "Repeatedly shared practical AWS projects using Lambda, storage, and databases in 2023–2024.",
+      "sourceURL": "https://x.com/rishabincloud/status/1722603957883961440",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/rishabincloud/status/1722603957883961440",
+          "quote": "Let's build a serverless API to generate QR Codes.",
+          "date": "2023-11-09T13:16:02.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/rishabincloud/status/1692202386436067819",
+          "quote": "build and deploy a serverless API using AWS Lambda and DynamoDB",
+          "date": "2023-08-17T15:51:03.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/rishabincloud/status/1828799895190311421",
+          "quote": "AWS Lambda to fetch and update visitor count",
+          "date": "2024-08-28T14:20:47.000Z"
+        }
+      ]
+    },
+    {
+      "label": "Cloud and production security",
+      "category": "professional",
+      "confidence": "medium",
+      "reason": "Reported passing a Google Cloud security certification in 2025 and discussed secrets, dependencies, and production security practices in October 2026.",
+      "sourceURL": "https://x.com/rishabincloud/status/1907432137558458673",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/rishabincloud/status/1907432137558458673",
+          "quote": "I PASSED THE GOOGLE CLOUD SECURITY PROFESSIONAL CERTIFICATION!",
+          "date": "2025-04-02T13:57:14.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/rishabincloud/status/2113316665442103721",
+          "quote": "It's secrets and dependencies we trusted.",
+          "date": "2026-10-22T17:08:51.000Z"
+        }
+      ]
+    }
+  ],
+  "linkedin_url": "https://www.linkedin.com/in/rishabkumar7",
+  "linkedin_status": "name_and_employer_matched",
+  "attendance_reason": null,
+  "enrichment_status": "ready",
+  "enrichment_method": "Bright Data LinkedIn and X + evidence-validated AI analysis",
+  "post_count": 50,
+  "public_contacts": [
+    {
+      "person_id": "rishabincloud",
+      "name": "Rishab Kumar",
+      "email": "rishabkumar7@gmail.com",
+      "contact_type": "public_professional",
+      "published_purpose": "Public professional resume contact; linked YouTube @rishabincloud",
+      "source_url": "https://rishabkumar.com/resume/",
+      "retrieval_method": "Browser public page",
+      "checked_at": "2026-10-24T03:02:51.926943+00:00",
+      "evidence_quote": "Published contact link: mailto:rishabkumar7@gmail.com",
+      "evidence_file": "free-sources/rishabincloud-resume.json",
+      "source_sha256": "2fc08710b5447a193f3a40984eeda6c3b17ec8ee05f724fcf84c7196fe230ee4",
+      "verification_status": "published_on_identity_matched_professional_website",
+      "mailbox_deliverability": "not_tested",
+      "invitation_consent": false
+    }
+  ]
+}

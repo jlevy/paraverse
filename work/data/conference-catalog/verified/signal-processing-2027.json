@@ -1,0 +1,213 @@
+{
+  "id": "signal-processing-2027",
+  "name": "Signal Processing Summit",
+  "start_date": "2027-01-26",
+  "end_date": "2027-01-28",
+  "city": "Milpitas",
+  "venue": "Sonesta Silicon Valley",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "signal processing",
+    "AI",
+    "embedded systems",
+    "audio",
+    "computer vision"
+  ],
+  "price": {
+    "amount": 1495,
+    "currency": "USD",
+    "ticket": "All Access, three days",
+    "valid_through": "2026-10-31",
+    "standard_amount": 1795,
+    "single_day_amount": 795
+  },
+  "source_url": "https://signalprocessingsummit.com/",
+  "retrieved_at": "2026-10-23T22:37:14.857179-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/signal-processing-2027.json",
+  "evidence_quotes": [
+    "January 26-28, 2027",
+    "Sonesta Silicon Valley in Milpitas, California",
+    "signal-processing technologies powering AI, wireless, vision, audio, embedded systems"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "registration_url": null,
+  "speakers": [
+    {
+      "name": "Christopher Hansen"
+    },
+    {
+      "name": "Dan Boschen"
+    },
+    {
+      "name": "David Lawrence"
+    },
+    {
+      "name": "Mark Thoren"
+    },
+    {
+      "name": "Paul Beckmann"
+    },
+    {
+      "name": "Samuel Fischmann"
+    },
+    {
+      "name": "Shreya Gupta"
+    },
+    {
+      "name": "Brewster LaMacchia"
+    },
+    {
+      "name": "Aaron McLeran"
+    },
+    {
+      "name": "Aron Palmer"
+    },
+    {
+      "name": "Brian Agee"
+    },
+    {
+      "name": "fred harris"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "signal-processing-2027-session-1",
+      "title": "Modern Signal Processing Techniques for FM Demodulation",
+      "speakers": [
+        "Christopher Hansen"
+      ],
+      "date": null,
+      "start_time": null,
+      "end_time": null,
+      "source_url": "https://signalprocessingsummit.com/",
+      "evidence_quote": "Christopher Hansen Modern Signal Processing Techniques for FM Demodulation"
+    },
+    {
+      "id": "signal-processing-2027-session-2",
+      "title": "The Hilbert Transform: a hands-on workshop",
+      "speakers": [
+        "Dan Boschen"
+      ],
+      "date": null,
+      "start_time": null,
+      "end_time": null,
+      "source_url": "https://signalprocessingsummit.com/",
+      "evidence_quote": "Dan Boschen The Hilbert Transform: a hands-on workshop"
+    },
+    {
+      "id": "signal-processing-2027-session-3",
+      "title": "PID Controllers: Demystified and Improved",
+      "speakers": [
+        "David Lawrence"
+      ],
+      "date": null,
+      "start_time": null,
+      "end_time": null,
+      "source_url": "https://signalprocessingsummit.com/",
+      "evidence_quote": "David Lawrence PID Controllers: Demystified and Improved"
+    },
+    {
+      "id": "signal-processing-2027-session-4",
+      "title": "Hands-on, hardware-based exploration of fundamental DSP concepts",
+      "speakers": [
+        "Mark Thoren"
+      ],
+      "date": null,
+      "start_time": null,
+      "end_time": null,
+      "source_url": "https://signalprocessingsummit.com/",
+      "evidence_quote": "Mark Thoren Hands-on, hardware-based exploration of fundamental DSP concepts"
+    },
+    {
+      "id": "signal-processing-2027-session-5",
+      "title": "When Real-Time Isn't Real",
+      "speakers": [
+        "Paul Beckmann"
+      ],
+      "date": null,
+      "start_time": null,
+      "end_time": null,
+      "source_url": "https://signalprocessingsummit.com/",
+      "evidence_quote": "Paul Beckmann When Real-Time Isn't Real"
+    },
+    {
+      "id": "signal-processing-2027-session-6",
+      "title": "A Survey of Linear IIR Filter Techniques",
+      "speakers": [
+        "Samuel Fischmann"
+      ],
+      "date": null,
+      "start_time": null,
+      "end_time": null,
+      "source_url": "https://signalprocessingsummit.com/",
+      "evidence_quote": "Samuel Fischmann A Survey of Linear IIR Filter Techniques"
+    },
+    {
+      "id": "signal-processing-2027-session-7",
+      "title": "Mel Spectrograms: Caveats and Alternatives",
+      "speakers": [
+        "Shreya Gupta"
+      ],
+      "date": null,
+      "start_time": null,
+      "end_time": null,
+      "source_url": "https://signalprocessingsummit.com/",
+      "evidence_quote": "Shreya Gupta Mel Spectrograms: Caveats and Alternatives"
+    },
+    {
+      "id": "signal-processing-2027-session-8",
+      "title": "Resistor Noise in Audio: The Sound of Angels Dancing on the Head of a Pin",
+      "speakers": [
+        "Brewster LaMacchia"
+      ],
+      "date": null,
+      "start_time": null,
+      "end_time": null,
+      "source_url": "https://signalprocessingsummit.com/",
+      "evidence_quote": "Brewster LaMacchia Resistor Noise in Audio: The Sound of Angels Dancing on the Head of a Pin"
+    },
+    {
+      "id": "signal-processing-2027-session-9",
+      "title": "Spectral Scrubbing in Real Time",
+      "speakers": [
+        "Aaron McLeran"
+      ],
+      "date": null,
+      "start_time": null,
+      "end_time": null,
+      "source_url": "https://signalprocessingsummit.com/",
+      "evidence_quote": "Aaron McLeran Spectral Scrubbing in Real Time"
+    },
+    {
+      "id": "signal-processing-2027-session-10",
+      "title": "FFT Windows with Superalgebraic Spectral Decay: Why You Might Care",
+      "speakers": [
+        "Aron Palmer"
+      ],
+      "date": null,
+      "start_time": null,
+      "end_time": null,
+      "source_url": "https://signalprocessingsummit.com/",
+      "evidence_quote": "Aron Palmer FFT Windows with Superalgebraic Spectral Decay: Why You Might Care"
+    },
+    {
+      "id": "signal-processing-2027-session-11",
+      "title": "Blind linear interference excision: a degrees-of-freedom perspective",
+      "speakers": [
+        "Brian Agee"
+      ],
+      "date": null,
+      "start_time": null,
+      "end_time": null,
+      "source_url": "https://signalprocessingsummit.com/",
+      "evidence_quote": "Brian Agee Blind linear interference excision: a degrees-of-freedom perspective"
+    }
+  ],
+  "agenda_status": "sessions_without_times",
+  "agenda_note": "11 named sessions and 12 speakers published. fred harris has two extended sessions with titles unannounced. In-person timetable pending; separate February online replay dates are not used as conference dates. Co-located Embedded Systems Summit not counted separately.",
+  "online_edition": {
+    "start_date": "2027-02-09",
+    "end_date": "2027-02-11"
+  }
+}

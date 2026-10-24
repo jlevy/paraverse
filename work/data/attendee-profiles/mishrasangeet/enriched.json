@@ -1,0 +1,43 @@
+{
+  "name": "Sangeeta Mishra",
+  "username": "mishrasangeet",
+  "x_user_id": "2237644746",
+  "profile_url": "https://x.com/mishrasangeet",
+  "event": "GitHub Universe 2026",
+  "attendance_status": "self_reported_going",
+  "attendance_mode": "in_person",
+  "source_url": "https://x.com/mishrasangeet/status/2110868549346656364",
+  "post_date": "2026-10-15T23:00:54.000Z",
+  "evidence": "Update: I'm going to @GitHub Universe instead! \ud83c\udf89\n\nGitHub set aside 75 free passes (Oct 28\u201329, SF) for those whose #GHC26 registration was cancelled. First come, first served, so DM them on LinkedIn with your GHC ticket soon!",
+  "retrieval_method": "X API",
+  "speaker_check": "No matching name in saved 139-session catalog; not definitive proof of non-speaker status.",
+  "matching_opt_in": false,
+  "ticket_verified": false,
+  "role": "Software Engineer \u00b7 Databricks",
+  "avatar_url": "https://pbs.twimg.com/profile_images/2110840043036188672/Fleb0nFD_normal.jpg",
+  "avatar_asset": "attendee-mishrasangeet",
+  "about": "Software engineer at Databricks.",
+  "generated_title": "Software Engineer",
+  "interests": [
+    {
+      "label": "Tech community meetups and networking",
+      "category": "professional",
+      "confidence": "high",
+      "reason": "Explicitly sought local meetups and opportunities to connect with others in the tech community in October 2026.",
+      "sourceURL": "https://x.com/mishrasangeet/status/2110845647926546666",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/mishrasangeet/status/2110845647926546666",
+          "quote": "If you are too, let's meet up. Know a local meetup? Reply or DM me.",
+          "date": "2026-10-15T21:29:54.000Z"
+        }
+      ]
+    }
+  ],
+  "linkedin_url": null,
+  "linkedin_status": "identity_not_verified",
+  "attendance_reason": null,
+  "enrichment_status": "ready",
+  "enrichment_method": "Bright Data X profile posts + evidence-validated AI analysis",
+  "post_count": 5
+}

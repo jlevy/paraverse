@@ -1,0 +1,30 @@
+{
+  "id": "chiplet-summit-2027",
+  "name": "Chiplet Summit 2027",
+  "start_date": "2027-03-30",
+  "end_date": "2027-04-01",
+  "city": "Santa Clara",
+  "venue": "Santa Clara Convention Center",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "engineering",
+    "semiconductors",
+    "chiplet design",
+    "AI hardware"
+  ],
+  "price": null,
+  "source_url": "https://chipletsummit.com/sponsor-exhibitor-prospectus/",
+  "retrieved_at": "2026-10-24T23:09:45.801432+00:00",
+  "retrieval_method": "Web tool official organizer pages",
+  "evidence_file": "sources/chiplet-summit-2027.json",
+  "evidence_quotes": [
+    "Chiplet Summit 2027: 2027-03-30 through 2027-04-01, Santa Clara."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_verified_for_edition",
+  "agenda_note": "Official 2027 sponsor prospectus confirms dates and venue. Program and speakers currently linked from homepage explicitly describe 2026; excluded.",
+  "agenda_checked_at": "2026-10-24T23:09:45.801432+00:00",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

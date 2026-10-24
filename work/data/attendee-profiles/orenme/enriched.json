@@ -1,0 +1,205 @@
+{
+  "name": "Oren Melamed",
+  "username": "OrenMe",
+  "x_user_id": "36475277",
+  "profile_url": "https://x.com/OrenMe",
+  "event": "GitHub Universe 2026",
+  "attendance_status": "self_reported_going",
+  "attendance_mode": "in_person",
+  "source_url": "https://x.com/OrenMe/status/2113729230823477596",
+  "post_date": "2026-10-23T20:28:14.000Z",
+  "evidence": "The @github Star swag arrived \u2b50\ufe0f\n\nNext stop: GitHub Universe in San Francisco.\n\nLooking forward to seeing what\u2019s next for GitHub and catching up with the people building the future of software development.\n\nWho else is going? Let\u2019s connect. https://t.co/qhnNinS0CG",
+  "retrieval_method": "X API",
+  "speaker_check": "No matching name in saved 139-session catalog; not definitive proof of non-speaker status.",
+  "matching_opt_in": false,
+  "ticket_verified": false,
+  "role": "AI Transformation \u00b7 AT&T \u00b7 GitHub Star",
+  "avatar_url": "https://pbs.twimg.com/profile_images/1952736802508267520/sIA41s69_normal.jpg",
+  "avatar_asset": "attendee-OrenMe",
+  "about": "Bio lists AI Transformation at AT&T, GitHub Star, and Microsoft MVP. In July\u2013August 2025, described building PromptBoost.dev with GitHub Copilot and launching an MCP integration.",
+  "generated_title": "AI Transformation @ AT&T",
+  "interests": [
+    {
+      "label": "AI-native engineering and human\u2013agent collaboration",
+      "category": "professional",
+      "confidence": "high",
+      "reason": "Explicitly identifies human\u2013agent collaboration and rethinking organizational software development as professional focus areas.",
+      "sourceURL": "https://x.com/orenme",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/orenme",
+          "quote": "Humans + agents. AI-native engineering. Rethinking how organizations build.",
+          "date": null
+        }
+      ]
+    },
+    {
+      "label": "GitHub Copilot and VS Code extensibility",
+      "category": "professional",
+      "confidence": "high",
+      "reason": "Expressed a strong preference for their integrations and flexibility in August 2025, with continued interest in Copilot experimentation in October 2026.",
+      "sourceURL": "https://x.com/orenme/status/1958162968186630642",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/orenme/status/1958162968186630642",
+          "quote": "It\u2019s the integrations and flexibility.",
+          "date": "2025-08-20T13:43:27.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/orenme/status/2109494269396296183",
+          "quote": "Still a research preview, but definitely worth exploring in VS Code Insiders.",
+          "date": "2026-10-12T04:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "label": "Multi-agent workflows and multi-model orchestration",
+      "category": "professional",
+      "confidence": "high",
+      "reason": "Recommends defined agent workflows and explicitly favors making reasoning-effort trade-offs configurable in October 2026.",
+      "sourceURL": "https://x.com/orenme/status/2111392932821364742",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/orenme/status/2111392932821364742",
+          "quote": "you should leverage @GitHubCopilot Dynamic Workflows",
+          "date": "2026-10-17T09:44:37.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/orenme/status/2109494269396296183",
+          "quote": "I like the direction of making that trade-off an explicit part of the experience.",
+          "date": "2026-10-12T04:00:00.000Z"
+        }
+      ]
+    },
+    {
+      "label": "AI business impact and usage-cost controls",
+      "category": "professional",
+      "confidence": "medium",
+      "reason": "Repeatedly discusses whether AI spending delivers business value and how engineering teams can control usage costs. The ROI discussion includes an October 2026 post; the cost-control posts are undated.",
+      "sourceURL": "https://x.com/orenme/status/2111039632326693294",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/orenme/status/2111039632326693294",
+          "quote": "Where\u2019s the corresponding growth in revenue?",
+          "date": "2026-10-16T10:20:44.000Z"
+        },
+        {
+          "sourceURL": "https://www.linkedin.com/posts/orenmelamed_github-copilot-cloud-code-review-just-got-activity-7514424269792251904-vjXv",
+          "quote": "Cost ownership enables policy, not just usage.",
+          "date": null
+        },
+        {
+          "sourceURL": "https://www.linkedin.com/posts/orenmelamed_visual-studio-code-is-experimenting-with-activity-7515117975352266752-O4_b",
+          "quote": "reduce our overall cost of usage",
+          "date": null
+        }
+      ]
+    },
+    {
+      "label": "Specification-aware AI code review",
+      "category": "professional",
+      "confidence": "high",
+      "reason": "An undated post describes a preferred review cadence and a personal workflow that checks implementations against centrally maintained specifications.",
+      "sourceURL": "https://www.linkedin.com/posts/orenmelamed_github-copilot-cloud-code-review-just-got-activity-7514424269792251904-vjXv",
+      "evidence": [
+        {
+          "sourceURL": "https://www.linkedin.com/posts/orenmelamed_github-copilot-cloud-code-review-just-got-activity-7514424269792251904-vjXv",
+          "quote": "My preferred trade-off:",
+          "date": null
+        },
+        {
+          "sourceURL": "https://www.linkedin.com/posts/orenmelamed_github-copilot-cloud-code-review-just-got-activity-7514424269792251904-vjXv",
+          "quote": "The biggest opportunity is reviewing against intent.",
+          "date": null
+        }
+      ]
+    },
+    {
+      "label": "Agent package ecosystems and governance",
+      "category": "professional",
+      "confidence": "high",
+      "reason": "Explicitly advocates package identity, versioning, provenance, and governance for agent customizations in an undated post.",
+      "sourceURL": "https://www.linkedin.com/posts/orenmelamed_you-need-to-be-turning-agent-customizations-activity-7511288821527773185-aCU7",
+      "evidence": [
+        {
+          "sourceURL": "https://www.linkedin.com/posts/orenmelamed_you-need-to-be-turning-agent-customizations-activity-7511288821527773185-aCU7",
+          "quote": "an npm-like distribution layer for agent primitives.",
+          "date": null
+        },
+        {
+          "sourceURL": "https://www.linkedin.com/posts/orenmelamed_you-need-to-be-turning-agent-customizations-activity-7511288821527773185-aCU7",
+          "quote": "They need identity, versioning, provenance, governance",
+          "date": null
+        }
+      ]
+    },
+    {
+      "label": "MCP integrations and interactive agent interfaces",
+      "category": "professional",
+      "confidence": "high",
+      "reason": "Historical interest documented in August 2025: enthusiastically endorsed MCP-UI, described building an MCP integration, and advocated VS Code support.",
+      "sourceURL": "https://x.com/orenme/status/1954279707379437717",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/orenme/status/1954279707379437717",
+          "quote": "mcp-ui is the future",
+          "date": "2025-08-09T20:32:45.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/orenme/status/1954279707379437717",
+          "quote": "I built an MCP for promptboost[.]dev",
+          "date": "2025-08-09T20:32:45.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/orenme/status/1953314300853985686",
+          "quote": "Come cast your vote and help it reach 20million people",
+          "date": "2025-08-07T04:36:34.000Z"
+        }
+      ]
+    },
+    {
+      "label": "Context engineering and agent instructions",
+      "category": "professional",
+      "confidence": "medium",
+      "reason": "Repeatedly discusses prompt structure and consistent instructions across agents, in July 2025 posts and an undated discussion of prompt caching.",
+      "sourceURL": "https://www.linkedin.com/posts/orenmelamed_visual-studio-code-is-experimenting-with-activity-7515117975352266752-O4_b",
+      "evidence": [
+        {
+          "sourceURL": "https://www.linkedin.com/posts/orenmelamed_visual-studio-code-is-experimenting-with-activity-7515117975352266752-O4_b",
+          "quote": "It's also about how you structure it",
+          "date": null
+        },
+        {
+          "sourceURL": "https://x.com/orenme/status/1950553341915729963",
+          "quote": "System prompts now correctly append to the system message, not user message.",
+          "date": "2025-07-30T13:45:30.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/orenme/status/1950553335225831721",
+          "quote": "same instructions in local and remote for smoother DX",
+          "date": "2025-07-30T13:45:29.000Z"
+        }
+      ]
+    },
+    {
+      "label": "GitHub ecosystem and developer community",
+      "category": "professional",
+      "confidence": "high",
+      "reason": "Explicitly expressed enthusiasm in October 2026 for GitHub\u2019s direction and connecting with people building software-development tools.",
+      "sourceURL": "https://x.com/orenme/status/2113729230823477596",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/orenme/status/2113729230823477596",
+          "quote": "Looking forward to seeing what\u2019s next for GitHub and catching up with the people building the future of software development.",
+          "date": "2026-10-23T20:28:14.000Z"
+        }
+      ]
+    }
+  ],
+  "linkedin_url": "https://www.linkedin.com/in/orenmelamed",
+  "linkedin_status": "name_and_employer_matched",
+  "attendance_reason": null,
+  "enrichment_status": "ready",
+  "enrichment_method": "Bright Data LinkedIn and X + evidence-validated AI analysis",
+  "post_count": 50
+}

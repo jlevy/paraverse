@@ -1,0 +1,31 @@
+{
+  "id": "dx-annual-2027",
+  "name": "DX Annual",
+  "host": "DX",
+  "start_date": "2027-05-06",
+  "end_date": "2027-05-06",
+  "city": "San Francisco",
+  "venue": null,
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "developer productivity",
+    "engineering",
+    "AI"
+  ],
+  "price": null,
+  "source_url": "https://getdx.com/dxannual/",
+  "retrieved_at": "2026-10-23T19:41:30.190852-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/dx-annual-2027.json",
+  "evidence_quotes": [
+    "San Francisco May 6, 2027",
+    "Additional details regarding speakers and agenda will be announced closer to the event dates."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_announced",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null,
+  "price_status": "paid_price_not_announced",
+  "registration_status": "invitation_requests_not_open"
+}

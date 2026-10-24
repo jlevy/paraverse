@@ -1,0 +1,29 @@
+{
+  "id": "spie-lithography-2027",
+  "name": "SPIE Advanced Lithography + Patterning 2027",
+  "start_date": "2027-02-21",
+  "end_date": "2027-02-25",
+  "city": "San Jose",
+  "venue": null,
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "engineering",
+    "semiconductors",
+    "lithography"
+  ],
+  "price": null,
+  "source_url": "https://spie.org/conferences-and-exhibitions/advanced-lithography-and-patterning",
+  "retrieved_at": "2026-10-24T22:25:02.828524+00:00",
+  "retrieval_method": "Web tool official venue page and organizer social post",
+  "evidence_file": "sources/spie-lithography-2027.json",
+  "evidence_quotes": [
+    "SPIE Advanced Lithography + Patterning 2027: 2027-02-21 through 2027-02-25, San Jose."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "retrieval_failed",
+  "agenda_note": "Organizer website returned only an iframe through web retrieval. Sessions, speakers and prices remain uncollected; this is not evidence that no agenda exists.",
+  "agenda_checked_at": "2026-10-24T22:25:02.828524+00:00",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

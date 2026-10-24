@@ -230,3 +230,14 @@ __marimo__/
 **/storageState*.json
 **/cookies*.json
 **/auth-state*.json
+
+# Native companion local builds and account state
+native/.build/
+native/build/
+node_modules/
+work/*
+!work/data/
+work/data/profiles/
+work/data/attendee-contacts/
+outputs/
+output/

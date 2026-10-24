@@ -1,0 +1,28 @@
+{
+  "id": "dreamforce-2027",
+  "name": "Dreamforce",
+  "start_date": "2027-09-21",
+  "end_date": "2027-09-23",
+  "city": "San Francisco",
+  "venue": "Moscone Center",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "application development"
+  ],
+  "price": null,
+  "source_url": "https://www.salesforce.com/dreamforce/faq/",
+  "retrieved_at": "2026-10-23T21:04:56.172889-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/dreamforce-2027.json",
+  "evidence_quotes": [
+    "September 21\u201323, 2027",
+    "Moscone Center"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_found_on_checked_sources",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null,
+  "agenda_note": "Registration opens Spring 2027; FAQ links 2026 recordings, excluded from 2027."
+}

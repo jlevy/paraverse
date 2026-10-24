@@ -1,0 +1,105 @@
+{
+  "name": "Jesse Houwing \u2b50",
+  "username": "jessehouwing",
+  "x_user_id": "55487619",
+  "profile_url": "https://x.com/jessehouwing",
+  "event": "GitHub Universe 2026",
+  "attendance_status": "self_reported_going",
+  "attendance_mode": "unspecified",
+  "source_url": "https://x.com/jessehouwing/status/2111078702079451269",
+  "post_date": "2026-10-16T12:55:59.000Z",
+  "evidence": "I'll be at #GitHubUniverse in little over a week! Let's connect! Ping me on any of my socials or reach out through \n\nhttps://t.co/JH10Ep8QPg https://t.co/FBvVb56Foc",
+  "retrieval_method": "X API",
+  "speaker_check": "No matching name in saved 139-session catalog; not definitive proof of non-speaker status.",
+  "matching_opt_in": false,
+  "ticket_verified": false,
+  "role": "Trainer \u00b7 Xebia",
+  "avatar_url": "https://pbs.twimg.com/profile_images/2008641426200895488/uzcE_v8A_normal.jpg",
+  "avatar_asset": "attendee-jessehouwing",
+  "about": "Their bio states that they work at Xebia and train for Scrum.org, GitHub, and Microsoft.",
+  "generated_title": null,
+  "interests": [
+    {
+      "label": "Training and inspiring others",
+      "category": "professional",
+      "confidence": "high",
+      "reason": "Explicitly describes helping people look beyond the present as a passion; their bio also identifies training work.",
+      "sourceURL": "https://cz.linkedin.com/in/jessehouwing",
+      "evidence": [
+        {
+          "sourceURL": "https://cz.linkedin.com/in/jessehouwing",
+          "quote": "Passion Help people to look beyond the now.",
+          "date": null
+        },
+        {
+          "sourceURL": "https://x.com/jessehouwing",
+          "quote": "Train for @scrumdotorg, @Github and @Microsoft",
+          "date": null
+        }
+      ]
+    },
+    {
+      "label": "GitHub Actions security and credential reduction",
+      "category": "professional",
+      "confidence": "medium",
+      "reason": "October 2026 posts repeatedly discuss Actions security improvements and their efforts to eliminate PATs and certificates.",
+      "sourceURL": "https://x.com/jessehouwing/status/2111095500577407105",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/jessehouwing/status/2111095500577407105",
+          "quote": "So many security improvements while battling attacks left and right.",
+          "date": "2026-10-16T14:02:44.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/jessehouwing/status/2112175485186646376",
+          "quote": "I documented my attempts to get rid of PATs and certs.",
+          "date": "2026-10-19T13:34:12.000Z"
+        }
+      ]
+    },
+    {
+      "label": "Actions lockfiles and dependency visibility",
+      "category": "professional",
+      "confidence": "medium",
+      "reason": "Undated posts discuss understanding Actions lockfile behavior and adding lockfile support to their dependency-submission action.",
+      "sourceURL": "https://www.linkedin.com/posts/jessehouwing_pinning-the-unpinnable-taking-github-actions-activity-7516758516322156546-8co_",
+      "evidence": [
+        {
+          "sourceURL": "https://www.linkedin.com/posts/jessehouwing_pinning-the-unpinnable-taking-github-actions-activity-7516758516322156546-8co_",
+          "quote": "Lots of good information in here.",
+          "date": null
+        },
+        {
+          "sourceURL": "https://www.linkedin.com/posts/jessehouwing_github-jessehouwingactions-dependency-submission-activity-7516157545657511936-Crzx",
+          "quote": "I've just updated my Actions Dependency Submission action to use the data in the lockfile",
+          "date": null
+        }
+      ]
+    },
+    {
+      "label": "Developer workflow and publishing automation",
+      "category": "professional",
+      "confidence": "medium",
+      "reason": "Describes building automation for dependency submission and, in September 2026, Marketplace publishing through Azure Pipelines and GitHub Actions.",
+      "sourceURL": "https://www.linkedin.com/posts/jessehouwing_github-jessehouwingactions-dependency-submission-activity-7516157545657511936-Crzx",
+      "evidence": [
+        {
+          "sourceURL": "https://www.linkedin.com/posts/jessehouwing_github-jessehouwingactions-dependency-submission-activity-7516157545657511936-Crzx",
+          "quote": "populate the dependency tree for your repo",
+          "date": null
+        },
+        {
+          "sourceURL": "https://x.com/jessehouwing/status/2102674658579337675",
+          "quote": "Adding Azure Pipelines and #GitHub Actions support for publishing to the Marketplace.",
+          "date": "2026-09-23T08:21:19.000Z"
+        }
+      ]
+    }
+  ],
+  "linkedin_url": "https://www.linkedin.com/in/jessehouwing",
+  "linkedin_status": "name_and_employer_matched",
+  "attendance_reason": null,
+  "enrichment_status": "ready",
+  "enrichment_method": "Bright Data LinkedIn and X + evidence-validated AI analysis",
+  "post_count": 5
+}

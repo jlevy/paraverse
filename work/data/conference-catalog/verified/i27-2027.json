@@ -1,0 +1,33 @@
+{
+  "id": "i27-2027",
+  "name": "The Intelligence Conference",
+  "start_date": "2027-04-22",
+  "end_date": "2027-04-23",
+  "city": "San Francisco",
+  "venue": "Palace of Fine Arts",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "developer tools",
+    "compute"
+  ],
+  "price": {
+    "amount": 999,
+    "currency": "USD",
+    "ticket": "Alpha Pass"
+  },
+  "source_url": "https://www.i27.ai/",
+  "retrieved_at": "2026-10-23T20:20:01.067762-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/i27-2027.json",
+  "evidence_quotes": [
+    "April 22\u201323, 2027",
+    "Palace of Fine Arts"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_checked",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": "https://tickets.i27.ai/",
+  "agenda_note": "Speakers subpage and detailed agenda still require review."
+}

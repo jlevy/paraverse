@@ -1,0 +1,921 @@
+[
+  {
+    "name": "Fadi Zuabi",
+    "username": "fadi_zuabi",
+    "x_user_id": "1688349289339400192",
+    "profile_url": "https://x.com/fadi_zuabi",
+    "event": "GitHub Universe 2026",
+    "attendance_status": "self_reported_going",
+    "attendance_mode": "unspecified",
+    "source_url": "https://x.com/fadi_zuabi/status/2113734076909977972",
+    "post_date": "2026-10-23T20:47:29.000Z",
+    "evidence": "@OrenMe @github i'll be in github universe. let's meet!!",
+    "retrieval_method": "X API",
+    "speaker_check": "No matching name in saved 139-session catalog; not definitive proof of non-speaker status.",
+    "matching_opt_in": false,
+    "ticket_verified": false,
+    "role": "ML Engineer · Solidigm",
+    "avatar_url": "https://pbs.twimg.com/profile_images/2002800252693172224/1T1XPOR5_normal.jpg",
+    "avatar_asset": "attendee-fadi_zuabi",
+    "enrichment_status": "limited_public_data",
+    "interests": [],
+    "about": "ML Engineer at Solidigm.",
+    "enrichment_method": "Saved X API public bio; Bright Data returned no attributable posts",
+    "linkedin_url": null,
+    "linkedin_status": "identity_not_verified",
+    "attendance_reason": null,
+    "id": "fadi_zuabi"
+  },
+  {
+    "name": "Oren Melamed",
+    "username": "OrenMe",
+    "x_user_id": "36475277",
+    "profile_url": "https://x.com/OrenMe",
+    "event": "GitHub Universe 2026",
+    "attendance_status": "self_reported_going",
+    "attendance_mode": "in_person",
+    "source_url": "https://x.com/OrenMe/status/2113729230823477596",
+    "post_date": "2026-10-23T20:28:14.000Z",
+    "evidence": "The @github Star swag arrived ⭐️\n\nNext stop: GitHub Universe in San Francisco.\n\nLooking forward to seeing what’s next for GitHub and catching up with the people building the future of software development.\n\nWho else is going? Let’s connect. https://t.co/qhnNinS0CG",
+    "retrieval_method": "X API",
+    "speaker_check": "No matching name in saved 139-session catalog; not definitive proof of non-speaker status.",
+    "matching_opt_in": false,
+    "ticket_verified": false,
+    "role": "AI Transformation · AT&T · GitHub Star",
+    "avatar_url": "https://pbs.twimg.com/profile_images/1952736802508267520/sIA41s69_normal.jpg",
+    "avatar_asset": "attendee-OrenMe",
+    "about": "Bio lists AI Transformation at AT&T, GitHub Star, and Microsoft MVP. In July–August 2025, described building PromptBoost.dev with GitHub Copilot and launching an MCP integration.",
+    "generated_title": "AI Transformation @ AT&T",
+    "interests": [
+      {
+        "label": "AI-native engineering and human–agent collaboration",
+        "category": "professional",
+        "confidence": "high",
+        "reason": "Explicitly identifies human–agent collaboration and rethinking organizational software development as professional focus areas.",
+        "sourceURL": "https://x.com/orenme",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/orenme",
+            "quote": "Humans + agents. AI-native engineering. Rethinking how organizations build.",
+            "date": null
+          }
+        ]
+      },
+      {
+        "label": "GitHub Copilot and VS Code extensibility",
+        "category": "professional",
+        "confidence": "high",
+        "reason": "Expressed a strong preference for their integrations and flexibility in August 2025, with continued interest in Copilot experimentation in October 2026.",
+        "sourceURL": "https://x.com/orenme/status/1958162968186630642",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/orenme/status/1958162968186630642",
+            "quote": "It’s the integrations and flexibility.",
+            "date": "2025-08-20T13:43:27.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/orenme/status/2109494269396296183",
+            "quote": "Still a research preview, but definitely worth exploring in VS Code Insiders.",
+            "date": "2026-10-12T04:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "label": "Multi-agent workflows and multi-model orchestration",
+        "category": "professional",
+        "confidence": "high",
+        "reason": "Recommends defined agent workflows and explicitly favors making reasoning-effort trade-offs configurable in October 2026.",
+        "sourceURL": "https://x.com/orenme/status/2111392932821364742",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/orenme/status/2111392932821364742",
+            "quote": "you should leverage @GitHubCopilot Dynamic Workflows",
+            "date": "2026-10-17T09:44:37.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/orenme/status/2109494269396296183",
+            "quote": "I like the direction of making that trade-off an explicit part of the experience.",
+            "date": "2026-10-12T04:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "label": "AI business impact and usage-cost controls",
+        "category": "professional",
+        "confidence": "medium",
+        "reason": "Repeatedly discusses whether AI spending delivers business value and how engineering teams can control usage costs. The ROI discussion includes an October 2026 post; the cost-control posts are undated.",
+        "sourceURL": "https://x.com/orenme/status/2111039632326693294",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/orenme/status/2111039632326693294",
+            "quote": "Where’s the corresponding growth in revenue?",
+            "date": "2026-10-16T10:20:44.000Z"
+          },
+          {
+            "sourceURL": "https://www.linkedin.com/posts/orenmelamed_github-copilot-cloud-code-review-just-got-activity-7514424269792251904-vjXv",
+            "quote": "Cost ownership enables policy, not just usage.",
+            "date": null
+          },
+          {
+            "sourceURL": "https://www.linkedin.com/posts/orenmelamed_visual-studio-code-is-experimenting-with-activity-7515117975352266752-O4_b",
+            "quote": "reduce our overall cost of usage",
+            "date": null
+          }
+        ]
+      },
+      {
+        "label": "Specification-aware AI code review",
+        "category": "professional",
+        "confidence": "high",
+        "reason": "An undated post describes a preferred review cadence and a personal workflow that checks implementations against centrally maintained specifications.",
+        "sourceURL": "https://www.linkedin.com/posts/orenmelamed_github-copilot-cloud-code-review-just-got-activity-7514424269792251904-vjXv",
+        "evidence": [
+          {
+            "sourceURL": "https://www.linkedin.com/posts/orenmelamed_github-copilot-cloud-code-review-just-got-activity-7514424269792251904-vjXv",
+            "quote": "My preferred trade-off:",
+            "date": null
+          },
+          {
+            "sourceURL": "https://www.linkedin.com/posts/orenmelamed_github-copilot-cloud-code-review-just-got-activity-7514424269792251904-vjXv",
+            "quote": "The biggest opportunity is reviewing against intent.",
+            "date": null
+          }
+        ]
+      },
+      {
+        "label": "Agent package ecosystems and governance",
+        "category": "professional",
+        "confidence": "high",
+        "reason": "Explicitly advocates package identity, versioning, provenance, and governance for agent customizations in an undated post.",
+        "sourceURL": "https://www.linkedin.com/posts/orenmelamed_you-need-to-be-turning-agent-customizations-activity-7511288821527773185-aCU7",
+        "evidence": [
+          {
+            "sourceURL": "https://www.linkedin.com/posts/orenmelamed_you-need-to-be-turning-agent-customizations-activity-7511288821527773185-aCU7",
+            "quote": "an npm-like distribution layer for agent primitives.",
+            "date": null
+          },
+          {
+            "sourceURL": "https://www.linkedin.com/posts/orenmelamed_you-need-to-be-turning-agent-customizations-activity-7511288821527773185-aCU7",
+            "quote": "They need identity, versioning, provenance, governance",
+            "date": null
+          }
+        ]
+      },
+      {
+        "label": "MCP integrations and interactive agent interfaces",
+        "category": "professional",
+        "confidence": "high",
+        "reason": "Historical interest documented in August 2025: enthusiastically endorsed MCP-UI, described building an MCP integration, and advocated VS Code support.",
+        "sourceURL": "https://x.com/orenme/status/1954279707379437717",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/orenme/status/1954279707379437717",
+            "quote": "mcp-ui is the future",
+            "date": "2025-08-09T20:32:45.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/orenme/status/1954279707379437717",
+            "quote": "I built an MCP for promptboost[.]dev",
+            "date": "2025-08-09T20:32:45.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/orenme/status/1953314300853985686",
+            "quote": "Come cast your vote and help it reach 20million people",
+            "date": "2025-08-07T04:36:34.000Z"
+          }
+        ]
+      },
+      {
+        "label": "Context engineering and agent instructions",
+        "category": "professional",
+        "confidence": "medium",
+        "reason": "Repeatedly discusses prompt structure and consistent instructions across agents, in July 2025 posts and an undated discussion of prompt caching.",
+        "sourceURL": "https://www.linkedin.com/posts/orenmelamed_visual-studio-code-is-experimenting-with-activity-7515117975352266752-O4_b",
+        "evidence": [
+          {
+            "sourceURL": "https://www.linkedin.com/posts/orenmelamed_visual-studio-code-is-experimenting-with-activity-7515117975352266752-O4_b",
+            "quote": "It's also about how you structure it",
+            "date": null
+          },
+          {
+            "sourceURL": "https://x.com/orenme/status/1950553341915729963",
+            "quote": "System prompts now correctly append to the system message, not user message.",
+            "date": "2025-07-30T13:45:30.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/orenme/status/1950553335225831721",
+            "quote": "same instructions in local and remote for smoother DX",
+            "date": "2025-07-30T13:45:29.000Z"
+          }
+        ]
+      },
+      {
+        "label": "GitHub ecosystem and developer community",
+        "category": "professional",
+        "confidence": "high",
+        "reason": "Explicitly expressed enthusiasm in October 2026 for GitHub’s direction and connecting with people building software-development tools.",
+        "sourceURL": "https://x.com/orenme/status/2113729230823477596",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/orenme/status/2113729230823477596",
+            "quote": "Looking forward to seeing what’s next for GitHub and catching up with the people building the future of software development.",
+            "date": "2026-10-23T20:28:14.000Z"
+          }
+        ]
+      }
+    ],
+    "linkedin_url": "https://www.linkedin.com/in/orenmelamed",
+    "linkedin_status": "name_and_employer_matched",
+    "attendance_reason": null,
+    "enrichment_status": "ready",
+    "enrichment_method": "Bright Data LinkedIn and X + evidence-validated AI analysis",
+    "post_count": 50,
+    "id": "orenme"
+  },
+  {
+    "name": "Techno Tim",
+    "username": "TechnoTimLive",
+    "x_user_id": "988916266936156161",
+    "profile_url": "https://x.com/TechnoTimLive",
+    "event": "GitHub Universe 2026",
+    "attendance_status": "self_reported_going",
+    "attendance_mode": "unspecified",
+    "source_url": "https://x.com/TechnoTimLive/status/2113681810685407287",
+    "post_date": "2026-10-23T17:19:48.000Z",
+    "evidence": "I’m super excited to attend GitHub Universe next week!  Thanks for the swag box for next week @github ! https://t.co/YZOtR6EZio",
+    "retrieval_method": "X API",
+    "speaker_check": "No matching name in saved 139-session catalog; not definitive proof of non-speaker status.",
+    "matching_opt_in": false,
+    "ticket_verified": false,
+    "role": "Engineer, builder & creator",
+    "avatar_url": "https://pbs.twimg.com/profile_images/1286144221217316864/qIAsKOpB_normal.jpg",
+    "avatar_asset": "attendee-TechnoTimLive",
+    "about": "Self-described engineer, builder, and creator. Shared HomeLab infrastructure, self-hosted service configurations, and related tutorials in 2024–2025. Reported submitting fixes for Shlink vulnerabilities in October 2026.",
+    "generated_title": "Engineer. Builder. Creator.",
+    "interests": [
+      {
+        "label": "HomeLab building and self-hosting",
+        "category": "personal",
+        "confidence": "medium",
+        "reason": "Repeatedly documented personal HomeLab projects and self-hosted services in 2024–2025, with further discussion of homelab software security in October 2026.",
+        "sourceURL": "https://x.com/technotimlive/status/1816858365676650959",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/technotimlive/status/1816858365676650959",
+            "quote": "I finished my mini server rack build!",
+            "date": "2024-07-26T15:29:24.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/technotimlive/status/1885391522780074056",
+            "quote": "Self-hosting in 2025: What’s running in my HomeLab?",
+            "date": "2025-01-31T18:15:42.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/technotimlive/status/2113108296655606142",
+            "quote": "If you're running Shlink in your homelab",
+            "date": "2026-10-22T03:20:52.000Z"
+          }
+        ]
+      },
+      {
+        "label": "Proxmox virtualization and containers",
+        "category": "professional",
+        "confidence": "high",
+        "reason": "Expressed enthusiasm for Proxmox and specific container capabilities in 2024–2025, alongside hands-on cluster work. These preferences are historical rather than confirmed current.",
+        "sourceURL": "https://x.com/technotimlive/status/1819419886780609020",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/technotimlive/status/1819419886780609020",
+            "quote": "If Proxmox supported Docker/containerd natively along with LXC I think it wold be nature's most perfect hypervisor.",
+            "date": "2024-08-02T17:07:58.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/technotimlive/status/1854319071858135399",
+            "quote": "Today I created a high availability PostgreSQL (postgres) cluster using Proxmox LXC containers.",
+            "date": "2024-11-07T00:24:52.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/technotimlive/status/1954222809913155749",
+            "quote": "It's a low power Proxmox LXC Server and it's awesome!",
+            "date": "2025-08-09T16:46:40.000Z"
+          }
+        ]
+      },
+      {
+        "label": "NAS and network storage performance",
+        "category": "professional",
+        "confidence": "medium",
+        "reason": "Repeatedly discussed storage optimization and NAS functionality, with recent hands-on Linux NFS performance work in October 2026.",
+        "sourceURL": "https://x.com/technotimlive/status/1736160197528166727",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/technotimlive/status/1736160197528166727",
+            "quote": "So I decided to make my NAS a little faster...",
+            "date": "2023-12-16T23:03:42.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/technotimlive/status/1848706877179236466",
+            "quote": "It’s a strong v1 but looking forward to more software features.",
+            "date": "2024-10-22T12:44:01.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/technotimlive/status/2111150227163848751",
+            "quote": "I just discovered FS-Cache in Linux and it sped up my NFS shares 6x even with 10 gig",
+            "date": "2026-10-16T17:40:12.000Z"
+          }
+        ]
+      },
+      {
+        "label": "Home server hardware upgrades",
+        "category": "personal",
+        "confidence": "medium",
+        "reason": "Multiple posts document personal server upgrades and component customization in 2025; continued interest after that period is not established.",
+        "sourceURL": "https://x.com/technotimlive/status/1905268151442419924",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/technotimlive/status/1905268151442419924",
+            "quote": "It's server upgrade day!",
+            "date": "2025-03-27T14:38:20.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/technotimlive/status/1911097047635075512",
+            "quote": "I rebuilt my home server from the ground up: CPU, GPU, RAM, fans, SSDs, and power supply",
+            "date": "2025-04-12T16:40:17.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/technotimlive/status/1929581191797104676",
+            "quote": "Just added my favorite nvme heatsinks!",
+            "date": "2025-06-02T16:49:40.000Z"
+          }
+        ]
+      },
+      {
+        "label": "Network infrastructure and monitoring",
+        "category": "professional",
+        "confidence": "medium",
+        "reason": "Documented network rack construction, gateway fit testing, and automated connection monitoring in 2025. These establish historical technical engagement.",
+        "sourceURL": "https://x.com/technotimlive/status/1891227742793765132",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/technotimlive/status/1891227742793765132",
+            "quote": "My MINI network RACKs are \"done\".",
+            "date": "2025-02-16T20:46:45.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/technotimlive/status/1903195346093629678",
+            "quote": "Confirming that the 10G Cloud Gateway Fiber fits perfectly into a MINI RACK!",
+            "date": "2025-03-21T21:21:44.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/technotimlive/status/1890117740628947111",
+            "quote": "My automation reset my ONT 10 times in the last hour.",
+            "date": "2025-02-13T19:16:00.000Z"
+          }
+        ]
+      },
+      {
+        "label": "Technical tutorials and infrastructure knowledge sharing",
+        "category": "professional",
+        "confidence": "medium",
+        "reason": "Repeatedly described writing tutorials and explaining HomeLab configurations in 2024–2025.",
+        "sourceURL": "https://x.com/technotimlive/status/1749507286442144000",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/technotimlive/status/1749507286442144000",
+            "quote": "This is probably the most important tutorial I've ever written.",
+            "date": "2024-01-22T19:00:16.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/technotimlive/status/1743358830220599437",
+            "quote": "here's the list of self-hosted services I am running in my HomeLab along with network diagrams and related tutorials!",
+            "date": "2024-01-05T19:48:29.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/technotimlive/status/1885391522780074056",
+            "quote": "After sharing my HomeLab hardware setup, the next big question was—what am I actually running on it?",
+            "date": "2025-01-31T18:15:42.000Z"
+          }
+        ]
+      }
+    ],
+    "linkedin_url": null,
+    "linkedin_status": "identity_not_verified",
+    "attendance_reason": null,
+    "enrichment_status": "ready",
+    "enrichment_method": "Bright Data X profile posts + evidence-validated AI analysis",
+    "post_count": 50,
+    "id": "technotimlive"
+  },
+  {
+    "name": "Rishab Kumar",
+    "username": "rishabincloud",
+    "x_user_id": "924756476",
+    "profile_url": "https://x.com/rishabincloud",
+    "event": "GitHub Universe 2026",
+    "attendance_status": "self_reported_going",
+    "attendance_mode": "unspecified",
+    "source_url": "https://x.com/rishabincloud/status/2112932522657268059",
+    "post_date": "2026-10-21T15:42:24.000Z",
+    "evidence": "see you all next week at @github universe! https://t.co/tSknh9wX5v",
+    "retrieval_method": "X API",
+    "speaker_check": "No matching name in saved 139-session catalog; not definitive proof of non-speaker status.",
+    "matching_opt_in": false,
+    "ticket_verified": false,
+    "role": "Developer Relations · Twilio",
+    "avatar_url": "https://pbs.twimg.com/profile_images/1746197729204654081/5OjnEu8g_normal.jpg",
+    "avatar_asset": "attendee-rishabincloud",
+    "about": "Bio lists a part-time cloud professor role and core-maintainer role at @learntocloud. Described transitioning from help-desk/tech support to cloud engineering in 2024.",
+    "generated_title": "Staff Developer Evangelist at Twilio",
+    "interests": [
+      {
+        "label": "Real-time voice AI agents",
+        "category": "professional",
+        "confidence": "medium",
+        "reason": "Built and demonstrated a Python voice agent connecting Twilio Agent Connect with Gemini Live, with dated support from October 2026.",
+        "sourceURL": "https://www.linkedin.com/posts/rishabkumar7_imagine-calling-a-phone-number-and-having-activity-7519090834957365248-GJ0Q",
+        "evidence": [
+          {
+            "sourceURL": "https://www.linkedin.com/posts/rishabkumar7_imagine-calling-a-phone-number-and-having-activity-7519090834957365248-GJ0Q",
+            "quote": "I built a Python demo connecting Twilio Agent Connect with Gemini Live.",
+            "date": null
+          },
+          {
+            "sourceURL": "https://x.com/rishabincloud/status/2113642440876081239",
+            "quote": "I built a Python voice agent that handles real-time phone conversations, interruptions, function calls",
+            "date": "2026-10-23T14:43:22.000Z"
+          }
+        ]
+      },
+      {
+        "label": "Azure AI applications and agents",
+        "category": "professional",
+        "confidence": "medium",
+        "reason": "Repeatedly shared Azure AI certification achievements and study resources. Evidence includes a 2024 exam result and undated AI-103 preparation posts.",
+        "sourceURL": "https://x.com/rishabincloud/status/1803449501010588145",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/rishabincloud/status/1803449501010588145",
+            "quote": "Passed my Azure AI Engineer Associate AI-102 exam!",
+            "date": "2024-06-19T15:27:22.000Z"
+          },
+          {
+            "sourceURL": "https://www.linkedin.com/posts/rishabkumar7_how-i-passed-azure-ai-103-certification-activity-7516886941964001281-bZmZ",
+            "quote": "It's agents, tools, RAG, and Microsoft Foundry.",
+            "date": null
+          },
+          {
+            "sourceURL": "https://www.linkedin.com/posts/rishabkumar7_just-published-my-ai-103-azure-ai-apps-and-activity-7513616103399456769-NWtf",
+            "quote": "Just published my AI-103 Azure AI Apps and Agents Developer Associate notes",
+            "date": null
+          }
+        ]
+      },
+      {
+        "label": "Hands-on cloud and DevOps education",
+        "category": "professional",
+        "confidence": "medium",
+        "reason": "Created courses and practical learning projects, particularly in 2023–2025; an undated bio also identifies a cloud teaching role.",
+        "sourceURL": "https://cn.linkedin.com/in/rishabkumar7",
+        "evidence": [
+          {
+            "sourceURL": "https://cn.linkedin.com/in/rishabkumar7",
+            "quote": "part-time cloud professor",
+            "date": null
+          },
+          {
+            "sourceURL": "https://x.com/rishabincloud/status/1840788299222311313",
+            "quote": "The goal is same, to teach DevOps practices, hands-on way.",
+            "date": "2024-09-30T16:18:25.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/rishabincloud/status/1877762743614185703",
+            "quote": "Get your hands dirty with the Linux Command Line CTF Challenges on @learntocloud",
+            "date": "2025-01-10T17:01:39.000Z"
+          }
+        ]
+      },
+      {
+        "label": "Terraform and infrastructure as code",
+        "category": "professional",
+        "confidence": "medium",
+        "reason": "Repeatedly published and discussed Terraform courses across AWS, Azure, and GCP during 2023–2025. This is a documented historical topic, not a confirmed current focus.",
+        "sourceURL": "https://x.com/rishabincloud/status/1682000890276765696",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/rishabincloud/status/1682000890276765696",
+            "quote": "And I have created some courses for you that you can take for free on YouTube!",
+            "date": "2023-07-20T12:13:56.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/rishabincloud/status/1776299149329043705",
+            "quote": "Now I have a full playlist of Terraform Courses covering all three major cloud providers!",
+            "date": "2024-04-05T17:21:33.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/rishabincloud/status/1958180300577538222",
+            "quote": "Terraform introductory course for Azure passed 45K views!",
+            "date": "2025-08-20T14:52:19.000Z"
+          }
+        ]
+      },
+      {
+        "label": "Containers and CI/CD",
+        "category": "professional",
+        "confidence": "medium",
+        "reason": "Studied Docker in 2023 and developed hands-on containerization and CI/CD learning materials in 2024.",
+        "sourceURL": "https://x.com/rishabincloud/status/1666796344915161093",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/rishabincloud/status/1666796344915161093",
+            "quote": "As I am learning all the fun stuff with Docker and containers",
+            "date": "2023-06-08T13:16:30.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/rishabincloud/status/1828432675301958113",
+            "quote": "Containerization: docker & k8s",
+            "date": "2024-08-27T14:01:35.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/rishabincloud/status/1823374922791502083",
+            "quote": "Setting up CI/CD with GitHub Actions for Docker images.",
+            "date": "2024-08-13T15:03:52.000Z"
+          }
+        ]
+      },
+      {
+        "label": "Linux and command-line skills",
+        "category": "professional",
+        "confidence": "medium",
+        "reason": "Earned a Linux certification in 2023 and built or shared command-line labs in 2024–2025.",
+        "sourceURL": "https://x.com/rishabincloud/status/1664652268581396480",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/rishabincloud/status/1664652268581396480",
+            "quote": "passed my linux essentials certification",
+            "date": "2023-06-02T15:16:43.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/rishabincloud/status/1841510782493659182",
+            "quote": "Building a Linux lab for better command line skills",
+            "date": "2024-10-02T16:09:18.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/rishabincloud/status/1877762743614185703",
+            "quote": "Linux Command Line CTF Challenges",
+            "date": "2025-01-10T17:01:39.000Z"
+          }
+        ]
+      },
+      {
+        "label": "AWS serverless application projects",
+        "category": "professional",
+        "confidence": "medium",
+        "reason": "Repeatedly shared practical AWS projects using Lambda, storage, and databases in 2023–2024.",
+        "sourceURL": "https://x.com/rishabincloud/status/1722603957883961440",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/rishabincloud/status/1722603957883961440",
+            "quote": "Let's build a serverless API to generate QR Codes.",
+            "date": "2023-11-09T13:16:02.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/rishabincloud/status/1692202386436067819",
+            "quote": "build and deploy a serverless API using AWS Lambda and DynamoDB",
+            "date": "2023-08-17T15:51:03.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/rishabincloud/status/1828799895190311421",
+            "quote": "AWS Lambda to fetch and update visitor count",
+            "date": "2024-08-28T14:20:47.000Z"
+          }
+        ]
+      },
+      {
+        "label": "Cloud and production security",
+        "category": "professional",
+        "confidence": "medium",
+        "reason": "Reported passing a Google Cloud security certification in 2025 and discussed secrets, dependencies, and production security practices in October 2026.",
+        "sourceURL": "https://x.com/rishabincloud/status/1907432137558458673",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/rishabincloud/status/1907432137558458673",
+            "quote": "I PASSED THE GOOGLE CLOUD SECURITY PROFESSIONAL CERTIFICATION!",
+            "date": "2025-04-02T13:57:14.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/rishabincloud/status/2113316665442103721",
+            "quote": "It's secrets and dependencies we trusted.",
+            "date": "2026-10-22T17:08:51.000Z"
+          }
+        ]
+      }
+    ],
+    "linkedin_url": "https://www.linkedin.com/in/rishabkumar7",
+    "linkedin_status": "name_and_employer_matched",
+    "attendance_reason": null,
+    "enrichment_status": "ready",
+    "enrichment_method": "Bright Data LinkedIn and X + evidence-validated AI analysis",
+    "post_count": 50,
+    "id": "rishabincloud"
+  },
+  {
+    "name": "Jesse Houwing ⭐",
+    "username": "jessehouwing",
+    "x_user_id": "55487619",
+    "profile_url": "https://x.com/jessehouwing",
+    "event": "GitHub Universe 2026",
+    "attendance_status": "self_reported_going",
+    "attendance_mode": "unspecified",
+    "source_url": "https://x.com/jessehouwing/status/2111078702079451269",
+    "post_date": "2026-10-16T12:55:59.000Z",
+    "evidence": "I'll be at #GitHubUniverse in little over a week! Let's connect! Ping me on any of my socials or reach out through \n\nhttps://t.co/JH10Ep8QPg https://t.co/FBvVb56Foc",
+    "retrieval_method": "X API",
+    "speaker_check": "No matching name in saved 139-session catalog; not definitive proof of non-speaker status.",
+    "matching_opt_in": false,
+    "ticket_verified": false,
+    "role": "Trainer · Xebia",
+    "avatar_url": "https://pbs.twimg.com/profile_images/2008641426200895488/uzcE_v8A_normal.jpg",
+    "avatar_asset": "attendee-jessehouwing",
+    "about": "Their bio states that they work at Xebia and train for Scrum.org, GitHub, and Microsoft.",
+    "generated_title": null,
+    "interests": [
+      {
+        "label": "Training and inspiring others",
+        "category": "professional",
+        "confidence": "high",
+        "reason": "Explicitly describes helping people look beyond the present as a passion; their bio also identifies training work.",
+        "sourceURL": "https://cz.linkedin.com/in/jessehouwing",
+        "evidence": [
+          {
+            "sourceURL": "https://cz.linkedin.com/in/jessehouwing",
+            "quote": "Passion Help people to look beyond the now.",
+            "date": null
+          },
+          {
+            "sourceURL": "https://x.com/jessehouwing",
+            "quote": "Train for @scrumdotorg, @Github and @Microsoft",
+            "date": null
+          }
+        ]
+      },
+      {
+        "label": "GitHub Actions security and credential reduction",
+        "category": "professional",
+        "confidence": "medium",
+        "reason": "October 2026 posts repeatedly discuss Actions security improvements and their efforts to eliminate PATs and certificates.",
+        "sourceURL": "https://x.com/jessehouwing/status/2111095500577407105",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/jessehouwing/status/2111095500577407105",
+            "quote": "So many security improvements while battling attacks left and right.",
+            "date": "2026-10-16T14:02:44.000Z"
+          },
+          {
+            "sourceURL": "https://x.com/jessehouwing/status/2112175485186646376",
+            "quote": "I documented my attempts to get rid of PATs and certs.",
+            "date": "2026-10-19T13:34:12.000Z"
+          }
+        ]
+      },
+      {
+        "label": "Actions lockfiles and dependency visibility",
+        "category": "professional",
+        "confidence": "medium",
+        "reason": "Undated posts discuss understanding Actions lockfile behavior and adding lockfile support to their dependency-submission action.",
+        "sourceURL": "https://www.linkedin.com/posts/jessehouwing_pinning-the-unpinnable-taking-github-actions-activity-7516758516322156546-8co_",
+        "evidence": [
+          {
+            "sourceURL": "https://www.linkedin.com/posts/jessehouwing_pinning-the-unpinnable-taking-github-actions-activity-7516758516322156546-8co_",
+            "quote": "Lots of good information in here.",
+            "date": null
+          },
+          {
+            "sourceURL": "https://www.linkedin.com/posts/jessehouwing_github-jessehouwingactions-dependency-submission-activity-7516157545657511936-Crzx",
+            "quote": "I've just updated my Actions Dependency Submission action to use the data in the lockfile",
+            "date": null
+          }
+        ]
+      },
+      {
+        "label": "Developer workflow and publishing automation",
+        "category": "professional",
+        "confidence": "medium",
+        "reason": "Describes building automation for dependency submission and, in September 2026, Marketplace publishing through Azure Pipelines and GitHub Actions.",
+        "sourceURL": "https://www.linkedin.com/posts/jessehouwing_github-jessehouwingactions-dependency-submission-activity-7516157545657511936-Crzx",
+        "evidence": [
+          {
+            "sourceURL": "https://www.linkedin.com/posts/jessehouwing_github-jessehouwingactions-dependency-submission-activity-7516157545657511936-Crzx",
+            "quote": "populate the dependency tree for your repo",
+            "date": null
+          },
+          {
+            "sourceURL": "https://x.com/jessehouwing/status/2102674658579337675",
+            "quote": "Adding Azure Pipelines and #GitHub Actions support for publishing to the Marketplace.",
+            "date": "2026-09-23T08:21:19.000Z"
+          }
+        ]
+      }
+    ],
+    "linkedin_url": "https://www.linkedin.com/in/jessehouwing",
+    "linkedin_status": "name_and_employer_matched",
+    "attendance_reason": null,
+    "enrichment_status": "ready",
+    "enrichment_method": "Bright Data LinkedIn and X + evidence-validated AI analysis",
+    "post_count": 5,
+    "id": "jessehouwing"
+  },
+  {
+    "name": "Sangeeta Mishra",
+    "username": "mishrasangeet",
+    "x_user_id": "2237644746",
+    "profile_url": "https://x.com/mishrasangeet",
+    "event": "GitHub Universe 2026",
+    "attendance_status": "self_reported_going",
+    "attendance_mode": "in_person",
+    "source_url": "https://x.com/mishrasangeet/status/2110868549346656364",
+    "post_date": "2026-10-15T23:00:54.000Z",
+    "evidence": "Update: I'm going to @GitHub Universe instead! 🎉\n\nGitHub set aside 75 free passes (Oct 28–29, SF) for those whose #GHC26 registration was cancelled. First come, first served, so DM them on LinkedIn with your GHC ticket soon!",
+    "retrieval_method": "X API",
+    "speaker_check": "No matching name in saved 139-session catalog; not definitive proof of non-speaker status.",
+    "matching_opt_in": false,
+    "ticket_verified": false,
+    "role": "Software Engineer · Databricks",
+    "avatar_url": "https://pbs.twimg.com/profile_images/2110840043036188672/Fleb0nFD_normal.jpg",
+    "avatar_asset": "attendee-mishrasangeet",
+    "about": "Software engineer at Databricks.",
+    "generated_title": "Software Engineer",
+    "interests": [
+      {
+        "label": "Tech community meetups and networking",
+        "category": "professional",
+        "confidence": "high",
+        "reason": "Explicitly sought local meetups and opportunities to connect with others in the tech community in October 2026.",
+        "sourceURL": "https://x.com/mishrasangeet/status/2110845647926546666",
+        "evidence": [
+          {
+            "sourceURL": "https://x.com/mishrasangeet/status/2110845647926546666",
+            "quote": "If you are too, let's meet up. Know a local meetup? Reply or DM me.",
+            "date": "2026-10-15T21:29:54.000Z"
+          }
+        ]
+      }
+    ],
+    "linkedin_url": null,
+    "linkedin_status": "identity_not_verified",
+    "attendance_reason": null,
+    "enrichment_status": "ready",
+    "enrichment_method": "Bright Data X profile posts + evidence-validated AI analysis",
+    "post_count": 5,
+    "id": "mishrasangeet"
+  },
+  {
+    "name": "Aaishika",
+    "username": "aaishika",
+    "x_user_id": "1080478407195013120",
+    "profile_url": "https://x.com/aaishika",
+    "event": "GitHub Universe 2026",
+    "attendance_status": "self_reported_going",
+    "attendance_mode": "unspecified",
+    "source_url": "https://x.com/aaishika/status/2107722200862380132",
+    "post_date": "2026-10-07T06:38:26.000Z",
+    "evidence": "@vedantstwt @github I’m already registered to attend Universe. 😏\nAlso 2024, 2025 and now the 2026 badge!",
+    "retrieval_method": "X API",
+    "speaker_check": "No matching name in saved 139-session catalog; not definitive proof of non-speaker status.",
+    "matching_opt_in": false,
+    "ticket_verified": false,
+    "avatar_url": "https://pbs.twimg.com/profile_images/2090666027847979008/WMBWR4xa_normal.jpg",
+    "about": "I work in tech and have opinions.\nProduct Manager, Developer Relations at @Qualcomm. Ambassador @devinai. Organizer @AgenticAIFdn.",
+    "enrichment_status": "pending",
+    "avatar_asset": "attendee-aaishika",
+    "id": "aaishika",
+    "interests": [],
+    "role": "Product Manager & Developer Relations · Qualcomm",
+    "role_source": "https://x.com/aaishika",
+    "role_method": "Concise paraphrase of saved X profile bio in about field"
+  },
+  {
+    "name": "Ben Milshtein",
+    "username": "BenMilshtein",
+    "x_user_id": "1776266296209928192",
+    "profile_url": "https://x.com/BenMilshtein",
+    "event": "GitHub Universe 2026",
+    "attendance_status": "self_reported_going",
+    "attendance_mode": "in_person",
+    "source_url": "https://x.com/BenMilshtein/status/2107291862474387789",
+    "post_date": "2026-10-06T02:08:26.000Z",
+    "evidence": "Universe, round two. 🚀\n\nBack to #GitHubUniverse with @palmalabs_ai, thanks to @github for Startups and my friend Corey Dolik.\n\nBringing AI demos, dev tools and workflows home to Miami’s builders.\n\nSF, Oct 28 + 29. DM me. Coffee’s on me. https://t.co/OULZn2mLBO",
+    "retrieval_method": "X API",
+    "speaker_check": "No matching name in saved 139-session catalog; not definitive proof of non-speaker status.",
+    "matching_opt_in": false,
+    "ticket_verified": false,
+    "avatar_url": "https://pbs.twimg.com/profile_images/1940856718650490880/CD_3CAN8_normal.jpg",
+    "about": "Building community in Miami through @Palmalabs_ai\n@SpaceXAI Ambassador.\nThe good, the bad & the in-between.\nNewsletter coming soon.",
+    "enrichment_status": "pending",
+    "avatar_asset": "attendee-BenMilshtein",
+    "id": "benmilshtein",
+    "interests": [],
+    "role": "Community builder · Palmalabs AI",
+    "role_source": "https://x.com/BenMilshtein",
+    "role_method": "Concise paraphrase of saved X profile bio in about field"
+  },
+  {
+    "name": "Tony Dang",
+    "username": "thisistonydang",
+    "x_user_id": "1069880754",
+    "profile_url": "https://x.com/thisistonydang",
+    "event": "GitHub Universe 2026",
+    "attendance_status": "self_reported_going",
+    "attendance_mode": "unspecified",
+    "source_url": "https://x.com/thisistonydang/status/2104206260803698759",
+    "post_date": "2026-09-27T13:47:21.000Z",
+    "evidence": "@the_best_codes I'll be at Resend Forward and Github Universe!",
+    "retrieval_method": "X API",
+    "speaker_check": "No matching name in saved 139-session catalog; not definitive proof of non-speaker status.",
+    "matching_opt_in": false,
+    "ticket_verified": false,
+    "avatar_url": "https://pbs.twimg.com/profile_images/2044563495782649856/oM8yX6HR_normal.jpg",
+    "about": "DevRel @Databricks/@neondatabase | 🧑‍💻 Web Developer | 🧗 Climber | 🤸 Calisthenics Practitioner",
+    "enrichment_status": "pending",
+    "avatar_asset": "attendee-thisistonydang",
+    "id": "thisistonydang",
+    "interests": [],
+    "role": "Developer Relations · Databricks / Neon",
+    "role_source": "https://x.com/thisistonydang",
+    "role_method": "Concise paraphrase of saved X profile bio in about field"
+  },
+  {
+    "name": "fatih kadir akın",
+    "username": "fkadev",
+    "x_user_id": "229021888",
+    "profile_url": "https://x.com/fkadev",
+    "event": "GitHub Universe 2026",
+    "attendance_status": "self_reported_going",
+    "attendance_mode": "unspecified",
+    "source_url": "https://x.com/fkadev/status/2096303968464871667",
+    "post_date": "2026-09-05T18:26:28.000Z",
+    "evidence": "I’m very excited to attend @GitHub Universe this year again and meet the most awesome devs of the universe! 😍\n\n(Spotted @SantoshYadavDev) https://t.co/yWSktc7Aiu",
+    "retrieval_method": "X API",
+    "speaker_check": "No matching name in saved 139-session catalog; not definitive proof of non-speaker status.",
+    "matching_opt_in": false,
+    "ticket_verified": false,
+    "avatar_url": "https://pbs.twimg.com/profile_images/2109520659000770560/pgsintVd_normal.jpg",
+    "about": "happy dad · source opener · head of agentic experience @spacefasthq @automattic · prev @wordpress · awarded @github star · @agenticAIFdn ambassador · 2× exits",
+    "enrichment_status": "pending",
+    "avatar_asset": "attendee-fkadev",
+    "id": "fkadev",
+    "interests": [],
+    "role": "Head of Agentic Experience · Automattic",
+    "role_source": "https://x.com/fkadev",
+    "role_method": "Concise paraphrase of saved X profile bio in about field"
+  },
+  {
+    "name": "🇨🇭Matt Stenquist",
+    "username": "internetdialup",
+    "x_user_id": "16685909",
+    "profile_url": "https://x.com/internetdialup",
+    "event": "GitHub Universe 2026",
+    "attendance_status": "self_reported_going",
+    "attendance_mode": "in_person",
+    "source_url": "https://x.com/internetdialup/status/2087620290234679684",
+    "post_date": "2026-08-12T19:20:37.000Z",
+    "evidence": "Attending GitHub universe in SF 🤝 https://t.co/TIxGqpPcNQ",
+    "retrieval_method": "X API",
+    "speaker_check": "No matching name in saved 139-session catalog; not definitive proof of non-speaker status.",
+    "matching_opt_in": false,
+    "ticket_verified": false,
+    "avatar_url": "https://pbs.twimg.com/profile_images/2069479861706768384/UPMbnhyj_normal.jpg",
+    "about": "🦄 IYKYK · Former Pro 🏂  ♿️  \n🍍 Staff PDE coordinating ML \n🕹️ xAAA Gamedev  Systems, Tools, Eng\n🤖 https://t.co/4zaldOgZww  📝 https://t.co/627CPqTEYB",
+    "enrichment_status": "pending",
+    "avatar_asset": "attendee-internetdialup",
+    "id": "internetdialup",
+    "interests": [],
+    "role": "Staff PDE · ML systems & game development",
+    "role_source": "https://x.com/internetdialup",
+    "role_method": "Concise paraphrase of saved X profile bio in about field"
+  },
+  {
+    "name": "Scott Sauber",
+    "username": "scottsauber",
+    "x_user_id": "106281602",
+    "profile_url": "https://x.com/scottsauber",
+    "event": "GitHub Universe 2026",
+    "attendance_status": "self_reported_going",
+    "attendance_mode": "in_person",
+    "source_url": "https://x.com/scottsauber/status/2062481648122478830",
+    "post_date": "2026-06-04T10:28:38.000Z",
+    "evidence": "Had a blast speaking at Build, visiting GitHub HQ for the first time, and seeing old friends and making new ones.\n\nLooking forward to coming back to San Fran for GitHub Universe later this year!\n\n#MSBuild https://t.co/RRfeIBB7yg",
+    "retrieval_method": "X API",
+    "speaker_check": "No matching name in saved 139-session catalog; not definitive proof of non-speaker status.",
+    "matching_opt_in": false,
+    "ticket_verified": false,
+    "avatar_url": "https://pbs.twimg.com/profile_images/727703708532776960/p6YcXyR-_normal.jpg",
+    "about": "AI Dev Tools;\n@iadnug + @iowacodecamp co-organizer;\nDotNet, AspNetCore, Blazor;\nMicrosoft MVP;\n@dometrain Author;\nNike Air Force 1s; \nHusband and #GirlDad;",
+    "enrichment_status": "pending",
+    "avatar_asset": "attendee-scottsauber",
+    "id": "scottsauber",
+    "interests": [],
+    "role": "AI developer tools · Microsoft MVP",
+    "role_source": "https://x.com/scottsauber",
+    "role_method": "Concise paraphrase of saved X profile bio in about field"
+  }
+]

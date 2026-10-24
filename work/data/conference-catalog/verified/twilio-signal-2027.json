@@ -1,0 +1,30 @@
+{
+  "id": "twilio-signal-2027",
+  "name": "Twilio SIGNAL 2027",
+  "start_date": "2027-04-13",
+  "end_date": "2027-04-14",
+  "city": "San Francisco",
+  "venue": null,
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "developer tools",
+    "AI",
+    "communications",
+    "APIs"
+  ],
+  "price": null,
+  "source_url": "https://signal.twilio.com/",
+  "retrieved_at": "2026-10-24T22:40:02.208966+00:00",
+  "retrieval_method": "Web tool official organizer pages",
+  "evidence_file": "sources/twilio-signal-2027.json",
+  "evidence_quotes": [
+    "Twilio SIGNAL 2027: 2027-04-13 through 2027-04-14, San Francisco."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_verified_for_edition",
+  "agenda_note": "Official save-the-date announces April 13\u201314, 2027 in San Francisco. Remaining homepage speakers, virtual price and replay are explicitly 2026; excluded.",
+  "agenda_checked_at": "2026-10-24T22:40:02.208966+00:00",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

@@ -1,0 +1,31 @@
+{
+  "id": "snowflake-2027",
+  "name": "Snowflake Summit 2027",
+  "start_date": "2027-06-07",
+  "end_date": "2027-06-10",
+  "city": "San Francisco",
+  "venue": "Moscone Center",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "data",
+    "AI",
+    "machine learning",
+    "application development"
+  ],
+  "price": null,
+  "source_url": "https://www.snowflake.com/en/why-snowflake/partners/event-partnership-opportunities/",
+  "retrieved_at": "2026-10-23T22:57:27.839277-07:00",
+  "retrieval_method": "Web tool official-page extraction; selected 2027 edition excerpt",
+  "evidence_file": "sources/snowflake-2027.json",
+  "evidence_quotes": [
+    "June 7-10, 2027",
+    "Moscone Center in San Francisco",
+    "generative AI and machine learning, application development"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_checked",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null,
+  "agenda_note": "2027 dates confirmed by organizer partnership page. Existing 2026 program must not be assigned to 2027."
+}

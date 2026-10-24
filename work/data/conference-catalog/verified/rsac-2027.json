@@ -1,0 +1,28 @@
+{
+  "id": "rsac-2027",
+  "name": "RSA Conference",
+  "start_date": "2027-04-05",
+  "end_date": "2027-04-08",
+  "city": "San Francisco",
+  "venue": "Moscone Center and Yerba Buena Center for the Arts",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "cybersecurity",
+    "engineering"
+  ],
+  "price": null,
+  "source_url": "https://www.rsaconference.com/about/faq",
+  "retrieved_at": "2026-10-23T19:09:21.697715-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/rsac-2027.json",
+  "evidence_quotes": [
+    "April 5 \u2013 8 in San Francisco",
+    "RSAC 2027 will take place at the Moscone Center"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_checked",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null,
+  "agenda_note": "Detailed program and pricing still require review."
+}

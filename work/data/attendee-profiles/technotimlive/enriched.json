@@ -1,0 +1,191 @@
+{
+  "name": "Techno Tim",
+  "username": "TechnoTimLive",
+  "x_user_id": "988916266936156161",
+  "profile_url": "https://x.com/TechnoTimLive",
+  "event": "GitHub Universe 2026",
+  "attendance_status": "self_reported_going",
+  "attendance_mode": "unspecified",
+  "source_url": "https://x.com/TechnoTimLive/status/2113681810685407287",
+  "post_date": "2026-10-23T17:19:48.000Z",
+  "evidence": "I\u2019m super excited to attend GitHub Universe next week!  Thanks for the swag box for next week @github ! https://t.co/YZOtR6EZio",
+  "retrieval_method": "X API",
+  "speaker_check": "No matching name in saved 139-session catalog; not definitive proof of non-speaker status.",
+  "matching_opt_in": false,
+  "ticket_verified": false,
+  "role": "Engineer, builder & creator",
+  "avatar_url": "https://pbs.twimg.com/profile_images/1286144221217316864/qIAsKOpB_normal.jpg",
+  "avatar_asset": "attendee-TechnoTimLive",
+  "about": "Self-described engineer, builder, and creator. Shared HomeLab infrastructure, self-hosted service configurations, and related tutorials in 2024\u20132025. Reported submitting fixes for Shlink vulnerabilities in October 2026.",
+  "generated_title": "Engineer. Builder. Creator.",
+  "interests": [
+    {
+      "label": "HomeLab building and self-hosting",
+      "category": "personal",
+      "confidence": "medium",
+      "reason": "Repeatedly documented personal HomeLab projects and self-hosted services in 2024\u20132025, with further discussion of homelab software security in October 2026.",
+      "sourceURL": "https://x.com/technotimlive/status/1816858365676650959",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/technotimlive/status/1816858365676650959",
+          "quote": "I finished my mini server rack build!",
+          "date": "2024-07-26T15:29:24.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/technotimlive/status/1885391522780074056",
+          "quote": "Self-hosting in 2025: What\u2019s running in my HomeLab?",
+          "date": "2025-01-31T18:15:42.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/technotimlive/status/2113108296655606142",
+          "quote": "If you're running Shlink in your homelab",
+          "date": "2026-10-22T03:20:52.000Z"
+        }
+      ]
+    },
+    {
+      "label": "Proxmox virtualization and containers",
+      "category": "professional",
+      "confidence": "high",
+      "reason": "Expressed enthusiasm for Proxmox and specific container capabilities in 2024\u20132025, alongside hands-on cluster work. These preferences are historical rather than confirmed current.",
+      "sourceURL": "https://x.com/technotimlive/status/1819419886780609020",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/technotimlive/status/1819419886780609020",
+          "quote": "If Proxmox supported Docker/containerd natively along with LXC I think it wold be nature's most perfect hypervisor.",
+          "date": "2024-08-02T17:07:58.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/technotimlive/status/1854319071858135399",
+          "quote": "Today I created a high availability PostgreSQL (postgres) cluster using Proxmox LXC containers.",
+          "date": "2024-11-07T00:24:52.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/technotimlive/status/1954222809913155749",
+          "quote": "It's a low power Proxmox LXC Server and it's awesome!",
+          "date": "2025-08-09T16:46:40.000Z"
+        }
+      ]
+    },
+    {
+      "label": "NAS and network storage performance",
+      "category": "professional",
+      "confidence": "medium",
+      "reason": "Repeatedly discussed storage optimization and NAS functionality, with recent hands-on Linux NFS performance work in October 2026.",
+      "sourceURL": "https://x.com/technotimlive/status/1736160197528166727",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/technotimlive/status/1736160197528166727",
+          "quote": "So I decided to make my NAS a little faster...",
+          "date": "2023-12-16T23:03:42.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/technotimlive/status/1848706877179236466",
+          "quote": "It\u2019s a strong v1 but looking forward to more software features.",
+          "date": "2024-10-22T12:44:01.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/technotimlive/status/2111150227163848751",
+          "quote": "I just discovered FS-Cache in Linux and it sped up my NFS shares 6x even with 10 gig",
+          "date": "2026-10-16T17:40:12.000Z"
+        }
+      ]
+    },
+    {
+      "label": "Home server hardware upgrades",
+      "category": "personal",
+      "confidence": "medium",
+      "reason": "Multiple posts document personal server upgrades and component customization in 2025; continued interest after that period is not established.",
+      "sourceURL": "https://x.com/technotimlive/status/1905268151442419924",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/technotimlive/status/1905268151442419924",
+          "quote": "It's server upgrade day!",
+          "date": "2025-03-27T14:38:20.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/technotimlive/status/1911097047635075512",
+          "quote": "I rebuilt my home server from the ground up: CPU, GPU, RAM, fans, SSDs, and power supply",
+          "date": "2025-04-12T16:40:17.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/technotimlive/status/1929581191797104676",
+          "quote": "Just added my favorite nvme heatsinks!",
+          "date": "2025-06-02T16:49:40.000Z"
+        }
+      ]
+    },
+    {
+      "label": "Network infrastructure and monitoring",
+      "category": "professional",
+      "confidence": "medium",
+      "reason": "Documented network rack construction, gateway fit testing, and automated connection monitoring in 2025. These establish historical technical engagement.",
+      "sourceURL": "https://x.com/technotimlive/status/1891227742793765132",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/technotimlive/status/1891227742793765132",
+          "quote": "My MINI network RACKs are \"done\".",
+          "date": "2025-02-16T20:46:45.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/technotimlive/status/1903195346093629678",
+          "quote": "Confirming that the 10G Cloud Gateway Fiber fits perfectly into a MINI RACK!",
+          "date": "2025-03-21T21:21:44.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/technotimlive/status/1890117740628947111",
+          "quote": "My automation reset my ONT 10 times in the last hour.",
+          "date": "2025-02-13T19:16:00.000Z"
+        }
+      ]
+    },
+    {
+      "label": "Technical tutorials and infrastructure knowledge sharing",
+      "category": "professional",
+      "confidence": "medium",
+      "reason": "Repeatedly described writing tutorials and explaining HomeLab configurations in 2024\u20132025.",
+      "sourceURL": "https://x.com/technotimlive/status/1749507286442144000",
+      "evidence": [
+        {
+          "sourceURL": "https://x.com/technotimlive/status/1749507286442144000",
+          "quote": "This is probably the most important tutorial I've ever written.",
+          "date": "2024-01-22T19:00:16.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/technotimlive/status/1743358830220599437",
+          "quote": "here's the list of self-hosted services I am running in my HomeLab along with network diagrams and related tutorials!",
+          "date": "2024-01-05T19:48:29.000Z"
+        },
+        {
+          "sourceURL": "https://x.com/technotimlive/status/1885391522780074056",
+          "quote": "After sharing my HomeLab hardware setup, the next big question was\u2014what am I actually running on it?",
+          "date": "2025-01-31T18:15:42.000Z"
+        }
+      ]
+    }
+  ],
+  "linkedin_url": null,
+  "linkedin_status": "identity_not_verified",
+  "attendance_reason": null,
+  "enrichment_status": "ready",
+  "enrichment_method": "Bright Data X profile posts + evidence-validated AI analysis",
+  "post_count": 50,
+  "public_contacts": [
+    {
+      "person_id": "technotimlive",
+      "name": "Techno Tim",
+      "email": "tim@technotim.com",
+      "contact_type": "public_business",
+      "published_purpose": "Published business contact for services enquiries",
+      "source_url": "https://shop.technotim.com/policies/terms-of-service",
+      "retrieval_method": "Bright Data Browser API",
+      "checked_at": "2026-10-24T02:55:55.550Z",
+      "evidence_quote": "g the Services or to receive further information regarding use of the Services, please contact us at:\n\nStellar North LLC\n\nMinneapolis,\u00a0MN\u00a055409\n\nUnited States\n\ntim@technotim.com\n\nInstagram\nYouTube\nTikTok\nX (Twitter)\n\u00a9 2026, Techno Tim Shop Powered by Shopify\nRefund policy\nPriv",
+      "evidence_file": "technotimlive-public-page.json",
+      "source_sha256": "502b514eed24b46a77baf5bfe591d2429e9ccee2372b4fba7135f43e1f1ba338",
+      "verification_status": "published_on_identity_matched_professional_website",
+      "mailbox_deliverability": "not_tested",
+      "invitation_consent": false
+    }
+  ]
+}

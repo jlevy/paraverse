@@ -1,0 +1,30 @@
+{
+  "id": "snia-sdc-2027",
+  "name": "SNIA Developer Conference 2027",
+  "start_date": "2027-09-27",
+  "end_date": "2027-09-29",
+  "city": "Santa Clara",
+  "venue": "Hyatt Regency Santa Clara",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "data infrastructure",
+    "storage",
+    "software engineering",
+    "AI",
+    "cloud"
+  ],
+  "price": null,
+  "source_url": "https://www.snia.org/blog/2026/sdc26-recap-ai-interoperability-and-future-data-infrastructure",
+  "retrieved_at": "2026-10-24T20:18:54.951390+00:00",
+  "retrieval_method": "Web tool official organizer page",
+  "evidence_file": "sources/snia-sdc-2027.json",
+  "evidence_quotes": [
+    "SNIA Developer Conference 2027: 2027-09-27 through 2027-09-29, Hyatt Regency Santa Clara, Santa Clara."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_yet_announced",
+  "agenda_note": "Organizer explicitly announces September 27\u201329, 2027, Hyatt Regency Santa Clara. Speaking proposals, registration and sponsorship details expected next spring. Earlier sessions in this recap are 2026 and excluded.",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

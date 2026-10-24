@@ -1,0 +1,28 @@
+{
+  "id": "ai-conference-2027",
+  "name": "The AI Conference 2027",
+  "start_date": "2027-10-12",
+  "end_date": "2027-10-14",
+  "city": "San Francisco",
+  "venue": null,
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "machine learning",
+    "software engineering"
+  ],
+  "price": null,
+  "source_url": "https://aiconference.com/",
+  "retrieved_at": "2026-10-24T19:33:46.718566+00:00",
+  "retrieval_method": "Web tool official organizer pages",
+  "evidence_file": "sources/ai-conference-2027.json",
+  "evidence_quotes": [
+    "The AI Conference 2027, 2027-10-12 to 2027-10-14, San Francisco."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_verified_for_edition",
+  "agenda_note": "Save-the-date confirms October 12\u201314, 2027 in San Francisco. Remaining homepage agenda, speakers and Pier 48 venue refer to 2026 and are excluded.",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

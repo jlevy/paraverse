@@ -1,0 +1,31 @@
+{
+  "id": "cloudx-2027",
+  "name": "CloudX 2027",
+  "start_date": "2027-09-08",
+  "end_date": "2027-09-10",
+  "city": "Santa Clara",
+  "venue": null,
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "cloud",
+    "infrastructure",
+    "engineering",
+    "AI",
+    "developer tools"
+  ],
+  "price": null,
+  "source_url": "https://cloudxconf.com/",
+  "retrieved_at": "2026-10-24T23:09:45.801432+00:00",
+  "retrieval_method": "Web tool official organizer pages",
+  "evidence_file": "sources/cloudx-2027.json",
+  "evidence_quotes": [
+    "CloudX 2027: 2027-09-08 through 2027-09-10, Santa Clara."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_verified_for_edition",
+  "agenda_note": "Official homepage confirms 2027 dates and Santa Clara. Conference page labels its detailed schedule 2026, so no sessions imported. Co-located API World and AI TechWorld are not counted separately.",
+  "agenda_checked_at": "2026-10-24T23:09:45.801432+00:00",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

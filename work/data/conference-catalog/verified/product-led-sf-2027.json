@@ -1,0 +1,31 @@
+{
+  "id": "product-led-sf-2027",
+  "name": "Product-Led Summit San Francisco 2027",
+  "start_date": "2027-09-22",
+  "end_date": "2027-09-23",
+  "city": "San Francisco",
+  "venue": null,
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "product development",
+    "experimentation",
+    "automation"
+  ],
+  "price": null,
+  "source_url": "https://world.productledalliance.com/location/sanfrancisco",
+  "retrieved_at": "2026-10-24T22:55:03.597362+00:00",
+  "retrieval_method": "Web tool official organizer pages",
+  "evidence_file": "sources/product-led-sf-2027.json",
+  "evidence_quotes": [
+    "September 22 & 23, 2027, San Francisco"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_verified_for_edition",
+  "agenda_note": "Agenda page explicitly says View the 2026 agenda despite a 2027 header. Speaker roster also labeled 2026; both excluded. Product Operations and AI Product Labs are co-located tracks, not separate conferences.",
+  "agenda_url": "https://world.productledalliance.com/location/sanfrancisco/agenda",
+  "agenda_checked_at": "2026-10-24T22:55:03.597362+00:00",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

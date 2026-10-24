@@ -1,0 +1,30 @@
+{
+  "id": "spie-photonics-west-2027",
+  "name": "SPIE Photonics West 2027",
+  "start_date": "2027-01-30",
+  "end_date": "2027-02-04",
+  "city": "San Francisco",
+  "venue": "Moscone Center",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "engineering",
+    "photonics",
+    "quantum technologies",
+    "optics"
+  ],
+  "price": null,
+  "source_url": "https://spie.org/conferences-and-exhibitions/photonics-west",
+  "retrieved_at": "2026-10-24T22:25:02.828524+00:00",
+  "retrieval_method": "Web tool official venue page and organizer social post",
+  "evidence_file": "sources/spie-photonics-west-2027.json",
+  "evidence_quotes": [
+    "SPIE Photonics West 2027: 2027-01-30 through 2027-02-04, San Francisco."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "retrieval_failed",
+  "agenda_note": "Organizer website returned only an iframe through web retrieval. Sessions, speakers and prices remain uncollected; this is not evidence that no agenda exists.",
+  "agenda_checked_at": "2026-10-24T22:25:02.828524+00:00",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

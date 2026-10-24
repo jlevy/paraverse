@@ -1,0 +1,29 @@
+{
+  "id": "confidential-computing-2027",
+  "name": "Confidential Computing Summit 2027",
+  "start_date": "2027-04-19",
+  "end_date": "2027-04-20",
+  "city": "San Francisco",
+  "venue": null,
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "security",
+    "confidential computing",
+    "cloud",
+    "infrastructure"
+  ],
+  "price": null,
+  "source_url": "https://events.linuxfoundation.org/confidential-computing-summit/",
+  "retrieved_at": "2026-10-24T19:33:46.718566+00:00",
+  "retrieval_method": "Web tool official organizer pages",
+  "evidence_file": "sources/confidential-computing-2027.json",
+  "evidence_quotes": [
+    "Confidential Computing Summit 2027, 2027-04-19 to 2027-04-20, San Francisco."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_found_on_checked_sources",
+  "agenda_note": "Official landing page announces April 19\u201320, 2027, San Francisco. No venue, agenda, speakers or pricing published on checked landing page.",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

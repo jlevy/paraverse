@@ -1,0 +1,151 @@
+{
+  "id": "appsec-sf-2027",
+  "name": "AppSec World West Coast",
+  "start_date": "2027-05-20",
+  "end_date": "2027-05-20",
+  "city": "San Francisco",
+  "venue": "Hilton San Francisco Union Square",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "security",
+    "software engineering",
+    "AI",
+    "DevSecOps"
+  ],
+  "price": {
+    "amount": 0,
+    "currency": "USD",
+    "ticket": "Practitioners only; application approval required"
+  },
+  "source_url": "https://www.appsecworld.co/san-francisco/overview",
+  "retrieved_at": "2026-10-24T10:18:45.996014-07:00",
+  "retrieval_method": "Web tool; official organizer pages",
+  "evidence_file": "sources/appsec-sf-2027.json",
+  "evidence_quotes": [
+    "May 20, 2027; Hilton San Francisco Union Square; Invite only"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "published_schedule",
+  "agenda_note": "13 program sessions/activities saved; meals, opening/closing and drinks excluded. Named speakers and explicit end times unavailable on checked agenda.",
+  "sessions": [
+    {
+      "title": "Opening Keynote: Secure by Design in Practice",
+      "date": "2027-05-20",
+      "start_time": "09:20",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://www.appsecworld.co/san-francisco/agenda"
+    },
+    {
+      "title": "Keynote: Hidden in Plain Sight \u2014 The AI Risks Developers Overlook",
+      "date": "2027-05-20",
+      "start_time": "09:40",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://www.appsecworld.co/san-francisco/agenda"
+    },
+    {
+      "title": "Panel: The Evolving Software Supply Chain Risk Landscape",
+      "date": "2027-05-20",
+      "start_time": "10:10",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://www.appsecworld.co/san-francisco/agenda"
+    },
+    {
+      "title": "How I Solved\u2026 Governing AI-Assisted Development From Commit to Compliance",
+      "date": "2027-05-20",
+      "start_time": "10:40",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://www.appsecworld.co/san-francisco/agenda"
+    },
+    {
+      "title": "Audience Activity",
+      "date": "2027-05-20",
+      "start_time": "11:25",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://www.appsecworld.co/san-francisco/agenda"
+    },
+    {
+      "title": "How I Solved\u2026 Turning Testing and Posture Data Into a Fix List Engineers Trust",
+      "date": "2027-05-20",
+      "start_time": "11:40",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://www.appsecworld.co/san-francisco/agenda"
+    },
+    {
+      "title": "How I Solved\u2026 Finding and Securing the APIs Nobody Documented",
+      "date": "2027-05-20",
+      "start_time": "11:55",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://www.appsecworld.co/san-francisco/agenda"
+    },
+    {
+      "title": "Panel: Security vs Velocity \u2014 Who Actually Wins",
+      "date": "2027-05-20",
+      "start_time": "12:10",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://www.appsecworld.co/san-francisco/agenda"
+    },
+    {
+      "title": "Peer Roundtables",
+      "date": "2027-05-20",
+      "start_time": "12:40",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://www.appsecworld.co/san-francisco/agenda"
+    },
+    {
+      "title": "QuickFire Quiz: Test Your Knowledge Against Your Peers",
+      "date": "2027-05-20",
+      "start_time": "14:20",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://www.appsecworld.co/san-francisco/agenda"
+    },
+    {
+      "title": "Keynote: From AppSec to Product Security \u2014 Owning Risk From Architecture to Production",
+      "date": "2027-05-20",
+      "start_time": "14:35",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://www.appsecworld.co/san-francisco/agenda"
+    },
+    {
+      "title": "How I Solved\u2026 Getting Developers to Fix Security Issues Before Production",
+      "date": "2027-05-20",
+      "start_time": "14:55",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://www.appsecworld.co/san-francisco/agenda"
+    },
+    {
+      "title": "Think Tank: How AppSec Should Really Operate",
+      "date": "2027-05-20",
+      "start_time": "15:10",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://www.appsecworld.co/san-francisco/agenda"
+    }
+  ],
+  "speakers": [],
+  "registration_url": "https://www.appsecworld.co/san-francisco/register"
+}

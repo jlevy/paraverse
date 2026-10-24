@@ -1,0 +1,52 @@
+{
+  "id": "sensors-converge-2027",
+  "name": "Sensors Converge 2027",
+  "start_date": "2027-06-08",
+  "end_date": "2027-06-10",
+  "city": "Santa Clara",
+  "venue": "Santa Clara Convention Center",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "engineering",
+    "edge AI",
+    "embedded systems",
+    "sensors",
+    "IoT"
+  ],
+  "price": null,
+  "source_url": "https://www.sensorsconverge.com/",
+  "retrieved_at": "2026-10-24T22:40:02.208966+00:00",
+  "retrieval_method": "Web tool official organizer pages",
+  "evidence_file": "sources/sensors-converge-2027.json",
+  "evidence_quotes": [
+    "Sensors Converge 2027: 2027-06-08 through 2027-06-10, Santa Clara."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_verified_for_edition",
+  "agenda_note": "Homepage confirms June 8\u201310, 2027, overriding third-party May dates. Detailed schedule retrieval returned no session content; conference-overview page describes 2026. No old speakers or sessions imported.",
+  "agenda_checked_at": "2026-10-24T22:40:02.208966+00:00",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null,
+  "agenda_url": "https://www.sensorsconverge.com/sensorsconvergecom/schedule",
+  "schedule_outline": [
+    {
+      "date": "2027-06-08",
+      "start_time": "13:00",
+      "end_time": "18:30",
+      "label": "Pre-conference workshops, roundtables and reception"
+    },
+    {
+      "date": "2027-06-09",
+      "start_time": "09:00",
+      "end_time": "16:00",
+      "label": "Conference"
+    },
+    {
+      "date": "2027-06-10",
+      "start_time": "09:00",
+      "end_time": "15:00",
+      "label": "Conference"
+    }
+  ]
+}

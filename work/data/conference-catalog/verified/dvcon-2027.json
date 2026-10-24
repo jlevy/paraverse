@@ -1,0 +1,50 @@
+{
+  "id": "dvcon-2027",
+  "name": "DVCon U.S. 2027",
+  "start_date": "2027-03-01",
+  "end_date": "2027-03-04",
+  "city": "Santa Clara",
+  "venue": "Hyatt Regency Santa Clara",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "hardware engineering",
+    "verification",
+    "automation",
+    "programming"
+  ],
+  "price": {
+    "amount": 775,
+    "currency": "USD",
+    "ticket": "Early all access",
+    "valid_through": "2027-01-03"
+  },
+  "source_url": "https://dvcon.org/",
+  "retrieved_at": "2026-10-24T10:03:00.601492-07:00",
+  "retrieval_method": "Web tool, official organizer website",
+  "evidence_file": "sources/dvcon-2027.json",
+  "evidence_quotes": [
+    "March 1 - 4, 2027 | Santa Clara, CA, United States"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_found_on_checked_sources",
+  "agenda_note": "Homepage links previous 2026 program, not a verified 2027 session agenda. Prior-year speakers and sessions excluded.",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": "https://dvcon.org/registration",
+  "price_periods": [
+    {
+      "amount": 775,
+      "valid_through": "2027-01-03"
+    },
+    {
+      "amount": 800,
+      "valid_from": "2027-01-04",
+      "valid_through": "2027-02-26"
+    },
+    {
+      "amount": 850,
+      "valid_from": "2027-02-27",
+      "valid_through": "2027-03-04"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "kdd-2027",
+  "name": "ACM KDD 2027",
+  "start_date": "2027-08-01",
+  "end_date": "2027-08-05",
+  "city": "San Jose",
+  "venue": "San Jose McEnery Convention Center",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "data science",
+    "machine learning",
+    "AI",
+    "data mining"
+  ],
+  "price": null,
+  "source_url": "https://kdd2027.kdd.org/",
+  "retrieved_at": "2026-10-24T22:09:59.444698+00:00",
+  "retrieval_method": "Web tool official organizer pages",
+  "evidence_file": "sources/kdd-2027.json",
+  "evidence_quotes": [
+    "ACM KDD 2027: 2027-08-01 through 2027-08-05; San Jose McEnery Convention Center, San Jose."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_yet_announced",
+  "agenda_note": "Official edition homepage lists calls for papers. Program and registration links are placeholders; no speakers, sessions or prices retrieved.",
+  "agenda_checked_at": "2026-10-24T22:09:59.444698+00:00",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}
