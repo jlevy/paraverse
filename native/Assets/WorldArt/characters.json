@@ -242,5 +242,95 @@
     ],
     "sprite": "recommended-speakers-1.png",
     "atlasCell": 3
+  },
+  {
+    "personID": "ptc-judge:riken-shah",
+    "roles": [
+      "judge",
+      "Patch the Conference"
+    ],
+    "sprite": "judges-0.png",
+    "atlasCell": 0
+  },
+  {
+    "personID": "ptc-judge:nitish-mane",
+    "roles": [
+      "judge",
+      "Patch the Conference"
+    ],
+    "sprite": "judges-0.png",
+    "atlasCell": 1
+  },
+  {
+    "personID": "ptc-judge:manpreet-singh",
+    "roles": [
+      "judge",
+      "Patch the Conference"
+    ],
+    "sprite": "judges-0.png",
+    "atlasCell": 2
+  },
+  {
+    "personID": "ptc-judge:schezeen-fazulbhoy",
+    "roles": [
+      "judge",
+      "Patch the Conference"
+    ],
+    "sprite": "judges-0.png",
+    "atlasCell": 3
+  },
+  {
+    "personID": "ptc-judge:pooja-ravi",
+    "roles": [
+      "judge",
+      "Patch the Conference"
+    ],
+    "sprite": "judges-1.png",
+    "atlasCell": 3
+  },
+  {
+    "personID": "ptc-judge:satyam-singh",
+    "roles": [
+      "judge",
+      "Patch the Conference"
+    ],
+    "sprite": "judges-1.png",
+    "atlasCell": 0
+  },
+  {
+    "personID": "ptc-judge:yash-bhatia",
+    "roles": [
+      "judge",
+      "Patch the Conference"
+    ],
+    "sprite": "judges-1.png",
+    "atlasCell": 1
+  },
+  {
+    "personID": "ptc-judge:dipen-chawla",
+    "roles": [
+      "judge",
+      "Patch the Conference"
+    ],
+    "sprite": "judges-1.png",
+    "atlasCell": 3
+  },
+  {
+    "personID": "ptc-judge:vivek-gopal-ramaswamy",
+    "roles": [
+      "judge",
+      "Patch the Conference"
+    ],
+    "sprite": "judges-1.png",
+    "atlasCell": 2
+  },
+  {
+    "personID": "ptc-judge:husan-mavlonov",
+    "roles": [
+      "judge",
+      "Patch the Conference"
+    ],
+    "sprite": "judges-1.png",
+    "atlasCell": 3
   }
 ]

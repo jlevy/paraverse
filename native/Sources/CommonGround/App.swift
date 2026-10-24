@@ -13,6 +13,10 @@ import UniformTypeIdentifiers
             NSApplication.shared.applicationIconImage = icon
         }
     }
+
+    func applicationWillTerminate(_ notification: Notification) {
+        KnowledgeBaseBrowserServer.shared.stop()
+    }
 }
 
 @main struct CommonGroundApp: App {
@@ -52,6 +56,10 @@ import UniformTypeIdentifiers
                 Button("Arrive After 3 PM") { planner.send("I can only arrive after 3 PM.") }.keyboardShortcut("l", modifiers: [.command, .shift]).disabled(planner.busy)
             }
         }
+        Window("Knowledge Base", id: "knowledge-base") {
+            KnowledgeBaseBrowser().preferredColorScheme(.dark).tint(Brand.olive)
+        }
+        .defaultSize(width: 1180, height: 800)
         Settings { CalendarSettings().preferredColorScheme(.dark).frame(width: 560, height: 400) }
     }
 }
@@ -68,6 +76,7 @@ struct CompanionMark: View {
 enum DetailSheet: String, Identifiable { case group, conference, calendar; var id: String { rawValue } }
 
 struct ContentView: View {
+    @Environment(\.openWindow) private var openWindow
     @Bindable var planner: Planner
     var profile: AttendeeProfile
     var logOut: () -> Void
@@ -194,6 +203,11 @@ struct ContentView: View {
                 }
                 ToolbarItemGroup(placement: .primaryAction) {
                     SettingsLink { Label("Settings", systemImage: "gearshape") }
+                    Button { openWindow(id: "knowledge-base") } label: {
+                        Label("Knowledge Base", systemImage: "externaldrive")
+                    }
+                    .accessibilityLabel("Browse Knowledge Base")
+                    .help("Browse the raw knowledge base records")
                 }
             }
         }

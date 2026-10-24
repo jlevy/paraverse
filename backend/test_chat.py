@@ -103,3 +103,21 @@ class ChatCacheTests(unittest.TestCase):
    for thread in threads:thread.join()
    self.assertEqual(failures,[])
    self.assertEqual(list(Path(directory).iterdir()),[file])
+
+class ConferenceScopeTests(unittest.TestCase):
+ def test_universe_recommendations_exclude_other_event_participants(self):
+  import json,tempfile
+  from pathlib import Path
+  from unittest.mock import patch
+  import chat_service
+  with tempfile.TemporaryDirectory() as directory:
+   root=Path(directory);assets=root/'native/Assets';assets.mkdir(parents=True)
+   common=dict(name='Example',role='Engineer',company='',biography='',sourceURL='https://example.com/source',sessions=[],participationRoles=['speaker'])
+   universe=dict(common,id='universe',eventID='event:github-universe-2026')
+   other=dict(common,id='ptc',eventID='event:patch-the-conference-2026',participationRoles=['judge'])
+   (assets/'kb-native-manifest.json').write_text('{}')
+   (assets/'world-speakers.json').write_text(json.dumps([universe,other]))
+   (assets/'ptc-judges.json').write_text(json.dumps([other]))
+   with patch.object(chat_service,'ROOT',root):records=chat_service.recommendation_people()
+  self.assertEqual([p['id'] for p in records],['universe'])
+  self.assertEqual(chat_service.hydrate_recommendations([dict(personID='ptc',reason='Invented attendance')],records),[])

@@ -1,0 +1,352 @@
+[
+  {
+    "accountURLs": [],
+    "attendee": false,
+    "avatarNote": "Photo unavailable · placeholder avatar",
+    "biography": "Dipen Chawla is listed as a judge for the Patch the Conference Hackathon and as Software Engineer 2 at Microsoft by the event organizer. No linked professional account was available to verify a broader work history.",
+    "biographyProvenance": {
+      "basis": "llm_synthesis",
+      "cites": [
+        "https://www.wemakedevs.org/hackathons/ptc/judges"
+      ],
+      "input_sha256": "aa6eddb4ea18ce2bb7b053e73ffff348d38994c6ee461a9a8be8775be0a76785",
+      "written_at": "2026-10-24T21:38:33Z",
+      "written_by": "GPT-6.1 Sol (OpenAI Codex)"
+    },
+    "company": "Microsoft",
+    "eventID": "event:patch-the-conference-2026",
+    "githubURL": null,
+    "id": "ptc-judge:dipen-chawla",
+    "kbID": "person:dipen-chawla",
+    "linkedinURL": null,
+    "name": "Dipen Chawla",
+    "participationRoles": [
+      "judge"
+    ],
+    "photo": null,
+    "role": "Software Engineer 2",
+    "sessions": [],
+    "sourceURL": "https://www.wemakedevs.org/hackathons/ptc/judges",
+    "xURL": null
+  },
+  {
+    "accountURLs": [
+      "https://github.com/kunal-kushwaha",
+      "https://www.linkedin.com/in/kunal-kushwaha",
+      "https://www.youtube.com/@KunalKushwaha",
+      "https://x.com/kunalstwt"
+    ],
+    "attendee": false,
+    "biography": "Kunal Kushwaha founded WeMakeDevs and publicly announced hosting Patch the Conference. The professional website lists a Senior Developer Advocate role at CAST AI. Kunal publishes Java and DevOps learning materials on GitHub and is identified by WeMakeDevs as a CNCF Ambassador and GitHub Star.",
+    "biographyProvenance": {
+      "basis": "llm_synthesis",
+      "cites": [
+        "https://x.com/kunalstwt/status/2113374840870568017",
+        "https://www.techwithkunal.com/",
+        "https://www.wemakedevs.org/founder",
+        "https://github.com/kunal-kushwaha"
+      ],
+      "input_sha256": "db04820e96decf4d361416a3ed867789e21913a8c44ed148eb55d1f741562a0d",
+      "written_at": "2026-10-24T21:38:33Z",
+      "written_by": "OpenAI Codex (GPT-6)"
+    },
+    "company": "WeMakeDevs, CAST AI",
+    "eventID": "event:patch-the-conference-2026",
+    "githubURL": "https://github.com/kunal-kushwaha",
+    "id": "person:kunal-kushwaha",
+    "kbID": "person:kunal-kushwaha",
+    "linkedinURL": "https://www.linkedin.com/in/kunal-kushwaha",
+    "name": "Kunal Kushwaha",
+    "participationRoles": [
+      "host"
+    ],
+    "photo": null,
+    "role": "Founder, WeMakeDevs",
+    "sessions": [],
+    "sourceURL": "https://x.com/kunalstwt/status/2113374840870568017",
+    "xURL": "https://x.com/kunalstwt"
+  },
+  {
+    "accountURLs": [
+      "https://github.com/manpoffc",
+      "https://www.linkedin.com/in/manpoffc"
+    ],
+    "attendee": false,
+    "biography": "Manpreet Singh is listed as a software engineer at Northwest Bank and a judge at Patch the Conference Hackathon. Public professional profiles report computer science study at the University of Texas at Arlington and prior software engineering work.",
+    "biographyProvenance": {
+      "basis": "llm_synthesis",
+      "cites": [
+        "https://www.wemakedevs.org/hackathons/ptc/judges",
+        "https://www.linkedin.com/in/manpoffc",
+        "https://www.wayup.com/profile/Manpreet-Singh-7e846a0bd7/"
+      ],
+      "input_sha256": "6ca226a5ad82f25c8c5acb3126b66a3e876ef916fd7cde765c10f8e1eb574fcf",
+      "written_at": "2026-10-24T21:38:33Z",
+      "written_by": "GPT-6.1 Sol (OpenAI Codex)"
+    },
+    "company": "Northwest Bank",
+    "eventID": "event:patch-the-conference-2026",
+    "githubURL": "https://github.com/manpoffc",
+    "id": "ptc-judge:manpreet-singh",
+    "kbID": "person:manpreet-singh",
+    "linkedinURL": "https://www.linkedin.com/in/manpoffc",
+    "name": "Manpreet Singh",
+    "participationRoles": [
+      "judge"
+    ],
+    "photo": null,
+    "role": "Software Engineer II",
+    "sessions": [],
+    "sourceURL": "https://www.wemakedevs.org/hackathons/ptc/judges",
+    "xURL": null
+  },
+  {
+    "accountURLs": [
+      "https://github.com/Nitishmane",
+      "https://www.linkedin.com/in/nitish-mane/"
+    ],
+    "attendee": false,
+    "biography": "Nitish Mane is a software engineer at Philo working on infrastructure and AI-assisted production operations. Nitish has spoken about platform engineering with MCP and is listed as a judge at Patch the Conference Hackathon.",
+    "biographyProvenance": {
+      "basis": "llm_synthesis",
+      "cites": [
+        "https://www.wemakedevs.org/hackathons/ptc/judges",
+        "https://github.com/Nitishmane",
+        "https://sreday.com/2026-san-francisco-q2/Nitish_Mane_Philo_AIDriven_Platform_Engineering_with_MCP",
+        "https://securityboulevard.com/author/nitish-mane/"
+      ],
+      "input_sha256": "c9fb785886dc4d412ae37362d039230a2c8b69a9a6f837bc5a6cda6ade0ec1fc",
+      "written_at": "2026-10-24T21:38:33Z",
+      "written_by": "GPT-6.1 Sol (OpenAI Codex)"
+    },
+    "company": "Philo",
+    "eventID": "event:patch-the-conference-2026",
+    "githubURL": "https://github.com/Nitishmane",
+    "id": "ptc-judge:nitish-mane",
+    "kbID": "person:nitish-mane",
+    "linkedinURL": "https://www.linkedin.com/in/nitish-mane/",
+    "name": "Nitish Mane",
+    "participationRoles": [
+      "judge"
+    ],
+    "photo": null,
+    "role": "Software Engineer",
+    "sessions": [],
+    "sourceURL": "https://www.wemakedevs.org/hackathons/ptc/judges",
+    "xURL": null
+  },
+  {
+    "accountURLs": [
+      "https://www.linkedin.com/in/pravi20"
+    ],
+    "attendee": false,
+    "avatarNote": "Photo unavailable · placeholder avatar",
+    "biography": "Pooja Ravi is listed as a judge and Senior Software Engineer at Netflix by the Patch the Conference organizer. The linked public LinkedIn profile describes a Senior Software Engineer role at Oracle and work in AI and data; the employer claims remain unresolved.",
+    "biographyProvenance": {
+      "basis": "llm_synthesis",
+      "cites": [
+        "https://www.wemakedevs.org/hackathons/ptc/judges",
+        "https://www.linkedin.com/in/pravi20"
+      ],
+      "input_sha256": "fd58c3ba728ec51c4a2797316d07c79e2f5df6742ce192c597e3e49fa32b9e49",
+      "written_at": "2026-10-24T21:38:33Z",
+      "written_by": "OpenAI Codex (GPT-6)"
+    },
+    "company": "Netflix",
+    "eventID": "event:patch-the-conference-2026",
+    "githubURL": null,
+    "id": "ptc-judge:pooja-ravi",
+    "kbID": "person:pooja-ravi",
+    "linkedinURL": "https://www.linkedin.com/in/pravi20",
+    "name": "Pooja Ravi",
+    "participationRoles": [
+      "judge"
+    ],
+    "photo": null,
+    "role": "Senior Software Engineer",
+    "sessions": [],
+    "sourceURL": "https://www.wemakedevs.org/hackathons/ptc/judges",
+    "xURL": null
+  },
+  {
+    "accountURLs": [
+      "https://dev.to/rikenshah",
+      "https://github.com/Riken-Shah",
+      "https://www.linkedin.com/in/shah-riken",
+      "https://x.com/_RikenShah"
+    ],
+    "attendee": false,
+    "biography": "Riken Shah is a performance engineer who has worked on the Tasks application and contributed to Zulip. Riken writes about backend scaling and is listed as a judge at Patch the Conference Hackathon.",
+    "biographyProvenance": {
+      "basis": "llm_synthesis",
+      "cites": [
+        "https://riken.me/",
+        "https://github.com/Riken-Shah",
+        "https://dev.to/rikenshah/scaling-backend-to-1m-requests-with-just-2gb-ram-4m0c",
+        "https://www.wemakedevs.org/hackathons/ptc/judges"
+      ],
+      "input_sha256": "61e202a20fa1819403a4d43770bf67e3c04d85a6ac5d7f1c683736ce05c6f559",
+      "written_at": "2026-10-24T21:38:33Z",
+      "written_by": "GPT-6.1 Sol (OpenAI Codex)"
+    },
+    "company": "xAI",
+    "eventID": "event:patch-the-conference-2026",
+    "githubURL": "https://github.com/Riken-Shah",
+    "id": "ptc-judge:riken-shah",
+    "kbID": "person:riken-shah",
+    "linkedinURL": "https://www.linkedin.com/in/shah-riken",
+    "name": "Riken Shah",
+    "participationRoles": [
+      "judge"
+    ],
+    "photo": null,
+    "role": "Human Data Team (Contractor)",
+    "sessions": [],
+    "sourceURL": "https://www.wemakedevs.org/hackathons/ptc/judges",
+    "xURL": "https://x.com/_RikenShah"
+  },
+  {
+    "accountURLs": [
+      "https://github.com/KlausMikhaelson",
+      "https://www.linkedin.com/in/Satyamsingh2003",
+      "https://www.youtube.com/@SatyamCodesss",
+      "https://x.com/KlausCodes"
+    ],
+    "attendee": false,
+    "biography": "Satyam Singh is Co-Founder and CTO of Simulithic and is listed as a judge at Patch the Conference. The company builds AI users that test applications across devices and browsers. The company’s YC profile describes earlier engineering internships at Ramp and Bree and recognition as an MLH Top 50 Hacker.",
+    "biographyProvenance": {
+      "basis": "llm_synthesis",
+      "cites": [
+        "https://www.wemakedevs.org/hackathons/ptc/judges",
+        "https://www.ycombinator.com/companies/simulithic"
+      ],
+      "input_sha256": "b5f12cffb8a093bd5aeb810c3850bef52524bd6a20987e3f3e42652f33d82812",
+      "written_at": "2026-10-24T21:38:33Z",
+      "written_by": "OpenAI Codex (GPT-6)"
+    },
+    "company": "Simulithic",
+    "eventID": "event:patch-the-conference-2026",
+    "githubURL": "https://github.com/KlausMikhaelson",
+    "id": "ptc-judge:satyam-singh",
+    "kbID": "person:satyam-singh",
+    "linkedinURL": "https://www.linkedin.com/in/Satyamsingh2003",
+    "name": "Satyam Singh",
+    "participationRoles": [
+      "judge"
+    ],
+    "photo": null,
+    "role": "Co-Founder, CTO",
+    "sessions": [],
+    "sourceURL": "https://www.wemakedevs.org/hackathons/ptc/judges",
+    "xURL": "https://x.com/KlausCodes"
+  },
+  {
+    "accountURLs": [
+      "https://dev.to/schezfaz",
+      "https://github.com/schezfaz",
+      "https://medium.com/@schezfaz",
+      "https://scholar.google.com/citations?user=YXcZ8DQAAAAJ",
+      "https://www.linkedin.com/in/schezeenfazulbhoy",
+      "https://www.youtube.com/@schezfaz",
+      "https://x.com/schezfaz10"
+    ],
+    "attendee": false,
+    "biography": "Schezeen Fazulbhoy is a software engineer at Adobe working on backend systems for Journey Optimizer. Schezeen builds open-source projects including the SPOT browser extension and Momentum MCP agent, and is listed as a judge at Patch the Conference Hackathon.",
+    "biographyProvenance": {
+      "basis": "llm_synthesis",
+      "cites": [
+        "https://www.wemakedevs.org/hackathons/ptc/judges",
+        "https://schezfaz.dev/",
+        "https://github.com/schezfaz/spot",
+        "https://dev.to/schezfaz/momentum-aiccountability-using-notion-mcp-for-vision-board-progress-2b9i"
+      ],
+      "input_sha256": "48cf7ab7abee27f370c8f3bfafea730cefccae9cf4112413ef4e9d117faf22db",
+      "written_at": "2026-10-24T21:38:33Z",
+      "written_by": "GPT-6.1 Sol (OpenAI Codex)"
+    },
+    "company": "Adobe",
+    "eventID": "event:patch-the-conference-2026",
+    "githubURL": "https://github.com/schezfaz",
+    "id": "ptc-judge:schezeen-fazulbhoy",
+    "kbID": "person:schezeen-fazulbhoy",
+    "linkedinURL": "https://www.linkedin.com/in/schezeenfazulbhoy",
+    "name": "Schezeen Fazulbhoy",
+    "participationRoles": [
+      "judge"
+    ],
+    "photo": null,
+    "role": "Senior Software Engineer",
+    "sessions": [],
+    "sourceURL": "https://www.wemakedevs.org/hackathons/ptc/judges",
+    "xURL": "https://x.com/schezfaz10"
+  },
+  {
+    "accountURLs": [
+      "https://github.com/vivekgr92",
+      "https://www.linkedin.com/in/vivekgr"
+    ],
+    "attendee": false,
+    "biography": "Vivek Gopal Ramaswamy is an AI Product Manager at Agility Robotics and is listed as a judge for the Patch the Conference Hackathon. A 2026 workshop biography describes earlier software engineering work at Gladstone Institutes in computer vision, robotics and automated microscopy, and public papers document work on image-based pathology analysis and spatial transcriptomics.",
+    "biographyProvenance": {
+      "basis": "llm_synthesis",
+      "cites": [
+        "https://www.wemakedevs.org/hackathons/ptc/judges",
+        "https://www.ai-infra-summit.com/2026-speakers",
+        "https://cvmi-workshop.github.io/speakers.html",
+        "https://pubmed.ncbi.nlm.nih.gov/39974039/",
+        "https://psb.stanford.edu/psb-online/proceedings/psb24/song.pdf"
+      ],
+      "input_sha256": "591ea96035da7bab1250ba32c95b6b064aecb31c89688dd7142be5c783a48e7e",
+      "written_at": "2026-10-24T21:38:34Z",
+      "written_by": "GPT-6.1 Sol (OpenAI Codex)"
+    },
+    "company": "Agility Robotics",
+    "eventID": "event:patch-the-conference-2026",
+    "githubURL": "https://github.com/vivekgr92",
+    "id": "ptc-judge:vivek-gopal-ramaswamy",
+    "kbID": "person:vivek-gopal-ramaswamy",
+    "linkedinURL": "https://www.linkedin.com/in/vivekgr",
+    "name": "Vivek Gopal Ramaswamy",
+    "participationRoles": [
+      "judge"
+    ],
+    "photo": null,
+    "role": "AI Product Manager",
+    "sessions": [],
+    "sourceURL": "https://www.wemakedevs.org/hackathons/ptc/judges",
+    "xURL": null
+  },
+  {
+    "accountURLs": [
+      "https://www.linkedin.com/in/yyash-bhatia"
+    ],
+    "attendee": false,
+    "biography": "Yash Bhatia is a Senior Data Engineer at Meta and is listed as a judge for the Patch the Conference Hackathon. UCLA Anderson’s public biography describes earlier software engineering work in BNP Paribas’s data warehousing team and studies in business analytics; a professional mentoring page offers data engineering interview guidance.",
+    "biographyProvenance": {
+      "basis": "llm_synthesis",
+      "cites": [
+        "https://www.wemakedevs.org/hackathons/ptc/judges",
+        "https://www.anderson.ucla.edu/degrees/master-of-science-in-business-analytics/for-companies/class-of-2022",
+        "https://topmate.io/yash_bhatia"
+      ],
+      "input_sha256": "a4d0dc95517bd643f76e131dc5a5f1804912145497b7768ad878e973153ad461",
+      "written_at": "2026-10-24T21:38:34Z",
+      "written_by": "GPT-6.1 Sol (OpenAI Codex)"
+    },
+    "company": "Meta",
+    "eventID": "event:patch-the-conference-2026",
+    "githubURL": null,
+    "id": "ptc-judge:yash-bhatia",
+    "kbID": "person:yash-bhatia",
+    "linkedinURL": "https://www.linkedin.com/in/yyash-bhatia",
+    "name": "Yash Bhatia",
+    "participationRoles": [
+      "judge"
+    ],
+    "photo": null,
+    "role": "Senior Data Engineer",
+    "sessions": [],
+    "sourceURL": "https://www.wemakedevs.org/hackathons/ptc/judges",
+    "xURL": null
+  }
+]

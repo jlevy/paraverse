@@ -6,6 +6,9 @@ from zoneinfo import ZoneInfo
 ROOT=Path(__file__).resolve().parents[1]
 
 def catalog(external=False):
+ canonical=ROOT/'native/Assets/kb-sessions.json'
+ if not external and canonical.exists():
+  return [r for r in json.loads(canonical.read_text()) if r.get('speakers')]
  rows=json.loads((ROOT/('work/data/external/universe-side-events.json' if external else 'work/data/official/universe-sessions.json')).read_text());out=[]
  for r in rows:
   if not external and not r.get('speakers'):continue

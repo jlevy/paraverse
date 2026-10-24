@@ -1,0 +1,31 @@
+[
+  {
+    "attendance_mode": "unspecified",
+    "attendance_status": "Public self-report",
+    "avatar_asset": null,
+    "event": "GitHub Universe 2026",
+    "evidence": "With [#GitHubUniverse](https://hachyderm.io/tags/GitHubUniverse) around the corner there are a lot of things shipping! And the Actions team hasn't been idling over the last year. So many security improvements while battling attacks left and right.\n\nBut there is also some work req\n\nI'll be at [#GitHubUniverse](https://hachyderm.io/tags/GitHubUniverse) in little over a week! Let's connect! Ping me on any of my socials or reach out through\n\n[https://events.xebia.com/microsoft/github/github-universe-2026](https://events.xebia.com/microsoft/github/github-univer",
+    "evidence_sources": [
+      {
+        "observed_at": "2026-10-16T14:01:57Z",
+        "quote": "With [#GitHubUniverse](https://hachyderm.io/tags/GitHubUniverse) around the corner there are a lot of things shipping! And the Actions team hasn't been idling over the last year. So many security improvements while battling attacks left and right.\n\nBut there is also some work req",
+        "url": "https://hachyderm.io/@jessehouwing/117450953035342148"
+      },
+      {
+        "observed_at": "2026-10-16T12:53:52Z",
+        "quote": "I'll be at [#GitHubUniverse](https://hachyderm.io/tags/GitHubUniverse) in little over a week! Let's connect! Ping me on any of my socials or reach out through\n\n[https://events.xebia.com/microsoft/github/github-universe-2026](https://events.xebia.com/microsoft/github/github-univer",
+        "url": "https://hachyderm.io/@jessehouwing/117450685326837594"
+      }
+    ],
+    "id": "person:jessehouwing",
+    "kbID": "person:jessehouwing",
+    "matching_opt_in": false,
+    "name": "jessehouwing",
+    "platform": "mastodon",
+    "post_date": "2026-10-16T14:01:57Z",
+    "profile_url": "https://hachyderm.io/@jessehouwing",
+    "role": "Attendee",
+    "source_url": "https://hachyderm.io/@jessehouwing/117450953035342148",
+    "username": "jessehouwing@hachyderm.io"
+  }
+]

@@ -5,17 +5,16 @@ from attendee_graph import people,lookup,topics
 from session_service import catalog,ranking_profile
 
 def recommendation_people():
- records=[dict(p,kind='attendee') for p in people()]
- by_name={p['name'].strip().casefold():p for p in records}
- for speaker in json.loads((ROOT/'native/Assets/world-speakers.json').read_text()):
-  name=speaker['name'].strip().casefold()
-  evidence='Official speaker biography and sessions: '+speaker.get('biography','')
-  sessions=[s['title'] for s in speaker.get('sessions',[])]
-  if name in by_name:
-   by_name[name].update(kind='attendee and speaker',speaker_sessions=sessions,speaker_biography=speaker.get('biography',''))
-   continue
-  record=dict(id=speaker['id'],name=speaker['name'],role=' · '.join(filter(None,[speaker.get('role'),speaker.get('company')])),about=speaker.get('biography',''),kind='speaker',speaker_sessions=sessions,interests=[],profile_url=speaker['sourceURL'],source_url=speaker['sourceURL'],linkedin_url=speaker.get('linkedinURL'),x_url=speaker.get('xURL'),github_url=speaker.get('githubURL'),evidence=evidence,attendance_status='Listed in official speaker catalog',matching_opt_in=False,enrichment_status='official speaker catalog')
-  records.append(record);by_name[name]=record
+ manifest=ROOT/'native/Assets/kb-native-manifest.json'
+ if not manifest.exists():
+  return [dict(p,kind='attendee') for p in people()]
+ records=[]
+ for filename in ['world-speakers.json']:
+  for p in json.loads((ROOT/'native/Assets'/filename).read_text()):
+   if p.get('eventID')!='event:github-universe-2026':continue
+   roles=p.get('participationRoles',[])
+   profile=p.get('linkedinURL') or p.get('githubURL') or p.get('xURL') or next(iter(p.get('accountURLs',[])),p['sourceURL'])
+   records.append(dict(id=p['id'],eventID=p['eventID'],name=p['name'],role=' · '.join(filter(None,[p.get('role'),p.get('company')])),about=p.get('biography',''),kind=' and '.join(roles),speaker_sessions=[s['title'] for s in p.get('sessions',[])],interests=[],profile_url=profile,source_url=p['sourceURL'],linkedin_url=p.get('linkedinURL'),x_url=p.get('xURL'),github_url=p.get('githubURL'),evidence=p.get('biographyProvenance',{}),attendance_status='Public self-report' if p.get('attendee') else 'Official event role: '+', '.join(roles),matching_opt_in=False,enrichment_status='validated knowledge-base snapshot'))
  return records
 
 def explicit_action(text):
@@ -34,7 +33,7 @@ def answer(body):
  action=explicit_action(prompt)
  if action:return {'action':action,'message':'','personIDs':[],'sessionIDs':[]}
  records=recommendation_people()
- attendees=[{k:p.get(k) for k in ['id','name','role','about','interests','profile_url','linkedin_url','source_url','evidence','attendance_status','matching_opt_in','enrichment_status','kind','speaker_sessions','speaker_biography']} for p in records];paths=[];source='saved public profiles; graph connection unavailable'
+ attendees=[{k:p.get(k) for k in ['id','name','role','about','interests','profile_url','linkedin_url','source_url','evidence','attendance_status','matching_opt_in','enrichment_status','kind','speaker_sessions','speaker_biography']} for p in records];paths=[];source='validated knowledge-base snapshot; personal graph matching is unavailable'
  try:paths=lookup(profile);source='FalkorDB shared-topic paths'
  except Exception:pass
  sessions=catalog()+catalog(True)

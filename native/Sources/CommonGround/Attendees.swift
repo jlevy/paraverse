@@ -17,7 +17,7 @@ struct PublicAttendee: Decodable, Identifiable {
     var initials: String { name.split(separator: " ").prefix(2).compactMap(\.first).map(String.init).joined() }
     var attendanceLabel: String { attendance_mode == "in_person" ? "In person" : "Format not specified" }
     static func load() throws -> [PublicAttendee] {
-        guard let url = Bundle.main.url(forResource: "universe-attendees", withExtension: "json") else { throw CocoaError(.fileNoSuchFile) }
+        guard let url = Bundle.main.url(forResource: "kb-attendees", withExtension: "json") else { throw CocoaError(.fileNoSuchFile) }
         return try JSONDecoder().decode([PublicAttendee].self, from: Data(contentsOf: url))
     }
 }
@@ -76,16 +76,16 @@ struct AttendeesPage: View {
                             }
                         }
                         HStack {
-                            if let url = URL(string: person.profile_url) { Link("X profile", destination: url) }
+                            if let url = URL(string: person.profile_url) { Link("View profile", destination: url) }
                             if let value = person.linkedin_url, let url = URL(string: value) { Link("LinkedIn", destination: url) }
                         }.font(.callout)
                         DisclosureGroup("Attendance announcement") {
                             VStack(alignment: .leading, spacing: 10) {
                                 Text(person.evidence).font(.callout).textSelection(.enabled)
-                                Text("Posted \(String(person.post_date.prefix(10))) · Public X post").font(.caption).foregroundStyle(.secondary)
+                                Text("Observed \(String(person.post_date.prefix(10))) · Public attendance evidence").font(.caption).foregroundStyle(.secondary)
                                 HStack {
                                     if let url = URL(string: person.source_url) { Link("View announcement", destination: url) }
-                                    if let url = URL(string: person.profile_url) { Link("X profile", destination: url) }
+                                    if let url = URL(string: person.profile_url) { Link("View profile", destination: url) }
                                 }.font(.callout)
                             }.padding(.top, 10)
                         }

@@ -3,7 +3,7 @@ import XCTest
 
 final class RecommendationAvatarTests: XCTestCase {
     @MainActor func testRecommendedSpeakerSpritesLoad() {
-        let names = ["Maggie Appleton", "Idan Gazit", "Janice Niemeir", "Ayman Bagabas", "William Woodruff", "Pamela Fox", "Erin Mikail Staples", "Julia Kasper"]
+        let names = ["Maggie Appleton", "Idan Gazit", "Janice", "Ayman Bagabas", "William Woodruff", "Pamela Fox", "Erin Mikail Staples", "Julia Kasper"]
         for name in names {
             guard let speaker = WorldSpeaker.all.first(where: { $0.name == name }) else {
                 XCTFail("Missing speaker: \(name)"); continue

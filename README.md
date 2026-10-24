@@ -132,16 +132,37 @@ You can also use a built KB from a separate dataset checkout: from `db/`, run
 
 ## Native App
 
-The macOS prototype lives in `native/`, with its local profile and planning service in
-`backend/`. It requires macOS 14 or later, Swift 6 and Python 3.10 or later.
-Copy `.env.example` to `.env`, configure service credentials locally, start
-`python3 backend/profile_service.py`, run `bash native/build-app.sh`, and open
-`native/build/Paraverse.app`.
+The macOS app lives in `native/`, with a local profile and planning service in
+`backend/`. It requires macOS 14 or later, Swift 6, Python 3.12 or later, and the uv
+version selected by `db/uv.toml`.
 
-Run `swift test --package-path native` and
-`PYTHONPATH=backend python3 -m unittest discover -s backend -p 'test_*.py'`.
+1. Initialize datasets with `git submodule update --init`.
+2. Run `make install` in `db/` to install the graph runtime.
+3. Copy `.env.example` to `.env` and configure service credentials locally.
+4. Start `python3 backend/profile_service.py` from the repository root.
+5. Run `bash native/build-app.sh` and open `native/build/Paraverse.app`.
+
+The **Knowledge Base** button at the far right of the toolbar opens an embedded
+browser. The app starts the local graph browser on port 8766, selects both mounted
+datasets, and watches rebuilds. Closing its window stops the server it started;
+a separately running browser is reused and left running. Keep the app in `native/build`
+or set `PARAVERSE_REPO_ROOT` to the repository folder.
+
+Each app build exports native people, attendance evidence, session descriptions and
+session cards from the pinned dataset KBs. `native/Assets/kb-native-manifest.json`
+records their exact commits, graph digests, validation status and known gaps.
+Softschema validation is reused only for the same clean dataset commits and digests.
+An invalid or missing KB stops the build. The native interface uses these exported
+snapshots; the embedded browser queries FalkorDB directly. Personal recommendations
+are scoped to GitHub Universe, and public participation never implies matching consent.
+External side events and broader conference discovery remain separately maintained.
+The legacy optional cloud demo graph is not used for the current snapshot.
+
+Run `swift test -c release --package-path native` and
+`PYTHONPATH=db/src:backend db/.venv/bin/python -m unittest discover -s backend -p 'test_*.py'`.
 Tests use public bundled data or synthetic records and require no account credentials.
-The earlier standalone web preview remains in `ui/`.
+Run `make check` from `db/` and `make lint-check test check` from `curation/` for their
+own validation. The earlier standalone web preview remains in `ui/`.
 
 ## Data Policy
 
