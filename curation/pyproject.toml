@@ -1,0 +1,76 @@
+# ---- Project Info and Dependencies ----
+
+[project]
+name = "paraverse-curation"
+version = "0.1.0"
+description = "Check Paraverse curation lists and pass them to a dataset's pipeline."
+authors = [
+    { name="Joshua Levy" },
+]
+readme = "README.md"
+requires-python = ">=3.12,<4.0"
+
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Typing :: Typed",
+    # This package is not published to PyPI. This classifier makes PyPI reject an
+    # accidental upload.
+    "Private :: Do Not Upload",
+]
+
+# The checker uses only the standard library.
+dependencies = []
+
+
+# ---- Dev dependencies ----
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff>=0.16.1",
+    "codespell>=2.4.3",
+    "basedpyright>=1.39.9",
+]
+
+[project.scripts]
+paraverse-curation = "paraverse_curation.cli:main"
+
+
+# ---- Build system ----
+
+[build-system]
+requires = ["hatchling==1.31.0"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/paraverse_curation"]
+
+
+# ---- Tool Settings ----
+
+[tool.ruff]
+line-length = 100
+extend-exclude = ["*.md"]
+
+[tool.ruff.lint]
+select = ["E", "F", "UP", "B", "I", "SIM", "RUF"]
+ignore = ["E501"]
+
+[tool.basedpyright]
+include = ["src", "tests"]
+reportIgnoreCommentWithoutRule = false
+reportUnnecessaryTypeIgnoreComment = false
+reportUnusedCallResult = false
+reportAny = false
+reportExplicitAny = false
+reportImplicitStringConcatenation = false
+
+[tool.pytest.ini_options]
+python_files = ["test_*.py"]
+testpaths = ["tests"]
