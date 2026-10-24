@@ -48,12 +48,14 @@ make load      # rebuild the `universe2026_md` graph from the default dataset (a
 make serve     # the browser at http://127.0.0.1:8766/
 make datasets  # the datasets checked out under vendor/
 make test      # unit tests, plus end-to-end tests when the default dataset is checked out
-make lint      # codespell, ruff, basedpyright
+make lint      # codespell, ruff, basedpyright (fixes what it can)
+make check     # lint without fixing, then all tests: the single command for a CI job
+make validate  # validate every artifact of the dataset with softschema, then load
 swift test --package-path clients/swift   # the Swift client
 ```
 
-`make load` and `make serve` take `DATASET=<name>` for another dataset under `vendor/`,
-or `KB=<dir>` for any KB directory (relative to `db/`), as in
+`make load`, `make validate` and `make serve` take `DATASET=<name>` for another
+dataset under `vendor/`, or `KB=<dir>` for any KB directory (relative to `db/`), as in
 `make load serve DATASET=other`.
 
 `uv run paraverse-graph serve --watch` reloads the graph whenever a KB build rewrites
@@ -110,7 +112,7 @@ returns it as `dataset`.
 ## Commands
 
 ```bash
-uv run paraverse-graph load [--dataset NAME | --kb DIR] [--graph NAME] [--db FILE | --url redis://HOST:PORT]
+uv run paraverse-graph load [--dataset NAME | --kb DIR] [--graph NAME] [--db FILE | --url redis://HOST:PORT] [--validate]
 uv run paraverse-graph serve [--dataset NAME | --kb DIR] [--port 8766] [--watch] [--open]
 uv run paraverse-graph datasets                                # the datasets under vendor/
 uv run paraverse-graph queries                                 # the named query catalog
@@ -162,6 +164,13 @@ everything and so explain nothing.
   statistics.
 - **Indexes and constraints:** `id` indexes on every label, filter indexes, full-text
   search, and a unique constraint on `Entity.id`.
+- **Validation:** every load checks that each node’s artifact declares the envelope
+  of the node’s kind and names a contract.
+  `load --validate` also runs softschema on every artifact (about 40 s for the full
+  KB), the way `softschema validate <artifact>` does: against the compiled schema the
+  artifact itself names, at the status it declares.
+  It loads nothing if any artifact fails.
+  The KB build’s own validation adds its Pydantic models on top.
 - **Load checks:** each load builds a uniquely named staging graph with its indexes,
   constraint, schemas and metadata, and checks it against `kb/_graph/stats.json`. Only
   then does it replace the live graph atomically with Redis `RENAME`, so readers never
@@ -183,6 +192,7 @@ everything and so explain nothing.
 | `src/paraverse_graph/mapping.py` | Labels, properties and relationship types |
 | `src/paraverse_graph/schemas.py` | Field descriptions from the compiled schemas |
 | `src/paraverse_graph/loader.py` | Staging load, checks, swap, indexes, constraint, schemas and events |
+| `src/paraverse_graph/validation.py` | Softschema validation of every KB artifact (`load --validate`) |
 | `src/paraverse_graph/browser.py` | The Starlette app: browser API, SSE, static front end |
 | `src/paraverse_graph/web/` | The front end: plain ES modules and CSS, with no build step |
 | `src/paraverse_graph/review.py` | Data-quality checks shown in the browser |

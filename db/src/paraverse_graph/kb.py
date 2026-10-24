@@ -177,6 +177,7 @@ def load_kb(root: Path) -> KnowledgeBase:
         if not path.is_file():
             raise KbError(f"{rel_path}: referenced by the graph export but missing")
         artifacts[rel_path] = read_artifact(path, rel_path)
+    _check_envelopes(nodes, artifacts)
 
     kb = KnowledgeBase(
         root=root,
@@ -220,6 +221,32 @@ def _build_snapshot(root: Path) -> dict[str, tuple[int, ...]]:
         return result
     except OSError as e:
         raise KbError(f"KB changed while reading; cannot inspect {e.filename}") from e
+
+
+# Kinds whose records are nested inside another kind's artifact.
+_PARENT_ENVELOPE = {"day": "event", "term": "facet"}
+
+
+def _check_envelopes(nodes: list[KbNode], artifacts: dict[str, Artifact]) -> None:
+    """
+    Each node's artifact must declare the envelope of the node's kind (a day lives in
+    an event, a term in a facet) and a contract. A mismatch means the graph export
+    points at the wrong file, which would otherwise load silently with the wrong data.
+    """
+    problems = []
+    for node in nodes:
+        artifact = artifacts[node.path]
+        expected = _PARENT_ENVELOPE.get(node.kind, node.kind)
+        if artifact.envelope != expected:
+            problems.append(
+                f"{node.id}: {node.path} has envelope `{artifact.envelope}`, expected `{expected}`"
+            )
+        elif not artifact.contract:
+            problems.append(f"{node.id}: {node.path} names no softschema contract")
+    if problems:
+        raise KbError(
+            f"{len(problems)} nodes point at the wrong artifact: " + "; ".join(problems[:5])
+        )
 
 
 def find_kb_root(start: Path | None = None, dataset: str = DEFAULT_DATASET) -> Path | None:
@@ -331,3 +358,20 @@ def test_nested_payload_lookup():
     term = KbNode(id="term:level/100", kind="term", name="100", path="taxonomy/level.yaml")
     assert kb.payload_for(facet) == kb.artifacts["taxonomy/level.yaml"].payload
     assert kb.payload_for(term) == {"id": "term:level/100", "label": "100"}
+
+
+def test_envelope_must_match_the_node_kind():
+    session = Artifact(path="s.md", contract="x:Session/v1", envelope="session", payload={})
+    event = Artifact(path="e.md", contract="x:Event/v1", envelope="event", payload={})
+    ok = [
+        KbNode(id="session:a", kind="session", name="A", path="s.md"),
+        KbNode(id="day:2026-10-28", kind="day", name="Day 1", path="e.md"),
+    ]
+    _check_envelopes(ok, {"s.md": session, "e.md": event})
+    wrong = [KbNode(id="person:a", kind="person", name="A", path="s.md")]
+    try:
+        _check_envelopes(wrong, {"s.md": session})
+    except KbError as e:
+        assert "expected `person`" in str(e)
+    else:
+        raise AssertionError("a person node pointing at a session artifact should fail")
