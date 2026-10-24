@@ -5,7 +5,7 @@ title: "PR #10 Qodo r4368858700: stop retrying deterministic content LoadError f
 kind: bug
 status: in_progress
 priority: 3
-version: 3
+version: 4
 delegate: codex@spud10.local
 labels: []
 dependencies: []
@@ -13,11 +13,11 @@ parent_id: is-01m5r2962gx3jdwh8zwdp57h42
 hold: null
 hold_until: null
 created_at: 2026-10-24T23:07:21.885Z
-updated_at: 2026-10-24T23:17:16.350Z
+updated_at: 2026-10-24T23:21:37.340Z
 started_at: 2026-10-24T23:16:55.938Z
 ---
 Low reliability. Original finding: https://github.com/jlevy/paraverse/pull/10#discussion_r4368858700; Qodo UUID 870743bd-4ff8-4000-8874-72b72c5cc74c. selection.py:113-120 treats all LoadError causes as transient; loader.py:184-189 also uses LoadError for deterministic stats/duplicate-ID content failures, so these retry forever with backoff. Distinguish deterministic mismatch errors from IO/database failures; wait for a changed source signature for deterministic failures while preserving transient retry recovery. Deferred under user merge-first authorization; waits on current stack landing before failure classification follow-up.
 
 ## Notes
 
-Coordinated PR #10 disposition update: supersedes prior deferral for this finding. A bounded fix classifies direct deterministic LoadError content mismatches separately from Redis/OSError cause chains in codex/ptc-review-followups. Keep in_progress until coordinator verifies and publishes that followup. Referenced by pv-5jjg; retain existing parent and original history.
+Supersedes original deferral: implemented deterministic direct LoadError suppression while Redis/OSError cause chains retain transient retry. Coordination reference pv-5jjg; existing foreign parent and original description/history retained. Published as https://github.com/jlevy/paraverse/pull/16 at head aaba9c3e6d93edcca20310f4e4e0a24df2a26788. Coordinator reports lint passed, type checks 0 errors, and 148 tests passed with 56 inherited Universe-fixture skips. Pending independent review and central-owner merge; retain in_progress until merge verified. PR #10 complete disposition: https://github.com/jlevy/paraverse/pull/10#issuecomment-6390806471.

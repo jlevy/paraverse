@@ -5,7 +5,7 @@ title: "Monitor PR #10 reviews and address new findings"
 kind: task
 status: in_progress
 priority: 1
-version: 23
+version: 24
 delegate: claude-code@spud10.local
 labels: []
 dependencies: []
@@ -33,7 +33,11 @@ child_order_hints:
 hold: null
 hold_until: null
 created_at: 2026-10-24T22:30:54.993Z
-updated_at: 2026-10-24T23:17:16.704Z
+updated_at: 2026-10-24T23:21:37.719Z
 started_at: 2026-10-24T22:31:07.016Z
 ---
 Address all PR10 Qodo review findings and merge PR10 under the human request on2026-10-24. Track each finding as a child bead, test focused fixes and final integration, preserve coordinated formal stack, and verify all lower dependencies before merging. The stack owner in chat01a16fc8-7301-7561-a768-2a39f34a7fd8 owns lower6–9 corrections and final Universe data pin. Baseline69ba517 reviewed by Qodo with nine findings. User authorization supersedes initial monitor-only no-merge scope.
+
+## Notes
+
+PR #10 merged at 20459953180bc4d6188ef8cde3d05a0275fbf94c; 15 original review findings are closed as fixed in 4c31b9a37a21838882ec527bc8737059d5c414d1. Complete public disposition: https://github.com/jlevy/paraverse/pull/10#issuecomment-6390806471. The old PR10 review monitor is paused. Five bounded followup fixes are published in ready-for-review PR #16 https://github.com/jlevy/paraverse/pull/16 at head aaba9c3e6d93edcca20310f4e4e0a24df2a26788: pv-2rba nested IDs, pv-9gqb committed menu labels, pv-dkhs graph cleanup, pv-9qmu included-KB fallback, pv-qs5p deterministic LoadError classification. Coordinator reports lint passed, 0 type errors, 148 passed and 56 inherited Universe-fixture skips. Await independent review and central-owner merge; keep parent and five fixes in_progress until merge verified. Deferred/open findings remain pv-eu5d schema design (repro preserved at backup38c19ad), pv-50vs duplicate refresh/toasts, pv-2rsq B1 scalar filter types, pv-x7rc B2 architecture docs, pv-2uh0 D1 account evidence indexing. Foreign parents retained. Final Universe data pin remains separately coordinated.
