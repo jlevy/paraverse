@@ -15,6 +15,16 @@ The first conference covered is GitHub Universe.
   through a read-only web browser, a JSON API and a CLI, with a Swift client in
   `db/clients/swift/`.
   It can load any dataset in the same softschema format.
+- `vendor/`: datasets mounted as git submodules, one per conference.
+  `vendor/universe2026-md` is the GitHub Universe dataset
+  ([universe2026-md](https://github.com/jlevy/universe2026-md)): softschema records,
+  schemas and the crawl pipeline.
+
+## Getting the Data
+
+The datasets are git submodules.
+Clone with `git clone --recurse-submodules`, or run `git submodule update --init` in an
+existing clone.
 
 ## Data Policy
 
