@@ -1,6 +1,6 @@
 """Compose named, immutable KB reads without generating another on-disk export.
 
-Typed IDs are the join keys, never display names. Lists are stable set unions;
+Typed IDs are the join keys, never display names. Shared lists use source-order unions;
 scalar conflicts choose the first non-null value in dataset-name order and keep
 all variants in `_composition.conflicts`. Every record retains its source paths.
 Person-ID collisions require a shared resolved GitHub account (or an explicitly
@@ -73,6 +73,7 @@ def compose_kbs(sources: Mapping[str, Path]) -> KnowledgeBase:
         }
         # A separate in-memory artifact per node also handles nested day/term
         # records whose original parent artifact may itself have been merged.
+        # This key is only for lookup; the source display paths remain in provenance.
         path = f"{first_name}/{first.path}#{node_id}"
         nodes.append(replace(first, path=path))
         artifacts[path] = Artifact(
@@ -178,6 +179,8 @@ def _merge_values(
     non_null = [(name, value) for name, value in values if value is not None]
     if not non_null:
         return None
+    if len(non_null) == 1:
+        return deepcopy(non_null[0][1])
     if all(isinstance(value, dict) for _, value in non_null):
         keys = sorted({key for _, value in non_null for key in value})
         return {
@@ -189,8 +192,11 @@ def _merge_values(
             for key in keys
         }
     if all(isinstance(value, list) for _, value in non_null):
-        items = {_json(item): item for _, value in non_null for item in value}
-        return [deepcopy(items[key]) for key in sorted(items)]
+        items: dict[str, Any] = {}
+        for _, value in non_null:
+            for item in value:
+                items.setdefault(_json(item), item)
+        return deepcopy(list(items.values()))
     if len({_json(value) for _, value in non_null}) > 1:
         conflicts.append(
             {

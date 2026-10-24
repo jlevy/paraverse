@@ -10,6 +10,7 @@ let catalog = null;
 let choices = new Set();
 let applying = false;
 let error = '';
+let catalogRequest = 0;
 
 /** The final page reload owns rendering while a dataset selection is in flight. */
 export function datasetSelectionPending() {
@@ -29,9 +30,10 @@ export function installDatasetSelector() {
 /** Keep the selected labels current when another reader changes the shared view. */
 export async function refreshDatasetSelector() {
   if (applying) return;
+  const mine = ++catalogRequest;
   try {
     const data = await api.datasets();
-    if (applying) return;
+    if (applying || mine !== catalogRequest) return;
     catalog = data;
     choices = new Set(data.selected);
     error = '';
@@ -43,6 +45,7 @@ export async function refreshDatasetSelector() {
     $('dataset-button').setAttribute('aria-label', `Datasets: ${names.join(' + ') || 'choose datasets'}`);
     if (!$('dataset-menu').hidden) renderChoices();
   } catch (err) {
+    if (applying || mine !== catalogRequest) return;
     // A legacy server has no dataset selector; its existing browser still works.
     if (err.status === 404) return;
     error = `Couldn’t load the dataset list. ${err.message} Try again.`;
@@ -95,6 +98,7 @@ function renderChoices() {
 async function applySelection() {
   if (applying || !choices.size || !hasChanges()) return;
   applying = true;
+  ++catalogRequest; // invalidate any catalog read started before this selection
   error = '';
   $('dataset-button').disabled = true;
   renderChoices();

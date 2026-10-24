@@ -491,7 +491,7 @@ def create_app(
         except SelectionError as exc:
             raise BadRequest(str(exc)) from exc
         catalog.invalidate()
-        bus.publish({"type": "resync"})
+        bus.publish({"type": "graph.loaded"})
         return JSONResponse(result)
 
     def meta(_: Request) -> Response:

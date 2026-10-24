@@ -175,14 +175,15 @@ def describe_fields(spec: dict[str, Any]) -> list[dict[str, Any]]:
 def _field(name: str, spec: dict[str, Any], required: bool) -> dict[str, Any]:
     is_list = False
     core = _non_null(spec)
+    display = core
     if core.get("type") == "array":
         is_list = True
         core = _non_null(core.get("items", {}))
     def_name = core["$ref"].rsplit("/", 1)[-1] if "$ref" in core else None
     field: dict[str, Any] = {
         "name": name,
-        "title": spec.get("title") or name.replace("_", " ").capitalize(),
-        "description": (spec.get("description") or "").strip(),
+        "title": spec.get("title") or display.get("title") or name.replace("_", " ").capitalize(),
+        "description": (spec.get("description") or display.get("description") or "").strip(),
         "type": "object" if def_name else core.get("type", "any"),
         "list": is_list,
         "required": required,
@@ -200,12 +201,46 @@ def _field(name: str, spec: dict[str, Any], required: bool) -> dict[str, Any]:
 
 
 def _non_null(spec: dict[str, Any]) -> dict[str, Any]:
-    """`X | None` compiles to `anyOf: [X, {type: null}]`; return X."""
-    options = [s for s in spec.get("anyOf", []) if s.get("type") != "null"]
-    return options[0] if len(options) == 1 else spec
+    """Derive compatible display hints without changing validation alternatives."""
+    options = _value_options(spec)
+    if len(options) == 1:
+        return options[0]
+    if not options:
+        return spec
+    core = {
+        key: value
+        for key, value in options[0].items()
+        if all(option.get(key) == value for option in options[1:])
+    }
+    core["anyOf"] = options
+    titles = [option["title"] for option in options if option.get("title")]
+    if titles:
+        core["title"] = titles[0]
+    descriptions = list(
+        dict.fromkeys(option["description"] for option in options if option.get("description"))
+    )
+    if descriptions:
+        core["description"] = "\n\n".join(descriptions)
+    if all(option.get("type") == "array" for option in options):
+        core["items"] = {"anyOf": [option.get("items", {}) for option in options]}
+    if all("enum" in option for option in options):
+        core["enum"] = list(dict.fromkeys(value for option in options for value in option["enum"]))
+    return core
+
+
+def _value_options(spec: dict[str, Any]) -> list[dict[str, Any]]:
+    if "anyOf" in spec:
+        return [value for option in spec["anyOf"] for value in _value_options(option)]
+    return [] if spec.get("type") == "null" else [spec]
 
 
 def _ref_kinds(spec: dict[str, Any]) -> list[str]:
+    if "anyOf" in spec:
+        alternatives = [_ref_kinds(option) for option in _value_options(spec)]
+        # A generic string or another scalar alternative is not always a typed ref.
+        if not alternatives or not all(alternatives):
+            return []
+        return list(dict.fromkeys(kind for kinds in alternatives for kind in kinds))
     match = _REF_PATTERN.match(str(spec.get("pattern", "")))
     if not match:
         return []

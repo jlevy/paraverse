@@ -113,13 +113,24 @@ def node_properties(
     venue's own `kind`. `display_name` overrides the export's name (see
     `readable_name`).
     """
+    payload = payload or {}
+    kb_path = node.path
+    composition = payload.get("_composition")
+    if isinstance(composition, dict):
+        sources = composition.get("sources")
+        if (
+            isinstance(sources, list)
+            and sources
+            and isinstance(sources[0], dict)
+            and isinstance(sources[0].get("path"), str)
+        ):
+            kb_path = sources[0]["path"]
     props: dict[str, PropValue] = {
         "id": node.id,
         "entity_kind": node.kind,
         "display_name": display_name or node.name,
-        "kb_path": node.path,
+        "kb_path": kb_path,
     }
-    payload = payload or {}
     for key, value in payload.items():
         if key in ("id", "sources") or key in props:
             continue
@@ -310,14 +321,22 @@ def _search_text(name: str, payload: dict[str, Any]) -> str:
     global search is one call rather than one per label.
     """
     parts = [name]
-    for key in _SEARCH_FIELDS:
-        value = payload.get(key)
-        if isinstance(value, str) and value not in parts:
-            parts.append(value)
-    aliases = payload.get("aliases")
-    if isinstance(aliases, list):
-        parts.extend(a for a in aliases if isinstance(a, str) and a not in parts)
-    return "\n".join(parts)
+    values = [payload.get(key) for key in (*_SEARCH_FIELDS, "aliases")]
+    composition = payload.get("_composition")
+    if isinstance(composition, dict):
+        for conflict in composition.get("conflicts", []):
+            if isinstance(conflict, dict) and conflict.get("field") in (*_SEARCH_FIELDS, "aliases"):
+                values.extend(
+                    variant.get("value")
+                    for variant in conflict.get("values", [])
+                    if isinstance(variant, dict)
+                )
+    for value in values:
+        for text in value if isinstance(value, list) else [value]:
+            if isinstance(text, str) and text not in parts:
+                parts.append(text)
+    # FalkorDB's tokenizer drops newlines between words instead of separating them.
+    return " ".join(parts)
 
 
 def _checked_identifier(name: str) -> str:
