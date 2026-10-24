@@ -3,9 +3,9 @@ type: is
 id: is-01m5qvrh49dgg0m7by1349fe3w
 title: "Address PR #1 review qodo-5639982758: Qodo findings on tbd setup files"
 kind: task
-status: in_progress
+status: closed
 priority: 1
-version: 7
+version: 8
 delegate: claude-code@spud10.local
 labels: []
 dependencies: []
@@ -19,8 +19,12 @@ child_order_hints:
 hold: null
 hold_until: null
 created_at: 2026-10-24T21:06:11.720Z
-updated_at: 2026-10-24T21:07:35.383Z
+updated_at: 2026-10-24T22:36:42.103Z
 started_at: 2026-10-24T21:06:48.290Z
+closed_at: 2026-10-24T22:36:42.102Z
+close_reason: All original Qodo findings have published dispositions; generated-template deferrals remain open and linked to upstream jlevy/tbd#327. PR1 foundation merged at main22b2049.
+resolution: null
+duplicate_of: null
 ---
 Address the Qodo review of PR #1 (setup/tbd) at head 48f560c27572870badaee345f572616e32ba5c97.
 Review: https://github.com/jlevy/paraverse/pull/1#pullrequestreview-5639982758.
