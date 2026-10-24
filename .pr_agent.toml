@@ -35,9 +35,12 @@ git history. docs/data-policy.md sets what may be committed. Flag as action requ
    have not said so publicly. A like, a follow, or another person's post is not
    enough. Speakers named in the official agenda are conference material, not a
    finding.
-6. Credentials or machine details: API keys, tokens, cookies, browser session state,
+6. Personal accounts: accounts or pages unrelated to the person's professional work.
+   Public GitHub, LinkedIn and X profiles, and other accounts the person uses for
+   their work (such as Bluesky, Mastodon or YouTube), are allowed.
+7. Credentials or machine details: API keys, tokens, cookies, browser session state,
    absolute local paths, host names, or local account names.
-7. A Python project whose pyproject.toml dependencies change without the matching
+8. A Python project whose pyproject.toml dependencies change without the matching
    uv.lock update in the same directory. Each Python project is managed with uv in its
    own directory.
 '''
