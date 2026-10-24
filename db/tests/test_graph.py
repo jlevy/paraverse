@@ -20,7 +20,7 @@ from tempfile import mkdtemp
 from typing import Any
 
 from paraverse_graph.connection import delete_graph
-from paraverse_graph.kb import DEFAULT_DATASET, Artifact, KbNode, KnowledgeBase, load_kb
+from paraverse_graph.kb import DEFAULT_DATASET, Artifact, KbError, KbNode, KnowledgeBase, load_kb
 from paraverse_graph.loader import STAGING_INFIX, events_channel, load_graph
 from paraverse_graph.mapping import LABELS
 from paraverse_graph.queries import CATALOG, run_query
@@ -301,10 +301,9 @@ def test_watch_reloads_after_the_build_swaps_kb_by_rename():
     )
     watcher.start()
     try:
-        # A broken build raises something other than `KbError` or `LoadError`; the
-        # watch logs it and keeps going.
+        # A broken build fails to load; the watch logs it and keeps going.
         _swap_in_build(kb_dir, 1, stats="{")
-        assert isinstance(attempts.get(timeout=10), json.JSONDecodeError)
+        assert isinstance(attempts.get(timeout=10), KbError)
         _swap_in_build(kb_dir, 2)
         assert attempts.get(timeout=10) is None
         assert watcher.is_alive()

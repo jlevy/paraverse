@@ -132,3 +132,48 @@ def test_load_without_the_kb_says_how_to_get_it(
     message = " ".join(capsys.readouterr().err.split())
     assert "vendor/empty/kb" in message
     assert "git submodule update --init" in message
+
+
+def _one_person_kb(kb_root: Path, **broken: str | bytes) -> Path:
+    """
+    A loadable one-person KB, with any file replaced by the `broken` content given
+    for its path (`stats.json` for `_graph/stats.json`, say).
+    """
+    files: dict[str, str | bytes] = {
+        "_graph/nodes.jsonl": json.dumps(
+            {"id": "person:a", "kind": "person", "name": "A", "path": "people/a.md"}
+        )
+        + "\n",
+        "_graph/edges.jsonl": "",
+        "_graph/stats.json": json.dumps({"nodes": {"person": 1}, "edges": {}}),
+        "people/a.md": "---\nsoftschema:\n  contract: test:Person/v1\n  envelope: person\n"
+        "person:\n  id: person:a\n---\n",
+    }
+    aliases = {"nodes": "_graph/nodes.jsonl", "stats": "_graph/stats.json", "person": "people/a.md"}
+    files |= {aliases[k]: v for k, v in broken.items()}
+    for rel_path, content in files.items():
+        path = kb_root / rel_path
+        path.parent.mkdir(parents=True, exist_ok=True)
+        if isinstance(content, bytes):
+            path.write_bytes(content)
+        else:
+            path.write_text(content)
+    return kb_root
+
+
+def test_malformed_kb_files_are_one_line_errors(tmp_path: Path, capsys: pytest.CaptureFixture[str]):
+    good_row = json.dumps({"id": "person:a", "kind": "person", "name": "A", "path": "people/a.md"})
+    cases = {
+        "bad-row": ({"nodes": good_row + "\n{oops\n"}, "nodes.jsonl:2"),
+        "not-object": ({"nodes": "[1]\n"}, "nodes.jsonl:1"),
+        "missing-key": ({"nodes": '{"id": "person:a", "kind": "person"}\n'}, "nodes.jsonl:1"),
+        "bad-stats": ({"stats": "{"}, "stats.json"),
+        "bad-yaml": ({"person": "---\nsoftschema: [\n---\n"}, "people/a.md"),
+        "not-utf8": ({"person": b"---\nname: \xff\n---\n"}, "people/a.md"),
+    }
+    for name, (broken, where) in cases.items():
+        kb_root = _one_person_kb(tmp_path / name / "kb", **broken)
+        assert main(["load", "--kb", str(kb_root), "--db", str(tmp_path / "x.rdb")]) == 1, name
+        message = " ".join(capsys.readouterr().err.split())
+        assert "error:" in message, (name, message)
+        assert where in message.partition("error:")[2], (name, message)

@@ -50,10 +50,11 @@ def main(argv: list[str] | None = None) -> int:
     try:
         return args.handler(args)
     except (CLIError, KbError, LoadError, MappingError) as e:
-        err.print(f"[bold red]error:[/bold red] {e}")
+        # Escaped, since a parser error can quote text that looks like markup.
+        err.print(f"[bold red]error:[/bold red] {escape(str(e))}")
         return 1
     except QueryError as e:
-        err.print(f"[bold red]error:[/bold red] {e}")
+        err.print(f"[bold red]error:[/bold red] {escape(str(e))}")
         return 2
     except KeyboardInterrupt:
         return 130
