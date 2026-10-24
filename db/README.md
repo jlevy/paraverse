@@ -10,6 +10,7 @@ It provides:
   popovers and relational navigation
 - a JSON API with live updates
 - a CLI
+- a Swift client that decodes the API’s JSON
 
 The KB stores each entity as a softschema record and exports its nodes and edges to
 `kb/_graph/`. A graph database makes those relationships queryable: neighborhoods,
@@ -36,6 +37,7 @@ make load      # rebuild the `universe` graph from the KB (about 2 s)
 make serve     # the browser at http://127.0.0.1:8766/
 make test      # unit tests, plus end-to-end tests against the KB when it is present
 make lint      # codespell, ruff, basedpyright
+swift test --package-path clients/swift   # the Swift client
 ```
 
 `uv run paraverse-graph serve --watch` reloads the graph whenever a KB build rewrites
@@ -112,6 +114,7 @@ everything and so explain nothing.
 | `src/paraverse_graph/queries.py`, `results.py` | The named, read-only query catalog and its JSON form |
 | `src/paraverse_graph/cli.py` | The `paraverse-graph` command |
 | `tests/` | End-to-end tests against the KB (`kb_graph.py` loads it once) |
+| `clients/swift/` | A standalone SwiftPM package that decodes the API’s JSON (`swift test`) |
 
 <!-- This document follows common-doc-guidelines.md.
 See github.com/jlevy/practical-prose and review guidelines before editing.

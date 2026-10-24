@@ -1,0 +1,378 @@
+{
+  "query": "person_card",
+  "columns": [
+    "p",
+    "r",
+    "x"
+  ],
+  "rows": [
+    [
+      {
+        "id": "person:april-leonard",
+        "labels": [
+          "Entity",
+          "Person",
+          "Speaker"
+        ],
+        "kind": "person",
+        "name": "April Leonard",
+        "data": {
+          "id": "person:april-leonard",
+          "entity_kind": "person",
+          "display_name": "April Leonard",
+          "kb_path": "people/april-leonard.md",
+          "name": "April Leonard",
+          "job_title": "VP, Engineering",
+          "affiliation_label": "GitHub",
+          "participation_roles": [
+            "speaker"
+          ]
+        }
+      },
+      {
+        "id": 565,
+        "relationship": "AFFILIATED_WITH",
+        "source": 432,
+        "target": 284,
+        "data": {
+          "basis": "event_listing",
+          "current": true,
+          "title": "VP, Engineering"
+        }
+      },
+      {
+        "id": "org:github",
+        "labels": [
+          "Entity",
+          "Organization"
+        ],
+        "kind": "organization",
+        "name": "GitHub",
+        "data": {
+          "id": "org:github",
+          "entity_kind": "organization",
+          "display_name": "GitHub",
+          "kb_path": "organizations/github.md",
+          "name": "GitHub",
+          "roles": [
+            "affiliation",
+            "organizer"
+          ],
+          "website": "https://github.com"
+        }
+      }
+    ],
+    [
+      {
+        "id": "person:april-leonard",
+        "labels": [
+          "Entity",
+          "Person",
+          "Speaker"
+        ],
+        "kind": "person",
+        "name": "April Leonard",
+        "data": {
+          "id": "person:april-leonard",
+          "entity_kind": "person",
+          "display_name": "April Leonard",
+          "kb_path": "people/april-leonard.md",
+          "name": "April Leonard",
+          "job_title": "VP, Engineering",
+          "affiliation_label": "GitHub",
+          "participation_roles": [
+            "speaker"
+          ]
+        }
+      },
+      {
+        "id": 7890,
+        "relationship": "PRESENTS",
+        "source": 432,
+        "target": 1641,
+        "data": {
+          "role": "speaker"
+        }
+      },
+      {
+        "id": "session:1809k",
+        "labels": [
+          "Entity",
+          "Session"
+        ],
+        "kind": "session",
+        "name": "Opening Keynote",
+        "data": {
+          "id": "session:1809k",
+          "entity_kind": "session",
+          "display_name": "Opening Keynote",
+          "kb_path": "sessions/1809k.md",
+          "code": "1809K",
+          "title": "Opening Keynote",
+          "start": "2026-10-28T09:00:00-07:00",
+          "end": "2026-10-28T09:45:00-07:00",
+          "start_epoch": 1793203200,
+          "end_epoch": 1793205900
+        }
+      }
+    ],
+    [
+      {
+        "id": "person:april-leonard",
+        "labels": [
+          "Entity",
+          "Person",
+          "Speaker"
+        ],
+        "kind": "person",
+        "name": "April Leonard",
+        "data": {
+          "id": "person:april-leonard",
+          "entity_kind": "person",
+          "display_name": "April Leonard",
+          "kb_path": "people/april-leonard.md",
+          "name": "April Leonard",
+          "job_title": "VP, Engineering",
+          "affiliation_label": "GitHub",
+          "participation_roles": [
+            "speaker"
+          ]
+        }
+      },
+      {
+        "id": 7891,
+        "relationship": "PRESENTS",
+        "source": 432,
+        "target": 1670,
+        "data": {
+          "role": "moderator"
+        }
+      },
+      {
+        "id": "session:bld1134m",
+        "labels": [
+          "Entity",
+          "Session"
+        ],
+        "kind": "session",
+        "name": "The view from the labs: What's next for AI-assisted development",
+        "data": {
+          "id": "session:bld1134m",
+          "entity_kind": "session",
+          "display_name": "The view from the labs: What's next for AI-assisted development",
+          "kb_path": "sessions/bld1134m.md",
+          "code": "BLD1134M",
+          "title": "The view from the labs: What's next for AI-assisted development",
+          "start": "2026-10-29T09:00:00-07:00",
+          "end": "2026-10-29T09:30:00-07:00",
+          "start_epoch": 1793289600,
+          "end_epoch": 1793291400
+        }
+      }
+    ],
+    [
+      {
+        "id": "person:april-leonard",
+        "labels": [
+          "Entity",
+          "Person",
+          "Speaker"
+        ],
+        "kind": "person",
+        "name": "April Leonard",
+        "data": {
+          "id": "person:april-leonard",
+          "entity_kind": "person",
+          "display_name": "April Leonard",
+          "kb_path": "people/april-leonard.md",
+          "name": "April Leonard",
+          "job_title": "VP, Engineering",
+          "affiliation_label": "GitHub",
+          "participation_roles": [
+            "speaker"
+          ]
+        }
+      },
+      {
+        "id": 7892,
+        "relationship": "PRESENTS",
+        "source": 432,
+        "target": 1718,
+        "data": {
+          "role": "speaker"
+        }
+      },
+      {
+        "id": "session:bld2019a",
+        "labels": [
+          "Entity",
+          "Session"
+        ],
+        "kind": "session",
+        "name": "Session After Party: The view from the labs: What's next for AI-assisted development",
+        "data": {
+          "id": "session:bld2019a",
+          "entity_kind": "session",
+          "display_name": "Session After Party: The view from the labs: What's next for AI-assisted development",
+          "kb_path": "sessions/bld2019a.md",
+          "code": "BLD2019A",
+          "title": "Session After Party: The view from the labs: What's next for AI-assisted development",
+          "start": "2026-10-29T09:45:00-07:00",
+          "end": "2026-10-29T10:15:00-07:00",
+          "start_epoch": 1793292300,
+          "end_epoch": 1793294100
+        }
+      }
+    ]
+  ],
+  "graph": {
+    "nodes": [
+      {
+        "id": "person:april-leonard",
+        "labels": [
+          "Entity",
+          "Person",
+          "Speaker"
+        ],
+        "kind": "person",
+        "name": "April Leonard",
+        "data": {
+          "id": "person:april-leonard",
+          "entity_kind": "person",
+          "display_name": "April Leonard",
+          "kb_path": "people/april-leonard.md",
+          "name": "April Leonard",
+          "job_title": "VP, Engineering",
+          "affiliation_label": "GitHub",
+          "participation_roles": [
+            "speaker"
+          ]
+        }
+      },
+      {
+        "id": "org:github",
+        "labels": [
+          "Entity",
+          "Organization"
+        ],
+        "kind": "organization",
+        "name": "GitHub",
+        "data": {
+          "id": "org:github",
+          "entity_kind": "organization",
+          "display_name": "GitHub",
+          "kb_path": "organizations/github.md",
+          "name": "GitHub",
+          "roles": [
+            "affiliation",
+            "organizer"
+          ],
+          "website": "https://github.com"
+        }
+      },
+      {
+        "id": "session:1809k",
+        "labels": [
+          "Entity",
+          "Session"
+        ],
+        "kind": "session",
+        "name": "Opening Keynote",
+        "data": {
+          "id": "session:1809k",
+          "entity_kind": "session",
+          "display_name": "Opening Keynote",
+          "kb_path": "sessions/1809k.md",
+          "code": "1809K",
+          "title": "Opening Keynote",
+          "start": "2026-10-28T09:00:00-07:00",
+          "end": "2026-10-28T09:45:00-07:00",
+          "start_epoch": 1793203200,
+          "end_epoch": 1793205900
+        }
+      },
+      {
+        "id": "session:bld1134m",
+        "labels": [
+          "Entity",
+          "Session"
+        ],
+        "kind": "session",
+        "name": "The view from the labs: What's next for AI-assisted development",
+        "data": {
+          "id": "session:bld1134m",
+          "entity_kind": "session",
+          "display_name": "The view from the labs: What's next for AI-assisted development",
+          "kb_path": "sessions/bld1134m.md",
+          "code": "BLD1134M",
+          "title": "The view from the labs: What's next for AI-assisted development",
+          "start": "2026-10-29T09:00:00-07:00",
+          "end": "2026-10-29T09:30:00-07:00",
+          "start_epoch": 1793289600,
+          "end_epoch": 1793291400
+        }
+      },
+      {
+        "id": "session:bld2019a",
+        "labels": [
+          "Entity",
+          "Session"
+        ],
+        "kind": "session",
+        "name": "Session After Party: The view from the labs: What's next for AI-assisted development",
+        "data": {
+          "id": "session:bld2019a",
+          "entity_kind": "session",
+          "display_name": "Session After Party: The view from the labs: What's next for AI-assisted development",
+          "kb_path": "sessions/bld2019a.md",
+          "code": "BLD2019A",
+          "title": "Session After Party: The view from the labs: What's next for AI-assisted development",
+          "start": "2026-10-29T09:45:00-07:00",
+          "end": "2026-10-29T10:15:00-07:00",
+          "start_epoch": 1793292300,
+          "end_epoch": 1793294100
+        }
+      }
+    ],
+    "links": [
+      {
+        "id": 565,
+        "relationship": "AFFILIATED_WITH",
+        "source": "person:april-leonard",
+        "target": "org:github",
+        "data": {
+          "basis": "event_listing",
+          "current": true,
+          "title": "VP, Engineering"
+        }
+      },
+      {
+        "id": 7890,
+        "relationship": "PRESENTS",
+        "source": "person:april-leonard",
+        "target": "session:1809k",
+        "data": {
+          "role": "speaker"
+        }
+      },
+      {
+        "id": 7891,
+        "relationship": "PRESENTS",
+        "source": "person:april-leonard",
+        "target": "session:bld1134m",
+        "data": {
+          "role": "moderator"
+        }
+      },
+      {
+        "id": 7892,
+        "relationship": "PRESENTS",
+        "source": "person:april-leonard",
+        "target": "session:bld2019a",
+        "data": {
+          "role": "speaker"
+        }
+      }
+    ]
+  }
+}
