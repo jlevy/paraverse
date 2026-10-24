@@ -142,10 +142,13 @@ version selected by `db/uv.toml`.
 4. Start `python3 backend/profile_service.py` from the repository root.
 5. Run `bash native/build-app.sh` and open `native/build/Paraverse.app`.
 
-The **Knowledge Base** button at the far right of the toolbar opens an embedded
+The landing page has a **Knowledge Base** button beside **Start**, available before
+profile setup. Signed-in users open directly into the GitHub Universe world. Its
+top-right controls provide **Knowledge Base**, **Log Out**, and a Settings menu for
+the profile, calendar, and app settings. The Knowledge Base action opens an embedded
 browser. The app starts the local graph browser on port 8766, selects both mounted
-datasets, and watches rebuilds. Closing its window stops the server it started;
-a separately running browser is reused and left running. Keep the app in `native/build`
+datasets, and watches rebuilds. Closing its window keeps a ready server warm for reopening; quitting the app stops
+the server it started. A separately running browser is reused and left running. Keep the app in `native/build`
 or set `PARAVERSE_REPO_ROOT` to the repository folder.
 
 Each app build exports native people, attendance evidence, session descriptions and

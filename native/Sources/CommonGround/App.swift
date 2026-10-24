@@ -88,58 +88,10 @@ struct ContentView: View {
     @State private var showConference = false
     @State private var assistantOpen = false
     @State private var conferenceTab = "Overview"
-    @State private var selectedCompanion: String? = "discover"
-    @State private var sidebarOpen = false
+    @State private var selectedCompanion: String? = "upcoming"
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     var body: some View {
-        HStack(spacing: 0) {
-            if sidebarOpen {
-            VStack(alignment: .leading, spacing: 0) {
-                HStack(spacing: 8) {
-                    CompanionMark(size: 24)
-                    Text("Paraverse").font(.system(size: 13, weight: .semibold, design: .rounded))
-                }.padding(.horizontal, 16).padding(.top, 8).padding(.bottom, 8)
-                List(selection: $selectedCompanion) {
-                    Section {
-                        if universeSaved {
-                            Label("Conference world", systemImage: "map").tag("upcoming")
-                        }
-                        Label("Discover", systemImage: "safari").tag("discover")
-                    }
-                    if universeSaved || planner.hasPlan {
-                        Section("My conferences") {
-                            Label("GitHub Universe", systemImage: "building.2").tag("universe")
-                        }
-                    }
-                    Section("Workspace") {
-                        Label("Calendar", systemImage: "calendar.badge.clock").tag("calendar")
-                    }
-                }
-                .listStyle(.sidebar)
-                .labelStyle(GroundSidebarLabelStyle())
-                .environment(\.defaultMinListRowHeight, 28)
-                .font(.system(size: 13))
-                VStack(alignment: .leading, spacing: 8) {
-                    Divider()
-                    Button { selectedCompanion = "profile"; planner.showPlan = false } label: { HStack(spacing: 8) {
-                        ProfileAvatar(profile: profile, size: 28)
-                        Text(profile.name).font(.system(size: 13))
-                        Spacer()
-                        Image(systemName: "pencil").foregroundStyle(.secondary)
-                    } }.buttonStyle(.plain).help("Your profile")
-                    Button(action: logOut) {
-                        Label("Log Out", systemImage: "rectangle.portrait.and.arrow.right")
-                            .font(.system(size: 13))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.vertical, 6)
-                            .contentShape(Rectangle())
-                    }.buttonStyle(.plain).foregroundStyle(.secondary)
-                        .help("Return to the welcome screen")
-                }.padding(.horizontal, 16).padding(.bottom, 12)
-            }
-            .frame(width: 220)
-            Divider()
-            }
+        Group {
             Group {
                 if selectedCompanion == "upcoming" {
                     UniverseWorld(
@@ -192,28 +144,43 @@ struct ContentView: View {
                 }.inspectorColumnWidth(min: 340, ideal: 400, max: 520)
             }
             .navigationTitle(selectedCompanion == "profile" ? "Your profile" : selectedCompanion == "calendar" ? "Calendar" : selectedCompanion == "upcoming" ? "Conference world" : selectedCompanion == "discover" ? "Discover" : "GitHub Universe")
-            .toolbar(removing: .sidebarToggle)
             .toolbar {
                 ToolbarItem(placement: .navigation) {
-                    Button { sidebarOpen.toggle() } label: {
-                        Image(systemName: "sidebar.left")
+                    if selectedCompanion != "upcoming" {
+                        Button { selectedCompanion = "upcoming" } label: {
+                            Label("Universe World", systemImage: "arrow.left")
+                        }
+                        .help("Return to the GitHub Universe world")
                     }
-                    .accessibilityLabel(sidebarOpen ? "Hide sidebar" : "Show sidebar")
-                    .help(sidebarOpen ? "Hide sidebar" : "Show sidebar")
                 }
                 ToolbarItemGroup(placement: .primaryAction) {
-                    SettingsLink { Label("Settings", systemImage: "gearshape") }
+                    Menu {
+                        Button("Your Profile", systemImage: "person.crop.circle") {
+                            selectedCompanion = "profile"; planner.showPlan = false; assistantOpen = false
+                        }
+                        Button("Calendar", systemImage: "calendar") {
+                            selectedCompanion = "calendar"; planner.showPlan = false; assistantOpen = false
+                        }
+                        Divider()
+                        SettingsLink { Label("App Settings…", systemImage: "gearshape") }
+                    } label: {
+                        Label("Settings", systemImage: "gearshape")
+                    }
+                    .help("Profile, calendar, and app settings")
                     Button { openWindow(id: "knowledge-base") } label: {
                         Label("Knowledge Base", systemImage: "externaldrive")
                     }
+                    .labelStyle(.titleAndIcon)
                     .accessibilityLabel("Browse Knowledge Base")
                     .help("Browse the raw knowledge base records")
+                    Button(action: logOut) {
+                        Label("Log Out", systemImage: "rectangle.portrait.and.arrow.right")
+                    }
+                    .labelStyle(.titleAndIcon)
+                    .help("Return to the welcome screen")
                 }
             }
         }
-        .toolbar(removing: .sidebarToggle)
-        .onAppear { sidebarOpen = false }
-        .onChange(of: selectedCompanion) { _, _ in sidebarOpen = false }
         .onChange(of: profile) { _, value in planner.updateProfile(value) }
         .onChange(of: planner.showPlan) { _, shown in
             if shown {
@@ -222,10 +189,6 @@ struct ContentView: View {
             }
         }
         .sheet(item: $sheet) { item in sheetContent(item).padding(28).frame(width: 470) }
-    }
-
-    private var universeSaved: Bool {
-        profile.status(for: "universe-2026") != .none
     }
 
     private var conferenceWorkspace: some View {

@@ -201,7 +201,7 @@ private final class BrowserProbeDelegate: NSObject, URLSessionTaskDelegate {
     func connect() async {
         let attempt = UUID()
         activeAttempt = attempt
-        state = .starting
+        if state != .ready { state = .starting }
         await waitForOwnedShutdown()
         guard isCurrent(attempt) else { return }
         let initial = await probe()
@@ -214,6 +214,7 @@ private final class BrowserProbeDelegate: NSObject, URLSessionTaskDelegate {
             fail(message)
             return
         case .absent:
+            state = .starting
             break
         }
         do {
@@ -257,7 +258,7 @@ private final class BrowserProbeDelegate: NSObject, URLSessionTaskDelegate {
                 break
             }
             do { try await Task.sleep(for: .milliseconds(250)) }
-            catch { if activeAttempt == attempt { stop() }; return }
+            catch { if activeAttempt == attempt { browserWindowClosed() }; return }
         }
         if isCurrent(attempt) {
             fail("The knowledge base browser did not become ready within two minutes. Try again after checking the graph runtime and datasets.")
@@ -270,9 +271,16 @@ private final class BrowserProbeDelegate: NSObject, URLSessionTaskDelegate {
         state = .stopped
     }
 
+    func browserWindowClosed() {
+        activeAttempt = nil
+        // Keep a ready browser warm for the next window; unfinished startup is
+        // canceled so closing the window does not leave expensive work running.
+        if state != .ready { stop() }
+    }
+
     private func isCurrent(_ attempt: UUID) -> Bool {
         guard activeAttempt == attempt else { return false }
-        if Task.isCancelled { stop(); return false }
+        if Task.isCancelled { browserWindowClosed(); return false }
         return true
     }
 
@@ -372,7 +380,7 @@ struct KnowledgeBaseBrowser: View {
         }
         .frame(minWidth: 900, minHeight: 620)
         .task(id: retryID) { await server.connect() }
-        .onDisappear { server.stop() }
+        .onDisappear { server.browserWindowClosed() }
     }
 
     private func retry() {

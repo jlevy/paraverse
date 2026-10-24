@@ -3,10 +3,12 @@
 Build and run instructions are in the [repository README](../README.md#native-app).
 The native SwiftUI/SpriteKit app requires macOS 14 or later.
 
-The far-right Knowledge Base toolbar button opens a native window containing the raw
+The landing-page and far-right Knowledge Base buttons open a native window containing the raw
 record browser. It starts `db/` locally, loads both dataset submodules into embedded
 FalkorDB, and watches their builds. The browser remains inside the app; external source
-links open in the default browser.
+links open in the default browser. A ready browser service stays warm between window
+openings and stops when the app quits. Returning users open directly into the Universe
+world; Settings and Log Out are available at the top right.
 
 Native people and sessions are generated from the same pinned KB records at build time.
 The bundled `kb-native-manifest.json` records exact commits, validation and missing

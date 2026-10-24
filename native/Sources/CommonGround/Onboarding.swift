@@ -123,6 +123,7 @@ struct AppRoot: View {
     @Bindable var planner: Planner
     @State private var landingMotion = true
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.openWindow) private var openWindow
     var body: some View {
         Group {
             if store.stage == 4 {
@@ -139,18 +140,29 @@ struct AppRoot: View {
                             .foregroundStyle(Brand.welcomeTitle)
                             .accessibilityAddTraits(.isHeader)
                     }
-                    Text("Discover conferences worth your time\nand meet people who share your interests")
+                    Text("A digital exploration of the people, events, and connections you will make at your next conference")
                         .font(.system(size: 18)).multilineTextAlignment(.center).lineSpacing(5)
                         .foregroundStyle(Brand.welcomeSubtitle)
+                        .frame(maxWidth: 600)
                         .padding(.top, 24)
-                    Button { store.stage = 1 } label: {
-                        HStack(spacing: 8) {
-                            Text("START").font(.system(size: 16, weight: .bold, design: .monospaced))
-                            Image(systemName: "arrow.right").font(.system(size: 14, weight: .medium))
-                        }.padding(.horizontal, 24).frame(height: 44)
+                    HStack(spacing: 16) {
+                        Button { store.stage = 1 } label: {
+                            HStack(spacing: 8) {
+                                Text("START").font(.system(size: 16, weight: .bold, design: .monospaced))
+                                Image(systemName: "arrow.right").font(.system(size: 14, weight: .medium))
+                            }.padding(.horizontal, 24).frame(height: 44)
+                        }
+                        .buttonStyle(WorldButtonStyle(teal: true))
+                        .keyboardShortcut(.defaultAction)
+                        Button { openWindow(id: "knowledge-base") } label: {
+                            Label("Knowledge Base", systemImage: "externaldrive")
+                                .font(.system(size: 14, weight: .bold, design: .monospaced))
+                                .padding(.horizontal, 12).frame(height: 44)
+                        }
+                        .buttonStyle(WorldButtonStyle())
+                        .accessibilityLabel("Browse Knowledge Base")
+                        .help("Browse the raw knowledge base without setting up a profile")
                     }
-                    .buttonStyle(WorldButtonStyle(teal: true))
-                    .keyboardShortcut(.defaultAction)
                     .padding(.top, 24)
                 }
                 .padding(.horizontal, 32)

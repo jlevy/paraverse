@@ -56,7 +56,7 @@ final class KnowledgeBaseBrowserTests: XCTestCase {
         }
     }
 
-    @MainActor func testOnlyOwnedChildIsTerminatedWhenBrowserCloses() async throws {
+    @MainActor func testExplicitStopTerminatesOnlyOwnedChild() async throws {
         let external = sleeper()
         try external.run()
         defer { if external.isRunning { external.terminate() } }
@@ -81,11 +81,64 @@ final class KnowledgeBaseBrowserTests: XCTestCase {
         let connection = Task { await server.connect() }
         for _ in 0..<100 where !child.isRunning { try await Task.sleep(for: .milliseconds(10)) }
         XCTAssertTrue(child.isRunning)
-        server.stop()
+        server.browserWindowClosed()
         await connection.value
         XCTAssertEqual(server.state, .stopped)
         for _ in 0..<100 where child.isRunning { try await Task.sleep(for: .milliseconds(10)) }
         XCTAssertFalse(child.isRunning)
+    }
+
+    @MainActor func testReadyServerStaysWarmAcrossBrowserWindowReopening() async throws {
+        let child = sleeper()
+        defer { if child.isRunning { kill(child.processIdentifier, SIGKILL) } }
+        var launches = 0
+        let server = KnowledgeBaseBrowserServer(probe: {
+            child.isRunning ? .ready : .absent
+        }, makeProcess: {
+            launches += 1
+            return child
+        })
+        await server.connect()
+        XCTAssertEqual(server.state, .ready)
+        let firstPage = server.pageID
+        server.browserWindowClosed()
+        XCTAssertTrue(child.isRunning)
+        XCTAssertEqual(server.state, .ready)
+        await server.connect()
+        XCTAssertEqual(launches, 1)
+        XCTAssertNotEqual(server.pageID, firstPage)
+        XCTAssertEqual(server.state, .ready)
+        server.stop()
+        for _ in 0..<100 where child.isRunning { try await Task.sleep(for: .milliseconds(10)) }
+        XCTAssertFalse(child.isRunning)
+    }
+
+    @MainActor func testLostWarmServerRestartsAsCancellableStartup() async throws {
+        let first = sleeper()
+        let replacement = sleeper()
+        defer {
+            for child in [first, replacement] where child.isRunning { kill(child.processIdentifier, SIGKILL) }
+        }
+        let status = ReopenProbeState()
+        let server = KnowledgeBaseBrowserServer(probe: {
+            status.reopening ? .absent : (first.isRunning ? .ready : .absent)
+        }, makeProcess: {
+            status.launches += 1
+            return status.launches == 1 ? first : replacement
+        })
+        await server.connect()
+        server.browserWindowClosed()
+        status.reopening = true
+        let connection = Task { await server.connect() }
+        for _ in 0..<100 where !replacement.isRunning { try await Task.sleep(for: .milliseconds(10)) }
+        XCTAssertTrue(replacement.isRunning)
+        XCTAssertEqual(server.state, .starting)
+        server.browserWindowClosed()
+        await connection.value
+        XCTAssertEqual(server.state, .stopped)
+        for _ in 0..<100 where replacement.isRunning { try await Task.sleep(for: .milliseconds(10)) }
+        XCTAssertFalse(first.isRunning)
+        XCTAssertFalse(replacement.isRunning)
     }
 
     @MainActor func testImmediateReopenWaitsForTermResistantOwnedChild() async throws {
