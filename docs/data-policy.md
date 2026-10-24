@@ -31,6 +31,8 @@ professional audience and would expect to see connected to a conference:
   information, such as name, handle, headline or bio, city-level location, current and
   past roles, education, links, and public counts, along with their own public posts.
   These profiles are central to the knowledge base.
+  The same applies to other accounts a person uses for their work, such as Bluesky,
+  Mastodon and YouTube.
 - **Professional work people published themselves:** public repositories, packages they
   maintain, publications, patents, talks, and pages or posts about their work on their
   own sites.
