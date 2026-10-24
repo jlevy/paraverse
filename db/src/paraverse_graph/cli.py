@@ -1,6 +1,6 @@
 """
-`paraverse-graph`: load the conference knowledge base into FalkorDB, query it, and serve
-the knowledge base browser.
+`paraverse-graph`: load a knowledge base dataset into FalkorDB, query it, and serve the
+knowledge base browser.
 
 Data goes to stdout (text tables, or JSON with `--format json`); progress and
 errors go to stderr.
@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import threading
 from collections.abc import Callable
 from pathlib import Path
@@ -21,8 +22,15 @@ from rich.table import Table
 from rich_argparse import RichHelpFormatter
 
 from paraverse_graph.browser import create_app, redis_subscriber
-from paraverse_graph.connection import DEFAULT_GRAPH, engine_version, graph_exists, open_db
-from paraverse_graph.kb import KbError, find_kb_root, load_kb
+from paraverse_graph.connection import engine_version, graph_exists, open_db
+from paraverse_graph.datasets import (
+    KB_ENV,
+    MISSING_KB_HINT,
+    Dataset,
+    list_datasets,
+    resolve_dataset,
+)
+from paraverse_graph.kb import DEFAULT_DATASET, VENDOR_DIR, KbError, load_kb
 from paraverse_graph.loader import LoadError, load_graph
 from paraverse_graph.mapping import MappingError
 from paraverse_graph.queries import CATALOG, QueryError, run_query
@@ -52,17 +60,29 @@ def main(argv: list[str] | None = None) -> int:
 
 
 def _parser() -> argparse.ArgumentParser:
-    common = argparse.ArgumentParser(add_help=False)
+    output = argparse.ArgumentParser(add_help=False)
+    output.add_argument("--format", choices=("text", "json"), default="text", help="Output format.")
+
+    common = argparse.ArgumentParser(add_help=False, parents=[output])
     common.add_argument(
         "--db", type=Path, help="Embedded database file (default: db/.data/paraverse-graph.rdb)."
     )
     common.add_argument(
         "--url", help="Remote FalkorDB URL, such as redis://localhost:6379. Overrides --db."
     )
-    common.add_argument(
-        "--graph", default=DEFAULT_GRAPH, help=f"Graph name (default: {DEFAULT_GRAPH})."
+    source = common.add_mutually_exclusive_group()
+    source.add_argument("--kb", type=Path, metavar="DIR", help="KB directory to use.")
+    source.add_argument(
+        "--dataset",
+        metavar="NAME",
+        help=f"Dataset whose KB is at {VENDOR_DIR}/NAME/kb, found from the working directory "
+        f"(default: ${KB_ENV} if set, else {DEFAULT_DATASET}).",
     )
-    common.add_argument("--format", choices=("text", "json"), default="text", help="Output format.")
+    common.add_argument(
+        "--graph",
+        help="Graph name (default: derived from the dataset name, such as universe2026_md "
+        "for universe2026-md).",
+    )
 
     parser = argparse.ArgumentParser(
         prog="paraverse-graph", description=__doc__, formatter_class=RichHelpFormatter
@@ -75,10 +95,15 @@ def _parser() -> argparse.ArgumentParser:
         formatter_class=RichHelpFormatter,
         help="Rebuild the graph from the knowledge base.",
     )
-    load.add_argument(
-        "--kb", type=Path, help="KB directory (default: found from the working directory)."
-    )
     load.set_defaults(handler=_load)
+
+    datasets = commands.add_parser(
+        "datasets",
+        parents=[output],
+        formatter_class=RichHelpFormatter,
+        help=f"List the datasets checked out under {VENDOR_DIR}/.",
+    )
+    datasets.set_defaults(handler=_datasets)
 
     queries = commands.add_parser(
         "queries",
@@ -123,32 +148,43 @@ def _parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Reload the graph whenever a KB build replaces kb/ or rewrites kb/_graph/stats.json.",
     )
-    serve.add_argument("--kb", type=Path, help="KB directory for --watch (default: found).")
     serve.add_argument("--open", action="store_true", help="Open the browser once it is ready.")
     serve.set_defaults(handler=_serve)
     return parser
 
 
-def _open_graph(args: argparse.Namespace, *, must_exist: bool = True) -> tuple[Any, Any]:
+def _target(args: argparse.Namespace) -> tuple[Dataset, str]:
+    """
+    The dataset the options name, and its graph unless `--graph` overrides it.
+    """
+    dataset = resolve_dataset(args.kb, args.dataset)
+    return dataset, args.graph or dataset.graph
+
+
+def _open_graph(
+    args: argparse.Namespace, graph_name: str, *, must_exist: bool = True
+) -> tuple[Any, Any]:
     db = open_db(args.db, args.url)
-    if must_exist and not graph_exists(db, args.graph):
-        raise CLIError(f"graph `{args.graph}` not found; run `paraverse-graph load` first")
-    return db, db.select_graph(args.graph)
+    if must_exist and not graph_exists(db, graph_name):
+        raise CLIError(
+            f"graph `{graph_name}` not found; run `paraverse-graph load` first, "
+            "with the same --dataset, --kb or --graph"
+        )
+    return db, db.select_graph(graph_name)
 
 
 def _load(args: argparse.Namespace) -> int:
-    kb_root = args.kb or find_kb_root()
-    if kb_root is None:
-        raise CLIError("no knowledge base found; pass --kb conferences/githubuniverse/kb")
-    err.print(f"Reading {kb_root} …")
+    dataset, graph_name = _target(args)
+    kb_root = dataset.require_kb()
+    err.print(f"Reading dataset `{dataset.name}` from {kb_root} …")
     kb = load_kb(kb_root)
-    db, _ = _open_graph(args, must_exist=False)
-    err.print(f"Loading {len(kb.nodes):,} nodes and {len(kb.edges):,} edges into `{args.graph}` …")
-    report = load_graph(db, kb, args.graph)
+    db, _ = _open_graph(args, graph_name, must_exist=False)
+    err.print(f"Loading {len(kb.nodes):,} nodes and {len(kb.edges):,} edges into `{graph_name}` …")
+    report = load_graph(db, kb, graph_name)
     if args.format == "json":
         print(json.dumps(report.as_dict(), indent=2))
         return 0
-    table = Table("kind", "nodes", title=f"{args.graph} (FalkorDB {report.engine})")
+    table = Table("kind", "nodes", title=f"{graph_name} (FalkorDB {report.engine})")
     for kind, count in report.nodes_by_kind.items():
         table.add_row(kind, f"{count:,}")
     out.print(table)
@@ -156,6 +192,35 @@ def _load(args: argparse.Namespace) -> int:
         f"Loaded {report.node_total:,} nodes and {report.edge_total:,} relationships "
         f"({len(report.edges_by_relation)} types) in {report.seconds:.2f}s; KB {report.kb_digest}."
     )
+    return 0
+
+
+def _datasets(args: argparse.Namespace) -> int:
+    found = list_datasets()
+    if DEFAULT_DATASET not in {d.name for d in found}:
+        err.print(
+            f"The default dataset is not at {VENDOR_DIR}/{DEFAULT_DATASET}/kb; {MISSING_KB_HINT}."
+        )
+    if args.format == "json":
+        rows = [
+            {
+                "name": d.name,
+                "graph": d.graph,
+                "kb": str(d.kb_root),
+                "default": d.name == DEFAULT_DATASET,
+            }
+            for d in found
+        ]
+        print(json.dumps(rows, indent=2))
+        return 0
+    if found:
+        table = Table("dataset", "graph", "kb")
+        for d in found:
+            default = " (default)" if d.name == DEFAULT_DATASET else ""
+            table.add_row(
+                escape(d.name) + default, d.graph, escape(os.path.relpath(d.require_kb()))
+            )
+        out.print(table)
     return 0
 
 
@@ -181,7 +246,7 @@ def _query(args: argparse.Namespace) -> int:
         if not sep:
             raise QueryError(f"parameters are KEY=VALUE, got `{item}`")
         params[key] = value
-    _, graph = _open_graph(args)
+    _, graph = _open_graph(args, _target(args)[1])
     _print_result(run_query(graph, args.name, params), args.format)
     return 0
 
@@ -189,7 +254,7 @@ def _query(args: argparse.Namespace) -> int:
 def _cypher(args: argparse.Namespace) -> int:
     from paraverse_graph.results import result_json
 
-    _, graph = _open_graph(args)
+    _, graph = _open_graph(args, _target(args)[1])
     _print_result(result_json(graph.ro_query(args.text)), args.format)
     return 0
 
@@ -199,25 +264,25 @@ def _serve(args: argparse.Namespace) -> int:
 
     import uvicorn
 
-    db, graph = _open_graph(args)
-    app = create_app(graph, subscribe=redis_subscriber(db.connection, args.graph))
+    dataset, graph_name = _target(args)
+    # Checked before the server starts, so a missing KB fails fast.
+    kb_root = dataset.require_kb() if args.watch else None
+    db, graph = _open_graph(args, graph_name)
+    app = create_app(graph, subscribe=redis_subscriber(db.connection, graph_name))
     url = f"http://127.0.0.1:{args.port}/"
     stop = threading.Event()
-    if args.watch:
-        kb_root = args.kb or find_kb_root()
-        if kb_root is None:
-            raise CLIError("--watch needs the KB; pass --kb conferences/githubuniverse/kb")
+    if kb_root is not None:
         threading.Thread(
             target=watch_kb,
-            args=(kb_root, stop, lambda: _reload(db, kb_root, args.graph)),
+            args=(kb_root, stop, lambda: _reload(db, kb_root, graph_name)),
             kwargs={"seen": kb_signature(kb_root)},
             daemon=True,
         ).start()
     if args.open:
         threading.Timer(1.0, webbrowser.open, args=(url,)).start()
     err.print(
-        f"Serving `{args.graph}` (FalkorDB {engine_version(db)}) at [link]{url}[/link]"
-        + (" — watching the KB" if args.watch else "")
+        f"Serving `{graph_name}` (FalkorDB {engine_version(db)}) at [link]{url}[/link]"
+        + (f" — watching {escape(str(kb_root))}" if kb_root is not None else "")
         + " — Ctrl-C to stop."
     )
     try:

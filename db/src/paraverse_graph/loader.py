@@ -22,6 +22,7 @@ from datetime import UTC, datetime
 from typing import Any
 
 from paraverse_graph.connection import engine_version
+from paraverse_graph.datasets import dataset_name
 from paraverse_graph.kb import KnowledgeBase
 from paraverse_graph.mapping import (
     ENTITY_LABEL,
@@ -65,6 +66,7 @@ class LoadError(RuntimeError):
 @dataclass
 class LoadReport:
     graph: str
+    dataset: str
     kb_root: str
     kb_digest: str
     engine: str | None
@@ -84,6 +86,7 @@ class LoadReport:
     def as_dict(self) -> dict[str, Any]:
         return {
             "graph": self.graph,
+            "dataset": self.dataset,
             "kb_root": self.kb_root,
             "kb_digest": self.kb_digest,
             "engine": self.engine,
@@ -139,6 +142,7 @@ def load_graph(
     _create_indexes(graph)
     report = LoadReport(
         graph=graph_name,
+        dataset=dataset_name(kb.root),
         kb_root=str(kb.root),
         kb_digest=kb.digest,
         engine=engine_version(db),
@@ -162,6 +166,7 @@ def load_graph(
         {
             "meta": {
                 "graph": graph_name,
+                "dataset": report.dataset,
                 "kb_root": str(kb.root),
                 "kb_digest": kb.digest,
                 "loaded_at": loaded_at,

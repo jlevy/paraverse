@@ -15,7 +15,6 @@ import os
 from pathlib import Path
 from typing import Any
 
-DEFAULT_GRAPH = "universe"
 DATA_DIR_ENV = "PARAVERSE_GRAPH_DATA"
 DEFAULT_DB_FILE = "paraverse-graph.rdb"
 
