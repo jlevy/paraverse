@@ -38,9 +38,13 @@ git history. docs/data-policy.md sets what may be committed. Flag as action requ
 6. Personal accounts: accounts or pages unrelated to the person's professional work.
    Public GitHub, LinkedIn and X profiles, and other accounts the person uses for
    their work (such as Bluesky, Mastodon or YouTube), are allowed.
-7. Credentials or machine details: API keys, tokens, cookies, browser session state,
+7. Generated text: a bio or summary written by a model that does not cite its
+   sources, says more than its cited sources say, strays from professional facts
+   (including speculation about personality, motives or the attributes in rule 3),
+   or does not record the model and a hash of the inputs.
+8. Credentials or machine details: API keys, tokens, cookies, browser session state,
    absolute local paths, host names, or local account names.
-8. A Python project whose pyproject.toml dependencies change without the matching
+9. A Python project whose pyproject.toml dependencies change without the matching
    uv.lock update in the same directory. Each Python project is managed with uv in its
    own directory.
 '''
