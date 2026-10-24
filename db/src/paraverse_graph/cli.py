@@ -1,0 +1,333 @@
+"""
+`paraverse-graph`: load the conference knowledge base into FalkorDB, query it, and serve
+the knowledge base browser.
+
+Data goes to stdout (text tables, or JSON with `--format json`); progress and
+errors go to stderr.
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import threading
+from collections.abc import Callable
+from pathlib import Path
+from typing import Any
+
+from rich.console import Console
+from rich.markup import escape
+from rich.table import Table
+from rich_argparse import RichHelpFormatter
+
+from paraverse_graph.browser import create_app, redis_subscriber
+from paraverse_graph.connection import DEFAULT_GRAPH, engine_version, graph_exists, open_db
+from paraverse_graph.kb import KbError, find_kb_root, load_kb
+from paraverse_graph.loader import LoadError, load_graph
+from paraverse_graph.mapping import MappingError
+from paraverse_graph.queries import CATALOG, QueryError, run_query
+
+DEFAULT_PORT = 8766
+
+out = Console()
+err = Console(stderr=True)
+
+
+class CLIError(RuntimeError):
+    """A failure to report without a traceback (exit code 1)."""
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = _parser().parse_args(argv)
+    try:
+        return args.handler(args)
+    except (CLIError, KbError, LoadError, MappingError) as e:
+        err.print(f"[bold red]error:[/bold red] {e}")
+        return 1
+    except QueryError as e:
+        err.print(f"[bold red]error:[/bold red] {e}")
+        return 2
+    except KeyboardInterrupt:
+        return 130
+
+
+def _parser() -> argparse.ArgumentParser:
+    common = argparse.ArgumentParser(add_help=False)
+    common.add_argument(
+        "--db", type=Path, help="Embedded database file (default: db/.data/paraverse-graph.rdb)."
+    )
+    common.add_argument(
+        "--url", help="Remote FalkorDB URL, such as redis://localhost:6379. Overrides --db."
+    )
+    common.add_argument(
+        "--graph", default=DEFAULT_GRAPH, help=f"Graph name (default: {DEFAULT_GRAPH})."
+    )
+    common.add_argument("--format", choices=("text", "json"), default="text", help="Output format.")
+
+    parser = argparse.ArgumentParser(
+        prog="paraverse-graph", description=__doc__, formatter_class=RichHelpFormatter
+    )
+    commands = parser.add_subparsers(required=True, metavar="COMMAND")
+
+    load = commands.add_parser(
+        "load",
+        parents=[common],
+        formatter_class=RichHelpFormatter,
+        help="Rebuild the graph from the knowledge base.",
+    )
+    load.add_argument(
+        "--kb", type=Path, help="KB directory (default: found from the working directory)."
+    )
+    load.set_defaults(handler=_load)
+
+    queries = commands.add_parser(
+        "queries",
+        parents=[common],
+        formatter_class=RichHelpFormatter,
+        help="List the named queries.",
+    )
+    queries.set_defaults(handler=_queries)
+
+    query = commands.add_parser(
+        "query",
+        parents=[common],
+        formatter_class=RichHelpFormatter,
+        help="Run a named query: `paraverse-graph query similar_people id=person:april-leonard`.",
+    )
+    query.add_argument("name", help="Query name (see `paraverse-graph queries`).")
+    query.add_argument("params", nargs="*", metavar="KEY=VALUE", help="Query parameters.")
+    query.set_defaults(handler=_query)
+
+    cypher = commands.add_parser(
+        "cypher",
+        parents=[common],
+        formatter_class=RichHelpFormatter,
+        help="Run ad hoc read-only Cypher, for exploration.",
+    )
+    cypher.add_argument(
+        "text", help="A Cypher query. Runs with GRAPH.RO_QUERY, so it cannot write."
+    )
+    cypher.set_defaults(handler=_cypher)
+
+    serve = commands.add_parser(
+        "serve",
+        parents=[common],
+        formatter_class=RichHelpFormatter,
+        help="Serve the read-only API and graph explorer on loopback.",
+    )
+    serve.add_argument(
+        "--port", type=int, default=DEFAULT_PORT, help=f"Port (default: {DEFAULT_PORT})."
+    )
+    serve.add_argument(
+        "--watch",
+        action="store_true",
+        help="Reload the graph whenever a KB build replaces kb/ or rewrites kb/_graph/stats.json.",
+    )
+    serve.add_argument("--kb", type=Path, help="KB directory for --watch (default: found).")
+    serve.add_argument("--open", action="store_true", help="Open the browser once it is ready.")
+    serve.set_defaults(handler=_serve)
+    return parser
+
+
+def _open_graph(args: argparse.Namespace, *, must_exist: bool = True) -> tuple[Any, Any]:
+    db = open_db(args.db, args.url)
+    if must_exist and not graph_exists(db, args.graph):
+        raise CLIError(f"graph `{args.graph}` not found; run `paraverse-graph load` first")
+    return db, db.select_graph(args.graph)
+
+
+def _load(args: argparse.Namespace) -> int:
+    kb_root = args.kb or find_kb_root()
+    if kb_root is None:
+        raise CLIError("no knowledge base found; pass --kb conferences/githubuniverse/kb")
+    err.print(f"Reading {kb_root} …")
+    kb = load_kb(kb_root)
+    db, _ = _open_graph(args, must_exist=False)
+    err.print(f"Loading {len(kb.nodes):,} nodes and {len(kb.edges):,} edges into `{args.graph}` …")
+    report = load_graph(db, kb, args.graph)
+    if args.format == "json":
+        print(json.dumps(report.as_dict(), indent=2))
+        return 0
+    table = Table("kind", "nodes", title=f"{args.graph} (FalkorDB {report.engine})")
+    for kind, count in report.nodes_by_kind.items():
+        table.add_row(kind, f"{count:,}")
+    out.print(table)
+    out.print(
+        f"Loaded {report.node_total:,} nodes and {report.edge_total:,} relationships "
+        f"({len(report.edges_by_relation)} types) in {report.seconds:.2f}s; KB {report.kb_digest}."
+    )
+    return 0
+
+
+def _queries(args: argparse.Namespace) -> int:
+    described = [q.describe() for q in CATALOG.values()]
+    if args.format == "json":
+        print(json.dumps(described, indent=2))
+        return 0
+    table = Table("name", "parameters", "description")
+    for q in described:
+        params = ", ".join(
+            p["name"] + ("" if p["default"] is None else f"={p['default']}") for p in q["params"]
+        )
+        table.add_row(q["name"], params, q["description"])
+    out.print(table)
+    return 0
+
+
+def _query(args: argparse.Namespace) -> int:
+    params: dict[str, str] = {}
+    for item in args.params:
+        key, sep, value = item.partition("=")
+        if not sep:
+            raise QueryError(f"parameters are KEY=VALUE, got `{item}`")
+        params[key] = value
+    _, graph = _open_graph(args)
+    _print_result(run_query(graph, args.name, params), args.format)
+    return 0
+
+
+def _cypher(args: argparse.Namespace) -> int:
+    from paraverse_graph.results import result_json
+
+    _, graph = _open_graph(args)
+    _print_result(result_json(graph.ro_query(args.text)), args.format)
+    return 0
+
+
+def _serve(args: argparse.Namespace) -> int:
+    import webbrowser
+
+    import uvicorn
+
+    db, graph = _open_graph(args)
+    app = create_app(graph, subscribe=redis_subscriber(db.connection, args.graph))
+    url = f"http://127.0.0.1:{args.port}/"
+    stop = threading.Event()
+    if args.watch:
+        kb_root = args.kb or find_kb_root()
+        if kb_root is None:
+            raise CLIError("--watch needs the KB; pass --kb conferences/githubuniverse/kb")
+        threading.Thread(
+            target=watch_kb,
+            args=(kb_root, stop, lambda: _reload(db, kb_root, args.graph)),
+            kwargs={"seen": kb_signature(kb_root)},
+            daemon=True,
+        ).start()
+    if args.open:
+        threading.Timer(1.0, webbrowser.open, args=(url,)).start()
+    err.print(
+        f"Serving `{args.graph}` (FalkorDB {engine_version(db)}) at [link]{url}[/link]"
+        + (" — watching the KB" if args.watch else "")
+        + " — Ctrl-C to stop."
+    )
+    try:
+        uvicorn.run(
+            app, host="127.0.0.1", port=args.port, log_level="warning", timeout_graceful_shutdown=0
+        )
+    finally:
+        stop.set()
+    return 0
+
+
+def _reload(db: Any, kb_root: Path, graph_name: str) -> None:
+    """
+    Rebuild the graph from the KB. The loader publishes `graph.loaded`, which reaches
+    every open browser.
+    """
+    report = load_graph(db, load_kb(kb_root), graph_name)
+    err.print(f"Reloaded `{graph_name}` from KB {report.kb_digest}.")
+
+
+def kb_signature(kb_root: Path) -> tuple[int, int, int] | None:
+    """
+    Identifies one KB build: a rebuild writes a new `stats.json`, in place or in a new
+    `kb/`. `None` while the build is between its two renames.
+    """
+    try:
+        st = (kb_root / "_graph" / "stats.json").stat()
+    except OSError:
+        return None
+    return (st.st_ino, st.st_mtime_ns, st.st_size)
+
+
+def watch_kb(
+    kb_root: Path,
+    stop: threading.Event,
+    reload: Callable[[], None],
+    *,
+    seen: tuple[int, int, int] | None,
+    debounce_ms: int = 2000,
+    poll_ms: int = 5000,
+) -> None:
+    """
+    Call `reload` once per KB build newer than `seen` (the `kb_signature` of the build
+    already served, taken before the thread starts) until `stop` is set.
+
+    The KB build swaps the whole `kb/` directory by rename, so a watch on `kb/_graph`
+    goes stale after the first build. This watches the KB's parent directory for the
+    `kb` entry, and the current `kb/_graph` for in-place writes to `stats.json`, and
+    re-arms after every reload so it follows the new directory. Each wakeup, including
+    one every `poll_ms` with no events, compares the `stats.json` signature with the
+    last one reloaded, which covers changes made while re-arming. A failed reload is
+    logged and not retried until the next build, and never ends the watch.
+    """
+    from watchfiles import watch
+
+    kb_root = kb_root.resolve()
+    stats = kb_root / "_graph" / "stats.json"
+    wanted = {str(kb_root), str(stats)}
+    while not stop.is_set():
+        paths = [kb_root.parent] + ([stats.parent] if stats.parent.is_dir() else [])
+        try:
+            for _ in watch(
+                *paths,
+                watch_filter=lambda _change, path: path in wanted,
+                debounce=debounce_ms,
+                stop_event=stop,
+                rust_timeout=poll_ms,
+                yield_on_timeout=True,
+                recursive=False,
+            ):
+                current = kb_signature(kb_root)
+                if current is None or current == seen:
+                    continue
+                seen = current
+                try:
+                    reload()
+                except Exception as e:
+                    # Escaped, so markup-like text in a message cannot raise here.
+                    err.print(
+                        f"[bold red]reload failed:[/bold red] {escape(f'{type(e).__name__}: {e}')}"
+                    )
+                break
+        except Exception as e:
+            # The watched `kb/_graph` can vanish mid-build; wait and re-arm.
+            err.print(f"[yellow]watch restarting:[/yellow] {escape(f'{type(e).__name__}: {e}')}")
+            stop.wait(1.0)
+
+
+def _print_result(result: dict[str, Any], fmt: str) -> None:
+    if fmt == "json":
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        return
+    table = Table(*result["columns"])
+    for row in result["rows"]:
+        table.add_row(*(_cell(value) for value in row))
+    out.print(table)
+    graph = result["graph"]
+    if graph["nodes"]:
+        err.print(
+            f"[dim]{len(graph['nodes'])} nodes, {len(graph['links'])} relationships in result graph[/dim]"
+        )
+
+
+def _cell(value: Any) -> str:
+    if isinstance(value, dict) and "id" in value and "labels" in value:
+        return f"{value.get('name') or ''} ({value['id']})"
+    if isinstance(value, dict) and "relationship" in value:
+        return value["relationship"]
+    if isinstance(value, dict) and "nodes" in value:
+        return " → ".join(value["nodes"])
+    if isinstance(value, list):
+        return ", ".join(_cell(v) for v in value)
+    return "" if value is None else str(value)
