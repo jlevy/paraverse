@@ -5,7 +5,7 @@ title: "PR #14 Qodo r4368869178: The browser can show the wrong dataset"
 kind: bug
 status: in_progress
 priority: 2
-version: 2
+version: 3
 delegate: claude-code@spud10.local
 labels: []
 dependencies: []
@@ -13,7 +13,7 @@ parent_id: is-01m5r2962gx3jdwh8zwdp57h42
 hold: null
 hold_until: null
 created_at: 2026-10-24T23:09:03.241Z
-updated_at: 2026-10-24T23:17:39.761Z
+updated_at: 2026-10-24T23:37:18.520Z
 started_at: 2026-10-24T23:17:39.760Z
 ---
 Medium. Original review: https://github.com/jlevy/paraverse/pull/14#discussion_r4368869178. Location: native/Sources/CommonGround/KnowledgeBaseBrowser.swift:96. 4\. The browser can show the wrong dataset 🐞 Bug ≡ Correctness
@@ -25,3 +25,7 @@ single-dataset or differently selected Paraverse browser, opening the app&#x27;s
 displays that selection instead of starting or confirming the intended combined view.
 
 Candidate for user-authorized merge-first follow-up after current stack lands; final disposition remains with coordinator.
+
+## Notes
+
+Fixed517292f: verify api/datasets selected set AND api/meta kb_digest against local compose_kbs identity via read-only runtime helper before reusing8766. Mismatch leaves other server untouched. Dataset set/digest negatives and existing-server no-launch tests pass in full49SwiftPASS12.744s. Parent integrates; no push.

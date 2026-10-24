@@ -5,7 +5,7 @@ title: "PR #14 Qodo r4368869170: Builds can silently use unpinned data"
 kind: bug
 status: in_progress
 priority: 2
-version: 2
+version: 3
 delegate: claude-code@spud10.local
 labels: []
 dependencies: []
@@ -13,7 +13,7 @@ parent_id: is-01m5r2962gx3jdwh8zwdp57h42
 hold: null
 hold_until: null
 created_at: 2026-10-24T23:09:02.873Z
-updated_at: 2026-10-24T23:15:30.686Z
+updated_at: 2026-10-24T23:37:17.936Z
 started_at: 2026-10-24T23:15:30.686Z
 ---
 Medium. Original review: https://github.com/jlevy/paraverse/pull/14#discussion_r4368869170. Location: native/build-app.sh:9. 3\. Builds can silently use unpinned data 🐞 Bug ≡ Correctness
@@ -25,3 +25,7 @@ clean, valid KB commit in either submodule, the build succeeds and bundles that 
 than the snapshot selected by the parent checkout.
 
 Candidate for user-authorized merge-first follow-up after current stack lands; final disposition remains with coordinator.
+
+## Notes
+
+Fixed1382a6b: verify checkout HEAD equals parent HEAD gitlink and KB clean BEFORE read/export, recheck at publication. Clean unpinned and dirty KB regressions reject before load and preserve destination. Full62backendPASS. Parent integrates; no push.
