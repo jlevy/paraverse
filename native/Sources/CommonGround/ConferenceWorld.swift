@@ -212,6 +212,8 @@ struct UniverseWorld: View {
             }.padding(12).foregroundStyle(Color(red:0.96,green:0.91,blue:0.80))
     }
     @ViewBuilder private var primaryControls:some View {
+        WorldNavigationMenu(openDiscovery: openDiscovery, openSchedule: openSchedule, openPeople: openPeople)
+
         Button {
             dismissWelcome()
             directory = false

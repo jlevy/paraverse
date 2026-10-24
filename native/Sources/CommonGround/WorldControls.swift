@@ -67,3 +67,41 @@ struct PixelPlanet: View {
         }.accessibilityHidden(true)
     }
 }
+
+
+struct WorldNavigationMenu: View {
+    let openDiscovery: () -> Void
+    let openSchedule: () -> Void
+    let openPeople: () -> Void
+
+    struct Destination: Identifiable {
+        let id: String
+        let title: String
+        let symbol: String
+        let open: () -> Void
+    }
+
+    var destinations: [Destination] {
+        [Destination(id: "discover", title: "All conferences", symbol: "globe", open: openDiscovery),
+         Destination(id: "schedule", title: "My schedule", symbol: "calendar", open: openSchedule),
+         Destination(id: "people", title: "People directory", symbol: "person.2", open: openPeople)]
+    }
+
+    var body: some View {
+        Menu {
+            ForEach(destinations) { destination in
+                Button(action: destination.open) { Label(destination.title, systemImage: destination.symbol) }
+            }
+        } label: {
+            Label("EXPLORE", systemImage: "square.grid.2x2")
+        }
+        .menuStyle(.borderlessButton).fixedSize()
+        .font(.system(size: 12, weight: .bold, design: .monospaced))
+        .foregroundStyle(Color(red: 0.99, green: 0.94, blue: 0.81))
+        .padding(.horizontal, 14).frame(minHeight: 44)
+        .background(PixelPanel().fill(Brand.buttonSecondary))
+        .overlay(PixelPanel().stroke(Brand.buttonBorder, lineWidth: 2))
+        .help("Browse conferences, your schedule, and the people directory")
+        .accessibilityLabel("Explore conferences and people")
+    }
+}
