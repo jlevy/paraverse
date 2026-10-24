@@ -1,8 +1,8 @@
 """
 Check lists of additional people, `<dataset>/additional-people.csv`, against the list
-format and the data policy before a dataset's pipeline reads them.
+format and the data policy before future dataset ingestion is implemented.
 
-The format is the one the dataset pipeline reads with `--additional-people`: one row
+The format is intended for a future `--additional-people` pipeline option: one row
 per person and relation, public and professional information only, and no contact
 details in any cell. These checks are deliberately about form; whether a source really
 supports a row is for the reviewer.
@@ -22,7 +22,7 @@ from urllib.parse import unquote, urlsplit, urlunsplit
 
 LIST_NAME = "additional-people.csv"
 
-# The exact header, in order. The dataset pipeline reads the same file.
+# The exact header, in order, for the checker and future dataset ingestion.
 COLUMNS: tuple[str, ...] = (
     "name",
     "reason",
