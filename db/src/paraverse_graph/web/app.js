@@ -314,7 +314,7 @@ function connectEvents() {
       let hello = null;
       try { hello = JSON.parse(event.data); } catch { /* a malformed hello is ignored */ }
       // A reload that happened while we were disconnected.
-      if (hello && state.meta && (hello.kb_digest !== state.meta.kb_digest || hello.loaded_at !== state.meta.loaded_at)) graphLoaded();
+      if (hello && state.meta && (hello.load_id !== state.meta.load_id || hello.kb_digest !== state.meta.kb_digest || hello.loaded_at !== state.meta.loaded_at)) graphLoaded();
     });
     source.addEventListener('graph.loaded', () => graphLoaded());
     source.addEventListener('resync', () => reconnect(500));

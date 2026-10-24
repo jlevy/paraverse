@@ -60,10 +60,12 @@ def test_schema_reload_without_pubsub_in_the_same_second(tmp_path: Path, monkeyp
         load_graph(db, load_kb(kb), "reload")
         client = TestClient(create_app(graph, extra_hosts=TEST_HOSTS))
         assert _get(client, "/api/schema/person")["title"] == "Version 1"
+        first_load = _get(client, "/api/meta")["load_id"]
         schema["title"] = "Version 2"
         schema_path.write_text(json.dumps(schema))
         load_graph(db, load_kb(kb), "reload")
         assert _get(client, "/api/schema/person")["title"] == "Version 2"
+        assert _get(client, "/api/meta")["load_id"] != first_load
     finally:
         graph.delete()
 
@@ -564,7 +566,12 @@ def test_load_events_reach_sse_clients():
                 )
         meta = app.state.catalog.meta()
         assert events == [
-            {"type": "hello", "kb_digest": meta["kb_digest"], "loaded_at": meta["loaded_at"]},
+            {
+                "type": "hello",
+                "kb_digest": meta["kb_digest"],
+                "loaded_at": meta["loaded_at"],
+                "load_id": meta["load_id"],
+            },
             {"type": "graph.loaded", "kb_digest": "x", "loaded_at": "t"},
         ]
         assert names == ["hello", "graph.loaded"]
