@@ -14,6 +14,7 @@ export UV_EXCLUDE_NEWER
 # The dataset `build` checks its header-only list, then rebuilds the existing saved
 # inputs with the pipeline at ../vendor/<dataset>/pipeline.
 DATASET ?= universe2026-md
+export DATASET
 
 SRC_PATHS := src tests
 
@@ -45,7 +46,7 @@ check:
 
 # Check the lists, then rebuild DATASET with its own pipeline if the selected list is empty.
 build: check
-	uv run paraverse-curation build --dataset '$(DATASET)'
+	uv run paraverse-curation build --dataset "$$DATASET"
 
 upgrade:
 	uv sync --upgrade --all-groups

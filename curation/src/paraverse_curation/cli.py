@@ -11,6 +11,10 @@ from pathlib import Path
 
 from paraverse_curation.people import ListReport, check_list, find_lists
 
+# A dataset handoff needs its own known entry point; mounted datasets are not
+# automatically compatible with the universe2026 pipeline command.
+_BUILD_COMMANDS: dict[str, tuple[str, ...]] = {"universe2026-md": ("universe-kb", "build")}
+
 
 def reports(root: Path, paths: list[Path]) -> list[ListReport]:
     selected = paths or find_lists(root)
@@ -35,6 +39,12 @@ def show_reports(checked: list[ListReport]) -> bool:
 def build_dataset(root: Path, dataset: str) -> int:
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]*", dataset):
         raise ValueError("Dataset must be a single directory name")
+    command = _BUILD_COMMANDS.get(dataset)
+    if command is None:
+        raise ValueError(
+            "No build handoff is configured for this dataset; supported: "
+            + ", ".join(_BUILD_COMMANDS)
+        )
     checked = reports(root, [root / dataset / "additional-people.csv"])
     if not show_reports(checked):
         return 1
@@ -50,13 +60,16 @@ def build_dataset(root: Path, dataset: str) -> int:
             "initialize the dataset submodule first"
         )
     env = dict(os.environ)
+    # The curation Makefile exports its lock cutoff. Let the dataset's own config
+    # choose its cutoff, and require its existing lock instead of rewriting it.
+    env.pop("UV_EXCLUDE_NEWER", None)
     env["UV_CONFIG_FILE"] = str(pipeline / "uv.toml")
     if env.get("UV_PROJECT_ENVIRONMENT"):
         env["UV_PROJECT_ENVIRONMENT"] = str(
             Path(env["UV_PROJECT_ENVIRONMENT"]).resolve().parent / f"{dataset}-pipeline-venv"
         )
     return subprocess.run(
-        ["uv", "run", "universe-kb", "build"], cwd=pipeline, env=env, check=False
+        ["uv", "run", "--locked", *command], cwd=pipeline, env=env, check=False
     ).returncode
 
 
