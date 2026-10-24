@@ -20,6 +20,8 @@ from typing import Any
 
 import softschema
 
+from paraverse_graph.kb import read_artifact_document, referenced_artifact_paths
+
 # Generated or derived files that are not artifacts.
 _SKIP_DIRS = frozenset({"_graph", "_schemas", "_search"})
 
@@ -49,14 +51,17 @@ class ValidationReport:
 
 
 def artifact_paths(kb_root: Path) -> list[str]:
-    """Every artifact in the KB, as paths relative to it."""
-    return sorted(
+    """Discovered artifacts and every graph-referenced path, relative to the KB."""
+    paths = {
         str(p.relative_to(kb_root))
         for p in kb_root.rglob("*")
-        if p.suffix in (".md", ".yaml")
+        if p.is_file()
+        and p.suffix in (".md", ".yaml", ".yml")
         and p.name != "README.md"
         and not _SKIP_DIRS & set(p.relative_to(kb_root).parts)
-    )
+    }
+    paths.update(referenced_artifact_paths(kb_root))
+    return sorted(paths)
 
 
 def validate_artifacts(kb_root: Path, paths: Iterable[str] | None = None) -> ValidationReport:
@@ -84,16 +89,12 @@ def validate_artifacts(kb_root: Path, paths: Iterable[str] | None = None) -> Val
 
 
 def _validate_one(doc_path: Path) -> tuple[str | None, list[str]]:
-    if doc_path.suffix == ".yaml":
-        profile = softschema.SchemaProfile.pure_yaml
-        document = softschema.read_yaml_doc(doc_path)
-    else:
-        profile = softschema.SchemaProfile.frontmatter_md
-        _, document = softschema.read_frontmatter_doc(doc_path)
-    # softschema reports bad YAML as a `ValueError`, but a pure-yaml document can parse
-    # to a list or a scalar, which has no `softschema` block to look up.
-    if document is not None and not isinstance(document, dict):
-        return None, [f"not a YAML mapping: the document is a {type(document).__name__}"]
+    document, frontmatter = read_artifact_document(doc_path, str(doc_path))
+    profile = (
+        softschema.SchemaProfile.frontmatter_md
+        if frontmatter
+        else softschema.SchemaProfile.pure_yaml
+    )
     meta = softschema.parse_schema_metadata((document or {}).get("softschema"))
     if meta is None or not meta.contract_id or not meta.envelope or not meta.schema_ref:
         return None, [

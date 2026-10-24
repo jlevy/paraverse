@@ -154,7 +154,10 @@ def test_load_validate_lists_every_failed_artifact(
         (kb / path).write_text("---\ntitle: no softschema block\n---\n")
     # Error text is printed as is, not read as Rich markup.
     paths.append("sessions/markup.md")
-    (kb / paths[-1]).write_text("---\nsoftschema: {contract: [red]\n---\n")
+    (kb / paths[-1]).write_text(
+        "---\nsoftschema:\n  contract: test:Session/v1\n  envelope: session\n"
+        "  schema: '[red].yaml'\n  status: enforced\nsession: {}\n---\n"
+    )
     db_file = tmp_path / "test.rdb"
     assert main(["load", "--validate", "--kb", str(kb), "--db", str(db_file)]) == 1
     lines = capsys.readouterr().err.splitlines()
@@ -217,33 +220,23 @@ def test_an_ordinary_load_reads_a_contract_name(tmp_path: Path):
 
 
 @pytest.mark.parametrize("replacement", ["after_validation", "before_read"])
+@pytest.mark.parametrize("suffix", [".md", ".yml", ".record"])
 def test_validate_refuses_an_artifact_replaced_after_validation(
     replacement: str,
+    suffix: str,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
     capsys: pytest.CaptureFixture[str],
 ):
     kb = tmp_path / "race" / "kb"
-    _one_person_kb(
-        kb,
-        "  contract: test:Person/v1\n  schema: ../_schemas/person.schema.yaml\n  status: enforced\n",
-    )
-    (kb / "_schemas").mkdir()
-    (kb / "_schemas/person.schema.yaml").write_text(
-        json.dumps(
-            {
-                "type": "object",
-                "properties": {"id": {"type": "string"}, "name": {"type": "string"}},
-                "required": ["id", "name"],
-                "additionalProperties": False,
-                "x-softschema": {"contract": "test:Person/v1"},
-            }
-        )
-    )
+    _synthetic_schema_kb(kb)
+    (kb / "people/p0.md").rename(kb / f"people/p0{suffix}")
+    nodes = kb / "_graph/nodes.jsonl"
+    nodes.write_text(nodes.read_text().replace("people/p0.md", f"people/p0{suffix}"))
     assert validate_artifacts(kb).ok
 
     def replace_artifact(root: Path) -> None:
-        artifact = root / "people/p0.md"
+        artifact = root / f"people/p0{suffix}"
         artifact.write_text(
             artifact.read_text().replace("  name: P0\n", "  name: P0\n  surprise: true\n")
         )
@@ -266,3 +259,92 @@ def test_validate_refuses_an_artifact_replaced_after_validation(
     assert main(["load", "--validate", "--kb", str(kb), "--db", str(db_file)]) == 1
     assert "KB changed while reading" in capsys.readouterr().err
     assert not graph_exists(open_db(db_file), graph_name("race"))
+
+
+def _synthetic_schema_kb(kb: Path) -> None:
+    _one_person_kb(
+        kb,
+        "  contract: test:Person/v1\n  schema: ../_schemas/person.schema.yaml\n  status: enforced\n",
+    )
+    (kb / "_schemas").mkdir()
+    (kb / "_schemas/person.schema.yaml").write_text(
+        json.dumps(
+            {
+                "type": "object",
+                "properties": {"id": {"type": "string"}, "name": {"type": "string"}},
+                "required": ["id", "name"],
+                "additionalProperties": False,
+                "x-softschema": {"contract": "test:Person/v1"},
+            }
+        )
+    )
+
+
+@pytest.mark.parametrize(
+    ("suffix", "frontmatter"), [(".yml", False), (".record", False), (".record", True)]
+)
+def test_validation_covers_graph_references_of_every_extension(
+    suffix: str,
+    frontmatter: bool,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+):
+    kb = tmp_path / "extended" / "kb"
+    _synthetic_schema_kb(kb)
+    rel = f"people/p1{suffix}"
+    node = {"id": "person:p1", "kind": "person", "name": "P1", "path": rel}
+    with (kb / "_graph/nodes.jsonl").open("a") as stream:
+        stream.write(json.dumps(node) + "\n")
+    document = (
+        "softschema:\n  contract: test:Person/v1\n  envelope: person\n"
+        "  schema: ../_schemas/person.schema.yaml\n  status: enforced\n"
+        "person:\n  id: person:p1\n  name: P1\n"
+    )
+    (kb / rel).write_text(f"---\n{document}---\n" if frontmatter else document)
+    assert rel in load_kb(kb).artifacts
+    report = validate_artifacts(kb)
+    assert report.ok and report.checked == 2
+    (kb / rel).write_text((kb / rel).read_text().replace("  name: P1\n", "  name: 7\n"))
+    report = validate_artifacts(kb)
+    assert not report.ok and report.checked == 2
+    assert [problem.path for problem in report.problems] == [rel]
+
+    def must_not_open_graph(*_args: Any, **_kwargs: Any) -> Any:
+        raise AssertionError("Invalid artifacts must be rejected before opening the graph")
+
+    monkeypatch.setattr("paraverse_graph.cli._open_graph", must_not_open_graph)
+    assert main(["load", "--validate", "--kb", str(kb)]) == 1
+    assert rel in capsys.readouterr().err
+
+
+def test_validation_discovers_an_unreferenced_yml_artifact(tmp_path: Path):
+    kb = tmp_path / "kb"
+    _synthetic_schema_kb(kb)
+    (kb / "people/invalid.yml").write_text(
+        "softschema:\n  contract: test:Person/v1\n  envelope: person\n"
+        "  schema: ../_schemas/person.schema.yaml\n  status: enforced\n"
+        "person:\n  id: person:p1\n  name: 7\n"
+    )
+    report = validate_artifacts(kb)
+    assert report.checked == 2 and not report.ok
+    assert [problem.path for problem in report.problems] == ["people/invalid.yml"]
+
+
+def test_empty_kb_validation_reports_no_artifacts(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+):
+    kb = tmp_path / "empty" / "kb"
+    (kb / "_graph").mkdir(parents=True)
+    (kb / "_graph/nodes.jsonl").write_text("")
+
+    def must_not_open_graph(*_args: Any, **_kwargs: Any) -> Any:
+        raise AssertionError("Empty KBs must be rejected before opening the graph")
+
+    monkeypatch.setattr("paraverse_graph.cli._open_graph", must_not_open_graph)
+    assert main(["load", "--validate", "--kb", str(kb)]) == 1
+    error = " ".join(capsys.readouterr().err.split()).lower()
+    assert "no artifacts found" in error
+    assert "0 of 0" not in error
