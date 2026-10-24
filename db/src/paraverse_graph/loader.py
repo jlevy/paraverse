@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import contextlib
 import json
+import logging
 import os
 import secrets
 import time
@@ -21,6 +22,8 @@ from collections.abc import Iterable, Iterator
 from dataclasses import dataclass, field
 from datetime import UTC, datetime
 from typing import Any
+
+from redis.exceptions import RedisError
 
 from paraverse_graph.connection import delete_graph, engine_version
 from paraverse_graph.datasets import dataset_name
@@ -37,6 +40,8 @@ from paraverse_graph.mapping import (
     relationship_type,
 )
 from paraverse_graph.schemas import KindSchema, load_kind_schemas
+
+log = logging.getLogger(__name__)
 
 BATCH_SIZE = 500
 
@@ -61,7 +66,11 @@ FULLTEXT_INDEXES: tuple[tuple[str, tuple[str, ...]], ...] = (
 
 
 class LoadError(RuntimeError):
-    """The staging graph did not match the knowledge base, so nothing was replaced."""
+    """The staging graph could not be prepared, so nothing was replaced."""
+
+
+class TransientLoadError(LoadError):
+    """A staging operation may succeed later without changing the source build."""
 
 
 @dataclass
@@ -75,6 +84,7 @@ class LoadReport:
     edges_by_relation: dict[str, int]
     seconds: float
     problems: list[str] = field(default_factory=list)
+    datasets: list[str] = field(default_factory=list)
 
     @property
     def node_total(self) -> int:
@@ -88,6 +98,7 @@ class LoadReport:
         return {
             "graph": self.graph,
             "dataset": self.dataset,
+            "datasets": self.datasets or [self.dataset],
             "kb_root": self.kb_root,
             "kb_digest": self.kb_digest,
             "engine": self.engine,
@@ -166,13 +177,14 @@ def _load_via(
     _create_indexes(graph)
     report = LoadReport(
         graph=graph_name,
-        dataset=dataset_name(kb.root),
+        dataset=" + ".join(kb.source_names) if kb.source_kbs else dataset_name(kb.root),
         kb_root=str(kb.root),
         kb_digest=kb.digest,
         engine=engine_version(db),
         nodes_by_kind=_count_nodes(graph),
         edges_by_relation=_count_edges(graph),
         seconds=0.0,
+        datasets=list(kb.source_names),
     )
     report.problems = _compare(report, kb.stats) + _duplicate_ids(graph)
     if report.problems:
@@ -180,7 +192,9 @@ def _load_via(
             f"staging graph `{staging}` does not match the KB: " + "; ".join(report.problems)
         )
 
-    _write_schemas(graph, load_kind_schemas(kb.root))
+    _write_schemas(
+        graph, kb.kind_schemas if kb.kind_schemas is not None else load_kind_schemas(kb.root)
+    )
     # Uniqueness was already checked above, so this cannot fail on this data; it
     # guards later writes. It is built before the swap, so the live graph never lacks it.
     _create_unique_id_constraint(db, staging)
@@ -192,6 +206,11 @@ def _load_via(
             "meta": {
                 "graph": graph_name,
                 "dataset": report.dataset,
+                "datasets": report.datasets or [report.dataset],
+                "source_roots_json": json.dumps(
+                    {name: str(source.root) for name, source in kb.source_kbs.items()},
+                    sort_keys=True,
+                ),
                 "kb_root": str(kb.root),
                 "kb_digest": kb.digest,
                 "loaded_at": loaded_at,
@@ -207,18 +226,22 @@ def _load_via(
     kb.check_unchanged()
     db.connection.execute_command("RENAME", staging, graph_name)
     report.seconds = time.monotonic() - started
-    # FalkorDB is Redis, so open browsers learn about the new graph over pub/sub.
-    db.connection.publish(
-        events_channel(graph_name),
-        json.dumps(
-            {
-                "type": "graph.loaded",
-                "kb_digest": kb.digest,
-                "loaded_at": loaded_at,
-                "load_id": load_id,
-            }
-        ),
-    )
+    # The rename committed the new graph. A failed notification must not tell
+    # callers the load failed or leave their selected-dataset metadata outdated.
+    try:
+        db.connection.publish(
+            events_channel(graph_name),
+            json.dumps(
+                {
+                    "type": "graph.loaded",
+                    "kb_digest": kb.digest,
+                    "loaded_at": loaded_at,
+                    "load_id": load_id,
+                }
+            ),
+        )
+    except RedisError as e:
+        log.warning("graph `%s` loaded, but its reload notification failed: %s", graph_name, e)
     return report
 
 
@@ -317,7 +340,9 @@ def _create_unique_id_constraint(db: Any, graph_name: str, timeout: float = 30.0
         if "FAILED" in statuses:
             raise LoadError(f"unique constraint on {ENTITY_LABEL}.id failed in `{graph_name}`")
         if time.monotonic() > deadline:
-            raise LoadError(f"unique constraint on {ENTITY_LABEL}.id still building: {statuses}")
+            raise TransientLoadError(
+                f"unique constraint on {ENTITY_LABEL}.id still building: {statuses}"
+            )
         time.sleep(0.05)
 
 

@@ -1,5 +1,5 @@
 // The JSON API client and the small caches the views share. Every call is a
-// same-origin GET; errors carry the server's `{error}` message and status.
+// same-origin request; errors carry the server's `{error}` message and status.
 
 export class ApiError extends Error {
   constructor(message, status) {
@@ -11,9 +11,13 @@ export class ApiError extends Error {
 async function get(path, params) {
   const search = params ? new URLSearchParams(Object.entries(params).filter(([, v]) => v != null && v !== '')) : null;
   const url = search && [...search].length ? `${path}?${search}` : path;
+  return request(url);
+}
+
+async function request(url, options = {}) {
   let response;
   try {
-    response = await fetch(url, { headers: { Accept: 'application/json' } });
+    response = await fetch(url, { ...options, headers: { Accept: 'application/json', ...options.headers } });
   } catch {
     throw new ApiError('The server is not reachable.', 0);
   }
@@ -31,11 +35,23 @@ const enc = encodeURIComponent;
 const schemas = new Map();
 const cards = new Map();
 let reviewPending = null;
+let cacheGeneration = 0;
 
 /** Shared state: the current meta and a kind index built from it. */
 export const state = { meta: null, kinds: new Map(), review: null };
 
+/** Full snapshot identity shared by metadata, overview and quality responses. */
+export const loadIdentity = (load) => JSON.stringify(
+  ['dataset', 'graph', 'kb_digest', 'loaded_at', 'load_id'].map((key) => load?.[key] ?? null),
+);
+
 export const api = {
+  datasets: () => get('/api/datasets'),
+  selectDatasets: (datasets) => request('/api/datasets/select', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ datasets }),
+  }),
   async meta() {
     const meta = await get('/api/meta');
     state.meta = meta;
@@ -61,17 +77,25 @@ export const api = {
     return cards.get(id);
   },
   search: (q, params) => get('/api/search', { q, ...params }),
-  /** Check counts, shared by the top bar, home and review views until a reload. */
+  overview: () => get('/api/overview'),
+  /** Check counts, shared by the top bar, overview and review views until a reload. */
   review() {
     if (!reviewPending) {
-      reviewPending = get('/api/review').then((review) => (state.review = review));
-      reviewPending.catch(() => { reviewPending = null; });
+      const generation = cacheGeneration;
+      const pending = get('/api/review').then((review) => {
+        if (generation === cacheGeneration && loadIdentity(review.load) === loadIdentity(state.meta)) state.review = review;
+        else if (reviewPending === pending) reviewPending = null;
+        return review;
+      });
+      pending.catch(() => { if (reviewPending === pending) reviewPending = null; });
+      reviewPending = pending;
     }
     return reviewPending;
   },
   reviewCheck: (name) => get(`/api/review/${enc(name)}`),
   /** After a graph reload every cached schema and card may be stale. */
   clearCaches() {
+    cacheGeneration += 1;
     schemas.clear();
     cards.clear();
     reviewPending = null;

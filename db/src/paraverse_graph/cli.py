@@ -11,12 +11,14 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import secrets
 import threading
 import time
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
+from redis.exceptions import RedisError
 from rich.console import Console
 from rich.markup import escape
 from rich.table import Table
@@ -32,9 +34,10 @@ from paraverse_graph.datasets import (
     resolve_dataset,
 )
 from paraverse_graph.kb import DEFAULT_DATASET, VENDOR_DIR, KbError, build_snapshot, load_kb
-from paraverse_graph.loader import LoadError, load_graph
+from paraverse_graph.loader import LoadError, events_channel, load_graph
 from paraverse_graph.mapping import MappingError
 from paraverse_graph.queries import CATALOG, QueryError, run_query
+from paraverse_graph.selection import DatasetSelection, SelectionError
 
 DEFAULT_PORT = 8766
 
@@ -50,7 +53,7 @@ def main(argv: list[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     try:
         return args.handler(args)
-    except (CLIError, KbError, LoadError, MappingError) as e:
+    except (CLIError, KbError, LoadError, MappingError, SelectionError) as e:
         # Escaped, since a parser error can quote text that looks like markup.
         err.print(f"[bold red]error:[/bold red] {escape(str(e))}")
         return 1
@@ -146,7 +149,7 @@ def _parser() -> argparse.ArgumentParser:
         "serve",
         parents=[common],
         formatter_class=RichHelpFormatter,
-        help="Serve the read-only API and graph explorer on loopback.",
+        help="Serve the API and graph explorer on loopback.",
     )
     serve.add_argument(
         "--port", type=int, default=DEFAULT_PORT, help=f"Port (default: {DEFAULT_PORT})."
@@ -157,6 +160,18 @@ def _parser() -> argparse.ArgumentParser:
         help="Reload the graph whenever a KB build replaces kb/ or rewrites kb/_graph/stats.json.",
     )
     serve.add_argument("--open", action="store_true", help="Open the browser once it is ready.")
+    serve.add_argument(
+        "--include-kb",
+        action="append",
+        default=[],
+        metavar="NAME=DIR",
+        help="Also offer a named KB directory in the browser's dataset selector; repeatable.",
+    )
+    serve.add_argument(
+        "--select-all",
+        action="store_true",
+        help="Initially combine all available datasets in the browser.",
+    )
     serve.set_defaults(handler=_serve)
     return parser
 
@@ -299,33 +314,96 @@ def _serve(args: argparse.Namespace) -> int:
     import uvicorn
 
     dataset, graph_name = _target(args)
-    # Checked before the server starts, so a missing KB fails fast.
-    kb_root = dataset.require_kb() if args.watch else None
-    db, graph = _open_graph(args, graph_name)
-    app = create_app(graph, subscribe=redis_subscriber(db.connection, graph_name))
-    url = f"http://127.0.0.1:{args.port}/"
+    selection_requested = bool(args.include_kb or args.select_all)
+    offer_selection = selection_requested or not (args.graph or args.url)
+    sources = {item.name: item.require_kb() for item in list_datasets()} if offer_selection else {}
+    if (
+        offer_selection
+        and dataset.kb_root is not None
+        and (dataset.kb_root / "_graph/nodes.jsonl").is_file()
+    ):
+        sources[dataset.name] = dataset.require_kb()
+    included = set()
+    for value in args.include_kb:
+        name, separator, path = value.partition("=")
+        if not separator or not name or not path:
+            raise CLIError("--include-kb requires NAME=DIR")
+        resolve_dataset(name=name)  # Validate the registry name, never accept a path as a name.
+        sources[name] = Dataset(name, Path(path).expanduser()).require_kb()
+        included.add(name)
+    selection = None
     stop = threading.Event()
-    if kb_root is not None:
-        threading.Thread(
-            target=watch_kb,
-            args=(kb_root, stop, lambda: _reload(db, kb_root, graph_name)),
-            kwargs={"seen": kb_signature(kb_root)},
-            daemon=True,
-        ).start()
-    if args.open:
-        threading.Timer(1.0, webbrowser.open, args=(url,)).start()
-    err.print(
-        f"Serving `{graph_name}` (FalkorDB {engine_version(db)}) at [link]{url}[/link]"
-        + (f" — watching {escape(str(kb_root))}" if kb_root is not None else "")
-        + " — Ctrl-C to stop."
-    )
     try:
+        if sources and (dataset.name in sources or args.select_all or included):
+            db, _ = _open_graph(args, graph_name, must_exist=False)
+            graph_name = f"{graph_name}__browser_{args.port}_{secrets.token_hex(8)}"
+            selection = DatasetSelection(db, sources, graph_name)
+            initial = (
+                sorted(sources)
+                if args.select_all
+                else [dataset.name]
+                if dataset.name in sources
+                else sorted(included)
+            )
+            selection.select(initial)
+            graph = db.select_graph(graph_name)
+            kb_root = None
+        else:
+            kb_root = dataset.require_kb() if args.watch else None
+            db, graph = _open_graph(args, graph_name)
+        app = create_app(
+            graph,
+            subscribe=redis_subscriber(db.connection, graph_name),
+            selection=selection,
+        )
+        url = f"http://127.0.0.1:{args.port}/"
+        if selection is not None:
+            threading.Thread(target=watch_selection, args=(selection, stop), daemon=True).start()
+        elif kb_root is not None:
+            threading.Thread(
+                target=watch_kb,
+                args=(kb_root, stop, lambda: _reload(db, kb_root, graph_name)),
+                kwargs={"seen": kb_signature(kb_root)},
+                daemon=True,
+            ).start()
+        if args.open:
+            threading.Timer(1.0, webbrowser.open, args=(url,)).start()
+        err.print(
+            f"Serving `{graph_name}` (FalkorDB {engine_version(db)}) at [link]{url}[/link]"
+            + (f" — watching {escape(str(kb_root))}" if kb_root is not None else "")
+            + " — Ctrl-C to stop."
+        )
         uvicorn.run(
             app, host="127.0.0.1", port=args.port, log_level="warning", timeout_graceful_shutdown=0
         )
     finally:
         stop.set()
+        if selection is not None:
+            try:
+                selection.close()
+            except RedisError as exc:
+                err.print(
+                    f"[yellow]could not remove browser graph `{escape(selection.graph_name)}`: "
+                    f"{escape(str(exc))}[/yellow]"
+                )
     return 0
+
+
+def watch_selection(selection: DatasetSelection, stop: threading.Event) -> None:
+    """Refresh the currently selected view when one of its source builds changes."""
+    while not stop.wait(5):
+        try:
+            if selection.refresh_if_changed():
+                # The loader event precedes selected-label state publication. A second
+                # signal makes browsers reconcile after that state has also committed.
+                try:
+                    selection.db.connection.publish(
+                        events_channel(selection.graph_name), json.dumps({"type": "graph.loaded"})
+                    )
+                except RedisError as exc:
+                    err.print(f"[yellow]reload notification failed:[/yellow] {escape(str(exc))}")
+        except (SelectionError, KbError, LoadError) as exc:
+            err.print(f"[bold red]reload failed:[/bold red] {escape(str(exc))}")
 
 
 def _reload(db: Any, kb_root: Path, graph_name: str) -> None:

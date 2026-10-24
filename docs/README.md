@@ -4,10 +4,19 @@ Start with the data policy; it sets what this public repository may contain.
 
 - [Data policy](data-policy.md): what may and may not be committed, how generated text
   is handled, and how removal requests work.
+- [Hackathon demo](hackathon-demo.md): Paraverse at Patch the Conference, the Bright
+  Data, FalkorDB and Qodo integrations, and the demo flow.
+- [KB readiness review](project/research/review-2026-10-24-kb-readiness.md): the current
+  dataset audit, reproducibility gaps and prerequisites for a complete demo.
 
 ## Graph Database and Browser
 
 These docs cover `db/`, which loads a conference knowledge base into FalkorDB.
+
+- [Layered architecture](../README.md#architecture): Bright Data collection, the KB
+  build, FalkorDB, application access and the developer tools used in the project.
+- [Softschema, sync and app access](app-integration.md): how contracts enter the graph,
+  how updates are published, and how an app should read the data.
 
 Architecture, describing how the system works now:
 

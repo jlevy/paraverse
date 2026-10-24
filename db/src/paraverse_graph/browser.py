@@ -43,8 +43,10 @@ from starlette.types import ASGIApp, Receive, Scope, Send
 
 from paraverse_graph.loader import events_channel
 from paraverse_graph.mapping import ENTITY_LABEL, LABELS, META_LABEL, SCHEMA_LABEL, TYPED_REF
+from paraverse_graph.overview import build_overview
 from paraverse_graph.queries import QueryError, fulltext_query, run_query
 from paraverse_graph.review import CHECKS, SEVERITY_ORDER, run_check
+from paraverse_graph.selection import DatasetSelection, SelectionError
 
 log = logging.getLogger(__name__)
 
@@ -88,7 +90,15 @@ DEFAULT_COLUMNS: dict[str, tuple[str, ...]] = {
     "organization": ("name", "roles", "sponsor_tier", "website", "in:AFFILIATED_WITH"),
     "package": ("name", "ecosystem", "latest_version", "software"),
     "page": ("title", "site", "url"),
-    "person": ("name", "job_title", "affiliation_label", "inclusion_basis", "out:PRESENTS"),
+    "person": (
+        "name",
+        "job_title",
+        "affiliation_label",
+        "inclusion_basis",
+        "participation_roles",
+        "out:PARTICIPATES_IN",
+        "out:PRESENTS",
+    ),
     "profile": ("person", "headline", "location"),
     "repository": ("full_name", "stars", "primary_language", "owner", "archived"),
     "room": ("name", "venue", "capacity", "in:HELD_IN"),
@@ -286,7 +296,7 @@ class GraphReader:
 
 class GraphCatalog:
     """
-    Cached schemas, metadata and review results for the current graph load.
+    Cached schemas, metadata, overview and review results for the current graph load.
     `invalidate()` runs when a `graph.loaded` event arrives, and `revalidate()` on
     requests that use the catalog catches a load whose event was missed.
     """
@@ -296,11 +306,13 @@ class GraphCatalog:
         self.timeout_ms: int = timeout_ms
         self._lock: threading.Lock = threading.Lock()
         self._review_lock: threading.Lock = threading.Lock()
+        self._overview_lock: threading.Lock = threading.Lock()
         self._generation: int = 0
         self._stamp: list[Any] | None = None
         self._schemas: dict[str, dict[str, Any]] | None = None
         self._meta: dict[str, Any] | None = None
-        self._review: dict[str, dict[str, Any]] | None = None
+        self._review: dict[str, Any] | None = None
+        self._overview: dict[str, Any] | None = None
 
     def reader(self) -> GraphReader:
         fresh = type(self.graph)(self.graph.client, self.graph.name)
@@ -312,6 +324,7 @@ class GraphCatalog:
             self._schemas = None
             self._meta = None
             self._review = None
+            self._overview = None
 
     def revalidate(self) -> None:
         """
@@ -417,23 +430,71 @@ class GraphCatalog:
                 column["count"] += stat["count"]
         return sorted(merged.values(), key=lambda c: (c["direction"], c["type"]))
 
-    def review(self) -> dict[str, dict[str, Any]]:
+    def overview(self) -> dict[str, Any]:
         """
-        Every check's full result for the current load, keyed by name. The checks run
-        once per load, not on every page view.
+        Cache one summary per load. A load can change between metadata, schema and
+        payload reads even when its pub/sub event is missed, so validate both its
+        stamp and catalog generation before returning or publishing the result.
+        """
+        with self._overview_lock:
+            for _ in range(3):
+                self.revalidate()
+                with self._lock:
+                    generation, stamp = self._generation, self._stamp
+                    cached = self._overview
+                if cached is not None:
+                    cached_stamp = [
+                        cached["load"][key] for key in ("kb_digest", "loaded_at", "load_id")
+                    ]
+                    if cached_stamp == stamp:
+                        return cached
+                info = self.meta()
+                result = build_overview(self.reader(), info, self.schemas(), KIND_GROUPS)
+                self.revalidate()
+                with self._lock:
+                    info_stamp = [info[key] for key in ("kb_digest", "loaded_at", "load_id")]
+                    if generation == self._generation and stamp == self._stamp == info_stamp:
+                        self._overview = result
+                        return result
+            raise Unavailable(
+                "the graph changed while building its overview; retry after loading finishes"
+            )
+
+    def review(self) -> dict[str, Any]:
+        """
+        A load identity and every check's full result, keyed by name. Keep the
+        identity with the checks so a later reload cannot relabel old findings.
         """
         with self._review_lock:
-            cached = self._review
-            if cached is not None:
-                return cached
-            generation = self._generation
-            reader = self.reader()
-            results = {check.name: run_check(reader, check) for check in CHECKS}
-            with self._lock:
-                # Results computed across a reload belong to neither build.
-                if generation == self._generation:
-                    self._review = results
-            return results
+            for _ in range(3):
+                self.revalidate()
+                with self._lock:
+                    generation, stamp = self._generation, self._stamp
+                    cached = self._review
+                if cached is not None:
+                    cached_stamp = [
+                        cached["load"][key] for key in ("kb_digest", "loaded_at", "load_id")
+                    ]
+                    if cached_stamp == stamp:
+                        return cached
+                info = self.meta()
+                reader = self.reader()
+                results = {check.name: run_check(reader, check) for check in CHECKS}
+                self.revalidate()
+                with self._lock:
+                    info_stamp = [info[key] for key in ("kb_digest", "loaded_at", "load_id")]
+                    if generation == self._generation and stamp == self._stamp == info_stamp:
+                        self._review = {
+                            "load": {
+                                key: info[key]
+                                for key in ("dataset", "graph", "kb_digest", "loaded_at", "load_id")
+                            },
+                            "checks": results,
+                        }
+                        return self._review
+            raise Unavailable(
+                "the graph changed while running its review; retry after loading finishes"
+            )
 
 
 def create_app(
@@ -442,6 +503,7 @@ def create_app(
     extra_hosts: frozenset[str] | None = None,
     subscribe: Callable[[EventBus, GraphCatalog], Callable[[], None]] | None = None,
     query_timeout_ms: int = QUERY_TIMEOUT_MS,
+    selection: DatasetSelection | None = None,
 ) -> Starlette:
     """
     Build the browser app over one FalkorDB graph. `subscribe`, when given, starts a
@@ -452,6 +514,37 @@ def create_app(
     catalog = GraphCatalog(graph, timeout_ms=query_timeout_ms)
     bus = EventBus()
     web = files("paraverse_graph") / "web"
+
+    def datasets(_: Request) -> Response:
+        return JSONResponse(
+            selection.describe()
+            if selection
+            else {
+                "selection_enabled": False,
+                "datasets": [],
+                "selected": [],
+            }
+        )
+
+    async def select_datasets(request: Request) -> Response:
+        if selection is None:
+            raise BadRequest("Dataset selection is not enabled on this server.")
+        origin = request.headers.get("origin")
+        if origin is not None and origin != str(request.base_url).rstrip("/"):
+            raise BadRequest("Dataset selection requires a request from this browser.")
+        try:
+            body = await request.json()
+        except ValueError as exc:
+            raise BadRequest("Choose datasets using a JSON request.") from exc
+        if not isinstance(body, dict):
+            raise BadRequest("Choose at least one dataset.")
+        try:
+            result = await run_in_threadpool(selection.select, body.get("datasets"))
+        except SelectionError as exc:
+            raise BadRequest(str(exc)) from exc
+        catalog.invalidate()
+        bus.publish({"type": "graph.loaded"})
+        return JSONResponse(result)
 
     def meta(_: Request) -> Response:
         catalog.revalidate()
@@ -499,7 +592,7 @@ def create_app(
             {
                 **s,
                 "computed": list(COMPUTED_COLUMNS.get(kind, {})),
-                "default_columns": list(_default_columns(kind, s)),
+                "default_columns": list(_default_columns(kind, s, catalog)),
                 "relationships": catalog.relationship_columns(kind),
             }
         )
@@ -670,20 +763,27 @@ def create_app(
             }
         )
 
+    def overview(_: Request) -> Response:
+        return JSONResponse(catalog.overview())
+
     def review_list(_: Request) -> Response:
-        catalog.revalidate()
-        results = catalog.review()
+        snapshot = catalog.review()
+        results = snapshot["checks"]
         ordered = sorted(CHECKS, key=lambda c: (SEVERITY_ORDER.index(c.severity), c.area, c.name))
         return JSONResponse(
-            {"checks": [{k: v for k, v in results[c.name].items() if k != "rows"} for c in ordered]}
+            {
+                "load": snapshot["load"],
+                "checks": [
+                    {k: v for k, v in results[c.name].items() if k != "rows"} for c in ordered
+                ],
+            }
         )
 
     def review_check(request: Request) -> Response:
-        catalog.revalidate()
         name = request.path_params["name"]
         if not any(c.name == name for c in CHECKS):
             raise BadRequest(f"unknown check `{name}`")
-        return JSONResponse(catalog.review()[name])
+        return JSONResponse(catalog.review()["checks"][name])
 
     def named_query(request: Request) -> Response:
         try:
@@ -794,6 +894,9 @@ def create_app(
         routes=[
             Route("/", index),
             Route("/api/meta", meta),
+            Route("/api/datasets", datasets),
+            Route("/api/datasets/select", select_datasets, methods=["POST"]),
+            Route("/api/overview", overview),
             Route("/api/schema/{kind}", schema),
             Route("/api/rows/{kind}", rows),
             Route("/api/entity/{id:path}", entity),
@@ -865,10 +968,12 @@ def redis_subscriber(
     return start
 
 
-def _default_columns(kind: str, s: dict[str, Any]) -> tuple[str, ...]:
+def _default_columns(kind: str, s: dict[str, Any], catalog: GraphCatalog) -> tuple[str, ...]:
     configured = DEFAULT_COLUMNS.get(kind)
     if configured:
-        return configured
+        allowed = {f["name"] for f in s["fields"]} | set(COMPUTED_COLUMNS.get(kind, {}))
+        allowed |= {c["name"] for c in catalog.relationship_columns(kind)}
+        return tuple(column for column in configured if column in allowed)
     names = [f["name"] for f in s["fields"] if f["name"] not in ("id", "sources")]
     return tuple(names[:5])
 
@@ -886,7 +991,7 @@ def _label(kind: str) -> str:
 
 
 def _columns(raw: str | None, kind: str, s: dict[str, Any], catalog: GraphCatalog) -> list[str]:
-    columns = [c for c in (raw or "").split(",") if c] or list(_default_columns(kind, s))
+    columns = [c for c in (raw or "").split(",") if c] or list(_default_columns(kind, s, catalog))
     allowed = {f["name"] for f in s["fields"]} | set(COMPUTED_COLUMNS.get(kind, {}))
     rel_allowed = {c["name"] for c in catalog.relationship_columns(kind)}
     for column in columns:
@@ -1216,3 +1321,28 @@ def test_overflow_sends_resync_first():
     for i in range(CLIENT_QUEUE_SIZE + 1):
         bus.publish({"type": "graph.loaded", "n": i})
     assert queue.get_nowait() is None and queue.empty() and queue not in bus.clients
+
+
+def test_person_defaults_show_event_links_without_requiring_talk_sessions():
+    from types import SimpleNamespace
+
+    schema = {
+        "fields": [
+            {"name": name}
+            for name in (
+                "name",
+                "job_title",
+                "affiliation_label",
+                "inclusion_basis",
+            )
+        ]
+    }
+    catalog: Any = SimpleNamespace(
+        relationship_columns=lambda kind: [{"name": "out:PARTICIPATES_IN"}]
+    )
+    defaults = _default_columns("person", schema, catalog)
+    assert "out:PARTICIPATES_IN" in defaults
+    assert "participation_roles" in defaults
+    assert "out:PRESENTS" not in defaults
+    assert _columns(None, "person", schema, catalog) == list(defaults)
+    assert _columns(",".join(defaults), "person", schema, catalog) == list(defaults)

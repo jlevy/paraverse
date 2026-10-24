@@ -30,10 +30,16 @@
   <div id="app">
     <header id="topbar">
       <a class="brand" href="#/">Knowledge Base <span class="brand-graph muted mono" id="graph-name"></span></a>
+      <div class="menu-wrap dataset-selector" id="dataset-selector" hidden>
+        <button type="button" class="btn dataset-trigger" id="dataset-button" aria-haspopup="dialog" aria-expanded="false" aria-controls="dataset-menu">
+          <span class="muted">Datasets</span> <span id="dataset-label"></span> <span aria-hidden="true">▾</span>
+        </button>
+        <div class="menu dataset-menu" id="dataset-menu" role="dialog" aria-labelledby="dataset-heading" hidden></div>
+      </div>
       <button type="button" class="btn search-trigger" id="search-trigger" aria-haspopup="dialog">
         <span id="search-icon"></span> <span class="search-label">Search people, sessions, orgs…</span> <span class="kbd">/</span>
       </button>
-      <select class="select" id="kind-select" aria-label="Open a table"></select>
+      <select class="select" id="kind-select" aria-label="Browse knowledge base"></select>
       <span class="spacer"></span>
       <a class="review-link" id="review-link" href="#/review">Review <span class="pill" id="review-count">…</span></a>
       <span class="pill digest" id="digest" tabindex="0"></span>
@@ -47,7 +53,7 @@
         </div>
       </div>
     </header>
-    <nav id="sidebar" aria-label="Tables"></nav>
+    <nav id="sidebar" aria-label="Knowledge base"></nav>
     <main id="main">
       <div id="view"><p class="empty">Loading…</p></div>
     </main>

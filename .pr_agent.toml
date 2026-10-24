@@ -22,8 +22,10 @@ git history. docs/data-policy.md sets what may be committed. Flag as action requ
    description lacks the Review Checklist from docs/data-policy.md or any of its
    items. Do not take the checklist on trust: check every item against the diff, and
    flag any item the diff breaks, whether or not its box is ticked.
-2. Contact details in committed content: email addresses, phone numbers, or postal
-   addresses, even when the person published them.
+2. Contact details in committed content: email addresses, phone numbers, or personal
+   postal addresses, even when the person published them. Public street addresses of
+   conference venues and rooms published as directions to the event are allowed; a
+   person’s home address or other precise personal location is not.
 3. Sensitive personal attributes that the data adds, derives or infers (in a structured
    field, tag, interest, label, selected post, evidence string or generated text):
    health, religion, political views, sexual orientation, ethnicity, family and
