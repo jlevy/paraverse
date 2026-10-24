@@ -1,9 +1,9 @@
-// Home, review and error views.
+// Review and error views.
 
-import { api, state } from './api.js';
-import { fmtNumber, h, relativeAge } from './dom.js';
+import { api } from './api.js';
+import { fmtNumber, h } from './dom.js';
 import { wireRows } from './table.js';
-import { chip, chipLabel, description, kindDot, kindOfId, kindTitle, tableHref, tag, TYPED_ID_IN_TEXT } from './values.js';
+import { chip, chipLabel, kindOfId, kindTitle, tag, TYPED_ID_IN_TEXT } from './values.js';
 
 // Severity, most severe first; `blocker` outranks `high`.
 const SEVERITY_ORDER = { blocker: 0, high: 1, medium: 2, low: 3, info: 4 };
@@ -31,31 +31,6 @@ function checksTable(checks) {
         h('td', { class: 'muted' }, check.description),
         h('td', { class: 'right num' }, check.count ? findings(check) : h('span', { class: 'muted' }, '0')));
     }))));
-}
-
-export async function mountHome(route) {
-  const meta = state.meta;
-  // The review checks are the slowest query; the section fills in when they arrive.
-  const review = h('section', { class: 'section' },
-    h('h2', { class: 'section-heading' }, 'Review', h('span', { class: 'hint' }, h('a', { href: '#/review' }, 'All checks →'))),
-    h('p', { class: 'muted' }, 'Running checks…'));
-  api.review().then((data) => {
-    const open = data.checks.filter((c) => c.count > 0);
-    review.lastChild.replaceWith(open.length ? checksTable(open) : h('p', { class: 'muted' }, 'Every check passes.'));
-  }, () => review.remove());
-  const el = h('div', null,
-    h('div', { class: 'view-head' },
-      h('h1', { tabindex: '-1' }, 'Knowledge base'),
-      h('span', { class: 'count' },
-        `${fmtNumber(meta.node_total)} entities · ${fmtNumber(meta.edge_total)} relationships in `
-        + `${Object.keys(meta.relationships).length} types · loaded ${relativeAge(meta.loaded_at) || meta.loaded_at}`)),
-    meta.groups.filter((g) => g.kinds.length).map((group) => h('section', { class: 'section' },
-      h('h2', { class: 'section-heading' }, group.title),
-      h('div', { class: 'kind-grid' }, group.kinds.map((k) => h('a', { class: 'kind-card', href: tableHref(k.kind) },
-        h('div', { class: 'kind-card-title' }, kindDot(k.kind), kindTitle(k.kind), h('span', { class: 'count' }, fmtNumber(k.count))),
-        description(String(k.description || '').split(/\n\s*\n/)[0])))))),
-    review);
-  return { key: route.key, el, title: 'Home' };
 }
 
 const total = (checks) => checks.reduce((n, c) => n + c.count, 0);
@@ -132,6 +107,6 @@ export function errorView(err) {
   const el = h('div', { class: 'error-box', role: 'alert' },
     h('h1', null, notFound ? 'Not found' : 'Could not load this view'),
     h('p', null, err?.message || String(err)),
-    h('p', null, h('a', { href: '#/' }, 'Go to the home page')));
+    h('p', null, h('a', { href: '#/overview' }, 'Go to the overview')));
   return { key: 'error', el, title: notFound ? 'Not found' : 'Error' };
 }

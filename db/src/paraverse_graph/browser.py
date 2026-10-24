@@ -43,6 +43,7 @@ from starlette.types import ASGIApp, Receive, Scope, Send
 
 from paraverse_graph.loader import events_channel
 from paraverse_graph.mapping import ENTITY_LABEL, LABELS, META_LABEL, SCHEMA_LABEL, TYPED_REF
+from paraverse_graph.overview import build_overview
 from paraverse_graph.queries import QueryError, fulltext_query, run_query
 from paraverse_graph.review import CHECKS, SEVERITY_ORDER, run_check
 
@@ -286,7 +287,7 @@ class GraphReader:
 
 class GraphCatalog:
     """
-    Cached schemas, metadata and review results for the current graph load.
+    Cached schemas, metadata, overview and review results for the current graph load.
     `invalidate()` runs when a `graph.loaded` event arrives, and `revalidate()` on
     requests that use the catalog catches a load whose event was missed.
     """
@@ -296,11 +297,13 @@ class GraphCatalog:
         self.timeout_ms: int = timeout_ms
         self._lock: threading.Lock = threading.Lock()
         self._review_lock: threading.Lock = threading.Lock()
+        self._overview_lock: threading.Lock = threading.Lock()
         self._generation: int = 0
         self._stamp: list[Any] | None = None
         self._schemas: dict[str, dict[str, Any]] | None = None
         self._meta: dict[str, Any] | None = None
-        self._review: dict[str, dict[str, Any]] | None = None
+        self._review: dict[str, Any] | None = None
+        self._overview: dict[str, Any] | None = None
 
     def reader(self) -> GraphReader:
         fresh = type(self.graph)(self.graph.client, self.graph.name)
@@ -312,6 +315,7 @@ class GraphCatalog:
             self._schemas = None
             self._meta = None
             self._review = None
+            self._overview = None
 
     def revalidate(self) -> None:
         """
@@ -414,23 +418,71 @@ class GraphCatalog:
                 column["count"] += stat["count"]
         return sorted(merged.values(), key=lambda c: (c["direction"], c["type"]))
 
-    def review(self) -> dict[str, dict[str, Any]]:
+    def overview(self) -> dict[str, Any]:
         """
-        Every check's full result for the current load, keyed by name. The checks run
-        once per load, not on every page view.
+        Cache one summary per load. A load can change between metadata, schema and
+        payload reads even when its pub/sub event is missed, so validate both its
+        stamp and catalog generation before returning or publishing the result.
+        """
+        with self._overview_lock:
+            for _ in range(3):
+                self.revalidate()
+                with self._lock:
+                    generation, stamp = self._generation, self._stamp
+                    cached = self._overview
+                if cached is not None:
+                    cached_stamp = [
+                        cached["load"][key] for key in ("kb_digest", "loaded_at", "load_id")
+                    ]
+                    if cached_stamp == stamp:
+                        return cached
+                info = self.meta()
+                result = build_overview(self.reader(), info, self.schemas(), KIND_GROUPS)
+                self.revalidate()
+                with self._lock:
+                    info_stamp = [info[key] for key in ("kb_digest", "loaded_at", "load_id")]
+                    if generation == self._generation and stamp == self._stamp == info_stamp:
+                        self._overview = result
+                        return result
+            raise Unavailable(
+                "the graph changed while building its overview; retry after loading finishes"
+            )
+
+    def review(self) -> dict[str, Any]:
+        """
+        A load identity and every check's full result, keyed by name. Keep the
+        identity with the checks so a later reload cannot relabel old findings.
         """
         with self._review_lock:
-            cached = self._review
-            if cached is not None:
-                return cached
-            generation = self._generation
-            reader = self.reader()
-            results = {check.name: run_check(reader, check) for check in CHECKS}
-            with self._lock:
-                # Results computed across a reload belong to neither build.
-                if generation == self._generation:
-                    self._review = results
-            return results
+            for _ in range(3):
+                self.revalidate()
+                with self._lock:
+                    generation, stamp = self._generation, self._stamp
+                    cached = self._review
+                if cached is not None:
+                    cached_stamp = [
+                        cached["load"][key] for key in ("kb_digest", "loaded_at", "load_id")
+                    ]
+                    if cached_stamp == stamp:
+                        return cached
+                info = self.meta()
+                reader = self.reader()
+                results = {check.name: run_check(reader, check) for check in CHECKS}
+                self.revalidate()
+                with self._lock:
+                    info_stamp = [info[key] for key in ("kb_digest", "loaded_at", "load_id")]
+                    if generation == self._generation and stamp == self._stamp == info_stamp:
+                        self._review = {
+                            "load": {
+                                key: info[key]
+                                for key in ("dataset", "graph", "kb_digest", "loaded_at", "load_id")
+                            },
+                            "checks": results,
+                        }
+                        return self._review
+            raise Unavailable(
+                "the graph changed while running its review; retry after loading finishes"
+            )
 
 
 def create_app(
@@ -667,20 +719,27 @@ def create_app(
             }
         )
 
+    def overview(_: Request) -> Response:
+        return JSONResponse(catalog.overview())
+
     def review_list(_: Request) -> Response:
-        catalog.revalidate()
-        results = catalog.review()
+        snapshot = catalog.review()
+        results = snapshot["checks"]
         ordered = sorted(CHECKS, key=lambda c: (SEVERITY_ORDER.index(c.severity), c.area, c.name))
         return JSONResponse(
-            {"checks": [{k: v for k, v in results[c.name].items() if k != "rows"} for c in ordered]}
+            {
+                "load": snapshot["load"],
+                "checks": [
+                    {k: v for k, v in results[c.name].items() if k != "rows"} for c in ordered
+                ],
+            }
         )
 
     def review_check(request: Request) -> Response:
-        catalog.revalidate()
         name = request.path_params["name"]
         if not any(c.name == name for c in CHECKS):
             raise BadRequest(f"unknown check `{name}`")
-        return JSONResponse(catalog.review()[name])
+        return JSONResponse(catalog.review()["checks"][name])
 
     def named_query(request: Request) -> Response:
         try:
@@ -791,6 +850,7 @@ def create_app(
         routes=[
             Route("/", index),
             Route("/api/meta", meta),
+            Route("/api/overview", overview),
             Route("/api/schema/{kind}", schema),
             Route("/api/rows/{kind}", rows),
             Route("/api/entity/{id:path}", entity),

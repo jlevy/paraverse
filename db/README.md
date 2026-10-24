@@ -54,8 +54,8 @@ make validate  # validate every artifact of the dataset with softschema, then lo
 swift test --package-path clients/swift   # the Swift client
 ```
 
-`make load`, `make validate` and `make serve` take `DATASET=<name>` for another
-dataset under `vendor/`, or `KB=<dir>` for any KB directory (relative to `db/`), as in
+`make load`, `make validate` and `make serve` take `DATASET=<name>` for another dataset
+under `vendor/`, or `KB=<dir>` for any KB directory (relative to `db/`), as in
 `make load serve DATASET=other`.
 
 `uv run paraverse-graph serve --watch` reloads the graph whenever a KB build rewrites
@@ -127,12 +127,28 @@ name (see [Datasets](#datasets)).
 
 ## Browser API
 
+The browser opens to **Overview** (`#/overview`, also the default `#/` route), with a
+summary of the loaded dataset and tables for entities, relationship types, source
+providers, enrichment coverage, event editions and inclusion basis.
+Counts come from the loaded graph.
+Links open the corresponding entity tables and quality checks.
+
+Source counts describe direct citations in entity payloads, rather than independent
+verification or collected snapshot counts.
+Derived entities can inherit provenance through their parent record.
+Coverage shows exact present/missing counts and separately identifies stale, unfetched
+and unknown states. Review findings can overlap, and a truncated check reports a lower
+bound. Load time describes the graph import; source retrieval dates describe the cited
+inputs. The export digest covers the node and edge exports, excluding artifact payloads
+and schemas.
+
 The API is read-only GET with JSON responses.
 It accepts only loopback Host headers.
 
 | Endpoint | Returns |
 | --- | --- |
 | `/api/meta` | Graph, dataset, KB digest and load time; kinds grouped for navigation, with counts |
+| `/api/overview` | Current load identity; entity and relationship counts; source-provider citations and retrieval dates; exact enrichment coverage, event editions and inclusion basis. Cached per graph load. |
 | `/api/schema/<kind>` | Fields from the compiled softschema schema, nested shapes, default and relationship columns |
 | `/api/rows/<kind>` | A page of rows. Takes `offset`, `limit`, `sort`, `order`, `q`, `cols`, `f.<field>=<value>`, `rel=<in\|out>:<TYPE>:<id>` |
 | `/api/entity/<id>` | The full payload, names for every reference in it, relationships grouped by type |
@@ -164,10 +180,10 @@ everything and so explain nothing.
   statistics.
 - **Indexes and constraints:** `id` indexes on every label, filter indexes, full-text
   search, and a unique constraint on `Entity.id`.
-- **Validation:** every load checks that each node’s artifact declares the envelope
-  of the node’s kind and names a contract.
-  `load --validate` also runs softschema on every artifact (about 40 s for the full
-  KB), the way `softschema validate <artifact>` does: against the compiled schema the
+- **Validation:** every load checks that each node’s artifact declares the envelope of
+  the node’s kind and names a contract.
+  `load --validate` also runs softschema on every artifact (about 40 s for the full KB),
+  the way `softschema validate <artifact>` does: against the compiled schema the
   artifact itself names, at the status it declares.
   It loads nothing if any artifact fails.
   The KB build’s own validation adds its Pydantic models on top.
@@ -194,6 +210,7 @@ everything and so explain nothing.
 | `src/paraverse_graph/loader.py` | Staging load, checks, swap, indexes, constraint, schemas and events |
 | `src/paraverse_graph/validation.py` | Softschema validation of every KB artifact (`load --validate`) |
 | `src/paraverse_graph/browser.py` | The Starlette app: browser API, SSE, static front end |
+| `src/paraverse_graph/overview.py` | Aggregate provenance and coverage statistics for the welcome page |
 | `src/paraverse_graph/web/` | The front end: plain ES modules and CSS, with no build step |
 | `src/paraverse_graph/review.py` | Data-quality checks shown in the browser |
 | `src/paraverse_graph/queries.py`, `results.py` | The named, read-only query catalog and its JSON form |
