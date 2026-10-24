@@ -3,14 +3,18 @@ type: is
 id: is-01m5r2sf57z8vtvwgzdpbh0ffr
 title: "PR #14 Qodo r4368869162: Attendee recommendations lose their proof"
 kind: bug
-status: open
+status: in_progress
 priority: 2
-version: 1
+version: 2
+delegate: claude-code@spud10.local
 labels: []
 dependencies: []
 parent_id: is-01m5r2962gx3jdwh8zwdp57h42
+hold: null
+hold_until: null
 created_at: 2026-10-24T23:09:02.502Z
-updated_at: 2026-10-24T23:09:02.502Z
+updated_at: 2026-10-24T23:15:30.675Z
+started_at: 2026-10-24T23:15:30.673Z
 ---
 Medium. Original review: https://github.com/jlevy/paraverse/pull/14#discussion_r4368869162. Location: backend/chat_service.py:17. 2\. Attendee recommendations lose their proof 🐞 Bug ≡ Correctness
 

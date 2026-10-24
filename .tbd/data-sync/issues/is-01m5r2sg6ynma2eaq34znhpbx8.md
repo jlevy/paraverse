@@ -3,14 +3,18 @@ type: is
 id: is-01m5r2sg6ynma2eaq34znhpbx8
 title: "PR #14 Qodo r4368869185: Closing the browser early can leave a database server running"
 kind: bug
-status: open
+status: in_progress
 priority: 2
-version: 1
+version: 2
+delegate: claude-code@spud10.local
 labels: []
 dependencies: []
 parent_id: is-01m5r2962gx3jdwh8zwdp57h42
+hold: null
+hold_until: null
 created_at: 2026-10-24T23:09:03.581Z
-updated_at: 2026-10-24T23:09:03.581Z
+updated_at: 2026-10-24T23:17:39.773Z
+started_at: 2026-10-24T23:17:39.773Z
 ---
 Medium. Original review: https://github.com/jlevy/paraverse/pull/14#discussion_r4368869185. Location: native/Sources/CommonGround/KnowledgeBaseBrowser.swift:273. 5\. Closing the browser early can leave a database server running 🐞 Bug ☼ Reliability
 
