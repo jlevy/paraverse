@@ -208,6 +208,9 @@ tempCodeRunnerFile.py
 # Ruff stuff:
 .ruff_cache/
 
+# Qodo: local review context that coding agents write for `qodo review`
+.qodo/session-context.json
+
 # PyPI configuration file
 .pypirc
 
@@ -218,3 +221,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Paraverse: local data, credentials and browser sessions never get committed.
+.DS_Store
+.env.*
+!.env.example
+**/storage-state*.json
+**/storageState*.json
+**/cookies*.json
+**/auth-state*.json

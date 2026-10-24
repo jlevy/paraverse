@@ -1,0 +1,53 @@
+# Qodo pull-request review settings for this repository.
+#
+# Qodo reads this file from the root of the default branch, so changes apply to pull
+# requests opened after they merge. For the keys it sets, it takes precedence over the
+# Qodo portal; everything else comes from the portal (Configurations).
+# Use only keys from the configuration reference:
+# https://docs.qodo.ai/configuration/configuration-and-command-reference
+
+[github_app]
+# Coding agents open most pull requests here. Qodo skips PRs it identifies as opened by
+# bots or AI agents unless this is false.
+ignore_bot_pr = false
+
+[review_agent]
+# Extra instructions for the Compliance agent, which checks rules on every review.
+compliance_user_guidelines = '''
+This repository is public: anything committed can be copied and indexed, and it stays in
+git history. docs/data-policy.md sets what may be committed. Flag as action required:
+
+1. A pull request that adds or changes knowledge-base data, source caches, curation
+   files, generated bios or summaries, test fixtures, or examples in docs, but whose
+   description lacks the Review Checklist from docs/data-policy.md or any of its
+   items. Do not take the checklist on trust: check every item against the diff, and
+   flag any item the diff breaks, whether or not its box is ticked.
+2. Contact details in committed content: email addresses, phone numbers, or postal
+   addresses, even when the person published them.
+3. Sensitive personal attributes that the data adds, derives or infers (in a structured
+   field, tag, interest, label, selected post, evidence string or generated text):
+   health, religion, political views, sexual orientation, ethnicity, family and
+   relationships, immigration status, finances, birth date or age, or any location
+   finer than a city or metro area. Text people wrote about themselves in a public
+   source (an official speaker bio, a profile bio or README) is kept verbatim and is
+   not a finding.
+4. Data from non-public sources (behind a login, paywall, or other access control),
+   data about other people carried inside a scraped profile, or scraper bookkeeping
+   that describes no one.
+5. Unstated attendance: a record that lists someone as attending the event when they
+   have not said so publicly. A like, a follow, or another person's post is not
+   enough. Speakers named in the official agenda are conference material, not a
+   finding.
+6. Personal accounts: accounts or pages unrelated to the person's professional work.
+   Public GitHub, LinkedIn and X profiles, and other accounts the person uses for
+   their work (such as Bluesky, Mastodon or YouTube), are allowed.
+7. Generated text: a bio or summary written by a model that does not cite its
+   sources, says more than its cited sources say, strays from professional facts
+   (including speculation about personality, motives or the attributes in rule 3),
+   or does not record the model and a hash of the inputs.
+8. Credentials or machine details: API keys, tokens, cookies, browser session state,
+   absolute local paths, host names, or local account names.
+9. A Python project whose pyproject.toml dependencies change without the matching
+   uv.lock update in the same directory. Each Python project is managed with uv in its
+   own directory.
+'''
