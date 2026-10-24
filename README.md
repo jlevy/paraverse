@@ -33,47 +33,35 @@ review evidence, dataset prerequisites and demo flow.
 The dataset repository builds the records; Paraverse imports and serves them.
 
 ```mermaid
-flowchart TB
-    subgraph COLLECTION["1 · Data collection"]
-        BD("Bright Data<br/>Profile enrichment<br/>LinkedIn · X")
-        API("Public APIs<br/>RainFocus · GitHub<br/>Web · registries")
-    end
+flowchart LR
+    BD("Bright Data<br/>Profile snapshots<br/>LinkedIn · X")
+    SOURCES("Public APIs<br/>RainFocus · GitHub<br/>Web · registries")
+    KB("Knowledge base<br/>Python · Pydantic<br/>softschema")
+    FALKOR[("FalkorDB<br/>FalkorDBLite<br/>Redis · Cypher")]
+    APPS("Applications<br/>Starlette · Uvicorn<br/>JavaScript · Swift")
 
-    subgraph KNOWLEDGE["2 · Knowledge base"]
-        BUILD("Normalize and enrich<br/>Python · Pydantic<br/>PyYAML · softschema")
-        KB[("Versioned KB<br/>YAML · Markdown<br/>JSON Schema · JSONL")]
-    end
-
-    subgraph GRAPH["3 · Graph projection"]
-        LOAD("Validate and load<br/>Python · watchfiles<br/>Stage · atomic swap")
-        FALKOR[("FalkorDB<br/>FalkorDBLite · Redis<br/>Cypher · indexes")]
-    end
-
-    subgraph APPLICATIONS["4 · Application access"]
-        SERVICE("Read-only API<br/>Starlette · Uvicorn<br/>JSON · SSE")
-        WEB("KB browser<br/>HTML · CSS · JavaScript<br/>Lucide SVG")
-        APP("App clients<br/>Swift · Foundation<br/>HTTP · SwiftPM")
-    end
-
-    BD --> BUILD
-    API --> BUILD
-    BUILD --> KB
-    KB --> LOAD
-    LOAD --> FALKOR
-    FALKOR --> SERVICE
-    SERVICE --> WEB
-    SERVICE --> APP
+    BD --> KB
+    SOURCES --> KB
+    KB -->|Validated import| FALKOR
+    FALKOR -->|Read-only API| APPS
 
     classDef default fill:#ffffff,stroke:#94a3b8,color:#0f172a
-    style COLLECTION fill:#f8fafc,stroke:#cbd5e1,color:#334155
-    style KNOWLEDGE fill:#f8fafc,stroke:#cbd5e1,color:#334155
-    style GRAPH fill:#f8fafc,stroke:#cbd5e1,color:#334155
-    style APPLICATIONS fill:#f8fafc,stroke:#cbd5e1,color:#334155
     classDef bright fill:#d1fae5,stroke:#047857,color:#064e3b,stroke-width:3px
     classDef falkor fill:#ede9fe,stroke:#6d28d9,color:#3b0764,stroke-width:3px
     class BD bright
     class FALKOR falkor
 ```
+
+| Layer | Technologies and role |
+| --- | --- |
+| Collection | **Bright Data** snapshot API for LinkedIn and X; Python `urllib`, HTML/XML parsing, RainFocus, GitHub and social APIs, websites and package registries. |
+| KB build | Python, Pydantic, PyYAML and **softschema**; normalize identities, preserve source manifests, merge cited bios, and validate records. |
+| Published artifacts | Git-versioned YAML and Markdown records, JSON Schema, graph/search JSONL, and JSON statistics. |
+| Import and sync | Python, PyYAML and watchfiles; load a completed KB into a staging graph and replace the live graph atomically. |
+| Graph database | **FalkorDB**, with FalkorDBLite locally; Redis, Cypher, typed IDs, relationship properties, indexes, stored schemas and load metadata. |
+| API | Starlette and Uvicorn; read-only JSON endpoints, named queries, and server-sent events. |
+| Browser | HTML, CSS, JavaScript ES modules and Lucide SVG icons. |
+| App clients | HTTP; the existing Swift client uses Foundation `URLSession` and Swift Package Manager. |
 
 The diagram shows the implemented data path.
 Full softschema validation is opt-in at import; source and privacy review remain
