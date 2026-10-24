@@ -92,7 +92,7 @@ def _write_kb(kb_dir: Path, people: int, *, stats: str | None = None) -> None:
             {"id": f"person:p{i}", "kind": "person", "name": f"P{i}", "path": f"people/p{i}.md"}
         )
         (kb_dir / "people" / f"p{i}.md").write_text(
-            f"---\nsoftschema:\n  envelope: person\nperson:\n  id: person:p{i}\n  name: P{i}\n---\n"
+            f"---\nsoftschema:\n  contract: test:Person/v1\n  envelope: person\nperson:\n  id: person:p{i}\n  name: P{i}\n---\n"
         )
     (kb_dir / "_graph" / "nodes.jsonl").write_text("".join(json.dumps(r) + "\n" for r in rows))
     (kb_dir / "_graph" / "edges.jsonl").write_text("")
