@@ -597,3 +597,43 @@ def test_load_events_reach_sse_clients():
     finally:
         server.should_exit = True
         thread.join(timeout=5)
+
+
+def test_revalidation_never_exposes_new_stamp_with_old_metadata(monkeypatch: Any):
+    from types import SimpleNamespace
+
+    from paraverse_graph.browser import GraphCatalog
+
+    catalog = GraphCatalog(None)
+    monkeypatch.setattr(catalog, "_stamp", ["digest", "time", "old"])
+    monkeypatch.setattr(catalog, "_meta", {"load_id": "old"})
+    observed = []
+
+    class Reader:
+        def ro_query(self, query: str) -> Any:
+            rows = (
+                [["graph", "dataset", "digest", "time", "{}", "[]", "new"]]
+                if "stats_json" in query
+                else [["digest", "time", "new"]]
+            )
+            return SimpleNamespace(result_set=rows)
+
+    monkeypatch.setattr(catalog, "reader", Reader)
+
+    class InterleavedLock:
+        """Run a reconnect at the first point another request can acquire the lock."""
+
+        ready: bool = True
+
+        def __enter__(self) -> None:
+            pass
+
+        def __exit__(self, *_args: Any) -> None:
+            if self.ready:
+                self.ready = False
+                catalog.revalidate()
+                observed.append(catalog.meta()["load_id"])
+
+    monkeypatch.setattr(catalog, "_lock", InterleavedLock())
+    catalog.revalidate()
+    assert observed == ["new"]

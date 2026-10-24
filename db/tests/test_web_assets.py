@@ -158,3 +158,16 @@ def test_external_links_are_isolated():
 def test_modules_parse():
     for path in JS_FILES:
         subprocess.run(["node", "--check", str(path)], check=True, capture_output=True)
+
+
+def test_live_reload_preserves_draft_filters_and_cancels_old_callbacks():
+    node = shutil.which("node")
+    if node is None:
+        pytest.skip("Node is needed for the frontend lifecycle regression")
+    subprocess.run(
+        [node, str(Path(__file__).with_name("frontend_reload.mjs")), str(WEB)],
+        check=True,
+        capture_output=True,
+        text=True,
+        timeout=15,
+    )

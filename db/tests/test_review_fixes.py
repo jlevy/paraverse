@@ -137,3 +137,46 @@ def test_cached_endpoints_notice_reload_without_a_pubsub_event(endpoint: str):
             assert body["count"] == 0
     finally:
         graph.delete()
+
+
+def test_schedule_limits_sessions_after_aggregating_types_and_rooms():
+    graph = _graph("schedule_multiplicity")
+    graph.query(
+        "CREATE (d:Day {id: 'day:test'}) "
+        "CREATE (a:Session {id: 'session:a', code: 'A', title: 'A'}) "
+        "CREATE (b:Session {id: 'session:b', code: 'B', title: 'B'}) "
+        "CREATE (a)-[:SCHEDULED_ON {start: '09:00', start_epoch: 1}]->(d) "
+        "CREATE (b)-[:SCHEDULED_ON {start: '10:00', start_epoch: 2}]->(d) "
+        "CREATE (a)-[:HAS_TYPE]->(:Term {label: 'Workshop'}) "
+        "CREATE (a)-[:HAS_TYPE]->(:Term {label: 'Talk'}) "
+        "CREATE (a)-[:HELD_IN {start: '09:00'}]->(:Room {name: 'Room B'}) "
+        "CREATE (a)-[:HELD_IN {start: '09:00'}]->(:Room {name: 'Room A'}) "
+        "CREATE (:Person {display_name: 'Speaker A'})-[:PRESENTS]->(a)"
+    )
+    try:
+        result = run_query(graph, "schedule", {"day": "day:test", "limit": 2})
+        rows = [dict(zip(result["columns"], row, strict=True)) for row in result["rows"]]
+        assert [row["session"] for row in rows] == ["session:a", "session:b"]
+        assert rows[0]["type"] == "Talk"
+        assert rows[0]["room"] == "Room A"
+        assert rows[0]["speakers"] == ["Speaker A"]
+    finally:
+        graph.delete()
+
+
+def test_size_review_includes_larger_bounded_ranges_and_skips_open_ended():
+    graph = _graph("larger_sizes")
+    graph.query(
+        "UNWIND [{id: 'over', size: '51-200 employees', count: 201}, "
+        "{id: 'equal', size: '51-200 employees', count: 200}, "
+        "{id: 'commas', size: '1,001-5,000 employees', count: 5001}, "
+        "{id: 'open', size: '10,001+ employees', count: 2}] AS item "
+        "CREATE (o:Organization {id: 'org:' + item.id, name: item.id, size: item.size}) "
+        "WITH o, item UNWIND range(1, item.count) AS n "
+        "CREATE (:Person {id: o.id + ':' + toString(n)})-[:AFFILIATED_WITH {current: true}]->(o)"
+    )
+    check = next(c for c in CHECKS if c.name == "org_size_implausible")
+    try:
+        assert {row["id"] for row in run_check(graph, check)["rows"]} == {"org:over", "org:commas"}
+    finally:
+        graph.delete()

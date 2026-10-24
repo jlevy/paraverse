@@ -86,7 +86,7 @@ async function render({ live = false, replaced = false } = {}) {
   const returning = !live && !replaced && Boolean(history.state?.kbEntry);
   hideCard();
   hideTooltip();
-  if (!live && current?.update && current.key === route.key) {
+  if (!live && !current?.disposed && current?.update && current.key === route.key) {
     // Same view, new parameters: refresh the data in place, so the
     // filter keeps focus and open menus stay open, e.g. the column picker.
     if (!live && !replaced) remember();
@@ -105,6 +105,10 @@ async function render({ live = false, replaced = false } = {}) {
   }
   if (!live) remember();
   const focus = live ? focusKey() : null;
+  const previous = current;
+  const preserveDraft = live && previous?.key === route.key && previous?.draftFilter;
+  previous?.destroy?.();
+  if (previous) previous.disposed = true;
   closeMenus();
   document.body.classList.add('busy');
   let view;
@@ -113,12 +117,14 @@ async function render({ live = false, replaced = false } = {}) {
   } catch (err) {
     view = errorView(err);
   }
-  if (mine !== renderSeq) return; // a newer navigation won
+  if (mine !== renderSeq) { view.destroy?.(); return; } // a newer navigation won
   document.body.classList.remove('busy');
   const main = $('main');
   const scroll = main.scrollTop;
+  const draft = preserveDraft ? previous.draftFilter() : null;
   $('view').replaceChildren(view.el);
   current = view;
+  if (draft !== null) view.restoreDraft?.(draft);
   view.fit?.(); // a table hides columns to fit before any scroll position is applied
   const place = returning ? places.get(location.hash) : null;
   main.scrollTop = live ? scroll : place ? place.scroll : 0;

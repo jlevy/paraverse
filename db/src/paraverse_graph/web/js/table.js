@@ -115,7 +115,8 @@ export async function mountTable(route) {
   }
   wireMenu(colButton, colMenu, renderColumnMenu);
 
-  filter.addEventListener('input', debounce(() => navigate({ q: filter.value.trim() || null, offset: null }, true), 250));
+  const onFilter = debounce(() => navigate({ q: filter.value.trim() || null, offset: null }, true), 250);
+  filter.addEventListener('input', onFilter);
 
   // A filter-by-value link for enum and boolean cells.
   function filterLink(col, value, label) {
@@ -386,7 +387,15 @@ export async function mountTable(route) {
     h('div', { class: 'toolbar' }, filter, chips, h('span', { class: 'menu-wrap' }, colButton, colMenu), pagerTop),
     body, pagerFoot);
   await update(route);
-  return { key: route.key, el, update, fit: () => fit(true), title: kindTitle(kind), kind };
+  return {
+    key: route.key, el, update, fit: () => fit(true), title: kindTitle(kind), kind,
+    draftFilter: () => filter.value,
+    restoreDraft(value) {
+      filter.value = value;
+      if (value.trim() !== (current.params.get('q') || '')) onFilter();
+    },
+    destroy() { filter.removeEventListener('input', onFilter); onFilter.cancel(); ++loadSeq; },
+  };
 }
 
 const ROW = 'tbody tr[data-id], tbody tr[data-href]';

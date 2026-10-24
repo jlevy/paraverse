@@ -153,7 +153,8 @@ export async function mountSearch(route) {
   let current = route;
   let mine = 0;
   const navigate = (changes) => go(`#/search${qs({ ...Object.fromEntries(current.params), ...changes })}`, { replace: true });
-  field.addEventListener('input', debounce(() => navigate({ q: field.value.trim() }), 250));
+  const onFilter = debounce(() => navigate({ q: field.value.trim() }), 250);
+  field.addEventListener('input', onFilter);
 
   async function update(next) {
     current = next;
@@ -189,5 +190,13 @@ export async function mountSearch(route) {
     h('div', { class: 'view-head' }, h('h1', { tabindex: '-1' }, 'Search')),
     h('div', { class: 'toolbar' }, field), results);
   await update(route);
-  return { key: route.key, el, update, title: 'Search' };
+  return {
+    key: route.key, el, update, title: 'Search',
+    draftFilter: () => field.value,
+    restoreDraft(value) {
+      field.value = value;
+      if (value.trim() !== (current.params.get('q') || '')) onFilter();
+    },
+    destroy() { field.removeEventListener('input', onFilter); onFilter.cancel(); ++mine; },
+  };
 }

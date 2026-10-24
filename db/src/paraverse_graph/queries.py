@@ -171,14 +171,14 @@ QUERIES: tuple[NamedQuery, ...] = (
     ),
     NamedQuery(
         "schedule",
-        "Sessions on one day in start order, with room and speakers.",
+        "Sessions on one day in start order, with speakers and the first room/type alphabetically when several are listed.",
         _q("""
             MATCH (s:Session)-[on:SCHEDULED_ON]->(:Day {id: $day})
             OPTIONAL MATCH (s)-[h:HELD_IN]->(room:Room) WHERE h.start = on.start
             OPTIONAL MATCH (p:Person)-[:PRESENTS]->(s)
             OPTIONAL MATCH (s)-[:HAS_TYPE]->(type:Term)
             RETURN on.start AS start, s.end AS end, s.id AS session, s.code AS code,
-                   s.title AS title, type.label AS type, room.name AS room,
+                   s.title AS title, min(type.label) AS type, min(room.name) AS room,
                    collect(DISTINCT p.display_name) AS speakers, on.start_epoch AS start_epoch
             ORDER BY start_epoch, code
             LIMIT $limit

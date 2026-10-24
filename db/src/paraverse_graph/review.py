@@ -205,7 +205,7 @@ CHECKS: tuple[Check, ...] = (
         "medium",
         "A sponsor whose LinkedIn size is 1 or 2-10 employees, or any organization with more currently affiliated people in the KB than the top of its LinkedIn size range. The usual cause is a second, unrelated LinkedIn page merged into the record.",
         _q(
-            "MATCH (o:Organization) WHERE o.size IS NOT NULL OPTIONAL MATCH (p:Person)-[r:AFFILIATED_WITH]->(o) WHERE r.current = true WITH o, count(DISTINCT p) AS current_people WHERE (o:Sponsor AND o.size IN ['1 employee', '2-10 employees']) OR (o.size = '1 employee' AND current_people > 1) OR (o.size = '2-10 employees' AND current_people > 10) OR (o.size = '11-50 employees' AND current_people > 50) RETURN o.id AS id, o.name AS name, 'size ' + o.size + ', current people in KB ' + toString(current_people) + ', sponsor ' + toString(o:Sponsor) AS detail ORDER BY id LIMIT $limit"
+            "MATCH (o:Organization) WHERE o.size IS NOT NULL OPTIONAL MATCH (p:Person)-[r:AFFILIATED_WITH]->(o) WHERE r.current = true WITH o, count(DISTINCT p) AS current_people, replace(split(o.size, ' ')[0], ',', '') AS range WITH o, current_people, CASE WHEN range CONTAINS '-' THEN toInteger(split(range, '-')[1]) ELSE toInteger(range) END AS maximum WHERE (o:Sponsor AND o.size IN ['1 employee', '2-10 employees']) OR current_people > maximum RETURN o.id AS id, o.name AS name, 'size ' + o.size + ', current people in KB ' + toString(current_people) + ', sponsor ' + toString(o:Sponsor) AS detail ORDER BY id LIMIT $limit"
         ),
         area="organizations",
     ),

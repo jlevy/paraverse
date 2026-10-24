@@ -125,10 +125,12 @@ export function qs(params) {
 
 export function debounce(fn, ms) {
   let timer = 0;
-  return (...args) => {
+  const run = (...args) => {
     clearTimeout(timer);
     timer = setTimeout(() => fn(...args), ms);
   };
+  run.cancel = () => clearTimeout(timer);
+  return run;
 }
 
 /** localStorage that never throws (private mode, blocked storage, thumbnails). */

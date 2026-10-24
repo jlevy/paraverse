@@ -327,7 +327,10 @@ class GraphCatalog:
             if stamp == self._stamp:
                 return
             self._stamp = stamp
-        self.invalidate()
+            self._generation += 1
+            self._schemas = None
+            self._meta = None
+            self._review = None
 
     def schemas(self) -> dict[str, dict[str, Any]]:
         with self._lock:
