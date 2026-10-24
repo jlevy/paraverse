@@ -95,7 +95,7 @@ class KnowledgeBase:
 
     def check_unchanged(self) -> None:
         """Reject a build replaced or edited since its graph/artifact reads began."""
-        if self.snapshot is not None and _build_snapshot(self.root) != self.snapshot:
+        if self.snapshot is not None and build_snapshot(self.root) != self.snapshot:
             raise KbError("KB changed while reading; retry after the build finishes")
 
     def payload_for(self, node: KbNode) -> dict[str, Any] | None:
@@ -147,7 +147,7 @@ def load_kb(root: Path) -> KnowledgeBase:
         if not (graph_dir / name).is_file():
             raise KbError(f"{graph_dir / name} not found; the KB graph export is incomplete")
 
-    snapshot = _build_snapshot(root)
+    snapshot = build_snapshot(root)
 
     sha = hashlib.sha256()
     node_bytes = (graph_dir / "nodes.jsonl").read_bytes()
@@ -193,7 +193,7 @@ def load_kb(root: Path) -> KnowledgeBase:
     return kb
 
 
-def _build_snapshot(root: Path) -> dict[str, tuple[int, ...]]:
+def build_snapshot(root: Path) -> dict[str, tuple[int, ...]]:
     """
     Track the root, build marker, exports, artifacts and compiled schemas. Comparing
     metadata detects edits and directory swaps during a read. The producer must

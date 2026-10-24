@@ -10,14 +10,21 @@ import json
 import shutil
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from typing import Any
 
 import pytest
 
+from paraverse_graph import validation
 from paraverse_graph.cli import main
 from paraverse_graph.connection import graph_exists, open_db
 from paraverse_graph.datasets import KB_ENV, graph_name
 from paraverse_graph.kb import DEFAULT_DATASET, KB_RELATIVE_PATH, KbError, find_kb_root, load_kb
-from paraverse_graph.validation import ArtifactProblem, artifact_paths, validate_artifacts
+from paraverse_graph.validation import (
+    ArtifactProblem,
+    ValidationReport,
+    artifact_paths,
+    validate_artifacts,
+)
 
 SAMPLE = "sessions/1809k.md"
 
@@ -207,3 +214,55 @@ def test_an_ordinary_load_reads_a_contract_name(tmp_path: Path):
     kb = tmp_path / "kb"
     _one_person_kb(kb, "  contract: test:Person/v1\n")
     assert load_kb(kb).artifacts["people/p0.md"].contract == "test:Person/v1"
+
+
+@pytest.mark.parametrize("replacement", ["after_validation", "before_read"])
+def test_validate_refuses_an_artifact_replaced_after_validation(
+    replacement: str,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+):
+    kb = tmp_path / "race" / "kb"
+    _one_person_kb(
+        kb,
+        "  contract: test:Person/v1\n  schema: ../_schemas/person.schema.yaml\n  status: enforced\n",
+    )
+    (kb / "_schemas").mkdir()
+    (kb / "_schemas/person.schema.yaml").write_text(
+        json.dumps(
+            {
+                "type": "object",
+                "properties": {"id": {"type": "string"}, "name": {"type": "string"}},
+                "required": ["id", "name"],
+                "additionalProperties": False,
+                "x-softschema": {"contract": "test:Person/v1"},
+            }
+        )
+    )
+    assert validate_artifacts(kb).ok
+
+    def replace_artifact(root: Path) -> None:
+        artifact = root / "people/p0.md"
+        artifact.write_text(
+            artifact.read_text().replace("  name: P0\n", "  name: P0\n  surprise: true\n")
+        )
+        assert not validate_artifacts(root).ok
+
+    def replace_after_validation(root: Path) -> ValidationReport:
+        report = validate_artifacts(root)
+        replace_artifact(root)
+        return report
+
+    def replace_before_read(root: Path) -> Any:
+        replace_artifact(root)
+        return load_kb(root)
+
+    if replacement == "after_validation":
+        monkeypatch.setattr(validation, "validate_artifacts", replace_after_validation)
+    else:
+        monkeypatch.setattr("paraverse_graph.cli.load_kb", replace_before_read)
+    db_file = tmp_path / "race.rdb"
+    assert main(["load", "--validate", "--kb", str(kb), "--db", str(db_file)]) == 1
+    assert "KB changed while reading" in capsys.readouterr().err
+    assert not graph_exists(open_db(db_file), graph_name("race"))

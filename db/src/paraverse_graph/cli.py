@@ -31,7 +31,7 @@ from paraverse_graph.datasets import (
     list_datasets,
     resolve_dataset,
 )
-from paraverse_graph.kb import DEFAULT_DATASET, VENDOR_DIR, KbError, load_kb
+from paraverse_graph.kb import DEFAULT_DATASET, VENDOR_DIR, KbError, build_snapshot, load_kb
 from paraverse_graph.loader import LoadError, load_graph
 from paraverse_graph.mapping import MappingError
 from paraverse_graph.queries import CATALOG, QueryError, run_query
@@ -201,10 +201,15 @@ def _validate_kb(dataset: Dataset, kb_root: Path) -> None:
 def _load(args: argparse.Namespace) -> int:
     dataset, graph_name = _target(args)
     kb_root = dataset.require_kb()
+    validated_snapshot = build_snapshot(kb_root) if args.validate else None
     if args.validate:
         _validate_kb(dataset, kb_root)
+        if build_snapshot(kb_root) != validated_snapshot:
+            raise KbError("KB changed while reading; retry after the build finishes")
     err.print(f"Reading dataset `{dataset.name}` from {kb_root} …")
     kb = load_kb(kb_root)
+    if validated_snapshot is not None and kb.snapshot != validated_snapshot:
+        raise KbError("KB changed while reading; retry after the build finishes")
     db, _ = _open_graph(args, graph_name, must_exist=False)
     err.print(f"Loading {len(kb.nodes):,} nodes and {len(kb.edges):,} edges into `{graph_name}` …")
     report = load_graph(db, kb, graph_name)
