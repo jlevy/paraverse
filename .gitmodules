@@ -2,3 +2,7 @@
 	path = vendor/universe2026-md
 	url = https://github.com/jlevy/universe2026-md
 	branch = main
+[submodule "vendor/ptc2026-md"]
+	path = vendor/ptc2026-md
+	url = https://github.com/jlevy/ptc2026-md.git
+	branch = main
