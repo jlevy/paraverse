@@ -18,7 +18,7 @@ from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
 from typing import override
-from urllib.parse import urlsplit
+from urllib.parse import unquote, urlsplit, urlunsplit
 
 LIST_NAME = "additional-people.csv"
 
@@ -89,6 +89,16 @@ _X_HANDLE = r"[A-Za-z0-9_]{1,15}"
 _MASTODON_USER = r"[A-Za-z0-9_](?:[A-Za-z0-9_.-]*[A-Za-z0-9_])?"
 
 _DOMAIN_RE = re.compile(_DOMAIN)
+# These suffixes describe local or reserved namespaces, not public profile hosts.
+_PRIVATE_HOST_SUFFIXES = (
+    "local",
+    "localhost",
+    "localdomain",
+    "internal",
+    "home.arpa",
+    "test",
+    "invalid",
+)
 _GITHUB_HANDLE_RE = re.compile(r"@?(" + _GITHUB_HANDLE + r")")
 _GITHUB_URL_RE = re.compile(r"https://(?:www\.)?github\.com/(" + _GITHUB_HANDLE + r")/?", re.I)
 _LINKEDIN_URL_RE = re.compile(r"https://(?:www\.|[a-z]{2}\.)?linkedin\.com/in/([\w%-]+)/?", re.I)
@@ -103,9 +113,16 @@ _TYPED_ID_RE = re.compile(r"[a-z][a-z_]*:[^\s:/]\S*")
 _ISO_DATE_RE = re.compile(r"\d{4}-\d{2}-\d{2}")
 
 
+def _public_host(host: str) -> bool:
+    host = host.lower()
+    return bool(_DOMAIN_RE.fullmatch(host)) and not any(
+        host == suffix or host.endswith(f".{suffix}") for suffix in _PRIVATE_HOST_SUFFIXES
+    )
+
+
 def https_url(value: str) -> str | None:
     """
-    The lowercased host and path of an https URL on a public host name, or `None`.
+    An HTTPS URL with normalized scheme/host and its other components preserved, or `None`.
     Rejects URLs with credentials (`https://user@host`), which can hide an email
     address, and local hosts.
     """
@@ -122,9 +139,11 @@ def https_url(value: str) -> str | None:
     except ValueError:
         return None
     host = parts.hostname or ""
-    if not _DOMAIN_RE.fullmatch(host):
+    if not _public_host(host):
         return None
-    return (host.removeprefix("www.") + parts.path.rstrip("/")).lower()
+    # Only the scheme and host are case-insensitive. Keep an explicit port, path,
+    # query and fragment: each can distinguish professional profile pages.
+    return urlunsplit(("https", parts.netloc.lower(), parts.path, parts.query, parts.fragment))
 
 
 def github_account(value: str) -> str | None:
@@ -144,15 +163,15 @@ def x_account(value: str) -> str | None:
 
 def bluesky_account(value: str) -> str | None:
     match = _BLUESKY_HANDLE_RE.fullmatch(value)
-    return match.group(1).lower() if match else None
+    return match.group(1).lower() if match and _public_host(match.group(1)) else None
 
 
 def mastodon_account(value: str) -> str | None:
     match = _MASTODON_HANDLE_RE.fullmatch(value)
-    if match:
+    if match and _public_host(match.group(2)):
         return f"{match.group(1)}@{match.group(2)}".lower()
     match = _MASTODON_URL_RE.fullmatch(value)
-    if match:
+    if match and _public_host(match.group(1)):
         return f"{match.group(2)}@{match.group(1)}".lower()
     return None
 
@@ -198,6 +217,11 @@ def is_iso_date(value: str) -> bool:
 
 # An `@` before the local part marks a fediverse handle (`@user@host`), not an email.
 _EMAIL_RE = re.compile(r"(?<![\w.%+@-])[\w.%+-]+@(?:[A-Za-z0-9-]+\.)+[A-Za-z]{2,}")
+# An explicit email label also identifies spaced or dotless addresses without
+# treating professional affiliations such as "Engineer @ Example.com" as contact.
+_CONTEXTUAL_EMAIL_RE = re.compile(
+    r"\be-?mail(?:\s+address)?\s*:\s*[\w.+-]+\s*@\s*[\w-]+(?:\.[\w-]+)*", re.I
+)
 _AT_BRACKETED = r"\s*[\[({<]\s*at\s*[\])}>]\s*"
 _DOT_SPELLED = r"(?:\s*[\[({<]\s*dot\s*[\])}>]\s*|\s+dot\s+)"
 _ANY_DOT = r"(?:" + _DOT_SPELLED + r"|\.)"
@@ -215,26 +239,35 @@ _SPELLED_EMAIL_RES = (
     ),
 )
 
-# URLs are removed before looking for phone numbers, since post and profile URLs often
-# carry long numeric IDs.
+# URL components are checked for formatted contacts, while bare numeric profile
+# and post IDs remain valid.
 _URL_IN_TEXT_RE = re.compile(r"\b[a-z][a-z0-9+.-]*://\S+", re.I)
-_PHONE_RES = (
+_FORMATTED_PHONE_RES = (
     # International: a + and 7 to 15 digits, with any separators.
-    re.compile(r"(?<![\w+])\+\d(?:[\s.()-]*\d){6,14}(?!\d)"),
+    re.compile(r"(?<![\w+])\+\d(?:[\s./()-]*\d){6,14}(?!\d)"),
     # Grouped: (202) 555-0100, 202-555-0100, 020 7946 0000. ISO dates don't match.
-    re.compile(r"(?<![\w.-])\(?\d{2,4}\)?[\s.-]?\d{3,4}[\s.-]\d{4}(?![\w.-])"),
-    # A bare run of 10 to 15 digits.
-    re.compile(r"(?<![\w.+/-])\d{10,15}(?![\w.-])"),
+    re.compile(r"(?<![\w.-])\(?\d{2,4}\)?[\s./-]?\d{3,4}[\s./-]\d{4}(?![\w.-])"),
 )
+_BARE_PHONE_RE = re.compile(r"(?<![\w.+/-])\d{10,15}(?![\w.-])")
 
 
 def has_email(text: str) -> bool:
-    return bool(_EMAIL_RE.search(text)) or any(r.search(text) for r in _SPELLED_EMAIL_RES)
+    text = _URL_IN_TEXT_RE.sub(lambda match: unquote(match.group()), text)
+    return (
+        bool(_EMAIL_RE.search(text))
+        or bool(_CONTEXTUAL_EMAIL_RE.search(text))
+        or any(r.search(text) for r in _SPELLED_EMAIL_RES)
+    )
 
 
-def has_phone(text: str) -> bool:
+def has_phone(text: str, *, numeric_account: bool = False) -> bool:
+    for match in _URL_IN_TEXT_RE.finditer(text):
+        if any(pattern.search(unquote(match.group())) for pattern in _FORMATTED_PHONE_RES):
+            return True
     text = _URL_IN_TEXT_RE.sub(" ", text)
-    return any(r.search(text) for r in _PHONE_RES)
+    return any(pattern.search(text) for pattern in _FORMATTED_PHONE_RES) or (
+        not numeric_account and bool(_BARE_PHONE_RE.search(text))
+    )
 
 
 # ---- Rows and lists ----
@@ -253,7 +286,12 @@ def check_row(row: dict[str, str]) -> list[tuple[str | None, str]]:
             found.append((column, "has a line break; keep each cell on one line"))
         if has_email(value):
             found.append((column, "contains an email address; no contact details allowed"))
-        if has_phone(value):
+        # A valid platform handle can consist entirely of digits. This exemption
+        # affects only bare numbers; formatted contacts still fail in account cells.
+        numeric_account = (
+            column in ACCOUNTS and column != "website" and ACCOUNTS[column][0](value) is not None
+        ) or (column == "added_by" and _GITHUB_HANDLE_RE.fullmatch(value) is not None)
+        if has_phone(value, numeric_account=numeric_account):
             found.append((column, "contains a phone number; no contact details allowed"))
 
     cell = {column: value.strip() for column, value in row.items()}
@@ -295,12 +333,12 @@ def _accounts(cell: dict[str, str]) -> list[str]:
 
 def _header_message(header: list[str]) -> str:
     missing = [c for c in COLUMNS if c not in header]
-    unexpected = [c for c in header if c not in COLUMNS]
+    unexpected = [str(index) for index, c in enumerate(header, start=1) if c not in COLUMNS]
     details: list[str] = []
     if missing:
         details.append(f"missing {', '.join(missing)}")
     if unexpected:
-        details.append(f"unexpected {', '.join(unexpected)}")
+        details.append(f"unexpected columns at positions {', '.join(unexpected)}")
     if not details:
         details.append("columns repeated or out of order")
     return f"header must be exactly {','.join(COLUMNS)} ({'; '.join(details)})"
@@ -366,7 +404,8 @@ def check_list_text(text: str, path: str = LIST_NAME) -> ListReport:
         # One row per person and relation: the same account with the same relation
         # and target is the same fact twice.
         relation = cell["relation"].strip()
-        target = cell["target"].strip().rstrip("/").casefold()
+        raw_target = cell["target"].strip()
+        target = https_url(raw_target) or raw_target.rstrip("/").casefold()
         keys = [(relation, target, account) for account in _accounts(cell)]
         earlier = next((person_line[k] for k in keys if k in person_line), None)
         if earlier is not None:
