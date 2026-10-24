@@ -5,7 +5,7 @@ title: PR review follow-ups from the Paraverse stack
 kind: epic
 status: in_progress
 priority: 2
-version: 32
+version: 33
 delegate: claude-code@spud10.local
 labels: []
 dependencies: []
@@ -40,10 +40,11 @@ child_order_hints:
   - is-01m5r2sg6ynma2eaq34znhpbx8
   - is-01m5r2sggt7mfhs6jeatwth0nr
   - is-01m5r2tpfb5vk1fanwadxe1f3k
+  - is-01m5r32e5d0f31sm7cb0c65jak
 hold: null
 hold_until: null
 created_at: 2026-10-24T23:00:08.906Z
-updated_at: 2026-10-24T23:09:42.750Z
+updated_at: 2026-10-24T23:13:56.394Z
 started_at: 2026-10-24T23:03:04.315Z
 ---
 Track valid deferred findings from PRs #10, #11, #12, #13 and #14. Each child links its original PR review comment and records what remains and what it depends on. Merge-blocking correctness, security and privacy defects stay on owning PRs; deferrable improvements are documented in PR disposition comments.
