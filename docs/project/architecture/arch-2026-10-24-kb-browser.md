@@ -59,13 +59,13 @@ tab, an iframe or a WebKit web view.
 ## System Context
 
 ```text
-vendor/universe2026-md/kb/        ──paraverse-graph load──►  FalkorDB graph `universe`
+vendor/universe2026-md/kb/        ──paraverse-graph load──►  FalkorDB graph `universe2026_md`
   artifacts, _graph/, _schemas/                              entity nodes and relationships
                                                              (:Schema) nodes, one per kind
                                                              (:GraphMeta); PUBLISH graph.loaded
                                                                     │
                            Starlette app (uvicorn) ◄────────────────┘
-                             /api/meta  /api/schema/<kind>  /api/rows/<kind>
+                             /api/meta  /api/overview  /api/schema/<kind>  /api/rows/<kind>
                              /api/entity/<id>  /api/card/<id>  /api/search
                              /api/review[/<check>]  /api/query/<name>  /api/events (SSE)
                              /  and  /static/*   (no-build ES modules and CSS)
@@ -93,19 +93,49 @@ The browser relies on three things the loader stores besides the entities:
 - **A `graph.loaded` message** published on a Redis channel after each successful swap,
   with the KB digest and load time.
 
+### Overview and Data Transparency
+
+The default route and the sidebar’s Overview entry open a welcome summary.
+The first summary renders from `/api/meta`; `/api/overview` fills in entity and
+relationship inventories, citations by source provider, retrieval dates, exact
+enrichment coverage, event editions and people inclusion bases.
+Data-quality checks load separately so their queries do not delay the inventory.
+Section links, entity-table links and review links provide a path from aggregates to
+records. Loading failures remain visible with a retry.
+
+The overview reads entity JSON payloads and graph metadata, and caches the aggregation
+for one graph load. Reloads invalidate it alongside schemas and review results.
+Its response includes load identity so the front end can reject a response for an older
+load. A load change during aggregation requires a retry rather than a mixed summary.
+Quality results carry the same captured identity and retry computations that span a
+reload. Event dates retain their source timezone offsets so UTC conversion cannot change
+their displayed calendar dates.
+
+Citations count direct source entries in each entity payload, not independently verified
+facts or raw collection snapshots.
+An entity can cite several providers, and derived entities may inherit provenance
+through their parent.
+Missing or malformed metadata is reported explicitly.
+Coverage separates populated fields from stale bios and explicit true/false/unknown
+fetch states.
+Review counts may overlap across checks; truncated checks are lower bounds.
+Load time and source retrieval time remain distinct, and the export digest identifies
+node/edge exports rather than every payload and schema.
+
 ### API
 
 Every endpoint is a read-only JSON GET.
 
 | Endpoint | Returns |
 | --- | --- |
+| `GET /api/overview` | Load identity, graph inventories, source-provider citation counts and retrieval dates, enrichment coverage, event editions and inclusion bases; cached per load |
 | `GET /api/meta` | The graph, KB digest and load time; node and edge totals; kinds grouped for navigation with titles, descriptions and counts; relationship counts |
 | `GET /api/schema/<kind>` | The kind’s title, description and contract; its fields and nested definitions; default columns; and its relationships with direction, type, target kinds and count |
 | `GET /api/rows/<kind>` | A page of rows: `{kind, columns, total, offset, limit, sort, order, rows: [{id, name, cells}]}`. Takes `offset`, `limit`, `sort`, `order`, `q`, `cols`, `f.<field>=<value>` and `rel=<in\|out>:<TYPE>:<id>`. |
 | `GET /api/entity/<id>` | The full payload (`doc`), properties, names for every reference in it, and relationships grouped by type and direction, with up to 50 items per group |
 | `GET /api/card/<id>` | A compact card for link popovers: name, kind, labels, title, image and a few fields |
 | `GET /api/search?q&kinds&limit` | Full-text hits across every kind, with snippets and scores |
-| `GET /api/review`, `GET /api/review/<check>` | The data-quality checks with name, title, severity, area, description and count, sorted by severity; one check adds its rows (`id`, `name`, `detail`). Results are cached per graph load. |
+| `GET /api/review`, `GET /api/review/<check>` | The data-quality checks with name, title, severity, area, description and count, sorted by severity; one check adds its rows (`id`, `name`, `detail`). Results are cached per graph load; the list includes its captured load identity. |
 | `GET /api/query/<name>` | The named query catalog |
 | `GET /api/events` | Server-sent events: `hello` on connect, `graph.loaded` after each reload, `resync` after an overflow, and heartbeats |
 
@@ -135,7 +165,8 @@ npm runtime dependency and no CDN.
   time that flashes when the graph reloads.
 - **Routing** uses the URL hash, so every view has a deep link:
   `#/t/<kind>?sort=&order=&q=&rel=&f.x=` for a table, `#/e/<id>` for a record,
-  `#/review` and `#/review/<check>` for review checks, and `#/search?q=` for search.
+  `#/overview` (also `#/`) for the welcome summary, `#/review` and `#/review/<check>`
+  for review checks, and `#/search?q=` for search.
 - **Table view.** A sticky header, sortable columns, a column picker (any schema field
   or relationship column), a filter box, chips for active relationship filters, and
   paging. Cells render by type: text and numbers, booleans as badges, URLs as external
