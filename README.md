@@ -22,6 +22,10 @@ Everything in this repository is public.
 Read the [data policy](docs/data-policy.md) before adding or changing data.
 To have your data removed, open an issue or contact a maintainer.
 
+## Docs
+
+Design docs, research and plans are indexed in [docs/README.md](docs/README.md).
+
 ## Contributing
 
 Agents and humans follow [AGENTS.md](AGENTS.md).
