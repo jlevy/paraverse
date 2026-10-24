@@ -103,10 +103,8 @@ def _validate_one(doc_path: Path) -> tuple[str | None, list[str]]:
         else softschema.SchemaProfile.pure_yaml
     )
     meta = softschema.parse_schema_metadata((document or {}).get("softschema"))
-    if meta is None or not meta.contract_id or not meta.envelope or not meta.schema_ref:
-        return None, [
-            "not self-describing: the softschema block needs contract, schema and envelope"
-        ]
+    if meta is None or not meta.contract_id or not meta.schema_ref:
+        return None, ["not self-describing: the softschema block needs contract and schema"]
     contract = softschema.Contract(
         id=meta.contract_id,
         envelope_key=meta.envelope,

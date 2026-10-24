@@ -370,3 +370,17 @@ def test_validation_rejects_nonportable_yaml(frontmatter: bool, replacement: str
     assert not report.ok
     assert len(report.problems) == 1
     assert "not supported" in report.problems[0].errors[0]
+
+
+@pytest.mark.parametrize("frontmatter", [False, True])
+def test_validation_accepts_optional_envelopes(frontmatter: bool, tmp_path: Path):
+    kb = tmp_path / "optional" / "kb"
+    _synthetic_schema_kb(kb)
+    artifact = kb / "people/p0.md"
+    text = artifact.read_text().replace("  envelope: person\n", "")
+    if not frontmatter:
+        metadata, payload = text.split("---\n", 2)[1].split("person:\n", 1)
+        text = metadata + "\n".join(line.removeprefix("  ") for line in payload.splitlines())
+    artifact.write_text(text)
+    report = validate_artifacts(kb)
+    assert report.ok, report.problems
