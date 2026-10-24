@@ -348,3 +348,25 @@ def test_empty_kb_validation_reports_no_artifacts(
     error = " ".join(capsys.readouterr().err.split()).lower()
     assert "no artifacts found" in error
     assert "0 of 0" not in error
+
+
+@pytest.mark.parametrize("frontmatter", [False, True])
+@pytest.mark.parametrize(
+    "replacement",
+    ["  name: *name\n", "  <<: {name: P0}\n"],
+)
+def test_validation_rejects_nonportable_yaml(frontmatter: bool, replacement: str, tmp_path: Path):
+    kb = tmp_path / "portable" / "kb"
+    _synthetic_schema_kb(kb)
+    artifact = kb / "people/p0.md"
+    text = artifact.read_text()
+    text = text.replace("  name: P0\n", replacement)
+    if "*name" in replacement:
+        text = text.replace("  id: person:p0\n", "  id: &name person:p0\n")
+    if not frontmatter:
+        text = text.split("---\n", 2)[1]
+    artifact.write_text(text)
+    report = validate_artifacts(kb)
+    assert not report.ok
+    assert len(report.problems) == 1
+    assert "not supported" in report.problems[0].errors[0]

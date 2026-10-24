@@ -89,7 +89,14 @@ def validate_artifacts(kb_root: Path, paths: Iterable[str] | None = None) -> Val
 
 
 def _validate_one(doc_path: Path) -> tuple[str | None, list[str]]:
-    document, frontmatter = read_artifact_document(doc_path, str(doc_path))
+    _, frontmatter = read_artifact_document(doc_path, str(doc_path))
+    # Use the consumer's portable parser as well as its schema validator. The
+    # loader reader identifies the profile independently of the filename suffix.
+    document = (
+        softschema.read_frontmatter_doc(doc_path)[1]
+        if frontmatter
+        else softschema.read_yaml_doc(doc_path)
+    )
     profile = (
         softschema.SchemaProfile.frontmatter_md
         if frontmatter
