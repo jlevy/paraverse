@@ -116,6 +116,11 @@ everything and so explain nothing.
 | `tests/` | End-to-end tests against the KB (`kb_graph.py` loads it once) |
 | `clients/swift/` | A standalone SwiftPM package that decodes the API’s JSON (`swift test`) |
 
+## Notices
+
+The browser adapts selected parts of metabrowser, tbd and Lucide; [NOTICE.md](NOTICE.md)
+lists them with their licenses.
+
 <!-- This document follows common-doc-guidelines.md.
 See github.com/jlevy/practical-prose and review guidelines before editing.
 -->
