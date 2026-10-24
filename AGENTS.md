@@ -46,20 +46,21 @@ Recorded 2026-10-24.
 <!-- END TBD POLICY GRANTS -->
 <!-- END TBD INTEGRATION -->
 
-## Build & Test
+## Data Policy
 
-_Add your build and test commands here_
+This repository is public, and anything committed stays in its history.
+Before you commit data, a test fixture or an example in a doc, check it against
+[docs/data-policy.md](docs/data-policy.md).
+Include that document’s review checklist in the description of any pull request that
+adds or changes data.
+If you are unsure whether the person concerned would be comfortable seeing something
+published here, leave it out and ask.
 
-```bash
-# Example:
-# npm install
-# npm test
-```
+## Repository Layout
 
-## Architecture Overview
-
-_Add a brief overview of your project architecture_
-
-## Conventions & Patterns
-
-_Add your project-specific conventions here_
+Keep the top level small: `README.md`, `AGENTS.md`, `LICENSE`, `docs/`, and one
+directory for each component.
+Each component is a self-contained project.
+Its packaging (`pyproject.toml`, `uv.lock`, `uv.toml`, `Makefile`) lives in its own
+directory, never at the repository root.
+Run a component’s commands from inside its directory.
