@@ -1,0 +1,113 @@
+[
+  {
+    "personID": "ptc-judge:satyam-singh",
+    "reviewedAt": "2026-10-24",
+    "summary": "Co-founder & CTO at Simulithic · AI testing, developer tools, and hackathon communities.",
+    "sections": [
+      {
+        "title": "Building now",
+        "body": "Satyam is the co-founder and CTO of Simulithic, a Y Combinator Fall 2026 company. It builds AI agents that explore applications as users would, testing flows across devices, browsers, and account types. The team describes verification as a bottleneck as AI makes code faster to produce. Its product is designed to discover flows, adapt to UI changes, and run during development, in CI/CD, and in production. These are the company’s stated capabilities.",
+        "sources": [
+          {
+            "title": "Simulithic · Y Combinator",
+            "url": "https://www.ycombinator.com/companies/simulithic"
+          }
+        ]
+      },
+      {
+        "title": "Engineering background",
+        "body": "Simulithic’s founder profile lists prior software engineering work at Ramp and Bree. Its launch story describes both as engineering internships. He co-founded Simulithic with Ryan Ning. His GitHub profile describes his current work as user-behavior simulations.",
+        "sources": [
+          {
+            "title": "Simulithic · Y Combinator",
+            "url": "https://www.ycombinator.com/companies/simulithic"
+          },
+          {
+            "title": "GitHub · KlausMikhaelson",
+            "url": "https://github.com/KlausMikhaelson"
+          }
+        ]
+      },
+      {
+        "title": "Hackathons & community",
+        "body": "Major League Hacking named Satyam to its Top 50 Hackers of 2026. Its profile reports participation in 51 hackathons and 41 wins. His first was HackCWRU in March 2022, where he helped build Moody and won two prizes. MLH also describes his leadership of the University of Regina Google Developer Group and Cybersec Club, workshop organizing, and mentoring first-time hackers through project scoping and shipping. His MLH profile lists the University of Regina and an expected 2027 graduation.",
+        "sources": [
+          {
+            "title": "MLH Top 50 · 2026",
+            "url": "https://top.mlh.com/2026/profiles/satyam-singh"
+          }
+        ]
+      },
+      {
+        "title": "NASA Space Apps award",
+        "body": "He was part of the University of Regina’s four-person Asteroid Destroyer team, winner of the Global Connection Award in the 2024 NASA International Space Apps Challenge. The university’s January 2025 report names him as a team member. Their interactive application helped identify exoplanets worth observing with the proposed Habitable Worlds Observatory. This was a specific global award category, rather than a single overall first-place title.",
+        "sources": [
+          {
+            "title": "University of Regina · NASA award",
+            "url": "https://www.uregina.ca/stories/2025/01/u-of-r-students-galactic-win-at-worlds-biggest-hackathon.html"
+          }
+        ]
+      },
+      {
+        "title": "Selected projects",
+        "body": "GitWrap: Satyam and Ryan’s GitHub year-in-review project. Their YC launch post reports more than 100,000 developer users; that figure is team-reported.\n\nHobnob: a university networking project on his Devpost portfolio. The team describes event discovery, AI matching around similar interests and profiles, and a tutor system, built with Next.js, React, and MongoDB vector search.\n\nBrowseRooms: a Chrome extension and web app connecting people in real time around shared interests. Its write-up discusses matching, community messaging, and accessibility features.\n\nMarkSwift: an AI teaching-assistant prototype for grading and document checking, using Marvin and OpenAI to return structured results. The author also notes limitations around handwriting and answer validation.",
+        "sources": [
+          {
+            "title": "Simulithic · Y Combinator",
+            "url": "https://www.ycombinator.com/companies/simulithic"
+          },
+          {
+            "title": "Hobnob · project write-up",
+            "url": "https://devpost.com/software/hobnob"
+          },
+          {
+            "title": "BrowseRooms · project write-up",
+            "url": "https://devpost.com/software/browserooms"
+          },
+          {
+            "title": "MarkSwift · project write-up",
+            "url": "https://devpost.com/software/markswift"
+          }
+        ]
+      },
+      {
+        "title": "Tools & stated interests",
+        "body": "His MLH profile lists TypeScript and Next.js as favorites and highlights Claude Code. His Devpost profile lists skills including JavaScript, Python, React, React Native, Node.js, MongoDB, OpenCV, Three.js, and Figma. Publicly listed project interests include AI and machine learning, AR/VR, gaming, education, fintech, and web development. These reflect his own profile selections, not inferred personal traits.",
+        "sources": [
+          {
+            "title": "MLH Top 50 · 2026",
+            "url": "https://top.mlh.com/2026/profiles/satyam-singh"
+          },
+          {
+            "title": "Devpost portfolio",
+            "url": "https://devpost.com/KlausMikhaelson"
+          }
+        ]
+      },
+      {
+        "title": "Connections to Paraverse",
+        "body": "Hobnob is a particularly relevant project to explore: it combines event discovery with profile-based matching. BrowseRooms offers another connection through shared-interest communities, while Simulithic relates to testing app flows. These are editorial connections drawn from the published projects, not claims about his judging preferences or willingness to meet.",
+        "sources": [
+          {
+            "title": "Hobnob · project write-up",
+            "url": "https://devpost.com/software/hobnob"
+          },
+          {
+            "title": "BrowseRooms · project write-up",
+            "url": "https://devpost.com/software/browserooms"
+          },
+          {
+            "title": "Simulithic · Y Combinator",
+            "url": "https://www.ycombinator.com/companies/simulithic"
+          }
+        ]
+      }
+    ],
+    "reviewProvenance": {
+      "model": "gpt-6.1-sol",
+      "inputSha256": "3e836d637fdf9c17350c4f404bf20d23a275323227ff224f09a50828a0034d44",
+      "sourceRevision": "a66f718d94b18185c93efc05062d60509061f2c7",
+      "operation": "Public-source verification and reviewed port of supplemental professional prose"
+    }
+  }
+]

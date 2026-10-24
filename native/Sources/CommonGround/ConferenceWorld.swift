@@ -265,7 +265,9 @@ struct UniverseWorld: View {
             ScrollView { VStack(alignment:.leading,spacing:18) {
                 if let note = person.avatarNote { Text(note).font(.caption).foregroundStyle(.secondary) }
                 WorldSocialLinks(linkedin:person.linkedinURL,x:person.xURL,github:person.githubURL)
-                if !person.biography.isEmpty { Text(person.biography).textSelection(.enabled) }
+                if let profile = CharacterProfile.find(person.id) {
+                    CharacterProfileDetails(profile: profile)
+                } else if !person.biography.isEmpty { Text(person.biography).textSelection(.enabled) }
                 if !person.sessions.isEmpty { Text("SESSIONS AT UNIVERSE").font(.system(size:13,weight:.bold,design:.monospaced)) }
                 ForEach(person.sessions) { session in
                     VStack(alignment:.leading,spacing:5) {
