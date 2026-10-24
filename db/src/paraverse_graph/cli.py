@@ -187,10 +187,12 @@ def _validate_kb(dataset: Dataset, kb_root: Path) -> None:
     err.print(f"Validating dataset `{dataset.name}` at {kb_root} with softschema …")
     report = validate_artifacts(kb_root)
     if not report.ok:
-        details = "; ".join(f"{p.path}: {', '.join(p.errors[:2])}" for p in report.problems[:5])
+        # Every failed path, one per line, printed as is: error text is not markup.
+        for problem in report.problems:
+            err.print(f"  {problem.line()}", markup=False, highlight=False, soft_wrap=True)
         raise CLIError(
             f"{len(report.problems)} of {report.checked:,} artifacts failed validation; "
-            f"nothing was loaded. {details}"
+            "nothing was loaded."
         )
     contracts = ", ".join(f"{c.split(':')[-1]} {n:,}" for c, n in sorted(report.contracts.items()))
     err.print(f"All {report.checked:,} artifacts are valid ({contracts}).")
