@@ -68,3 +68,27 @@ def test_build_refuses_invalid_dataset_or_unimplemented_populated_intake(tmp_pat
         assert main(["--root", str(path.parents[1]), "build", "--dataset", "../other"]) == 1
         assert main(["--root", str(path.parents[1]), "build", "--dataset", "example-data"]) == 1
         run.assert_not_called()
+
+
+@pytest.mark.parametrize(
+    "header",
+    [
+        "example@example.org",
+        "unexpected-private-cell",
+        "202-555-0100",
+    ],
+)
+def test_invalid_header_diagnostics_do_not_echo_untrusted_cells(
+    tmp_path: Path,
+    capsys: pytest.CaptureFixture[str],
+    header: str,
+) -> None:
+    path = write_list(tmp_path)
+    out = io.StringIO(newline="")
+    csv.writer(out).writerow([*COLUMNS, header])
+    path.write_text(out.getvalue())
+    assert main(["--root", str(path.parents[1]), "check"]) == 1
+    captured = capsys.readouterr()
+    assert header not in captured.err + captured.out
+    assert "unexpected" in captured.err
+    assert "17" in captured.err
