@@ -64,7 +64,7 @@ vendor/universe2026-md/kb/
                       check counts against stats.json
                       RENAME staging → live; publish graph.loaded
                                                    ▼
-                    FalkorDB graph `universe`  (embedded by default, data in db/.data/)
+                    FalkorDB graph `universe2026_md`  (embedded by default, data in db/.data/)
                                                    ▼
     named query catalog (parameterized, read-only)  →  JSON results
       ├─ CLI:     paraverse-graph query <name> k=v
@@ -302,8 +302,8 @@ and the staging graph is complete, constraint included, before anyone reads it.
 ### Partitioning
 
 **Chosen approach:** one graph per KB build.
-The GitHub Universe KB holds all four editions, so a single `universe` graph answers
-questions across years.
+The GitHub Universe KB holds all four editions, so a single `universe2026_md` graph
+answers questions across years.
 
 **Alternatives considered:**
 - **One graph per edition:** simpler swaps, but no cross-edition questions.

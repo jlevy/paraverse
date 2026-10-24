@@ -9,11 +9,12 @@ import { icon } from './js/icons.js';
 import { hideCard, installPopovers } from './js/popover.js';
 import { mountRecord } from './js/record.js';
 import { sameGraphVersion, tableRouteAfterReload, watchGraphVersion } from './js/reconcile.js';
+import { mountOverview, returnToOverview } from './js/overview.js';
 import { go, parseRoute, setRenderer } from './js/router.js';
 import { closePalette, mountSearch, openPalette, paletteOpen } from './js/search.js';
 import { mountTable, moveRowFocus } from './js/table.js';
 import { kindDot, kindTitle, tableHref } from './js/values.js';
-import { errorView, mountHome, mountReview, mountReviewCheck } from './js/views.js';
+import { errorView, mountReview, mountReviewCheck } from './js/views.js';
 
 const $ = (id) => document.getElementById(id);
 const THEME_KEY = 'paraverse-kb.themeMode';
@@ -74,7 +75,7 @@ function restoreFocus(key) {
 
 // ── Router ────────────────────────────────────────────────────────────────
 
-const MOUNTS = { table: mountTable, entity: mountRecord, review: mountReview, check: mountReviewCheck, search: mountSearch, home: mountHome };
+const MOUNTS = { table: mountTable, entity: mountRecord, review: mountReview, check: mountReviewCheck, search: mountSearch, overview: mountOverview };
 
 /**
  * Show the view for the current hash. A view with `update` (table, search) keeps
@@ -164,7 +165,10 @@ function renderShell() {
   $('graph-name').textContent = meta.dataset || meta.graph;
   const groups = meta.groups.filter((g) => g.kinds.length);
   fill($('sidebar'),
-    h('a', { class: 'nav-link', href: '#/', 'data-nav': 'home' }, icon('home'), 'Home'),
+    h('a', { class: 'nav-link', href: '#/overview', 'data-nav': 'overview', onclick: (event) => {
+      if (event.button > 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      if (showOverviewStart()) event.preventDefault();
+    } }, icon('home'), 'Overview'),
     groups.map((g) => [
       h('div', { class: 'nav-heading' }, g.title),
       g.kinds.map((k) => h('a', { class: 'nav-link', href: tableHref(k.kind), 'data-nav': `kind:${k.kind}` },
@@ -174,7 +178,8 @@ function renderShell() {
     h('a', { class: 'nav-link', href: '#/review', 'data-nav': 'review' }, icon('alert'), 'Review',
       h('span', { class: 'count', id: 'nav-review-count' })));
   fill($('kind-select'),
-    h('option', { value: '' }, 'Tables…'),
+    h('option', { value: '' }, 'Browse…'),
+    h('option', { value: '#/overview' }, 'Overview'),
     groups.map((g) => h('optgroup', { label: g.title },
       g.kinds.map((k) => h('option', { value: k.kind }, `${kindTitle(k.kind)} (${fmtNumber(k.count)})`)))));
   renderDigest();
@@ -230,7 +235,9 @@ function wireShell() {
   $('kind-select').addEventListener('change', (event) => {
     const kind = event.target.value;
     event.target.value = '';
-    if (kind) go(tableHref(kind));
+    if (kind === '#/overview') {
+      if (!showOverviewStart()) go(kind);
+    } else if (kind) go(tableHref(kind));
   });
   wireMenu($('theme-button'), $('theme-menu'));
   for (const button of document.querySelectorAll('[data-theme-choice]')) {
@@ -249,6 +256,10 @@ function wireShell() {
   const mode = document.documentElement.dataset.themeMode;
   applyTheme(mode === 'light' || mode === 'dark' ? mode : 'system', false);
   setInterval(renderDigest, 60_000);
+}
+
+function showOverviewStart() {
+  return parseRoute(location.hash).name === 'overview' && returnToOverview(current, $('main'));
 }
 
 // ── Keyboard ──────────────────────────────────────────────────────────────

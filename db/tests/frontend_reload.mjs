@@ -67,7 +67,7 @@ for (const [name, file, exportName] of [['table', 'js/table.js', 'mountTable'], 
   const app = vm.createContext({
     ...common, window: {}, history: { state: { kbEntry: 1 } }, location: { hash: '#/' },
     parseRoute: () => route, mountTable: mount, mountSearch: mount,
-    mountRecord() {}, mountReview() {}, mountReviewCheck() {}, mountHome() {},
+    mountRecord() {}, mountReview() {}, mountReviewCheck() {}, mountOverview() {},
     hideCard() {}, hideTooltip() {}, closeMenus() {},
   });
   app.window.parent = app.window;
@@ -102,7 +102,7 @@ const race = vm.createContext({
     if (++mounted === 1) await new Promise((resolve) => { releaseMount = resolve; });
     return fresh();
   },
-  mountSearch() {}, mountRecord() {}, mountReview() {}, mountReviewCheck() {}, mountHome() {},
+  mountSearch() {}, mountRecord() {}, mountReview() {}, mountReviewCheck() {}, mountOverview() {},
   hideCard() {}, hideTooltip() {}, closeMenus() {},
   disposedUpdate: () => ++disposedUpdates,
 });

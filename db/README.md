@@ -168,6 +168,21 @@ it.
 
 ## Browser API
 
+The browser opens to **Overview** (`#/overview`, also the default `#/` route), with a
+summary of the loaded dataset and tables for entities, relationship types, source
+providers, enrichment coverage, event editions and inclusion basis.
+Counts come from the loaded graph.
+Links open the corresponding entity tables and quality checks.
+
+Source counts describe direct citations in entity payloads, rather than independent
+verification or collected snapshot counts.
+Derived entities can inherit provenance through their parent record.
+Coverage shows exact present/missing counts and separately identifies stale, unfetched
+and unknown states. Review findings can overlap, and a truncated check reports a lower
+bound. Load time describes the graph import; source retrieval dates describe the cited
+inputs. The export digest covers the node and edge exports, excluding artifact payloads
+and schemas.
+
 Data queries use read-only GET requests with JSON responses.
 The dataset selection POST changes the server’s shared browser view while preserving the
 source datasets and their graphs.
@@ -176,6 +191,7 @@ It accepts only loopback Host headers.
 | Method | Endpoint | Returns |
 | --- | --- | --- |
 | GET | `/api/meta` | Graph, dataset, KB digest and load time; kinds grouped for navigation, with counts |
+| GET | `/api/overview` | Current load identity; entity and relationship counts; source-provider citations and retrieval dates; exact enrichment coverage, event editions and inclusion basis. Cached per graph load. |
 | GET | `/api/datasets` | Available datasets, selected IDs and whether selection is enabled |
 | POST | `/api/datasets/select` | Selected IDs and the browser graph after loading the JSON body `{"datasets":["<id>","<id>"]}`; a failed load keeps the previous view |
 | GET | `/api/schema/<kind>` | Fields from the compiled softschema schema, nested shapes, default and relationship columns |
@@ -242,6 +258,7 @@ everything and so explain nothing.
 | `src/paraverse_graph/loader.py` | Staging load, checks, swap, indexes, constraint, schemas and events |
 | `src/paraverse_graph/validation.py` | Softschema validation of every KB artifact (`load --validate`) |
 | `src/paraverse_graph/browser.py` | The Starlette app: browser API, SSE, static front end |
+| `src/paraverse_graph/overview.py` | Aggregate provenance and coverage statistics for the welcome page |
 | `src/paraverse_graph/web/` | The front end: plain ES modules and CSS, with no build step |
 | `src/paraverse_graph/review.py` | Data-quality checks shown in the browser |
 | `src/paraverse_graph/queries.py`, `results.py` | The named, read-only query catalog and its JSON form |

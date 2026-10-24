@@ -35,9 +35,15 @@ const enc = encodeURIComponent;
 const schemas = new Map();
 const cards = new Map();
 let reviewPending = null;
+let cacheGeneration = 0;
 
 /** Shared state: the current meta and a kind index built from it. */
 export const state = { meta: null, kinds: new Map(), review: null };
+
+/** Full snapshot identity shared by metadata, overview and quality responses. */
+export const loadIdentity = (load) => JSON.stringify(
+  ['dataset', 'graph', 'kb_digest', 'loaded_at', 'load_id'].map((key) => load?.[key] ?? null),
+);
 
 export const api = {
   datasets: () => get('/api/datasets'),
@@ -71,17 +77,25 @@ export const api = {
     return cards.get(id);
   },
   search: (q, params) => get('/api/search', { q, ...params }),
-  /** Check counts, shared by the top bar, home and review views until a reload. */
+  overview: () => get('/api/overview'),
+  /** Check counts, shared by the top bar, overview and review views until a reload. */
   review() {
     if (!reviewPending) {
-      reviewPending = get('/api/review').then((review) => (state.review = review));
-      reviewPending.catch(() => { reviewPending = null; });
+      const generation = cacheGeneration;
+      const pending = get('/api/review').then((review) => {
+        if (generation === cacheGeneration && loadIdentity(review.load) === loadIdentity(state.meta)) state.review = review;
+        else if (reviewPending === pending) reviewPending = null;
+        return review;
+      });
+      pending.catch(() => { if (reviewPending === pending) reviewPending = null; });
+      reviewPending = pending;
     }
     return reviewPending;
   },
   reviewCheck: (name) => get(`/api/review/${enc(name)}`),
   /** After a graph reload every cached schema and card may be stale. */
   clearCaches() {
+    cacheGeneration += 1;
     schemas.clear();
     cards.clear();
     reviewPending = null;

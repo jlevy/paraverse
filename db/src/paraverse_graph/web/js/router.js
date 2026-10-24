@@ -1,6 +1,6 @@
 // Hash routes, so every view is a deep link and works inside an iframe or a
 // WKWebView without server routes:
-//   #/                        home
+//   #/, #/overview            overview
 //   #/t/<kind>?sort&order&q&cols&rel&f.<field>&offset   a table
 //   #/e/<id>                  a record
 //   #/review, #/review/<name> review checks
@@ -35,5 +35,5 @@ export function parseRoute(hash) {
   if (head === 'e' && tail) return { name: 'entity', id: tail, params, key: `e/${tail}` };
   if (head === 'review') return tail ? { name: 'check', check: tail, params, key: `review/${tail}` } : { name: 'review', params, key: 'review' };
   if (head === 'search') return { name: 'search', params, key: 'search' };
-  return { name: 'home', params, key: 'home' };
+  return { name: 'overview', params, key: 'overview' };
 }
