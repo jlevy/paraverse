@@ -146,14 +146,6 @@ struct AppRoot: View {
                         .frame(maxWidth: 600)
                         .padding(.top, 24)
                     HStack(spacing: 16) {
-                        Button { store.stage = 1 } label: {
-                            HStack(spacing: 8) {
-                                Text("START").font(.system(size: 16, weight: .bold, design: .monospaced))
-                                Image(systemName: "arrow.right").font(.system(size: 14, weight: .medium))
-                            }.padding(.horizontal, 24).frame(height: 44)
-                        }
-                        .buttonStyle(WorldButtonStyle(teal: true))
-                        .keyboardShortcut(.defaultAction)
                         Button { openWindow(id: "knowledge-base") } label: {
                             Label("Knowledge Base", systemImage: "externaldrive")
                                 .font(.system(size: 14, weight: .bold, design: .monospaced))
@@ -162,6 +154,14 @@ struct AppRoot: View {
                         .buttonStyle(WorldButtonStyle())
                         .accessibilityLabel("Browse Knowledge Base")
                         .help("Browse the raw knowledge base without setting up a profile")
+                        Button { store.stage = 1 } label: {
+                            HStack(spacing: 8) {
+                                Text("START").font(.system(size: 16, weight: .bold, design: .monospaced))
+                                Image(systemName: "arrow.right").font(.system(size: 14, weight: .medium))
+                            }.padding(.horizontal, 24).frame(height: 44)
+                        }
+                        .buttonStyle(WorldButtonStyle(teal: true))
+                        .keyboardShortcut(.defaultAction)
                     }
                     .padding(.top, 24)
                 }
