@@ -531,7 +531,8 @@ a.more:hover, button.more:hover { color: var(--accent); }
 
 /* ── View headers and sections ────────────────────────────────── */
 .view-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin-bottom: 4px; }
-.view-head h1 { display: inline-flex; align-items: center; gap: 8px; }
+.view-head h1 { display: inline-flex; align-items: baseline; gap: 8px; }
+.view-head h1 > .kdot { align-self: center; }
 .view-head .count { color: var(--muted); font-size: var(--font-size-small); font-variant-numeric: tabular-nums; }
 .section { margin-top: 26px; }
 .section-heading {
