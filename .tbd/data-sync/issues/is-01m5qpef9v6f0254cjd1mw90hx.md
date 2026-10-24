@@ -1,11 +1,11 @@
 ---
 type: is
 id: is-01m5qpef9v6f0254cjd1mw90hx
-title: GitHub Universe KB pipeline
+title: Mount universe2026-md as a submodule at vendor/
 kind: feature
 status: in_progress
 priority: 2
-version: 3
+version: 4
 delegate: claude-code@spud10.local
 labels: []
 dependencies:
@@ -15,7 +15,7 @@ parent_id: is-01m5qpedddmjvzzvwhcbmmz8y1
 hold: null
 hold_until: null
 created_at: 2026-10-24T19:33:19.290Z
-updated_at: 2026-10-24T19:33:31.009Z
+updated_at: 2026-10-24T20:22:43.191Z
 started_at: 2026-10-24T19:33:26.043Z
 ---
-Layer 5. Branch kb/pipeline. Crawl, enrichment, build, schemas, sources and curation under conferences/githubuniverse/, audited against docs/data-policy.md.
+The GitHub Universe pipeline and KB moved to jlevy/universe2026-md. This layer adds the submodule once its KB PR is up.
