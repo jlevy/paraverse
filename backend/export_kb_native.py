@@ -145,7 +145,7 @@ def _attendance_proof(person: JSON, participation: list[JSON], records: dict[str
                 # A cited third-party post, event mention, negation or uncertain plan
                 # cannot establish this person's stated attendance.
                 own_post = profile.scheme == post.scheme == "https" and profile.netloc.casefold() == post.netloc.casefold() and post.path.casefold().startswith(prefix)
-                explicit = re.search(r"\bi(?:['’](?:ll|m)|\s+(?:am|will))\b[^.!?\n]{0,60}\b(?:attend(?:ing)?|be\s+at|at|join(?:ing)?)\b", quote, re.I)
+                explicit = re.search(r"\b(?:i['’]m|i\s+am)\s+(?:attending|joining|going\s+to|at)\b|\b(?:i['’]ll|i\s+will)\s+(?:be\s+(?:attending|at)|attend|join)\b", quote, re.I)
                 uncertain = re.search(r"\b(?:not|never|might|maybe|hope|wish|won['’]t|can['’]t|cannot)\b", quote, re.I)
                 names_event = bool(event_name) and event_name in re.sub(r"[^a-z]", "", quote.casefold())
                 if own_post and explicit and not uncertain and names_event:

@@ -211,7 +211,7 @@ class NativeExportTests(unittest.TestCase):
             person["participations"] = [dict(event="event:example",role="attendee",status="self_reported",evidence=[dict(url="https://github.com/example/posts/1",quote="I am attending Example Conference.")])]
             self.assertTrue(build_dataset(kb,"event:example",[])["people"][0]["attendee"])
             evidence = person["participations"][0]["evidence"][0]
-            for url, quote in [("https://github.com/someone-else/posts/1","I am attending Example Conference."),("https://github.com/example/posts/1","Example Conference has a great agenda."),("https://github.com/example/posts/1","I am not attending Example Conference.")]:
+            for url, quote in [("https://github.com/someone-else/posts/1","I am attending Example Conference."),("https://github.com/example/posts/1","Example Conference has a great agenda."),("https://github.com/example/posts/1","I am following news from colleagues at Example Conference."),("https://github.com/example/posts/1","I am not attending Example Conference.")]:
                 evidence.update(url=url,quote=quote)
                 with self.assertRaisesRegex(ValueError,"no confirmed"):
                     build_dataset(kb,"event:example",[])
