@@ -266,3 +266,69 @@ def test_one_sided_nullable_alternative_preserves_values_in_either_dataset_order
     assert fields["event"]["type"] == "string"
     assert fields["event"]["ref_kinds"] == ["event"]
     assert set(fields["role"]["enum"]) == {"host", "judge"}
+
+
+@pytest.mark.parametrize(
+    ("parent_kind", "parent_id", "field", "nested_kind", "nested_id"),
+    [
+        ("event", "event:shared", "days", "day", "day:shared"),
+        ("facet", "facet:shared", "terms", "term", "term:shared"),
+    ],
+)
+def test_nested_typed_records_merge_consistently_with_their_graph_nodes(
+    tmp_path: Path,
+    parent_kind: str,
+    parent_id: str,
+    field: str,
+    nested_kind: str,
+    nested_id: str,
+):
+    roots = {}
+    originals = {}
+    for name, title in (("alpha", "First title"), ("beta", "Second title")):
+        shared = {"id": nested_id, "name": title, "aliases": [name]}
+        nested = [shared, {"id": f"{nested_kind}:{name}", "name": name}]
+        if name == "alpha":
+            nested.append(shared)
+        originals[name] = nested
+        root = write_kb(
+            tmp_path / name,
+            [(parent_kind, {"id": parent_id, field: nested, "notes": [{"label": title}]})],
+        )
+        graph = root / "_graph"
+        with (graph / "nodes.jsonl").open("a") as out:
+            out.write(
+                json.dumps({"id": nested_id, "kind": nested_kind, "name": title, "path": "0.yaml"})
+                + "\n"
+            )
+        stats = json.loads((graph / "stats.json").read_text())
+        stats["nodes"][nested_kind] = 1
+        (graph / "stats.json").write_text(json.dumps(stats))
+        roots[name] = root
+    single = compose_kbs({"alpha": roots["alpha"]})
+    parent = single.payload_for(next(node for node in single.nodes if node.id == parent_id))
+    assert parent[field] == originals["alpha"]
+    combined = compose_kbs(roots)
+    parent = combined.payload_for(next(node for node in combined.nodes if node.id == parent_id))
+    nested = combined.payload_for(next(node for node in combined.nodes if node.id == nested_id))
+    assert [item["id"] for item in parent[field]] == [
+        nested_id,
+        f"{nested_kind}:alpha",
+        f"{nested_kind}:beta",
+    ]
+    assert parent[field][0] == {
+        "id": nested_id,
+        "name": "First title",
+        "aliases": ["alpha", "beta"],
+    }
+    assert parent[field][0]["name"] == nested["name"]
+    assert parent["notes"] == [{"label": "First title"}, {"label": "Second title"}]
+    conflict = next(
+        conflict
+        for conflict in parent["_composition"]["conflicts"]
+        if conflict["field"] == f"{field}[{nested_id}].name"
+    )
+    assert conflict["values"] == [
+        {"dataset": "alpha", "value": "First title"},
+        {"dataset": "beta", "value": "Second title"},
+    ]

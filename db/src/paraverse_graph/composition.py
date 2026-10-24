@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Any
 
 from paraverse_graph.kb import Artifact, KbEdge, KbError, KbNode, KnowledgeBase, load_kb
+from paraverse_graph.mapping import TYPED_REF
 from paraverse_graph.schemas import describe_fields, load_kind_schemas, merge_kind_schemas
 
 
@@ -202,11 +203,24 @@ def _merge_values(
             for key in keys
         }
     if all(isinstance(value, list) for _, value in non_null):
-        items: dict[str, Any] = {}
-        for _, value in non_null:
+        items: dict[tuple[str, str], list[tuple[str, Any]]] = {}
+        for name, value in non_null:
             for item in value:
-                items.setdefault(_json(item), item)
-        return deepcopy(list(items.values()))
+                item_id = item.get("id") if isinstance(item, dict) else None
+                key = (
+                    ("entity", item_id)
+                    if isinstance(item_id, str) and TYPED_REF.fullmatch(item_id)
+                    else ("value", _json(item))
+                )
+                versions = items.setdefault(key, [])
+                if (name, item) not in versions:
+                    versions.append((name, item))
+        return [
+            _merge_values(versions, f"{path}[{key}]", conflicts)
+            if kind == "entity"
+            else deepcopy(versions[0][1])
+            for (kind, key), versions in items.items()
+        ]
     if len({_json(value) for _, value in non_null}) > 1:
         conflicts.append(
             {

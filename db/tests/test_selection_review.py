@@ -8,12 +8,15 @@ import subprocess
 import threading
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any
 
 import pytest
+import yaml
 from redis.exceptions import RedisError
 from starlette.testclient import TestClient
 
+from paraverse_graph import cli, loader
 from paraverse_graph import selection as selection_module
 from paraverse_graph.browser import create_app
 from paraverse_graph.composition import compose_kbs
@@ -21,6 +24,7 @@ from paraverse_graph.connection import open_db
 from paraverse_graph.kb import KbError
 from paraverse_graph.loader import LoadError, load_graph
 from paraverse_graph.selection import DatasetSelection, SelectionError
+from tests.test_composition import write_kb
 from tests.test_frontend_review import HARNESS, WEB
 from tests.test_selection import source
 
@@ -48,6 +52,130 @@ def publish_build(root: Path, build: str) -> None:
     stats = json.loads(stats_path.read_text())
     stats["build"] = build
     stats_path.write_text(json.dumps(stats))
+
+
+def rename_event_build(root: Path, title: str) -> None:
+    path = root / "0.yaml"
+    record = yaml.safe_load(path.read_text())
+    record["event"]["name"] = title
+    path.write_text(yaml.safe_dump(record))
+    path = root / "_graph/nodes.jsonl"
+    rows = [json.loads(line) for line in path.read_text().splitlines()]
+    rows[0]["name"] = title
+    path.write_text("".join(json.dumps(row) + "\n" for row in rows))
+    publish_build(root, title)
+
+
+def test_labels_commit_the_loaded_source_snapshot_and_survive_failed_refresh(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = source(tmp_path / "alpha", "alpha")
+    db = open_db(tmp_path / "labels.rdb")
+
+    def load_then_publish_newer_source(*args: Any, **kwargs: Any) -> Any:
+        result = load_graph(*args, **kwargs)
+        rename_event_build(root, "Newer unloaded title")
+        return result
+
+    try:
+        selection = DatasetSelection(db, {"alpha": root}, "labels")
+        selection.select(["alpha"])
+        rename_event_build(root, "Loaded snapshot title")
+        monkeypatch.setattr(selection_module, "load_graph", load_then_publish_newer_source)
+        assert selection.refresh_if_changed()
+        assert selection.describe()["datasets"][0]["name"] == "Loaded snapshot title"
+        assert db.select_graph("labels").ro_query(
+            "MATCH (e:Event) RETURN e.display_name"
+        ).result_set == [["Loaded snapshot title"]]
+
+        def fail(*_args: Any, **_kwargs: Any) -> None:
+            raise LoadError("staging graph did not pass its checks")
+
+        monkeypatch.setattr(selection_module, "load_graph", fail)
+        with pytest.raises(SelectionError):
+            selection.refresh_if_changed()
+        assert selection.describe()["datasets"][0]["name"] == "Loaded snapshot title"
+        monkeypatch.setattr(selection_module, "load_graph", load_graph)
+        selection.select(["alpha"])
+        assert selection.describe()["datasets"][0]["name"] == "Newer unloaded title"
+    finally:
+        db.close()
+
+
+@pytest.mark.parametrize("notification_failure", [False, True])
+def test_watcher_notifies_after_labels_commit_and_notification_failure_keeps_success(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    notification_failure: bool,
+) -> None:
+    root = source(tmp_path / "alpha", "alpha")
+    db = open_db(tmp_path / "watch-notify.rdb")
+    notices = []
+
+    class OneTick:
+        def __init__(self) -> None:
+            self.calls: int = 0
+
+        def wait(self, _seconds: float) -> bool:
+            self.calls += 1
+            return self.calls > 1
+
+    try:
+        selection = DatasetSelection(db, {"alpha": root}, "watch_notify")
+        selection.select(["alpha"])
+        rename_event_build(root, "New loaded title")
+
+        def publish(_channel: str, message: str) -> int:
+            notices.append(
+                (json.loads(message)["type"], selection.describe()["datasets"][0]["name"])
+            )
+            if len(notices) == 2 and notification_failure:
+                raise RedisError("notification connection unavailable")
+            return 0
+
+        monkeypatch.setattr(db.connection, "publish", publish)
+        stop: Any = OneTick()
+        cli.watch_selection(selection, stop)
+        assert notices == [
+            ("graph.loaded", "Event alpha"),
+            ("graph.loaded", "New loaded title"),
+        ]
+        assert not selection.refresh_if_changed()
+        if notification_failure:
+            assert "notification connection unavailable" in capsys.readouterr().err
+    finally:
+        db.close()
+
+
+def test_deterministic_load_failure_waits_for_a_new_build_even_after_retry_delay(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = source(tmp_path / "alpha", "alpha")
+    now = [0.0]
+    attempts = []
+    invalid = [False]
+
+    def load(*_args: Any, **_kwargs: Any) -> None:
+        attempts.append(True)
+        if invalid[0]:
+            raise LoadError("staging graph counts do not match source stats")
+
+    monkeypatch.setattr(selection_module, "load_graph", load)
+    monkeypatch.setattr("time.monotonic", lambda: now[0])
+    selection = DatasetSelection(None, {"alpha": root}, "browser")
+    selection.select(["alpha"])
+    publish_build(root, "bad-stats")
+    invalid[0] = True
+    with pytest.raises(SelectionError):
+        selection.refresh_if_changed()
+    invalid[0] = False
+    now[0] = 100_000
+    assert not selection.refresh_if_changed()
+    assert len(attempts) == 2
+    publish_build(root, "corrected-stats")
+    assert selection.refresh_if_changed()
+    assert len(attempts) == 3
 
 
 def test_unchanged_invalid_build_is_attempted_once_until_source_changes(
@@ -84,9 +212,13 @@ def test_unchanged_invalid_build_is_attempted_once_until_source_changes(
     assert not selection.refresh_if_changed()
 
 
-@pytest.mark.parametrize("failure_type", [RedisError, OSError, LoadError])
+@pytest.mark.parametrize("failure_type", [RedisError, OSError])
+@pytest.mark.parametrize("wrapped", [False, True])
 def test_transient_refresh_failures_back_off_and_recover_without_source_edits(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, failure_type: type[Exception]
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    failure_type: type[Exception],
+    wrapped: bool,
 ) -> None:
     root = source(tmp_path / "alpha", "alpha")
     now = [0.0]
@@ -96,7 +228,10 @@ def test_transient_refresh_failures_back_off_and_recover_without_source_edits(
     def load(*_args: Any, **_kwargs: Any) -> None:
         attempts.append(now[0])
         if unavailable[0]:
-            raise failure_type("temporarily unavailable")
+            error = failure_type("temporarily unavailable")
+            if wrapped:
+                raise LoadError("loader could not reach the database or source") from error
+            raise error
 
     monkeypatch.setattr(selection_module, "load_graph", load)
     monkeypatch.setattr("time.monotonic", lambda: now[0])
@@ -181,6 +316,47 @@ def test_describe_and_active_roots_do_not_wait_for_a_slow_build(
     assert selection.active_roots() == (alpha, beta)
 
 
+def test_close_waits_for_an_active_build_and_prevents_graph_recreation(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = source(tmp_path / "alpha", "alpha")
+    db = open_db(tmp_path / "close.rdb")
+    entered, release, closing_started = threading.Event(), threading.Event(), threading.Event()
+    try:
+        selection = DatasetSelection(db, {"alpha": root}, "closing_browser")
+        selection.select(["alpha"])
+
+        def delayed_load(*args: Any, **kwargs: Any) -> Any:
+            entered.set()
+            assert release.wait(5)
+            return load_graph(*args, **kwargs)
+
+        def close() -> None:
+            closing_started.set()
+            selection.close()
+
+        monkeypatch.setattr(selection_module, "load_graph", delayed_load)
+        with ThreadPoolExecutor(max_workers=2) as pool:
+            building = pool.submit(selection.select, ["alpha"])
+            try:
+                assert entered.wait(5)
+                closing = pool.submit(close)
+                assert closing_started.wait(5)
+                assert not closing.done()
+            finally:
+                release.set()
+            building.result(timeout=5)
+            closing.result(timeout=5)
+        assert "closing_browser" not in db.list_graphs()
+        with pytest.raises(SelectionError, match="shutting down"):
+            selection.select(["alpha"])
+        assert not selection.refresh_if_changed()
+        assert "closing_browser" not in db.list_graphs()
+    finally:
+        release.set()
+        db.close()
+
+
 def test_selection_notifies_after_commit_even_when_the_new_load_was_already_seen(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -260,3 +436,68 @@ assert.deepEqual(state.meta, versionBefore, 'the forced refresh needs no new loa
         timeout=15,
     )
     assert result.returncode == 0, result.stdout + result.stderr
+
+
+@pytest.mark.parametrize("titles", [[42], [42, 43], [{"bad": 1}, ["bad"]]])
+def test_snapshot_labels_normalize_non_string_export_names(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, titles: list[Any]
+) -> None:
+    root = write_kb(
+        tmp_path / "alpha",
+        [("event", {"id": f"event:{i}", "name": f"Event {i}"}) for i in range(len(titles))],
+    )
+    nodes = root / "_graph/nodes.jsonl"
+    rows = [json.loads(line) for line in nodes.read_text().splitlines()]
+    for row, title in zip(rows, titles, strict=True):
+        row["name"] = title
+    nodes.write_text("".join(json.dumps(row) + "\n" for row in rows))
+    monkeypatch.setattr(selection_module, "load_graph", lambda *_args, **_kwargs: None)
+    selection = DatasetSelection(None, {"alpha": root}, "browser")
+    selection.select(["alpha"])
+    expected = str(titles[0]) if len(titles) == 1 else "alpha"
+    assert selection.describe()["datasets"][0]["name"] == expected
+    publish_build(root, "refresh")
+    assert selection.refresh_if_changed()
+    assert selection.describe()["datasets"][0]["name"] == expected
+
+
+def test_constraint_wait_timeout_is_transient_and_selection_retries_without_source_edits(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    graph = SimpleNamespace(
+        ro_query=lambda *_args, **_kwargs: SimpleNamespace(result_set=[["UNDER CONSTRUCTION"]])
+    )
+    db = SimpleNamespace(
+        connection=SimpleNamespace(execute_command=lambda *_args: None),
+        select_graph=lambda _name: graph,
+    )
+    ticks = iter([0.0, 31.0])
+    with monkeypatch.context() as clock:
+        clock.setattr("time.monotonic", lambda: next(ticks))
+        with pytest.raises(loader.TransientLoadError, match="still building") as failed:
+            loader._create_unique_id_constraint(db, "staging")  # pyright: ignore[reportPrivateUsage]
+
+    root = source(tmp_path / "alpha", "alpha")
+    now = [0.0]
+    blocked = [False]
+    attempts = []
+
+    def load(*_args: Any, **_kwargs: Any) -> None:
+        attempts.append(now[0])
+        if blocked[0]:
+            raise failed.value
+
+    monkeypatch.setattr(selection_module, "load_graph", load)
+    monkeypatch.setattr("time.monotonic", lambda: now[0])
+    selection = DatasetSelection(None, {"alpha": root}, "browser")
+    selection.select(["alpha"])
+    publish_build(root, "changed")
+    blocked[0] = True
+    with pytest.raises(SelectionError):
+        selection.refresh_if_changed()
+    now[0] = 29
+    assert not selection.refresh_if_changed()
+    blocked[0] = False
+    now[0] = 30
+    assert selection.refresh_if_changed()
+    assert attempts == [0, 0, 30]
