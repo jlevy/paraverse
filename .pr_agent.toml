@@ -22,9 +22,13 @@ git history. docs/data-policy.md sets what may be committed. Flag as action requ
    description lacks the Review Checklist from docs/data-policy.md.
 2. Contact details in committed content: email addresses, phone numbers, or postal
    addresses, even when the person published them.
-3. Sensitive personal attributes, stated or inferred: health, religion, political
-   views, sexual orientation, ethnicity, family and relationships, immigration status,
-   finances, birth date or age, or any location finer than a city or metro area.
+3. Sensitive personal attributes that the data adds, derives or infers (in a structured
+   field, tag, interest, label, selected post, evidence string or generated text):
+   health, religion, political views, sexual orientation, ethnicity, family and
+   relationships, immigration status, finances, birth date or age, or any location
+   finer than a city or metro area. Text people wrote about themselves in a public
+   source (an official speaker bio, a profile bio or README) is kept verbatim and is
+   not a finding.
 4. Data from non-public sources (behind a login, paywall, or other access control), or
    data about other people carried inside a scraped profile.
 5. Credentials or machine details: API keys, tokens, cookies, browser session state,
