@@ -3,14 +3,18 @@ type: is
 id: is-01m5r2se89x53bc5rf4as9cxpv
 title: "PR #13 Qodo r4368861868: Committed scraper harvests emails of named people"
 kind: bug
-status: open
+status: in_progress
 priority: 1
-version: 1
+version: 2
+delegate: claude-code@spud10.local
 labels: []
 dependencies: []
 parent_id: is-01m5r2962gx3jdwh8zwdp57h42
+hold: null
+hold_until: null
 created_at: 2026-10-24T23:09:01.576Z
-updated_at: 2026-10-24T23:09:01.576Z
+updated_at: 2026-10-24T23:12:25.775Z
+started_at: 2026-10-24T23:12:25.773Z
 ---
 Medium. Original review: https://github.com/jlevy/paraverse/pull/13#discussion_r4368861868. Location: backend/browser-test/public-contact.mjs:19. 9\. Committed scraper harvests emails of named people 🐞 Bug ⛨ Security
 
