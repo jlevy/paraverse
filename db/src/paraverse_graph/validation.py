@@ -83,6 +83,10 @@ def _validate_one(doc_path: Path) -> tuple[str | None, list[str]]:
     else:
         profile = softschema.SchemaProfile.frontmatter_md
         _, document = softschema.read_frontmatter_doc(doc_path)
+    # softschema reports bad YAML as a `ValueError`, but a pure-yaml document can parse
+    # to a list or a scalar, which has no `softschema` block to look up.
+    if document is not None and not isinstance(document, dict):
+        return None, [f"not a YAML mapping: the document is a {type(document).__name__}"]
     meta = softschema.parse_schema_metadata((document or {}).get("softschema"))
     if meta is None or not meta.contract_id or not meta.envelope or not meta.schema_ref:
         return None, [
