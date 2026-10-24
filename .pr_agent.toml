@@ -19,7 +19,9 @@ git history. docs/data-policy.md sets what may be committed. Flag as action requ
 
 1. A pull request that adds or changes knowledge-base data, source caches, curation
    files, generated bios or summaries, test fixtures, or examples in docs, but whose
-   description lacks the Review Checklist from docs/data-policy.md.
+   description lacks the Review Checklist from docs/data-policy.md or any of its
+   items. Do not take the checklist on trust: check every item against the diff, and
+   flag any item the diff breaks, whether or not its box is ticked.
 2. Contact details in committed content: email addresses, phone numbers, or postal
    addresses, even when the person published them.
 3. Sensitive personal attributes that the data adds, derives or infers (in a structured
