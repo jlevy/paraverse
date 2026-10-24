@@ -38,8 +38,6 @@ def compose_kbs(sources: Mapping[str, Path]) -> KnowledgeBase:
         _validate_source(name, kb)
         for node in kb.nodes:
             payload = kb.payload_for(node)
-            if payload is None:
-                raise KbError(f"{name}: {node.id} has no structured record in {node.path}")
             if "_composition" in payload:
                 raise KbError(f"{name}: {node.id} uses reserved field _composition")
             grouped[node.id].append((name, node, payload))
