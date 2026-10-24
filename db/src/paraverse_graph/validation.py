@@ -29,6 +29,13 @@ class ArtifactProblem:
     path: str
     errors: list[str]
 
+    def line(self, max_errors: int = 3) -> str:
+        """The path and its first `max_errors` errors, on one line."""
+        shown = [" ".join(e.split()) for e in self.errors[:max_errors]]
+        if len(self.errors) > max_errors:
+            shown.append(f"and {len(self.errors) - max_errors} more")
+        return f"{self.path}: {'; '.join(shown)}"
+
 
 @dataclass
 class ValidationReport:
