@@ -25,6 +25,24 @@ from tests.test_frontend_review import HARNESS, WEB
 from tests.test_selection import source
 
 
+@pytest.mark.parametrize("invalid_row", [[], None, 42])
+def test_unselected_non_mapping_export_does_not_prevent_serving_valid_source(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, invalid_row: Any
+) -> None:
+    alpha = source(tmp_path / "alpha", "alpha")
+    broken = source(tmp_path / "broken", "broken")
+    (broken / "_graph/nodes.jsonl").write_text(json.dumps(invalid_row) + "\n")
+    monkeypatch.setattr(selection_module, "load_graph", lambda *_args, **_kwargs: None)
+    selection = DatasetSelection(None, {"alpha": alpha, "broken": broken}, "browser")
+    selection.select(["alpha"])
+    description = selection.describe()
+    assert description["selected"] == ["alpha"]
+    assert {row["id"]: row["name"] for row in description["datasets"]} == {
+        "alpha": "Event alpha",
+        "broken": "broken",
+    }
+
+
 def publish_build(root: Path, build: str) -> None:
     stats_path = root / "_graph/stats.json"
     stats = json.loads(stats_path.read_text())

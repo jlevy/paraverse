@@ -147,7 +147,7 @@ def _parser() -> argparse.ArgumentParser:
         "serve",
         parents=[common],
         formatter_class=RichHelpFormatter,
-        help="Serve the read-only API and graph explorer on loopback.",
+        help="Serve the API and graph explorer on loopback.",
     )
     serve.add_argument(
         "--port", type=int, default=DEFAULT_PORT, help=f"Port (default: {DEFAULT_PORT})."
@@ -312,8 +312,14 @@ def _serve(args: argparse.Namespace) -> int:
     import uvicorn
 
     dataset, graph_name = _target(args)
-    sources = {item.name: item.require_kb() for item in list_datasets()}
-    if dataset.kb_root is not None and (dataset.kb_root / "_graph/nodes.jsonl").is_file():
+    selection_requested = bool(args.include_kb or args.select_all)
+    offer_selection = selection_requested or not (args.graph or args.url)
+    sources = {item.name: item.require_kb() for item in list_datasets()} if offer_selection else {}
+    if (
+        offer_selection
+        and dataset.kb_root is not None
+        and (dataset.kb_root / "_graph/nodes.jsonl").is_file()
+    ):
         sources[dataset.name] = dataset.require_kb()
     for value in args.include_kb:
         name, separator, path = value.partition("=")
@@ -340,7 +346,7 @@ def _serve(args: argparse.Namespace) -> int:
     )
     url = f"http://127.0.0.1:{args.port}/"
     stop = threading.Event()
-    if args.watch and selection is not None:
+    if selection is not None:
         threading.Thread(target=watch_selection, args=(selection, stop), daemon=True).start()
     elif kb_root is not None:
         threading.Thread(

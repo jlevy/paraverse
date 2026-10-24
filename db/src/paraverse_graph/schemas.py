@@ -109,6 +109,10 @@ def _union_schema(specs: list[dict[str, Any]]) -> dict[str, Any]:
     for spec in specs[1:]:
         if spec == result:
             continue
+        # An enum-only schema and a nullable alternative can share all of the
+        # scalar constraints below. Keep both rather than dropping one side's anyOf.
+        if ("anyOf" in result) != ("anyOf" in spec):
+            return {"anyOf": deepcopy(specs)}
         # Differing scalar constraints describe genuinely different alternatives.
         constraints = ("type", "$ref", "pattern", "const", "minimum", "maximum")
         if any(result.get(key) != spec.get(key) for key in constraints):

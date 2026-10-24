@@ -48,6 +48,8 @@ class DatasetSelection:
             with (root / "_graph/nodes.jsonl").open() as stream:
                 for line in stream:
                     node = json.loads(line)
+                    if not isinstance(node, dict):
+                        return name
                     if node.get("kind") == "event" and node.get("name"):
                         names.append(str(node["name"]))
             if len(names) == 1:

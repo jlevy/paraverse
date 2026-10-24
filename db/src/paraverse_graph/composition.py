@@ -149,16 +149,25 @@ def _validate_source(name: str, kb: KnowledgeBase) -> None:
 
 def _verified_accounts(kb: KnowledgeBase, person: KbNode) -> set[str]:
     payload = kb.payload_for(person) or {}
+    account_kinds = {
+        node.id: node.kind
+        for node in kb.nodes
+        if (node.kind == "github_account" and node.id.startswith("gh:"))
+        or (node.kind == "social_account" and node.id.startswith("acct:"))
+    }
     linked = {
         edge.target
         for edge in kb.edges
-        if edge.source == person.id and edge.relation == "has_account"
+        if edge.source == person.id
+        and edge.relation == "has_account"
+        and edge.target in account_kinds
     }
     verified = {
         edge.target
         for edge in kb.edges
         if edge.source == person.id
         and edge.relation == "has_account"
+        and edge.target in linked
         and edge.attrs.get("verified") is True
     }
     github = payload.get("github")
@@ -166,6 +175,7 @@ def _verified_accounts(kb: KnowledgeBase, person: KbNode) -> set[str]:
         payload.get("github_resolution") == "resolved"
         and isinstance(github, str)
         and github in linked
+        and account_kinds[github] == "github_account"
     ):
         verified.add(github)
     return verified
