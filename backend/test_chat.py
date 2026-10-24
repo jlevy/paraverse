@@ -121,3 +121,24 @@ class ConferenceScopeTests(unittest.TestCase):
    with patch.object(chat_service,'ROOT',root):records=chat_service.recommendation_people()
   self.assertEqual([p['id'] for p in records],['universe'])
   self.assertEqual(chat_service.hydrate_recommendations([dict(personID='ptc',reason='Invented attendance')],records),[])
+
+
+class AttendanceEvidenceTests(unittest.TestCase):
+ def test_native_attendee_evidence_joins_by_kb_id_and_stays_separate_from_biography(self):
+  import json,tempfile
+  from pathlib import Path
+  from unittest.mock import patch
+  import chat_service
+  with tempfile.TemporaryDirectory() as directory:
+   root=Path(directory);assets=root/'native/Assets';assets.mkdir(parents=True)
+   person=dict(id='legacy-person',kbID='person:example',name='Example',eventID='event:github-universe-2026',role='Attendee',company='',biography='',biographyProvenance={'source':'https://example.org/bio'},sourceURL='https://example.org/profile',sessions=[],participationRoles=['attendee'],attendee=True)
+   proof=dict(id='person:example',kbID='person:example',evidence='I am attending the conference.',source_url='https://example.org/attendance-post',evidence_sources=[dict(url='https://example.org/attendance-post',quote='I am attending the conference.')])
+   (assets/'kb-native-manifest.json').write_text('{}')
+   (assets/'world-speakers.json').write_text(json.dumps([person]))
+   (assets/'kb-attendees.json').write_text(json.dumps([proof]))
+   with patch.object(chat_service,'ROOT',root): rows=chat_service.recommendation_people()
+  self.assertEqual(rows[0]['evidence'],proof['evidence'])
+  self.assertEqual(rows[0]['source_url'],proof['source_url'])
+  self.assertEqual(rows[0]['biography_provenance'],person['biographyProvenance'])
+  self.assertEqual(rows[0]['evidence_sources'],proof['evidence_sources'])
+  self.assertEqual(rows[0]['about'],'')

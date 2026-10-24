@@ -128,6 +128,33 @@ def _biography(person: JSON, records: dict[str, JSON]) -> tuple[str, JSON | None
     }
 
 
+def _attendance_proof(person: JSON, participation: list[JSON], records: dict[str, JSON], event: JSON) -> tuple[JSON | None, list[JSON]]:
+    """Fail closed unless an owned public post explicitly says the person will attend."""
+    accounts = [records[ref] for ref in person.get("accounts", []) if records[ref].get("owner", records[ref].get("entity")) == person["id"] and records[ref].get("url")]
+    event_name = re.sub(r"[^a-z]", "", re.sub(r"\b\d{4}\b", "", _text(event.get("name"))).casefold())
+    for account in accounts:
+        profile = urlsplit(_url(account["url"]))
+        prefix = profile.path.rstrip("/").casefold() + "/"
+        evidence = []
+        for item in participation:
+            if item.get("role") != "attendee" or item.get("status") != "self_reported":
+                continue
+            for source in item.get("evidence", []):
+                post = urlsplit(_url(source.get("url")))
+                quote = _text(source.get("quote"))
+                # A cited third-party post, event mention, negation or uncertain plan
+                # cannot establish this person's stated attendance.
+                own_post = profile.scheme == post.scheme == "https" and profile.netloc.casefold() == post.netloc.casefold() and post.path.casefold().startswith(prefix)
+                explicit = re.search(r"\bi(?:['’](?:ll|m)|\s+(?:am|will))\b[^.!?\n]{0,60}\b(?:attend(?:ing)?|be\s+at|at|join(?:ing)?)\b", quote, re.I)
+                uncertain = re.search(r"\b(?:not|never|might|maybe|hope|wish|won['’]t|can['’]t|cannot)\b", quote, re.I)
+                names_event = bool(event_name) and event_name in re.sub(r"[^a-z]", "", quote.casefold())
+                if own_post and explicit and not uncertain and names_event:
+                    evidence.append(source)
+        if evidence:
+            return account, evidence
+    return None, []
+
+
 def build_dataset(kb: KnowledgeBase, event_id: str, legacy: list[JSON]) -> JSON:
     """Project one event into native people and timed session records, deterministically."""
     records = {node.id: kb.payload_for(node) for node in kb.nodes}
@@ -191,6 +218,9 @@ def build_dataset(kb: KnowledgeBase, event_id: str, legacy: list[JSON]) -> JSON:
             for p in person.get("participations", [])
             if p.get("event") == event_id and p.get("status") in {"confirmed", "self_reported"}
         ]
+        account, attendance_evidence = _attendance_proof(person, participation, records, event)
+        if not attendance_evidence:
+            participation = [p for p in participation if p.get("role") != "attendee"]
         if not participation:
             continue
         roles = sorted({_text(p.get("role")) for p in participation})
@@ -205,7 +235,7 @@ def build_dataset(kb: KnowledgeBase, event_id: str, legacy: list[JSON]) -> JSON:
             gaps["missingBiographies"].append(node.id)
         if native_id == node.id:
             gaps["missingLegacyIdentity"].append(node.id)
-        evidence = [e for p in participation for e in p.get("evidence", []) if e.get("url")]
+        evidence = attendance_evidence + [e for p in participation if p.get("role") != "attendee" for e in p.get("evidence", []) if e.get("url")]
         source = (
             next((e["url"] for e in evidence), None)
             or next((s["url"] for s in person.get("sources", []) if s.get("url")), None)
@@ -246,26 +276,8 @@ def build_dataset(kb: KnowledgeBase, event_id: str, legacy: list[JSON]) -> JSON:
         if old and old.get("avatarNote"):
             row["avatarNote"] = old["avatarNote"]
         people.append(row)
-        attendee_participations = [
-            p
-            for p in participation
-            if p.get("role") == "attendee" and p.get("status") == "self_reported"
-        ]
-        if attendee_participations:
-            attendance_evidence = [
-                e
-                for p in attendee_participations
-                for e in p.get("evidence", [])
-                if e.get("url") and e.get("quote")
-            ]
-            accounts = [
-                records[ref] for ref in person.get("accounts", []) if records[ref].get("url")
-            ]
-            if not attendance_evidence or not accounts:
-                raise ValueError(
-                    f"{node.id}: attendee needs a public account and self-report evidence"
-                )
-            account = accounts[0]
+        if attendance_evidence:
+            assert account is not None
             attendees.append(
                 dict(
                     id=native_id,
@@ -302,6 +314,18 @@ def _git(repo: Path, *args: str) -> str:
     ).stdout.strip()
 
 
+def _verified_pin(vendor: Path, dataset: str) -> str:
+    repo = vendor / dataset
+    commit = _git(repo, "rev-parse", "HEAD")
+    path = f"{vendor.name}/{dataset}"
+    entry = _git(vendor.parent, "ls-tree", "HEAD", "--", path).split()
+    if len(entry) != 4 or entry[:2] != ["160000", "commit"] or entry[2] != commit:
+        raise ValueError(f"{dataset}: checkout does not match the parent repository's pinned gitlink")
+    if _git(repo, "status", "--porcelain", "--", "kb"):
+        raise ValueError(f"{dataset}: KB has uncommitted changes; commit provenance would be misleading")
+    return commit
+
+
 def _legacy(assets: Path, filename: str) -> list[JSON]:
     path = assets / filename
     return json.loads(path.read_text()) if path.is_file() else []
@@ -328,12 +352,8 @@ def export_native(
     }
     for dataset, event_id, filename in DATASETS:
         repo = vendor / dataset
+        commit = _verified_pin(vendor, dataset)
         kb = load_kb(repo / "kb")
-        commit = _git(repo, "rev-parse", "HEAD")
-        if _git(repo, "status", "--porcelain", "--", "kb"):
-            raise ValueError(
-                f"{dataset}: KB has uncommitted changes; commit provenance would be misleading"
-            )
         validated_before = any(
             d.get("dataset") == dataset
             and d.get("commit") == commit
@@ -388,9 +408,7 @@ def export_native(
             )
         )
         kb.check_unchanged()
-        if _git(repo, "rev-parse", "HEAD") != commit or _git(
-            repo, "status", "--porcelain", "--", "kb"
-        ):
+        if _verified_pin(vendor, dataset) != commit:
             raise ValueError(f"{dataset}: source changed during export")
     outputs["kb-native-manifest.json"] = manifest
     assets.mkdir(parents=True, exist_ok=True)

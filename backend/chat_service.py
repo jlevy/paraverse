@@ -8,13 +8,19 @@ def recommendation_people():
  manifest=ROOT/'native/Assets/kb-native-manifest.json'
  if not manifest.exists():
   return [dict(p,kind='attendee') for p in people()]
+ attendance_path=ROOT/'native/Assets/kb-attendees.json'
+ attendance={}
+ for item in json.loads(attendance_path.read_text()) if attendance_path.exists() else []:
+  for key in ('id','kbID'):
+   if item.get(key):attendance[item[key]]=item
  records=[]
  for filename in ['world-speakers.json']:
   for p in json.loads((ROOT/'native/Assets'/filename).read_text()):
    if p.get('eventID')!='event:github-universe-2026':continue
    roles=p.get('participationRoles',[])
+   proof=(attendance.get(p.get('kbID')) or attendance.get(p['id']) or {}) if p.get('attendee') else {}
    profile=p.get('linkedinURL') or p.get('githubURL') or p.get('xURL') or next(iter(p.get('accountURLs',[])),p['sourceURL'])
-   records.append(dict(id=p['id'],eventID=p['eventID'],name=p['name'],role=' · '.join(filter(None,[p.get('role'),p.get('company')])),about=p.get('biography',''),kind=' and '.join(roles),speaker_sessions=[s['title'] for s in p.get('sessions',[])],interests=[],profile_url=profile,source_url=p['sourceURL'],linkedin_url=p.get('linkedinURL'),x_url=p.get('xURL'),github_url=p.get('githubURL'),evidence=p.get('biographyProvenance',{}),attendance_status='Public self-report' if p.get('attendee') else 'Official event role: '+', '.join(roles),matching_opt_in=False,enrichment_status='validated knowledge-base snapshot'))
+   records.append(dict(id=p['id'],eventID=p['eventID'],name=p['name'],role=' · '.join(filter(None,[p.get('role'),p.get('company')])),about=p.get('biography',''),kind=' and '.join(roles),speaker_sessions=[s['title'] for s in p.get('sessions',[])],interests=[],profile_url=profile,source_url=proof.get('source_url') or p['sourceURL'],linkedin_url=p.get('linkedinURL'),x_url=p.get('xURL'),github_url=p.get('githubURL'),evidence=proof.get('evidence',''),evidence_sources=proof.get('evidence_sources',[]),biography_provenance=p.get('biographyProvenance',{}),attendance_status='Public self-report' if p.get('attendee') else 'Official event role: '+', '.join(roles),matching_opt_in=False,enrichment_status='validated knowledge-base snapshot'))
  return records
 
 def explicit_action(text):
@@ -33,7 +39,7 @@ def answer(body):
  action=explicit_action(prompt)
  if action:return {'action':action,'message':'','personIDs':[],'sessionIDs':[]}
  records=recommendation_people()
- attendees=[{k:p.get(k) for k in ['id','name','role','about','interests','profile_url','linkedin_url','source_url','evidence','attendance_status','matching_opt_in','enrichment_status','kind','speaker_sessions','speaker_biography']} for p in records];paths=[];source='validated knowledge-base snapshot; personal graph matching is unavailable'
+ attendees=[{k:p.get(k) for k in ['id','name','role','about','interests','profile_url','linkedin_url','source_url','evidence','evidence_sources','biography_provenance','attendance_status','matching_opt_in','enrichment_status','kind','speaker_sessions','speaker_biography']} for p in records];paths=[];source='validated knowledge-base snapshot; personal graph matching is unavailable'
  try:paths=lookup(profile);source='FalkorDB shared-topic paths'
  except Exception:pass
  sessions=catalog()+catalog(True)

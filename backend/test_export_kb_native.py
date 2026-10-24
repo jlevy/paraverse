@@ -175,7 +175,7 @@ class NativeExportTests(unittest.TestCase):
                 status="self_reported",
                 evidence=[
                     {
-                        "url": "https://example.org/attendance-post",
+                        "url": "https://github.com/example/posts/1",
                         "quote": "I am attending Example Conference.",
                         "observed_at": "2026-10-24T10:00:00Z",
                     }
@@ -191,6 +191,31 @@ class NativeExportTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "no confirmed"):
                 build_dataset(kb, "event:example", [])
 
+    def test_unsubstantiated_attendance_is_never_exported(self):
+        with tempfile.TemporaryDirectory() as folder:
+            kb = self.make_kb(Path(folder))
+            person = kb.artifacts["people/example.md"].payload
+            person["accounts"] = []
+            person["participations"].append(dict(event="event:example",role="attendee",status="confirmed"))
+            row, = build_dataset(kb,"event:example",[])["people"]
+            self.assertFalse(row["attendee"])
+            self.assertEqual(row["participationRoles"],["speaker"])
+            person["participations"] = [person["participations"][-1]]
+            with self.assertRaisesRegex(ValueError,"no confirmed"):
+                build_dataset(kb,"event:example",[])
+
+    def test_attendance_requires_owned_post_and_explicit_event_self_report(self):
+        with tempfile.TemporaryDirectory() as folder:
+            kb = self.make_kb(Path(folder))
+            person = kb.artifacts["people/example.md"].payload
+            person["participations"] = [dict(event="event:example",role="attendee",status="self_reported",evidence=[dict(url="https://github.com/example/posts/1",quote="I am attending Example Conference.")])]
+            self.assertTrue(build_dataset(kb,"event:example",[])["people"][0]["attendee"])
+            evidence = person["participations"][0]["evidence"][0]
+            for url, quote in [("https://github.com/someone-else/posts/1","I am attending Example Conference."),("https://github.com/example/posts/1","Example Conference has a great agenda."),("https://github.com/example/posts/1","I am not attending Example Conference.")]:
+                evidence.update(url=url,quote=quote)
+                with self.assertRaisesRegex(ValueError,"no confirmed"):
+                    build_dataset(kb,"event:example",[])
+
     def test_validation_reuse_requires_same_clean_source_commit(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
@@ -200,7 +225,7 @@ class NativeExportTests(unittest.TestCase):
                 patch("export_kb_native.DATASETS", datasets),
                 patch(
                     "export_kb_native._git",
-                    side_effect=lambda _repo, *args: "a" * 40 if args[0] == "rev-parse" else "",
+                    side_effect=lambda _repo, *args: "a" * 40 if args[0] == "rev-parse" else ("160000 commit " + "a" * 40 + "\t" + args[-1] if args[0] == "ls-tree" else ""),
                 ),
                 patch(
                     "export_kb_native.validate_artifacts", return_value=SimpleNamespace(ok=True)
@@ -215,7 +240,7 @@ class NativeExportTests(unittest.TestCase):
                 patch("export_kb_native.DATASETS", datasets),
                 patch(
                     "export_kb_native._git",
-                    side_effect=lambda _repo, *args: "b" * 40 if args[0] == "rev-parse" else "",
+                    side_effect=lambda _repo, *args: "b" * 40 if args[0] == "rev-parse" else ("160000 commit " + "b" * 40 + "\t" + args[-1] if args[0] == "ls-tree" else ""),
                 ),
                 patch(
                     "export_kb_native.validate_artifacts", return_value=SimpleNamespace(ok=True)
@@ -241,7 +266,7 @@ class NativeExportTests(unittest.TestCase):
                 ),
                 patch(
                     "export_kb_native._git",
-                    side_effect=lambda _repo, *args: "a" * 40 if args[0] == "rev-parse" else "",
+                    side_effect=lambda _repo, *args: "a" * 40 if args[0] == "rev-parse" else ("160000 commit " + "a" * 40 + "\t" + args[-1] if args[0] == "ls-tree" else ""),
                 ),
             ):
                 export_native(root / "vendor", assets, validate=False)
@@ -266,13 +291,36 @@ class NativeExportTests(unittest.TestCase):
                 patch("export_kb_native.DATASETS", datasets),
                 patch(
                     "export_kb_native._git",
-                    side_effect=lambda _repo, *args: "a" * 40 if args[0] == "rev-parse" else "",
+                    side_effect=lambda _repo, *args: "a" * 40 if args[0] == "rev-parse" else ("160000 commit " + "a" * 40 + "\t" + args[-1] if args[0] == "ls-tree" else ""),
                 ),
                 self.assertRaisesRegex(ValueError, "incomplete"),
             ):
                 export_native(root / "vendor", assets, validate=False)
             self.assertEqual(destination.read_text(), "[]")
             self.assertEqual(list(assets.iterdir()), [destination])
+
+    def test_unpinned_or_dirty_dataset_is_rejected_before_loading_or_publication(self):
+        for dirty, checked_out in ((False, "b" * 40), (True, "a" * 40)):
+            with self.subTest(dirty=dirty), tempfile.TemporaryDirectory() as folder:
+                root = Path(folder)
+                self.make_kb(root / "vendor/one/kb")
+                assets = root / "assets"
+                assets.mkdir()
+                destination = assets / "world-speakers.json"
+                destination.write_text("[]")
+                def git_state(_repo, *args):
+                    if args[0] == "rev-parse": return checked_out
+                    if args[0] == "ls-tree": return "160000 commit " + "a" * 40 + "\tvendor/one"
+                    return " M kb/people/example.md" if dirty else ""
+                with (
+                    patch("export_kb_native.DATASETS", (("one", "event:example", "world-speakers.json"),)),
+                    patch("export_kb_native._git", side_effect=git_state),
+                    patch("export_kb_native.load_kb", wraps=load_kb) as load,
+                    self.assertRaisesRegex(ValueError, "pinned|uncommitted"),
+                ):
+                    export_native(root / "vendor", assets, validate=False)
+                load.assert_not_called()
+                self.assertEqual(destination.read_text(), "[]")
 
     def test_publication_failure_preserves_original_and_cleans_staging_file(self):
         with tempfile.TemporaryDirectory() as folder:
@@ -288,7 +336,7 @@ class NativeExportTests(unittest.TestCase):
                 ),
                 patch(
                     "export_kb_native._git",
-                    side_effect=lambda _repo, *args: "a" * 40 if args[0] == "rev-parse" else "",
+                    side_effect=lambda _repo, *args: "a" * 40 if args[0] == "rev-parse" else ("160000 commit " + "a" * 40 + "\t" + args[-1] if args[0] == "ls-tree" else ""),
                 ),
                 patch("export_kb_native.os.replace", side_effect=OSError("publish failed")),
                 self.assertRaisesRegex(OSError, "publish failed"),
