@@ -5,7 +5,7 @@ title: Complete additional-people curation checker and pipeline handoff
 kind: feature
 status: in_progress
 priority: 2
-version: 10
+version: 13
 delegate: claude-code@spud10.local
 labels: []
 dependencies: []
@@ -19,9 +19,12 @@ child_order_hints:
   - is-01m5r19bn29t0d6sgwb5c5prtk
   - is-01m5r19bz493y98jd8bq7f6ka9
   - is-01m5r19c7qzcagtnqgzf98374e
+  - is-01m5r1x0q5v9qcdhmaxwbzb6j4
+  - is-01m5r1x1102zyp94m0fzzeadfh
+  - is-01m5r1x1a68edmdv6qkrzdxy95
 hold: null
 hold_until: null
 created_at: 2026-10-24T21:23:13.701Z
-updated_at: 2026-10-24T22:42:46.646Z
+updated_at: 2026-10-24T22:53:30.821Z
 started_at: 2026-10-24T21:23:25.120Z
 ---
