@@ -18,9 +18,11 @@ def recommendation_people():
   for p in json.loads((ROOT/'native/Assets'/filename).read_text()):
    if p.get('eventID')!='event:github-universe-2026':continue
    roles=p.get('participationRoles',[])
-   proof=(attendance.get(p.get('kbID')) or attendance.get(p['id']) or {}) if p.get('attendee') else {}
+   proof=(attendance.get(p.get('kbID')) or attendance.get(p['id']) or {}) if 'attendee' in roles else {}
+   official_roles=[role for role in roles if role!='attendee']
+   attendance_status=('Public self-report'+('; official event roles: '+', '.join(official_roles) if official_roles else '')) if proof else 'Official event role: '+', '.join(official_roles)
    profile=p.get('linkedinURL') or p.get('githubURL') or p.get('xURL') or next(iter(p.get('accountURLs',[])),p['sourceURL'])
-   records.append(dict(id=p['id'],eventID=p['eventID'],name=p['name'],role=' · '.join(filter(None,[p.get('role'),p.get('company')])),about=p.get('biography',''),kind=' and '.join(roles),speaker_sessions=[s['title'] for s in p.get('sessions',[])],interests=[],profile_url=profile,source_url=proof.get('source_url') or p['sourceURL'],linkedin_url=p.get('linkedinURL'),x_url=p.get('xURL'),github_url=p.get('githubURL'),evidence=proof.get('evidence',''),evidence_sources=proof.get('evidence_sources',[]),biography_provenance=p.get('biographyProvenance',{}),attendance_status='Public self-report' if p.get('attendee') else 'Official event role: '+', '.join(roles),matching_opt_in=False,enrichment_status='validated knowledge-base snapshot'))
+   records.append(dict(id=p['id'],eventID=p['eventID'],name=p['name'],role=' · '.join(filter(None,[p.get('role'),p.get('company')])),about=p.get('biography',''),kind=' and '.join(roles),speaker_sessions=[s['title'] for s in p.get('sessions',[])],interests=[],profile_url=profile,source_url=proof.get('source_url') or p['sourceURL'],linkedin_url=p.get('linkedinURL'),x_url=p.get('xURL'),github_url=p.get('githubURL'),evidence=proof.get('evidence',''),evidence_sources=proof.get('evidence_sources',[]),biography_provenance=p.get('biographyProvenance',{}),attendance_status=attendance_status,matching_opt_in=False,enrichment_status='validated knowledge-base snapshot'))
  return records
 
 def explicit_action(text):
