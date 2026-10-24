@@ -5,17 +5,19 @@ title: FalkorDB graph, browser API, web UI and Swift client
 kind: feature
 status: in_progress
 priority: 2
-version: 4
+version: 5
 delegate: claude-code@spud10.local
 labels: []
-dependencies: []
+dependencies:
+  - type: blocks
+    target: is-01m5qzfyfg8w04wqv8tqzy25k2
 parent_id: is-01m5qpedddmjvzzvwhcbmmz8y1
 child_order_hints:
   - is-01m5qvqrkg8ta7ghjbs3d36x25
 hold: null
 hold_until: null
 created_at: 2026-10-24T19:33:19.970Z
-updated_at: 2026-10-24T21:05:46.606Z
+updated_at: 2026-10-24T22:11:24.771Z
 started_at: 2026-10-24T19:33:26.659Z
 ---
 Layer 5. Branch db/graph-browser, PR #6. paraverse-graph in db/: FalkorDB load, browser, API, CLI, Swift client; dataset-aware (vendor/<name>/kb).
