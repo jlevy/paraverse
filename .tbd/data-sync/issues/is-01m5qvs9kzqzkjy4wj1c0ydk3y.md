@@ -3,18 +3,18 @@ type: is
 id: is-01m5qvs9kzqzkjy4wj1c0ydk3y
 title: "PR #1 qodo-5639982758 #3: ensure-gh-cli.sh network calls lack timeouts and can stall startup (https://github.com/jlevy/paraverse/pull/1#pullrequestreview-5639982758)"
 kind: bug
-status: open
+status: in_progress
 priority: 2
-version: 4
-delegate: null
+version: 5
+delegate: claude-code@spud10.local
 labels:
   - upstream-tbd
 dependencies: []
 parent_id: is-01m5qvrh49dgg0m7by1349fe3w
-hold: blocked
+hold: null
 hold_until: null
 created_at: 2026-10-24T21:06:36.797Z
-updated_at: 2026-10-24T21:07:07.358Z
+updated_at: 2026-10-24T21:28:00.487Z
 started_at: 2026-10-24T21:06:49.535Z
 ---
 Qodo finding 3 (Medium, Reliability), PR #1. Review: https://github.com/jlevy/paraverse/pull/1#pullrequestreview-5639982758. Comment: https://github.com/jlevy/paraverse/pull/1#discussion_r4368485581

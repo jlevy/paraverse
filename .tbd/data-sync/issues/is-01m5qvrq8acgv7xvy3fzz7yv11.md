@@ -3,18 +3,18 @@ type: is
 id: is-01m5qvrq8acgv7xvy3fzz7yv11
 title: "PR #1 qodo-5639982758 #1: Codex closing reminder prints plain text that PostToolUse ignores (https://github.com/jlevy/paraverse/pull/1#pullrequestreview-5639982758)"
 kind: bug
-status: open
+status: in_progress
 priority: 2
-version: 4
-delegate: null
+version: 5
+delegate: claude-code@spud10.local
 labels:
   - upstream-tbd
 dependencies: []
 parent_id: is-01m5qvrh49dgg0m7by1349fe3w
-hold: blocked
+hold: null
 hold_until: null
 created_at: 2026-10-24T21:06:17.993Z
-updated_at: 2026-10-24T21:07:02.361Z
+updated_at: 2026-10-24T21:28:00.464Z
 started_at: 2026-10-24T21:06:48.644Z
 ---
 Qodo finding 1 (Medium, Correctness), PR #1. Review: https://github.com/jlevy/paraverse/pull/1#pullrequestreview-5639982758. Comment: https://github.com/jlevy/paraverse/pull/1#discussion_r4368485574
