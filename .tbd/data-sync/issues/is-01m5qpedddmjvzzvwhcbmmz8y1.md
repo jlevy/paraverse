@@ -5,7 +5,7 @@ title: "Bootstrap Paraverse: setup, GitHub Universe KB, graph DB and docs"
 kind: epic
 status: open
 priority: 1
-version: 9
+version: 10
 labels: []
 dependencies: []
 child_order_hints:
@@ -17,7 +17,8 @@ child_order_hints:
   - is-01m5qpefmg3z4ppghdf73jarw9
   - is-01m5qpefz37r6qecnejekq8qqv
   - is-01m5qpeg9hqh3mt9efhvq8jgz1
+  - is-01m5qtq18rgwvh7pgs4yc638fp
 created_at: 2026-10-24T19:33:17.356Z
-updated_at: 2026-10-24T19:33:20.304Z
+updated_at: 2026-10-24T20:47:54.125Z
 ---
 Stacked PRs on main (GitHub stack #5): repository setup (tbd, softschema, README and data policy, Qodo), then the GitHub Universe knowledge base (pipeline and built data), the FalkorDB graph and browser, and the research and architecture docs.
