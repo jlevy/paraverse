@@ -169,14 +169,21 @@ def test_size_review_includes_larger_bounded_ranges_and_skips_open_ended():
     graph.query(
         "UNWIND [{id: 'over', size: '51-200 employees', count: 201}, "
         "{id: 'equal', size: '51-200 employees', count: 200}, "
-        "{id: 'commas', size: '1,001-5,000 employees', count: 5001}, "
-        "{id: 'open', size: '10,001+ employees', count: 2}] AS item "
+        "{id: 'commas', size: 'LinkedIn size range: 1,001-5,000 employees', count: 5001}, "
+        "{id: 'open', size: 'LinkedIn size range: 10,001+ employees', count: 2}] AS item "
         "CREATE (o:Organization {id: 'org:' + item.id, name: item.id, size: item.size}) "
         "WITH o, item UNWIND range(1, item.count) AS n "
         "CREATE (:Person {id: o.id + ':' + toString(n)})-[:AFFILIATED_WITH {current: true}]->(o)"
     )
+    graph.query(
+        "CREATE (:Sponsor:Organization {id: 'org:tiny', name: 'Tiny', size: 'LinkedIn size range: 2-10 employees'})"
+    )
     check = next(c for c in CHECKS if c.name == "org_size_implausible")
     try:
-        assert {row["id"] for row in run_check(graph, check)["rows"]} == {"org:over", "org:commas"}
+        assert {row["id"] for row in run_check(graph, check)["rows"]} == {
+            "org:over",
+            "org:commas",
+            "org:tiny",
+        }
     finally:
         graph.delete()
