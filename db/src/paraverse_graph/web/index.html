@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Knowledge Base</title>
+  <script>
+    // Before first paint: resolve the stored theme (adapted from tbd, MIT) and embed
+    // mode, so neither the wrong palette nor the chrome flashes. app.js owns changes.
+    try {
+      var mode = localStorage.getItem('paraverse-kb.themeMode') || 'system';
+      if (mode !== 'light' && mode !== 'dark') mode = 'system';
+      document.documentElement.setAttribute('data-theme-mode', mode);
+      if (mode !== 'system') document.documentElement.setAttribute('data-theme', mode);
+    } catch (_error) {
+      // Private mode or blocked storage: the system theme stays active.
+    }
+    if (/(^|[?&])embed=1(&|$)/.test(location.search.slice(1))) {
+      document.documentElement.setAttribute('data-embed', '');
+    }
+    // ?images=0 shows no remote images (logos, avatars), for offline or private hosts.
+    if (/(^|[?&])images=0(&|$)/.test(location.search.slice(1))) {
+      document.documentElement.setAttribute('data-no-images', '');
+    }
+  </script>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div id="app">
+    <header id="topbar">
+      <a class="brand" href="#/">Knowledge Base <span class="brand-graph muted mono" id="graph-name"></span></a>
+      <button type="button" class="btn search-trigger" id="search-trigger" aria-haspopup="dialog">
+        <span id="search-icon"></span> <span class="search-label">Search people, sessions, orgs…</span> <span class="kbd">/</span>
+      </button>
+      <select class="select" id="kind-select" aria-label="Open a table"></select>
+      <span class="spacer"></span>
+      <a class="review-link" id="review-link" href="#/review">Review <span class="pill" id="review-count">…</span></a>
+      <span class="pill digest" id="digest" tabindex="0"></span>
+      <div class="menu-wrap">
+        <button type="button" class="icon-btn" id="theme-button" aria-haspopup="menu" aria-expanded="false" aria-label="Theme" data-tooltip="Theme"></button>
+        <div class="menu" id="theme-menu" role="menu" hidden>
+          <button type="button" class="menu-item" role="menuitemradio" data-theme-choice="system">System</button>
+          <button type="button" class="menu-item" role="menuitemradio" data-theme-choice="light">Light</button>
+          <button type="button" class="menu-item" role="menuitemradio" data-theme-choice="dark">Dark</button>
+          <button type="button" class="menu-item" id="help-button">Keyboard shortcuts <span class="kbd">?</span></button>
+        </div>
+      </div>
+    </header>
+    <nav id="sidebar" aria-label="Tables"></nav>
+    <main id="main">
+      <div id="view"><p class="empty">Loading…</p></div>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" hidden></div>
+  <script type="module" src="/static/app.js"></script>
+</body>
+</html>

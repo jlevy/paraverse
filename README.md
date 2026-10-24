@@ -9,11 +9,22 @@ Each record cites the sources it was built from.
 
 The first conference covered is GitHub Universe.
 
+## Layout
+
+- `db/`: paraverse-graph, which loads a knowledge-base dataset into FalkorDB and serves it
+  through a read-only web browser, a JSON API and a CLI, with a Swift client in
+  `db/clients/swift/`.
+  It can load any dataset in the same softschema format.
+
 ## Data Policy
 
 Everything in this repository is public.
 Read the [data policy](docs/data-policy.md) before adding or changing data.
 To have your data removed, open an issue or contact a maintainer.
+
+## Docs
+
+Design docs, research and plans are indexed in [docs/README.md](docs/README.md).
 
 ## Contributing
 

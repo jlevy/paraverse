@@ -1,0 +1,143 @@
+{
+  "query": "entity",
+  "columns": [
+    "n"
+  ],
+  "rows": [
+    [
+      {
+        "id": "org:jfrog",
+        "labels": [
+          "Entity",
+          "Organization",
+          "Sponsor"
+        ],
+        "kind": "organization",
+        "name": "JFrog",
+        "data": {
+          "id": "org:jfrog",
+          "entity_kind": "organization",
+          "display_name": "JFrog",
+          "kb_path": "organizations/jfrog.md",
+          "name": "JFrog",
+          "roles": [
+            "affiliation",
+            "mentioned",
+            "session_host",
+            "sponsor"
+          ],
+          "website": "https://jfrog.com",
+          "sponsor_tier": "platinum"
+        },
+        "doc": {
+          "accounts": [
+            "gh:jfrog"
+          ],
+          "github": "gh:jfrog",
+          "hosted_sessions": [
+            "session:bld2191d"
+          ],
+          "id": "org:jfrog",
+          "name": "JFrog",
+          "roles": [
+            "affiliation",
+            "mentioned",
+            "session_host",
+            "sponsor"
+          ],
+          "sources": [
+            {
+              "record_id": "1725398039193001Q6P2",
+              "retrieved_at": "2026-10-24T06:46:26Z",
+              "snapshot": "raw/rainfocus/exhibitors.json",
+              "system": "rainfocus",
+              "url": "https://events.githubuniverse.com/api/exhibitors"
+            },
+            {
+              "record_id": "jfrog",
+              "retrieved_at": "2026-10-24T07:53:22Z",
+              "snapshot": "raw/github/sponsor-orgs.json",
+              "system": "github",
+              "url": "https://api.github.com/graphql"
+            }
+          ],
+          "sponsorship": {
+            "link": "https://jfrog.com/",
+            "summary": "The JFrog Software Supply Chain Platform fuels DevOps, DevSecOps, and AI/MLOps, delivering secure, frictionless software delivery from code to production in the AI era.",
+            "tier": "platinum"
+          },
+          "website": "https://jfrog.com"
+        }
+      }
+    ]
+  ],
+  "graph": {
+    "nodes": [
+      {
+        "id": "org:jfrog",
+        "labels": [
+          "Entity",
+          "Organization",
+          "Sponsor"
+        ],
+        "kind": "organization",
+        "name": "JFrog",
+        "data": {
+          "id": "org:jfrog",
+          "entity_kind": "organization",
+          "display_name": "JFrog",
+          "kb_path": "organizations/jfrog.md",
+          "name": "JFrog",
+          "roles": [
+            "affiliation",
+            "mentioned",
+            "session_host",
+            "sponsor"
+          ],
+          "website": "https://jfrog.com",
+          "sponsor_tier": "platinum"
+        },
+        "doc": {
+          "accounts": [
+            "gh:jfrog"
+          ],
+          "github": "gh:jfrog",
+          "hosted_sessions": [
+            "session:bld2191d"
+          ],
+          "id": "org:jfrog",
+          "name": "JFrog",
+          "roles": [
+            "affiliation",
+            "mentioned",
+            "session_host",
+            "sponsor"
+          ],
+          "sources": [
+            {
+              "record_id": "1725398039193001Q6P2",
+              "retrieved_at": "2026-10-24T06:46:26Z",
+              "snapshot": "raw/rainfocus/exhibitors.json",
+              "system": "rainfocus",
+              "url": "https://events.githubuniverse.com/api/exhibitors"
+            },
+            {
+              "record_id": "jfrog",
+              "retrieved_at": "2026-10-24T07:53:22Z",
+              "snapshot": "raw/github/sponsor-orgs.json",
+              "system": "github",
+              "url": "https://api.github.com/graphql"
+            }
+          ],
+          "sponsorship": {
+            "link": "https://jfrog.com/",
+            "summary": "The JFrog Software Supply Chain Platform fuels DevOps, DevSecOps, and AI/MLOps, delivering secure, frictionless software delivery from code to production in the AI era.",
+            "tier": "platinum"
+          },
+          "website": "https://jfrog.com"
+        }
+      }
+    ],
+    "links": []
+  }
+}

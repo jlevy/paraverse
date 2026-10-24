@@ -98,3 +98,13 @@ Each component is a self-contained project.
 Its packaging (`pyproject.toml`, `uv.lock`, `uv.toml`, `Makefile`) lives in its own
 directory, never at the repository root.
 Run a component’s commands from inside its directory.
+
+## Build & Test
+
+- Graph DB, in `db/`: `make install`, then `make lint` and `make test`, then `make load`
+  and `make serve` (browser at http://127.0.0.1:8766/).
+  `make datasets` lists the datasets the browser can load; use
+  `make load serve DATASET=<name>` or `KB=<dir>` for another one.
+  Run uv in `db/` only through `make`, or with `UV_CONFIG_FILE=uv.toml`, so user-level
+  uv settings stay out of `uv.lock`.
+- Swift client: `swift test --package-path db/clients/swift`.
