@@ -152,7 +152,7 @@ function announce(route, view) {
 
 function renderShell() {
   const meta = state.meta;
-  $('graph-name').textContent = meta.graph;
+  $('graph-name').textContent = meta.dataset || meta.graph;
   const groups = meta.groups.filter((g) => g.kinds.length);
   fill($('sidebar'),
     h('a', { class: 'nav-link', href: '#/', 'data-nav': 'home' }, icon('home'), 'Home'),
@@ -177,7 +177,7 @@ function renderDigest() {
   if (!meta) return;
   const badge = $('digest');
   badge.replaceChildren('KB ', h('span', { class: 'mono' }, String(meta.kb_digest || '').slice(0, 8)), ` · ${relativeAge(meta.loaded_at) || ''}`);
-  badge.dataset.tooltip = `Graph ${meta.graph}\nKB digest ${meta.kb_digest}\nLoaded ${meta.loaded_at}`;
+  badge.dataset.tooltip = `Dataset ${meta.dataset || 'unknown'}\nGraph ${meta.graph}\nKB digest ${meta.kb_digest}\nLoaded ${meta.loaded_at}`;
 }
 
 function renderReviewCount() {
@@ -358,7 +358,7 @@ async function graphLoaded() {
   badge.classList.remove('flash');
   void badge.offsetWidth;
   badge.classList.add('flash');
-  toast(`Updated: the graph was reloaded (KB ${String(state.meta.kb_digest).slice(0, 8)}).`);
+  toast(`Updated: ${state.meta.dataset || state.meta.graph} was reloaded (KB ${String(state.meta.kb_digest).slice(0, 8)}).`);
 }
 
 // ── Boot ──────────────────────────────────────────────────────────────────

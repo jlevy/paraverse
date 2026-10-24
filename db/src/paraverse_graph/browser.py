@@ -360,14 +360,16 @@ class GraphCatalog:
                 rows = reader.ro_query(
                     f"""
                     MATCH (m:{META_LABEL})
-                    RETURN m.graph, m.kb_digest, m.loaded_at, m.stats_json, m.rel_stats_json
+                    RETURN m.graph, m.dataset, m.kb_digest, m.loaded_at, m.stats_json,
+                           m.rel_stats_json
                     """
                 ).result_set
                 if not rows:
                     raise Unavailable("the graph has no GraphMeta node; run `paraverse-graph load`")
-                name, digest, loaded_at, stats, rel_stats = rows[0]
+                name, dataset, digest, loaded_at, stats, rel_stats = rows[0]
                 self._meta = {
                     "graph": name,
+                    "dataset": dataset,
                     "kb_digest": digest,
                     "loaded_at": loaded_at,
                     "stats": json.loads(stats),
@@ -473,6 +475,7 @@ def create_app(
         return JSONResponse(
             {
                 "graph": info["graph"],
+                "dataset": info["dataset"],
                 "kb_digest": info["kb_digest"],
                 "loaded_at": info["loaded_at"],
                 "node_total": sum(counts.values()),

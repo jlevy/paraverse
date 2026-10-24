@@ -23,9 +23,9 @@ MAX_LIMIT = 500
 # two entities are related.
 HUB_LABELS = ("Event", "Day", "Facet")
 
-# Only people the event published, or who opted in, are suggested as matches.
-# Self-reported attendees appear in the graph but are not offered for matching.
-MATCHABLE = "(o.inclusion_basis = 'published_by_event' OR o.matching_opt_in = true)"
+# Only people the event itself published are suggested. Self-reported and curated
+# people appear in the graph but are never suggested.
+PUBLISHED_BY_EVENT = "o.inclusion_basis = 'published_by_event'"
 
 
 class QueryError(ValueError):
@@ -221,10 +221,10 @@ QUERIES: tuple[NamedQuery, ...] = (
     ),
     NamedQuery(
         "similar_people",
-        "Matchable people who share the most expertise and technologies with a person.",
+        "People the event published who share the most expertise and technologies with a person.",
         _q(f"""
             MATCH (p:Person {{id: $id}})-[:EXPERT_IN|WORKS_WITH]->(x)<-[:EXPERT_IN|WORKS_WITH]-(o:Person)
-            WHERE o <> p AND {MATCHABLE}
+            WHERE o <> p AND {PUBLISHED_BY_EVENT}
             RETURN o.id AS person, o.display_name AS name, o.affiliation_label AS affiliation,
                    count(DISTINCT x) AS shared, collect(DISTINCT x.display_name) AS in_common
             ORDER BY shared DESC, name

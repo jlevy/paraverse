@@ -1,5 +1,5 @@
 """
-End-to-end tests: load the real GitHub Universe KB into an embedded FalkorDB and
+End-to-end tests: load the default dataset's KB into an embedded FalkorDB and
 exercise the whole query catalog against it.
 
 Expected counts come from the KB's own `_graph/stats.json` at test time, because
@@ -20,7 +20,7 @@ from tempfile import mkdtemp
 from typing import Any
 
 from paraverse_graph.connection import delete_graph
-from paraverse_graph.kb import Artifact, KbNode, KnowledgeBase, load_kb
+from paraverse_graph.kb import DEFAULT_DATASET, Artifact, KbNode, KnowledgeBase, load_kb
 from paraverse_graph.loader import STAGING_INFIX, events_channel, load_graph
 from paraverse_graph.mapping import LABELS
 from paraverse_graph.queries import CATALOG, run_query
@@ -46,6 +46,7 @@ def _first(kind: str, predicate: Any = None) -> str:
 def test_load_matches_export_counts():
     _, _, kb, report = _loaded()
     assert report.problems == []
+    assert report.dataset == DEFAULT_DATASET
     assert report.nodes_by_kind == kb.stats["nodes"]
     assert report.edges_by_relation == kb.stats["edges"]
     assert set(report.nodes_by_kind) <= set(LABELS)
@@ -364,14 +365,16 @@ def test_schedule_is_ordered_and_complete():
         assert starts == sorted(starts)
 
 
-def test_similar_people_only_suggests_matchable_people():
+def test_similar_people_only_suggests_people_the_event_published():
     _, graph, _, _ = _loaded()
     person = _first("person", lambda p: p.get("sessions"))
-    for row in _rows("similar_people", id=person, limit=50):
-        basis, opt_in = graph.ro_query(
-            "MATCH (p:Person {id: $id}) RETURN p.inclusion_basis, p.matching_opt_in", {"id": row[0]}
-        ).result_set[0]
-        assert basis == "published_by_event" or opt_in is True
+    rows = _rows("similar_people", id=person, limit=50)
+    assert rows
+    for row in rows:
+        basis = graph.ro_query(
+            "MATCH (p:Person {id: $id}) RETURN p.inclusion_basis", {"id": row[0]}
+        ).result_set[0][0]
+        assert basis == "published_by_event"
 
 
 def test_connecting_paths_avoid_hubs():

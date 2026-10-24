@@ -20,7 +20,11 @@ from typing import Any
 
 import yaml
 
-KB_RELATIVE_PATH = Path("conferences/githubuniverse/kb")
+# Each dataset is its own repository, mounted as a git submodule at `vendor/<name>/`,
+# with its KB in `kb/`.
+VENDOR_DIR = "vendor"
+DEFAULT_DATASET = "universe2026-md"
+KB_RELATIVE_PATH = Path(VENDOR_DIR, DEFAULT_DATASET, "kb")
 
 _FRONTMATTER = re.compile(r"\A---\n(.*?)\n---[ \t]*(?:\n|\Z)", re.DOTALL)
 _TIMESTAMP_TAG = "tag:yaml.org,2002:timestamp"
@@ -171,14 +175,15 @@ def load_kb(root: Path) -> KnowledgeBase:
     )
 
 
-def find_kb_root(start: Path | None = None) -> Path | None:
+def find_kb_root(start: Path | None = None, dataset: str = DEFAULT_DATASET) -> Path | None:
     """
-    Find the conference KB by walking up from `start` (default: the working
-    directory), so the CLI works from the repository root or from `db/`.
+    Find `vendor/<dataset>/kb` by walking up from `start` (default: the working
+    directory), so the CLI works from the repository root or from `db/`. `None` when
+    no such KB has a graph export, as when the submodule is not checked out.
     """
     here = (start or Path.cwd()).resolve()
     for directory in (here, *here.parents):
-        candidate = directory / KB_RELATIVE_PATH
+        candidate = directory / VENDOR_DIR / dataset / "kb"
         if (candidate / "_graph" / "nodes.jsonl").is_file():
             return candidate
     return None

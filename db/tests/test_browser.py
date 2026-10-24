@@ -20,6 +20,7 @@ import uvicorn
 from starlette.testclient import TestClient
 
 from paraverse_graph.browser import COMPUTED_COLUMNS, MAX_LIMIT, create_app, redis_subscriber
+from paraverse_graph.kb import DEFAULT_DATASET
 from paraverse_graph.loader import events_channel
 from paraverse_graph.mapping import LABELS
 from paraverse_graph.review import CHECKS
@@ -63,6 +64,7 @@ def test_meta_lists_every_kind_with_counts():
     kinds = {k["kind"]: k["count"] for group in meta["groups"] for k in group["kinds"]}
     assert kinds == kb.stats["nodes"]
     assert meta["node_total"] == sum(kb.stats["nodes"].values())
+    assert meta["dataset"] == DEFAULT_DATASET
 
 
 def test_every_kind_has_a_schema_and_a_first_page():

@@ -11,7 +11,14 @@ export UV_CONFIG_FILE
 UV_EXCLUDE_NEWER ?= 14 days
 export UV_EXCLUDE_NEWER
 
-.PHONY: default install lint lint-check test load serve upgrade clean
+# The dataset `load` and `serve` use: DATASET=<name> for the KB at
+# ../vendor/<name>/kb, or KB=<dir> for any KB directory (relative to db/). The
+# default is the universe2026-md submodule.
+DATASET ?=
+KB ?=
+DATASET_ARGS = $(if $(KB),--kb '$(KB)') $(if $(DATASET),--dataset '$(DATASET)')
+
+.PHONY: default install lint lint-check test load serve datasets upgrade clean
 
 default: install lint test
 
@@ -28,10 +35,13 @@ test:
 	uv run pytest
 
 load:
-	uv run paraverse-graph load
+	uv run paraverse-graph load $(DATASET_ARGS)
 
 serve:
-	uv run paraverse-graph serve
+	uv run paraverse-graph serve $(DATASET_ARGS)
+
+datasets:
+	uv run paraverse-graph datasets
 
 upgrade:
 	uv sync --upgrade --all-extras --all-groups
