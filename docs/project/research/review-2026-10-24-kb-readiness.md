@@ -14,6 +14,36 @@ the pinned source. These results describe those revisions rather than every open
 A second frozen run also checked the subsequent Paraverse revision `93934f3e`, including
 its reload-cache fix.
 
+## Follow-Up: Overview and a New Dataset Snapshot
+
+The Overview integration was checked separately at Paraverse `818f6c6`, using Universe
+KB snapshot `c6b4faa9`. The earlier audit tables below retain their original revisions
+and counts.
+
+| Follow-up check | Result |
+| --- | --- |
+| Full graph-component check | Lint and type checks passed; 134 tests passed, no skips |
+| Artifact validation | All 5,092 artifacts valid |
+| Isolated FalkorDB import | 5,522 entities, 25,544 relationships, 18 entity kinds, 41 relationship types |
+| Browser summary | Live totals match the imported graph; source, coverage and quality tables available |
+| Header alignment | Organization title and row tally share a text baseline |
+| Focused integration review | No actionable findings in lifecycle, load identity or response-shape integration |
+
+These results establish structural and runtime behavior for that snapshot.
+They do not establish full data parity with common-ground or certify every record.
+The different counts reflect different dataset revisions; a smaller total alone says
+nothing about whether removals or identity changes were correct.
+
+Further dataset reviews identified privacy and semantic-quality gaps after this run.
+Those fixes and the final dataset rebuild remain separate work.
+The Overview displays quality findings and coverage gaps for whichever graph is loaded;
+passing schema validation does not clear them.
+
+The updated local preview uses port 18866 and that tested snapshot.
+Like the earlier preview, it is temporary and does not establish that the default
+submodule in a new clone contains a releasable KB. Integration and PR work are tracked
+in `pv-ixhd`.
+
 ## Readiness and Validation
 
 | Check | Result |
