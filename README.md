@@ -59,7 +59,7 @@ flowchart LR
 | Published artifacts | Git-versioned YAML and Markdown records, JSON Schema, graph/search JSONL, and JSON statistics. |
 | Import and sync | Python, PyYAML and watchfiles; load a completed KB into a staging graph and replace the live graph atomically. |
 | Graph database | **FalkorDB**, with FalkorDBLite locally; Redis, Cypher, typed IDs, relationship properties, indexes, stored schemas and load metadata. |
-| API | Starlette and Uvicorn; read-only JSON endpoints, named queries, and server-sent events. |
+| API | Starlette and Uvicorn; JSON data reads, dataset selection, named queries, and server-sent events. |
 | Browser | HTML, CSS, JavaScript ES modules and Lucide SVG icons. |
 | App clients | HTTP; the existing Swift client uses Foundation `URLSession` and Swift Package Manager. |
 
@@ -101,9 +101,8 @@ for the storage mapping.
 
 The datasets are git submodules.
 Clone with `git clone --recurse-submodules`, or run `git submodule update --init` in an
-existing clone.
-The selected dataset revision must include a built `kb/` tree; initializing a checkout
-alone does not create those outputs.
+existing clone. The selected dataset revision must include a built `kb/` tree;
+initializing a checkout alone does not create those outputs.
 
 To browse the hackathon dataset, run `make install` and
 `make load serve DATASET=ptc2026-md` from `db/`. Each dataset uses its own graph, so

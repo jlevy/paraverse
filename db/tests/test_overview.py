@@ -15,6 +15,8 @@ from paraverse_graph.kb import Artifact, KbEdge, KbNode, KnowledgeBase
 from paraverse_graph.loader import load_graph
 from paraverse_graph.overview import build_overview
 from paraverse_graph.review import Check, run_check
+from paraverse_graph.selection import DatasetSelection
+from tests.test_selection import source
 
 
 def _kb(root: Path, *, updated: bool = False, extra_person: bool = False) -> KnowledgeBase:
@@ -249,6 +251,60 @@ def test_overview_summarizes_counts_provenance_and_explicit_coverage(
         delete_graph(db, graph.name)
 
 
+def test_overview_accepts_offset_free_dates_and_times_as_utc(tmp_path: Path):
+    kb = _kb(tmp_path / "kb")
+    payloads = {artifact.payload["id"]: artifact.payload for artifact in kb.artifacts.values()}
+    # Conflicting labels ensure dates, rather than edition labels, determine order.
+    payloads["event:one"].update(edition="9999", start="2025-12-30", end="2025-12-31")
+    payloads["event:two"].update(edition="0000", start="2026-01-01T09:00:00", end="2026-02-30")
+    payloads["session:one"]["sources"] = [
+        {"system": "event_api", "retrieved_at": "2026-01-02T07:30:00"},
+        {"system": "event_api", "retrieved_at": "2026-02-30"},
+    ]
+    payloads["session:two"]["sources"].extend(
+        [
+            {"system": "github", "retrieved_at": "2026-01-04"},
+            {"system": "github", "retrieved_at": 20260105},
+        ]
+    )
+    payloads["session:one"]["slots"] = [
+        {"start": "2026-10-01T09:00:00", "end": "2026-10-01T10:00:00Z"}
+    ]
+    payloads["session:two"]["slots"] = [{"start": "2026-10-01", "end": "2026-10-02"}]
+    payloads["session:three"]["slots"] = [
+        {"start": "2026-10-01T09:00:00", "end": "2026-10-01T09:00:00Z"},
+        {"start": "2026-02-30", "end": "2026-10-01"},
+        {"start": None, "end": "2026-10-01"},
+    ]
+    payloads["session:four"]["slots"] = [{"start": "2026-10-02", "end": "2026-10-01"}]
+    db = open_db(tmp_path / "dates.rdb")
+    graph = db.select_graph("overview_dates")
+    try:
+        load_graph(db, kb, graph.name)
+        result = _get(TestClient(create_app(graph, extra_hosts=frozenset({"testserver"}))))
+        observed = {
+            "editions": [(row["id"], row["start"], row["end"]) for row in result["editions"]],
+            "providers": {
+                row["source"]: row["latest_retrieved_at"] for row in result["sources"]["providers"]
+            },
+            "latest": result["sources"]["latest_retrieved_at"],
+            "scheduled": next(
+                row["present"] for row in result["coverage"] if row["key"] == "session_schedule"
+            ),
+        }
+        assert observed == {
+            "editions": [
+                ("event:two", "2026-01-01T09:00:00", None),
+                ("event:one", "2025-12-30", "2025-12-31"),
+            ],
+            "providers": {"event_api": "2026-01-02T07:30:00Z", "github": "2026-01-04T00:00:00Z"},
+            "latest": "2026-01-04T00:00:00Z",
+            "scheduled": 2,
+        }
+    finally:
+        delete_graph(db, graph.name)
+
+
 def test_overview_caches_per_load_and_refreshes_without_a_pubsub_event(
     tmp_path: Path, monkeypatch: Any
 ):
@@ -421,3 +477,46 @@ def test_review_returns_checks_and_identity_from_one_stable_load(tmp_path: Path,
             assert "retry" in response.json()["error"]
     finally:
         delete_graph(db, graph.name)
+
+
+def test_overview_tracks_dataset_selection_and_combined_view(tmp_path: Path):
+    alpha = source(tmp_path / "alpha", "alpha")
+    beta = source(tmp_path / "beta", "beta")
+    db = open_db(tmp_path / "selection.rdb")
+    try:
+        selection = DatasetSelection(db, {"alpha": alpha, "beta": beta}, "overview_selection")
+        selection.select(["alpha"])
+        client = TestClient(
+            create_app(
+                db.select_graph(selection.graph_name),
+                selection=selection,
+                extra_hosts=frozenset({"testserver"}),
+            )
+        )
+        first = _get(client)
+        assert first["load"]["dataset"] == "alpha"
+        assert first["totals"]["entities"] == 2
+        assert {row["id"] for row in first["editions"]} == {"event:alpha"}
+        assert client.get("/api/review").json()["load"] == first["load"]
+
+        response = client.post("/api/datasets/select", json={"datasets": ["beta", "alpha"]})
+        assert response.status_code == 200, response.text
+        combined = _get(client)
+        assert combined["load"]["dataset"] == "alpha + beta"
+        assert combined["load"]["load_id"] != first["load"]["load_id"]
+        assert combined["totals"]["entities"] == 4
+        assert combined["totals"]["relationships"] == 2
+        assert {row["id"] for row in combined["editions"]} == {"event:alpha", "event:beta"}
+        assert client.get("/api/review").json()["load"] == combined["load"]
+        meta = client.get("/api/meta").json()
+        assert combined["load"] == {key: meta[key] for key in combined["load"]}
+
+        response = client.post("/api/datasets/select", json={"datasets": ["beta"]})
+        assert response.status_code == 200, response.text
+        final = _get(client)
+        assert final["load"]["dataset"] == "beta"
+        assert final["totals"]["entities"] == 2
+        assert {row["id"] for row in final["editions"]} == {"event:beta"}
+        assert client.get("/api/review").json()["load"] == final["load"]
+    finally:
+        db.close()

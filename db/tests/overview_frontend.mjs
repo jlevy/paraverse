@@ -174,7 +174,7 @@ assert.match(section(view, 'sources').textContent, /GitHub/);
 assert.match(section(view, 'quality').textContent, /No quality checks are available/);
 
 // Navigation destruction and a new metadata load both suppress late responses.
-for (const change of ['destroy', 'reload']) {
+for (const change of ['destroy', 'reload', 'dataset']) {
   pending = reset();
   view = await mountOverview(route);
   const before = view.el.textContent;
@@ -184,7 +184,7 @@ for (const change of ['destroy', 'reload']) {
     main.scrollTop = 900;
     assert.equal(returnToOverview(view, main), false);
     assert.equal(main.scrollTop, 900);
-  } else state.meta = metadata('load-2');
+  } else state.meta = change === 'dataset' ? { ...metadata(), dataset: 'other' } : metadata('load-2');
   pending.detail.resolve(overview(metadata()));
   pending.review.resolve(quality());
   await flush();

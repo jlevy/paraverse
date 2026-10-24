@@ -65,7 +65,7 @@ const base = {
   },
   datasetSelectionPending: () => false,
   refreshDatasetSelector() {},
-  mountTable() {}, mountRecord() {}, mountReview() {}, mountReviewCheck() {}, mountSearch() {}, mountHome() {},
+  mountTable() {}, mountRecord() {}, mountReview() {}, mountReviewCheck() {}, mountSearch() {}, mountOverview() {},
 };
 const context = vm.createContext(base);
 vm.runInContext(source('js/router.js'), context);

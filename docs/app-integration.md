@@ -54,12 +54,19 @@ FalkorDB separately enforces the loaded graph’s unique `Entity.id` constraint.
    make serve KB=../path/to/kb
    ```
 
-`make validate` validates **and loads**; `make serve` serves the graph already loaded
-for that dataset. For local rebuilds, serve with the watcher instead:
+`make validate` validates **and loads** the source graph.
+Local serving builds a separate browser view from available KB sources.
+The **Datasets** control selects one or more sources; Overview and the data API describe
+that shared selection.
+Selection preserves the source graphs, and selected source builds are watched
+automatically. For an explicit graph, add `--watch` to reload it from completed KB
+builds:
 
 ```bash
-UV_CONFIG_FILE=uv.toml uv run paraverse-graph serve --kb ../path/to/kb --watch
+UV_CONFIG_FILE=uv.toml uv run paraverse-graph serve --kb ../path/to/kb --graph my_dataset --watch
 ```
+
+Replace `my_dataset` with the graph name reported by the load.
 
 The [watcher](../db/src/paraverse_graph/cli.py) detects a new `_graph/stats.json` build
 marker, including after the dataset build replaces `kb/` by rename.
@@ -88,6 +95,12 @@ Use the [read-only HTTP API](../db/README.md#browser-api) for application featur
 | `/api/search?q=...` | Search results across entity kinds |
 | `/api/query/<name>` | Parameterized named queries, such as schedule or connecting paths |
 | `/api/events` | SSE load notifications and a reconnect `hello` stamp |
+
+`GET /api/datasets` lists available and selected sources.
+When selection is enabled, `POST /api/datasets/select` with
+`{"datasets":["<id>","<id>"]}` replaces the shared browser view atomically; a failed
+load keeps the previous view.
+Selection changes apply to every client using that server.
 
 Keep typed IDs, such as `person:example`, as entity identity rather than display names.
 Namespace caches by server, `dataset`, `graph`, and `load_id`, with request parameters
