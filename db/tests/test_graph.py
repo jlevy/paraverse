@@ -23,7 +23,7 @@ from typing import Any
 
 import pytest
 
-from paraverse_graph.connection import delete_graph
+from paraverse_graph.connection import delete_graph, open_db
 from paraverse_graph.kb import DEFAULT_DATASET, Artifact, KbError, KbNode, KnowledgeBase, load_kb
 from paraverse_graph.loader import STAGING_INFIX, LoadError, events_channel, load_graph
 from paraverse_graph.mapping import LABELS
@@ -565,3 +565,90 @@ def test_org_prefix_check_pairs_names_that_extend_at_a_separator():
         "org:otto-gmbh": "possible duplicate of org:otto (Otto); people affiliated with both: 1",
         "org:pendo-io": "possible duplicate of org:pendo (Pendo); people affiliated with both: 0",
     }
+
+
+@pytest.mark.parametrize("missing", ["root", "nested"])
+def test_unresolved_node_payload_cannot_replace_the_live_graph(missing: str, tmp_path: Path):
+    root = tmp_path / "kb"
+    (root / "_schemas").mkdir(parents=True)
+    (root / "_schemas/person.schema.yaml").write_text(
+        json.dumps(
+            {
+                "type": "object",
+                "title": "Person",
+                "properties": {"id": {"type": "string"}, "name": {"type": "string"}},
+            }
+        )
+    )
+    db = open_db(tmp_path / "live.rdb")
+    live = "unresolved_payload_test"
+    load_graph(db, _tiny_kb(root, 1, "good"), live)
+    graph = db.select_graph(live)
+
+    def state() -> list[list[Any]]:
+        return graph.ro_query(
+            "MATCH (m:GraphMeta) OPTIONAL MATCH (n:Entity) RETURN m.kb_digest, count(n)"
+        ).result_set
+
+    before = state()
+    bad = _tiny_kb(root, 1, "bad")
+    if missing == "root":
+        bad.artifacts["people/p0.md"].payload["id"] = "person:other"
+    else:
+        node = KbNode("term:level/missing", "term", "Missing", "taxonomy/level.yaml")
+        bad.nodes.append(node)
+        bad.artifacts[node.path] = Artifact(
+            node.path,
+            "test:Facet/v1",
+            "facet",
+            {"id": "level", "terms": [{"id": "term:level/known", "label": "Known"}]},
+        )
+        bad.stats["nodes"]["term"] = 1
+    try:
+        with pytest.raises(KbError, match="no matching payload"):
+            load_graph(db, bad, live, keep_failed=False)
+        assert state() == before
+        assert _staging_graphs(db, live) == set()
+    finally:
+        delete_graph(db, live)
+
+
+@pytest.mark.parametrize("form", ["explicit", "inferred", "unwrapped", "yaml_marker"])
+def test_load_kb_accepts_the_supported_softschema_forms(form: str, tmp_path: Path):
+    kb_dir = tmp_path / "kb"
+    _write_kb(kb_dir, 1)
+    metadata = "softschema:\n  contract: test:Person/v1\n"
+    payload = "  id: person:p0\n  name: P0\n"
+    if form == "explicit":
+        text = f"---\n{metadata}  envelope: person\nperson:\n{payload}---\n"
+    elif form == "inferred":
+        text = f"---\n{metadata}person:\n{payload}---\n"
+    else:
+        text = metadata + "id: person:p0\nname: P0\n"
+        if form == "yaml_marker":
+            text = "---\n" + text
+        (kb_dir / "people/p0.md").rename(kb_dir / "people/p0.yaml")
+        nodes = kb_dir / "_graph/nodes.jsonl"
+        nodes.write_text(nodes.read_text().replace("p0.md", "p0.yaml"))
+    path = kb_dir / ("people/p0.md" if form in {"explicit", "inferred"} else "people/p0.yaml")
+    path.write_text(text)
+    kb = load_kb(kb_dir)
+    assert kb.payload_for(kb.nodes[0]) == {"id": "person:p0", "name": "P0"}
+    assert kb.artifacts[kb.nodes[0].path].envelope == "person"
+
+
+@pytest.mark.parametrize("ambiguity", ["frontmatter", "graph_kinds"])
+def test_load_kb_rejects_ambiguous_implicit_payloads(ambiguity: str, tmp_path: Path):
+    kb_dir = tmp_path / "kb"
+    _write_kb(kb_dir, 1)
+    if ambiguity == "frontmatter":
+        (kb_dir / "people/p0.md").write_text(
+            "---\nsoftschema:\n  contract: test:Person/v1\ntitle: P0\n"
+            "person:\n  id: person:p0\n  name: P0\n---\n"
+        )
+    else:
+        nodes = kb_dir / "_graph/nodes.jsonl"
+        extra = {"id": "org:o0", "kind": "organization", "path": "people/p0.md"}
+        nodes.write_text(nodes.read_text() + json.dumps(extra) + "\n")
+    with pytest.raises(KbError, match=r"ambiguous|incompatible"):
+        load_kb(kb_dir)

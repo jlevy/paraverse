@@ -28,6 +28,7 @@ KB_RELATIVE_PATH = Path(VENDOR_DIR, DEFAULT_DATASET, "kb")
 
 _FRONTMATTER = re.compile(r"\A---\n(.*?)\n---[ \t]*(?:\n|\Z)", re.DOTALL)
 _TIMESTAMP_TAG = "tag:yaml.org,2002:timestamp"
+_PARENT_ENVELOPE = {"day": "event", "term": "facet"}
 
 
 # libyaml's parser is several times faster on the ~2,400 artifacts; its resolver is
@@ -98,7 +99,7 @@ class KnowledgeBase:
         if self.snapshot is not None and _build_snapshot(self.root) != self.snapshot:
             raise KbError("KB changed while reading; retry after the build finishes")
 
-    def payload_for(self, node: KbNode) -> dict[str, Any] | None:
+    def payload_for(self, node: KbNode) -> dict[str, Any]:
         """
         The structured record for a node. Most nodes own their artifact; days and
         taxonomy terms are nested value objects inside the event and facet
@@ -106,30 +107,53 @@ class KnowledgeBase:
         """
         artifact = self.artifacts.get(node.path)
         if artifact is None:
-            return None
+            raise KbError(f"{node.path}: no artifact for graph node `{node.id}`")
         own_id = artifact.payload.get("id")
-        if own_id == node.id or f"{node.kind}:{own_id}" == node.id:
+        if isinstance(own_id, str) and (own_id == node.id or f"{node.kind}:{own_id}" == node.id):
             return artifact.payload
-        return _find_by_id(artifact.payload, node.id)
+        payload = _find_by_id(artifact.payload, node.id)
+        if payload is None:
+            raise KbError(f"{node.path}: no matching payload for graph node `{node.id}`")
+        return payload
 
 
-def read_artifact(path: Path, rel_path: str) -> Artifact:
+def read_artifact(path: Path, rel_path: str, *, envelope_hint: str | None = None) -> Artifact:
     """
     Read a frontmatter-md or pure-yaml artifact and return its envelope payload.
+    `envelope_hint` comes from the graph kind and identifies an unwrapped YAML root.
     """
     try:
         text = path.read_text(encoding="utf-8")
-        match = _FRONTMATTER.match(text)
+        pure_yaml = path.suffix in (".yaml", ".yml")
+        match = None if pure_yaml else _FRONTMATTER.match(text)
+        if not pure_yaml and text.startswith("---\n") and match is None:
+            raise KbError(f"{rel_path}: unterminated frontmatter")
         data = yaml.load(match.group(1) if match else text, Loader=_PortableScalarLoader)
     except (UnicodeDecodeError, yaml.YAMLError) as e:
         raise KbError(f"{rel_path}: cannot parse: {e}") from e
     if not isinstance(data, dict):
         raise KbError(f"{rel_path}: not a YAML mapping")
     block = data.get("softschema")
-    if not isinstance(block, dict) or "envelope" not in block:
+    if not isinstance(block, dict):
         raise KbError(f"{rel_path}: missing softschema block")
-    envelope = str(block["envelope"])
-    payload = data.get(envelope)
+    if "envelope" in block:
+        envelope = block["envelope"]
+        payload = data.get(envelope) if isinstance(envelope, str) else None
+    elif match is not None:
+        candidates = [key for key in data if key != "softschema"]
+        if len(candidates) != 1:
+            raise KbError(f"{rel_path}: ambiguous frontmatter envelope")
+        envelope = candidates[0]
+        payload = data[envelope]
+    else:
+        if envelope_hint is None:
+            raise KbError(f"{rel_path}: unwrapped YAML needs a graph node kind")
+        envelope = envelope_hint
+        payload = {key: value for key, value in data.items() if key != "softschema"}
+    if not isinstance(envelope, str) or not envelope.strip():
+        raise KbError(f"{rel_path}: envelope must be a nonempty string")
+    if envelope_hint is not None and envelope != envelope_hint:
+        raise KbError(f"{rel_path}: envelope `{envelope}` is incompatible with `{envelope_hint}`")
     if not isinstance(payload, dict):
         raise KbError(f"{rel_path}: envelope `{envelope}` is not a mapping")
     return Artifact(
@@ -172,11 +196,20 @@ def load_kb(root: Path) -> KnowledgeBase:
     stats = _read_stats(graph_dir / "stats.json")
 
     artifacts: dict[str, Artifact] = {}
-    for rel_path in sorted({node.path for node in nodes}):
+    envelopes_by_path: dict[str, set[str]] = {}
+    for node in nodes:
+        envelopes_by_path.setdefault(node.path, set()).add(
+            _PARENT_ENVELOPE.get(node.kind, node.kind)
+        )
+    for rel_path, envelopes in sorted(envelopes_by_path.items()):
+        if len(envelopes) != 1:
+            raise KbError(
+                f"{rel_path}: incompatible graph node kinds: {', '.join(sorted(envelopes))}"
+            )
         path = root / rel_path
         if not path.is_file():
             raise KbError(f"{rel_path}: referenced by the graph export but missing")
-        artifacts[rel_path] = read_artifact(path, rel_path)
+        artifacts[rel_path] = read_artifact(path, rel_path, envelope_hint=next(iter(envelopes)))
 
     kb = KnowledgeBase(
         root=root,
@@ -187,6 +220,8 @@ def load_kb(root: Path) -> KnowledgeBase:
         digest=sha.hexdigest()[:16],
         snapshot=snapshot,
     )
+    for node in nodes:
+        kb.payload_for(node)
     kb.check_unchanged()
     return kb
 
