@@ -113,9 +113,9 @@ struct ParallelWelcome: View {
         .onChange(of: reduceMotion) { _, enabled in if enabled { visibleCharacters = line.count } }
     }
     @ViewBuilder private var choices: some View {
-        Button("Plan my day") { choose(.plan) }.buttonStyle(DialogueActionStyle(primary: true))
         Button("Find my people") { choose(.people) }.buttonStyle(DialogueActionStyle(primary: false))
         Button("Explore side quests") { choose(.sideEvents) }.buttonStyle(DialogueActionStyle(primary: false))
+        Button("Plan my day") { choose(.plan) }.buttonStyle(DialogueActionStyle(primary: true))
     }
     private func advance() {
         if !complete { visibleCharacters = line.count }

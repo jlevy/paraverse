@@ -88,7 +88,7 @@ struct ContentView: View {
     @State private var showConference = false
     @State private var assistantOpen = false
     @State private var conferenceTab = "Overview"
-    @State private var selectedCompanion: String? = "upcoming"
+    @State private var selectedCompanion: String? = "discover"
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     var body: some View {
         Group {

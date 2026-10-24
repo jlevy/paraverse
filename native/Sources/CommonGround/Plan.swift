@@ -45,6 +45,22 @@ struct CompanionReply: Decodable {
         let groups = (try? JSONDecoder().decode([String: [PlannedSession]].self, from: Data(contentsOf: worldAsset("browse-events.json")))) ?? [:]
         return (groups["sessions"] ?? []) + (groups["external"] ?? [])
     }()
+    static func quickSecuritySearch(_ prompt: String) -> [PlannedSession]? {
+        let normalized = prompt.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+            .trimmingCharacters(in: CharacterSet(charactersIn: ".!?"))
+        let supported = ["find me security sessions on the first day of github universe", "find security sessions on the first day of github universe", "find me security sessions on day 1 of github universe"]
+        guard supported.contains(normalized) else { return nil }
+        let groups = (try? JSONDecoder().decode([String: [PlannedSession]].self, from: Data(contentsOf: worldAsset("browse-events.json")))) ?? [:]
+        let sessions = groups["sessions"] ?? []
+        // Universe starts October 28; the catalog also includes pre-conference workshops.
+        let firstDay = "2026-10-28"
+        let terms = ["security", "secure", "vulnerabil", "appsec", "threat", "supply chain", "secret scanning"]
+        return sessions.filter { session in
+            let text = (session.title + " " + (session.about ?? "")).lowercased()
+            return session.day == firstDay && terms.contains(where: { text.contains($0) })
+        }.sorted { $0.start < $1.start }
+    }
+
     func eventCards(catalog: [PlannedSession]? = nil) -> [PlannedSession] {
         let known = catalog ?? Self.catalog
         var seen = Set<String>()
@@ -197,6 +213,21 @@ struct SessionPlanResponse: Decodable { let sessions: [PlannedSession]; let mess
         let value = (text ?? prompt).trimmingCharacters(in: .whitespacesAndNewlines)
         guard !value.isEmpty, !busy else { return }
         prompt = ""; messages.append(Message(text: value, isUser: true))
+        if let sessions = CompanionReply.quickSecuritySearch(value) {
+            busy = true; status = "Finding security sessions…"
+            work = Task {
+                do {
+                    try await Task.sleep(for: .milliseconds(500))
+                    try Task.checkCancellation()
+                    messages.append(Message(text: sessions.isEmpty ? "No matching security sessions were found for the first day." : "Here are the first-day sessions covering security.", isUser: false, eventSessions: sessions))
+                    busy = false; status = "Ready"
+                } catch {
+                    // Reset owns the loading state when this task is cancelled.
+                }
+            }
+            return
+        }
+
         if value.lowercased().contains("invite"),
            let source = messages.last(where: { $0.eventDraft != nil }) {
             messages.append(Message(text: "Choose who to invite below. Linked demo recipients are selected for you.", isUser: false, eventDraft: source.eventDraft, eventPeople: source.eventPeople))

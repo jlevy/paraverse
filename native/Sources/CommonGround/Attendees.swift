@@ -100,6 +100,7 @@ struct AttendeesPage: View {
 struct MeetPersonCard: View {
     let person: PersonRecommendation
     var gameStyle = false
+    var showReason = true
     private var avatar: NSImage? {
         guard let asset = person.avatarAsset,
               let url = Bundle.main.url(forResource: asset, withExtension: "jpg") else { return nil }
@@ -139,7 +140,7 @@ private extension MeetPersonCard {
     var attendee: PublicAttendee? { (try? PublicAttendee.load())?.first { $0.id == person.personID || $0.profile_url == person.profileURL } }
     var gameCard: some View {
         VStack(alignment: .leading, spacing: 12) {
-            RecommendationReason(reason: person.reason)
+            if showReason { RecommendationReason(reason: person.reason) }
         VStack(alignment: .leading, spacing: 20) {
             HStack(alignment: .center, spacing: 16) {
                 Group {

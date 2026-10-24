@@ -11,7 +11,7 @@ swift build -c release
 mkdir -p build
 swift Tools/GenerateIcon.swift build/Paraverse.iconset
 iconutil -c icns build/Paraverse.iconset -o Assets/Paraverse.icns
-app="build/Paraverse.app"
+app="build/Paraverse Final.app"
 mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources"
 python3 ../backend/export_public_attendees.py Assets/universe-attendees.json "$app/Contents/Resources/universe-attendees.json"
 for avatar in Assets/attendee-*.jpg Assets/profile-*.jpg; do
@@ -45,7 +45,8 @@ cat > "$app/Contents/Info.plist" <<'PLIST'
 <key>CFBundleExecutable</key><string>CommonGround</string>
 <key>CFBundleIdentifier</key><string>demo.commonground.mac</string>
 <key>CFBundleIconFile</key><string>Paraverse.icns</string>
-<key>CFBundleName</key><string>Paraverse</string>
+<key>CFBundleName</key><string>Paraverse Final</string>
+<key>CFBundleDisplayName</key><string>Paraverse Final</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>CFBundleShortVersionString</key><string>0.1.0</string>
 <key>CFBundleVersion</key><string>3</string>

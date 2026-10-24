@@ -26,52 +26,85 @@ struct LumaEventCard: View {
     @State private var notice: String?
     @State private var eventURL: String?
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 16) {
             Label("Private meetup", systemImage: "lock").font(.caption).foregroundStyle(.secondary)
-            Text(draft.title).font(.headline)
+            Text(draft.title).font(.system(size: 18, weight: .bold, design: .monospaced))
             Label(draft.timeLabel, systemImage: "calendar")
             Label(draft.venueName, systemImage: "cup.and.saucer")
             Text(draft.address).font(.caption).foregroundStyle(.secondary)
-            Text(draft.venueReason).font(.callout).fixedSize(horizontal: false, vertical: true)
-            if let source = URL(string: draft.sourceURL) { Link("Venue & published hours", destination: source).font(.caption) }
-            Text("Unlisted · Anyone with the link may view it").font(.caption).foregroundStyle(.secondary)
+            DisclosureGroup("Venue details") {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(draft.venueReason).font(.callout).fixedSize(horizontal: false, vertical: true)
+                    if let source = URL(string: draft.sourceURL) { Link("Venue & hours ↗", destination: source) }
+                }.padding(.top, 8)
+            }.tint(Brand.welcomeSubtitle)
             if !people.isEmpty {
                 Text("Invite recommended people").font(.headline)
                 Text("Demo emails are linked to coworkers, not these public profiles.")
                     .font(.caption).foregroundStyle(.secondary)
-                ForEach(people) { person in
-                    Toggle(isOn: Binding(get: { selected.contains(person.id) }, set: { checked in
-                        if checked { selected.insert(person.id) } else { selected.remove(person.id) }
-                    })) {
-                        VStack(alignment: .leading, spacing: 3) {
-                            Text(person.name)
-                            Text(contacts[person.id]?.email ?? "No demo email linked")
-                                .font(.caption).foregroundStyle(.secondary)
-                        }
-                    }.toggleStyle(.checkbox)
-                        .disabled(contacts[person.id] == nil || invitationsSubmitted || invitationsNeedReview)
+                if !selectionLoaded {
+                    ThinkingStatus(text: "Loading invite options…")
+                } else {
+                    VStack(spacing: 8) {
+                        ForEach(people) { person in recipientRow(person) }
+                    }
                 }
             }
+
             if let value = eventURL ?? draft.url, let url = URL(string: value) {
-                Link(destination: url) { Label("Open on Luma", systemImage: "arrow.up.right") }.buttonStyle(.borderedProminent)
+                Link(destination: url) { Label("Open on Luma", systemImage: "arrow.up.right") }.buttonStyle(WorldButtonStyle(teal: true))
                 if !people.isEmpty && !invitationsSubmitted && !invitationsNeedReview {
                     Button("Send invitations (\(selected.count))") { run("invite") }
-                        .buttonStyle(.borderedProminent).disabled(selected.isEmpty)
+                        .buttonStyle(WorldButtonStyle(teal: true)).disabled(selected.isEmpty)
                 }
             } else {
-                if !connected { Button("Connect Luma") { run("open") }.buttonStyle(.bordered) }
+                if !connected { Button("Connect Luma") { run("open") }.buttonStyle(PlannerQuietButtonStyle()) }
                 else { Label("Luma connected", systemImage: "checkmark.circle").font(.caption).foregroundStyle(.secondary) }
-                Button("Create private event") { run("create") }.buttonStyle(.borderedProminent).disabled(!connected)
+                Button("Create private event") { run("create") }.buttonStyle(WorldButtonStyle(teal: true)).disabled(!connected)
             }
-            if busy { ProgressView().controlSize(.small) }
+            if busy { ThinkingStatus(text: "Updating your meetup…") }
             if let notice { Text(notice).font(.caption).foregroundStyle(.secondary) }
-        }.padding(16).frame(maxWidth: .infinity, alignment: .leading)
-            .background(Brand.paper, in: RoundedRectangle(cornerRadius: 12))
-            .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(.quaternary))
+        }.padding(20).frame(maxWidth: .infinity, alignment: .leading)
+            .foregroundStyle(Brand.welcomeTitle)
+            .background(PixelPanel().fill(Color(red: 0.12, green: 0.15, blue: 0.19)))
+            .overlay(PixelPanel().stroke(Brand.fieldBorder, lineWidth: 1))
             .disabled(busy)
             .task { await loadRecipients(); run("status") }
             .onChange(of: scenePhase) { _, phase in if phase == .active && !busy { run("status") } }
     }
+    private func recipientRow(_ person: PersonRecommendation) -> some View {
+        let checked = selected.contains(person.id)
+        let available = contacts[person.id] != nil
+        return Button {
+            if checked { selected.remove(person.id) } else { selected.insert(person.id) }
+        } label: {
+            HStack(spacing: 12) {
+                ZStack {
+                    PixelPanel().fill(checked ? Brand.buttonSecondary : Color.clear)
+                    PixelPanel().stroke(Brand.fieldBorder, lineWidth: 1)
+                    if checked { Image(systemName: "checkmark").font(.system(size: 12, weight: .bold)) }
+                }.frame(width: 22, height: 22)
+                if let sprite = WorldCharacter.recommendationImage(for: person.id) {
+                    Image(nsImage: sprite).resizable().interpolation(.none).scaledToFit()
+                        .frame(width: 40, height: 48).accessibilityHidden(true)
+                }
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(person.name).font(.system(size: 13, weight: .bold, design: .monospaced))
+                    Text(contacts[person.id]?.email ?? "No demo email linked")
+                        .font(.system(size: 11)).foregroundStyle(Brand.welcomeSubtitle)
+                }
+                Spacer(minLength: 0)
+            }.padding(12).frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+                .background(PixelPanel().fill(checked ? Color.teal.opacity(0.14) : Color.black.opacity(0.12)))
+                .overlay(PixelPanel().stroke(checked ? Color.teal : Brand.fieldBorder.opacity(0.4), lineWidth: 1))
+        }
+        .buttonStyle(.plain)
+        .disabled(!available || invitationsSubmitted || invitationsNeedReview)
+        .accessibilityLabel("\(person.name), \(contacts[person.id]?.email ?? "No demo email linked")")
+        .accessibilityValue(checked ? "Selected" : "Not selected")
+        .accessibilityAddTraits(checked ? .isSelected : [])
+    }
+
     private func loadRecipients() async {
         guard !selectionLoaded else { return }
         do {
@@ -84,7 +117,7 @@ struct LumaEventCard: View {
             contacts = try JSONDecoder().decode(LumaActionResult.self, from: data).recipients ?? [:]
             selected = Set(people.filter { contacts[$0.id] != nil }.map(\.id))
             selectionLoaded = true
-        } catch { notice = "Couldn’t load linked emails. Reopen this card to try again." }
+        } catch { selectionLoaded = true; notice = "Couldn’t load linked emails. Reopen this card to try again." }
     }
     private func run(_ action: String) {
         busy = true; notice = nil
