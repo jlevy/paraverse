@@ -45,6 +45,7 @@ from paraverse_graph.loader import events_channel
 from paraverse_graph.mapping import ENTITY_LABEL, LABELS, META_LABEL, SCHEMA_LABEL, TYPED_REF
 from paraverse_graph.queries import QueryError, fulltext_query, run_query
 from paraverse_graph.review import CHECKS, SEVERITY_ORDER, run_check
+from paraverse_graph.selection import DatasetSelection, SelectionError
 
 log = logging.getLogger(__name__)
 
@@ -88,7 +89,15 @@ DEFAULT_COLUMNS: dict[str, tuple[str, ...]] = {
     "organization": ("name", "roles", "sponsor_tier", "website", "in:AFFILIATED_WITH"),
     "package": ("name", "ecosystem", "latest_version", "software"),
     "page": ("title", "site", "url"),
-    "person": ("name", "job_title", "affiliation_label", "inclusion_basis", "out:PRESENTS"),
+    "person": (
+        "name",
+        "job_title",
+        "affiliation_label",
+        "inclusion_basis",
+        "participation_roles",
+        "out:PARTICIPATES_IN",
+        "out:PRESENTS",
+    ),
     "profile": ("person", "headline", "location"),
     "repository": ("full_name", "stars", "primary_language", "owner", "archived"),
     "room": ("name", "venue", "capacity", "in:HELD_IN"),
@@ -442,6 +451,7 @@ def create_app(
     extra_hosts: frozenset[str] | None = None,
     subscribe: Callable[[EventBus, GraphCatalog], Callable[[], None]] | None = None,
     query_timeout_ms: int = QUERY_TIMEOUT_MS,
+    selection: DatasetSelection | None = None,
 ) -> Starlette:
     """
     Build the browser app over one FalkorDB graph. `subscribe`, when given, starts a
@@ -452,6 +462,37 @@ def create_app(
     catalog = GraphCatalog(graph, timeout_ms=query_timeout_ms)
     bus = EventBus()
     web = files("paraverse_graph") / "web"
+
+    def datasets(_: Request) -> Response:
+        return JSONResponse(
+            selection.describe()
+            if selection
+            else {
+                "selection_enabled": False,
+                "datasets": [],
+                "selected": [],
+            }
+        )
+
+    async def select_datasets(request: Request) -> Response:
+        if selection is None:
+            raise BadRequest("Dataset selection is not enabled on this server.")
+        origin = request.headers.get("origin")
+        if origin is not None and origin != str(request.base_url).rstrip("/"):
+            raise BadRequest("Dataset selection requires a request from this browser.")
+        try:
+            body = await request.json()
+        except ValueError as exc:
+            raise BadRequest("Choose datasets using a JSON request.") from exc
+        if not isinstance(body, dict):
+            raise BadRequest("Choose at least one dataset.")
+        try:
+            result = await run_in_threadpool(selection.select, body.get("datasets"))
+        except SelectionError as exc:
+            raise BadRequest(str(exc)) from exc
+        catalog.invalidate()
+        bus.publish({"type": "resync"})
+        return JSONResponse(result)
 
     def meta(_: Request) -> Response:
         catalog.revalidate()
@@ -499,7 +540,7 @@ def create_app(
             {
                 **s,
                 "computed": list(COMPUTED_COLUMNS.get(kind, {})),
-                "default_columns": list(_default_columns(kind, s)),
+                "default_columns": list(_default_columns(kind, s, catalog)),
                 "relationships": catalog.relationship_columns(kind),
             }
         )
@@ -794,6 +835,8 @@ def create_app(
         routes=[
             Route("/", index),
             Route("/api/meta", meta),
+            Route("/api/datasets", datasets),
+            Route("/api/datasets/select", select_datasets, methods=["POST"]),
             Route("/api/schema/{kind}", schema),
             Route("/api/rows/{kind}", rows),
             Route("/api/entity/{id:path}", entity),
@@ -865,10 +908,12 @@ def redis_subscriber(
     return start
 
 
-def _default_columns(kind: str, s: dict[str, Any]) -> tuple[str, ...]:
+def _default_columns(kind: str, s: dict[str, Any], catalog: GraphCatalog) -> tuple[str, ...]:
     configured = DEFAULT_COLUMNS.get(kind)
     if configured:
-        return configured
+        allowed = {f["name"] for f in s["fields"]} | set(COMPUTED_COLUMNS.get(kind, {}))
+        allowed |= {c["name"] for c in catalog.relationship_columns(kind)}
+        return tuple(column for column in configured if column in allowed)
     names = [f["name"] for f in s["fields"] if f["name"] not in ("id", "sources")]
     return tuple(names[:5])
 
@@ -886,7 +931,7 @@ def _label(kind: str) -> str:
 
 
 def _columns(raw: str | None, kind: str, s: dict[str, Any], catalog: GraphCatalog) -> list[str]:
-    columns = [c for c in (raw or "").split(",") if c] or list(_default_columns(kind, s))
+    columns = [c for c in (raw or "").split(",") if c] or list(_default_columns(kind, s, catalog))
     allowed = {f["name"] for f in s["fields"]} | set(COMPUTED_COLUMNS.get(kind, {}))
     rel_allowed = {c["name"] for c in catalog.relationship_columns(kind)}
     for column in columns:
@@ -1216,3 +1261,28 @@ def test_overflow_sends_resync_first():
     for i in range(CLIENT_QUEUE_SIZE + 1):
         bus.publish({"type": "graph.loaded", "n": i})
     assert queue.get_nowait() is None and queue.empty() and queue not in bus.clients
+
+
+def test_person_defaults_show_event_links_without_requiring_talk_sessions():
+    from types import SimpleNamespace
+
+    schema = {
+        "fields": [
+            {"name": name}
+            for name in (
+                "name",
+                "job_title",
+                "affiliation_label",
+                "inclusion_basis",
+            )
+        ]
+    }
+    catalog: Any = SimpleNamespace(
+        relationship_columns=lambda kind: [{"name": "out:PARTICIPATES_IN"}]
+    )
+    defaults = _default_columns("person", schema, catalog)
+    assert "out:PARTICIPATES_IN" in defaults
+    assert "participation_roles" in defaults
+    assert "out:PRESENTS" not in defaults
+    assert _columns(None, "person", schema, catalog) == list(defaults)
+    assert _columns(",".join(defaults), "person", schema, catalog) == list(defaults)
