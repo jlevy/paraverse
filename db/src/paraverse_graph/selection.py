@@ -13,6 +13,7 @@ from typing import Any
 from redis.exceptions import RedisError
 
 from paraverse_graph.composition import compose_kbs
+from paraverse_graph.connection import delete_graph
 from paraverse_graph.kb import KbError
 from paraverse_graph.loader import LoadError, load_graph
 
@@ -34,6 +35,7 @@ class DatasetSelection:
         self._signatures: SourceSignatures = ()
         self._state_lock: threading.Lock = threading.Lock()
         self._build_lock: threading.Lock = threading.Lock()
+        self._closed: bool = False
         self._failed_build: tuple[tuple[str, ...], SourceSignatures] | None = None
         self._retry_at: float | None = None
         self._retry_delay: float = 30
@@ -52,25 +54,29 @@ class DatasetSelection:
                         return name
                     if node.get("kind") == "event" and node.get("name"):
                         names.append(str(node["name"]))
-            if len(names) == 1:
-                return names[0]
-            series = {re.sub(r"\s+\d{4}$", "", title) for title in names}
-            if len(series) == 1:
-                return next(iter(series))
+            return DatasetSelection._event_label(name, names)
         except (OSError, ValueError):
             pass
         return name
 
+    @staticmethod
+    def _event_label(name: str, titles: list[str]) -> str:
+        if len(titles) == 1:
+            return titles[0]
+        series = {re.sub(r"\s+\d{4}$", "", title) for title in titles}
+        return next(iter(series)) if len(series) == 1 else name
+
     def describe(self) -> dict[str, Any]:
         with self._state_lock:
             selected = self._selected
+            labels = self._labels.copy()
         return {
             "selection_enabled": True,
             "selected": list(selected),
             "datasets": [
                 {
                     "id": name,
-                    "name": self._labels[name],
+                    "name": labels[name],
                     "selected": name in selected,
                     "available": (root / "_graph/nodes.jsonl").is_file(),
                 }
@@ -94,6 +100,9 @@ class DatasetSelection:
         if any(name not in self.sources for name in names):
             raise SelectionError("One of the selected datasets is not available on this server.")
         with self._build_lock:
+            with self._state_lock:
+                if self._closed:
+                    raise SelectionError("The browser server is shutting down.")
             signatures = self._signature(names)
             self._load(names, signatures)
         return {"selected": list(names), "graph": self.graph_name}
@@ -102,6 +111,12 @@ class DatasetSelection:
         # Only callers holding the build lock may compose or replace the browser graph.
         try:
             kb = compose_kbs({name: self.sources[name] for name in names})
+            labels = {
+                name: self._event_label(
+                    name, [node.name for node in source.nodes if node.kind == "event" and node.name]
+                )
+                for name, source in kb.source_kbs.items()
+            }
             load_graph(self.db, kb, self.graph_name, keep_failed=False)
         except (KbError, LoadError, RedisError, OSError, ValueError) as exc:
             failed_build = (names, signatures)
@@ -111,7 +126,7 @@ class DatasetSelection:
             # Invalid source content needs a new build. IO and database failures can
             # recover without a source edit, so retry with a capped backoff instead.
             cause: BaseException | None = exc
-            while cause is not None and not isinstance(cause, (LoadError, RedisError, OSError)):
+            while cause is not None and not isinstance(cause, (RedisError, OSError)):
                 cause = cause.__cause__
             if cause is not None:
                 self._retry_at = time.monotonic() + self._retry_delay
@@ -125,9 +140,17 @@ class DatasetSelection:
         with self._state_lock:
             self._selected = names
             self._signatures = signatures
+            self._labels.update(labels)
         self._failed_build = None
         self._retry_at = None
         self._retry_delay = 30
+
+    def close(self) -> None:
+        """Stop new builds and remove this server's graph after any active build."""
+        with self._state_lock:
+            self._closed = True
+        with self._build_lock:
+            delete_graph(self.db, self.graph_name)
 
     def _signature(self, names: tuple[str, ...]) -> SourceSignatures:
         signatures = []
@@ -142,6 +165,8 @@ class DatasetSelection:
     def refresh_if_changed(self) -> bool:
         with self._build_lock:
             with self._state_lock:
+                if self._closed:
+                    return False
                 selected, signatures = self._selected, self._signatures
             current = self._signature(selected)
             if current == signatures or any(value is None for value in current):

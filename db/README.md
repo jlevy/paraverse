@@ -126,6 +126,9 @@ UV_CONFIG_FILE=uv.toml uv run paraverse-graph serve --dataset universe2026-md \
   --include-kb ptc2026-md=../vendor/ptc2026-md/kb --select-all
 ```
 
+When the requested dataset has no local source, `--include-kb` starts with its explicitly
+included sources selected.
+
 Shared entity IDs join records.
 Person ID collisions require shared verified accounts; names alone never merge people.
 Source citations and event participation roles are preserved.
@@ -134,10 +137,13 @@ Conflicting scalar values retain source-specific variants under
 the table’s primary value.
 A failed selection leaves the last valid view active.
 
-Selected browser views use `<source-graph>__browser_<port>`, separate from source
-graphs. They check selected source builds every five seconds and refresh after a build
-changes, including when it is loaded separately with `make load`; `--watch` is not
-required for these views.
+Selected browser views use `<source-graph>__browser_<port>_<instance>`, with a random
+instance suffix so simultaneous launches have separate graphs.
+The server deletes its generated graph when it stops normally, is interrupted or fails
+to start. A process crash can leave an orphan graph; inspect it before removing it with
+`GRAPH.DELETE`. Selected views check source builds every five seconds and refresh after
+a build changes, including when it is loaded separately with `make load`; `--watch` is
+not required for these views.
 When the requested dataset has no local source, serving an already loaded graph still
 works without the selector.
 
@@ -227,9 +233,10 @@ everything and so explain nothing.
   publication. Direct-graph `--watch` retries failed loads with exponential backoff,
   capped at a minute. Selected views retry transient database and IO failures after 30
   seconds, doubling to a five-minute cap.
-  Invalid source content is retried after its build signature changes or an explicit
-  selection request. Build producers must publish complete builds atomically; an in-place
-  build paused in a mixed state cannot always be identified from file metadata.
+  Invalid source content and failed staging checks are retried after the build signature
+  changes or an explicit selection request.
+  Build producers must publish complete builds atomically; an in-place build paused in a
+  mixed state cannot always be identified from file metadata.
 
 ## Layout
 
