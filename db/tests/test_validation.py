@@ -16,7 +16,7 @@ from paraverse_graph.cli import main
 from paraverse_graph.connection import graph_exists, open_db
 from paraverse_graph.datasets import KB_ENV, graph_name
 from paraverse_graph.kb import DEFAULT_DATASET, KB_RELATIVE_PATH, find_kb_root
-from paraverse_graph.validation import artifact_paths, validate_artifacts
+from paraverse_graph.validation import ArtifactProblem, artifact_paths, validate_artifacts
 
 SAMPLE = "sessions/1809k.md"
 
@@ -131,3 +131,33 @@ def test_a_malformed_document_is_reported_not_raised(name: str, text: str, tmp_p
     assert report.checked == 1 and not report.ok
     [problem] = report.problems
     assert problem.path == f"sessions/{name}" and problem.errors
+
+
+def test_load_validate_lists_every_failed_artifact(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+):
+    """Each failure gets a line of its own with its path, however many there are."""
+    kb = tmp_path / "many" / "kb"
+    (kb / "_graph").mkdir(parents=True)
+    (kb / "_graph" / "nodes.jsonl").write_text("")
+    (kb / "sessions").mkdir()
+    paths = [f"sessions/s{i}.md" for i in range(7)]
+    for path in paths:
+        (kb / path).write_text("---\ntitle: no softschema block\n---\n")
+    # Error text is printed as is, not read as Rich markup.
+    paths.append("sessions/markup.md")
+    (kb / paths[-1]).write_text("---\nsoftschema: {contract: [red]\n---\n")
+    db_file = tmp_path / "test.rdb"
+    assert main(["load", "--validate", "--kb", str(kb), "--db", str(db_file)]) == 1
+    lines = capsys.readouterr().err.splitlines()
+    for path in paths:
+        assert sum(line.startswith(f"  {path}: ") for line in lines) == 1, path
+    assert any("[red]" in line for line in lines)
+    assert "8 of 8 artifacts failed validation" in " ".join(" ".join(lines).split())
+    assert not graph_exists(open_db(db_file), graph_name("many"))
+
+
+def test_a_problem_line_bounds_its_errors():
+    errors = ["first\n  wrapped", "second", "third", "fourth", "fifth"]
+    line = ArtifactProblem(path="sessions/a.md", errors=errors).line()
+    assert line == "sessions/a.md: first wrapped; second; third; and 2 more"
