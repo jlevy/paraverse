@@ -287,9 +287,8 @@ class GraphReader:
 class GraphCatalog:
     """
     Cached schemas, metadata and review results for the current graph load.
-    `invalidate()` runs when a `graph.loaded` event arrives, and `revalidate()` (on
-    `/api/meta` and `/api/review`) catches a load whose event was missed, so the next
-    request reads the new build.
+    `invalidate()` runs when a `graph.loaded` event arrives, and `revalidate()` on
+    requests that use the catalog catches a load whose event was missed.
     """
 
     def __init__(self, graph: Any, *, timeout_ms: int = QUERY_TIMEOUT_MS) -> None:
@@ -486,6 +485,7 @@ def create_app(
         )
 
     def schema(request: Request) -> Response:
+        catalog.revalidate()
         kind = request.path_params["kind"]
         s = catalog.schema(kind)
         return JSONResponse(
@@ -498,6 +498,7 @@ def create_app(
         )
 
     def rows(request: Request) -> Response:
+        catalog.revalidate()
         kind = request.path_params["kind"]
         params = request.query_params
         s = catalog.schema(kind)
@@ -594,6 +595,7 @@ def create_app(
         )
 
     def card(request: Request) -> Response:
+        catalog.revalidate()
         entity_id = request.path_params["id"]
         reader = catalog.reader()
         found = reader.ro_query(
@@ -633,6 +635,8 @@ def create_app(
             raise BadRequest("missing `q`")
         limit = _bounded_int(request.query_params.get("limit"), 25, 1, 200)
         kinds = [k for k in (request.query_params.get("kinds") or "").split(",") if k]
+        if kinds:
+            catalog.revalidate()
         for kind in kinds:
             catalog.schema(kind)
         query = fulltext_query(q)
@@ -668,6 +672,7 @@ def create_app(
         )
 
     def review_check(request: Request) -> Response:
+        catalog.revalidate()
         name = request.path_params["name"]
         if not any(c.name == name for c in CHECKS):
             raise BadRequest(f"unknown check `{name}`")
@@ -898,6 +903,8 @@ def _sort_key(sort: str, kind: str, s: dict[str, Any]) -> tuple[str, str]:
     }
     if sort not in types or not _IDENTIFIER.match(sort):
         raise BadRequest(f"cannot sort `{kind}` by `{sort}`")
+    if kind == "session" and sort in ("start", "end"):
+        return f"n.{sort}_epoch", f"n.{sort}_epoch"
     prop = f"n.{sort}"
     return prop, f"toLower(toString({prop}))" if types[sort] == "string" else prop
 

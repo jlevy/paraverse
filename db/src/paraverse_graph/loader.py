@@ -202,6 +202,7 @@ def _load_via(
     # `RENAME` replaces the live graph atomically and keeps its indexes and the
     # operational constraint (checked on FalkorDB 4.18, including across an RDB
     # restart), so there is no window in which the live graph is missing.
+    kb.check_unchanged()
     db.connection.execute_command("RENAME", staging, graph_name)
     report.seconds = time.monotonic() - started
     # FalkorDB is Redis, so open browsers learn about the new graph over pub/sub.

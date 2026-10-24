@@ -12,6 +12,7 @@ import argparse
 import json
 import os
 import threading
+import time
 from collections.abc import Callable
 from pathlib import Path
 from typing import Any
@@ -335,14 +336,18 @@ def watch_kb(
     `kb` entry, and the current `kb/_graph` for in-place writes to `stats.json`, and
     re-arms after every reload so it follows the new directory. Each wakeup, including
     one every `poll_ms` with no events, compares the `stats.json` signature with the
-    last one reloaded, which covers changes made while re-arming. A failed reload is
-    logged and not retried until the next build, and never ends the watch.
+    last successfully reloaded build, which covers changes made while re-arming.
+    Failed loads retry with exponential backoff, capped at a minute; a new build
+    resets that delay. A failed reload never ends the watch.
     """
     from watchfiles import watch
 
     kb_root = kb_root.resolve()
     stats = kb_root / "_graph" / "stats.json"
     wanted = {str(kb_root), str(stats)}
+    failed: tuple[int, int, int] | None = None
+    retry_at = 0.0
+    retry_delay = max(poll_ms / 1000, 0.1)
     while not stop.is_set():
         paths = [kb_root.parent] + ([stats.parent] if stats.parent.is_dir() else [])
         try:
@@ -358,7 +363,10 @@ def watch_kb(
                 current = kb_signature(kb_root)
                 if current is None or current == seen:
                     continue
-                seen = current
+                if current == failed and time.monotonic() < retry_at:
+                    continue
+                if current != failed:
+                    retry_delay = max(poll_ms / 1000, 0.1)
                 try:
                     reload()
                 except Exception as e:
@@ -366,6 +374,12 @@ def watch_kb(
                     err.print(
                         f"[bold red]reload failed:[/bold red] {escape(f'{type(e).__name__}: {e}')}"
                     )
+                    failed = current
+                    retry_at = time.monotonic() + retry_delay
+                    retry_delay = min(retry_delay * 2, 60.0)
+                else:
+                    seen = current
+                    failed = None
                 break
         except Exception as e:
             # The watched `kb/_graph` can vanish mid-build; wait and re-arm.
