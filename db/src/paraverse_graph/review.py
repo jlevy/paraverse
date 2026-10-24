@@ -152,7 +152,7 @@ CHECKS: tuple[Check, ...] = (
         "high",
         "A room whose capacity is 9,999 or more. The catalog uses 9999 and 1000000 for unlimited or unknown seating; publishing them as capacities is wrong.",
         _q(
-            "MATCH (r:Room) WHERE r.capacity >= 5000 OPTIONAL MATCH (s:Session)-[:HELD_IN]->(r) WITH r, count(DISTINCT s) AS n RETURN r.id AS id, r.label AS name, 'capacity ' + toString(r.capacity) + '; sessions ' + toString(n) AS detail ORDER BY id LIMIT $limit"
+            "MATCH (r:Room) WHERE r.capacity >= 9999 OPTIONAL MATCH (s:Session)-[:HELD_IN]->(r) WITH r, count(DISTINCT s) AS n RETURN r.id AS id, r.label AS name, 'capacity ' + toString(r.capacity) + '; sessions ' + toString(n) AS detail ORDER BY id LIMIT $limit"
         ),
         area="program",
     ),

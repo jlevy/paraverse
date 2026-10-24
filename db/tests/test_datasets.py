@@ -5,6 +5,8 @@ Dataset resolution, discovery and graph naming, on temporary `vendor/` trees.
 from __future__ import annotations
 
 import json
+import re
+import shutil
 from pathlib import Path
 
 import pytest
@@ -81,7 +83,7 @@ def test_missing_kb_errors_say_how_to_get_it(tmp_path: Path, monkeypatch: pytest
         else:
             raise AssertionError(f"{dataset} has no KB but was accepted")
     # A missing KB does not stop serving an already loaded graph under its name.
-    assert resolve_dataset(name="absent", start=start).graph == "absent"
+    assert resolve_dataset(name="absent", start=start).graph == "dataset_616273656e74"
     for bad in ("../other", "a/b", ".hidden"):
         try:
             resolve_dataset(name=bad, start=start)
@@ -107,7 +109,49 @@ def test_dataset_and_graph_names():
     assert dataset_name(Path("builds/Trial Run")) == "Trial Run"
     assert dataset_name(Path("vendor/other/kb/../kb")) == "other"
     assert graph_name("universe2026-md") == "universe2026_md"
-    assert graph_name("Trial Run.v2") == "trial_run_v2"
+    assert graph_name("Trial Run.v2") == "dataset_547269616c2052756e2e7632"
+
+
+def test_distinct_dataset_names_never_share_the_default_graph():
+    names = [DEFAULT_DATASET, "universe2026_md", "foo-bar", "foo_bar", "Foo", "foo", "a.b", "a-b"]
+    graphs = [graph_name(name) for name in names]
+    assert len(set(graphs)) == len(names)
+    assert all(re.fullmatch(r"[a-z][a-z0-9_]*", graph) for graph in graphs)
+
+
+@pytest.mark.parametrize("change", ["artifact", "root", "schema", "stats"])
+def test_kb_rejects_a_build_changed_while_reading(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, change: str
+):
+    from paraverse_graph import kb
+
+    root = _one_person_kb(tmp_path / "kb")
+    (root / "_schemas").mkdir()
+    (root / "_schemas" / "person.schema.yaml").write_text("type: object\n")
+    original = kb.read_artifact
+
+    def read_then_change(path: Path, rel_path: str) -> kb.Artifact:
+        artifact = original(path, rel_path)
+        if change == "root":
+            replacement = tmp_path / "replacement"
+            shutil.copytree(root, replacement)
+            root.rename(tmp_path / "previous")
+            replacement.rename(root)
+        elif change == "artifact":
+            # Same node/edge counts and stats, but different structured content.
+            replacement = path.with_suffix(".new")
+            replacement.write_text(path.read_text().replace("person:a", "person:b"))
+            replacement.replace(path)
+        elif change == "schema":
+            (root / "_schemas" / "person.schema.yaml").write_text("type: string\n")
+        else:
+            stats = root / "_graph" / "stats.json"
+            stats.write_text(stats.read_text() + "\n")
+        return artifact
+
+    monkeypatch.setattr(kb, "read_artifact", read_then_change)
+    with pytest.raises(KbError, match="changed while reading"):
+        kb.load_kb(root)
 
 
 def test_datasets_command(
@@ -117,7 +161,7 @@ def test_datasets_command(
     assert main(["datasets", "--format", "json"]) == 0
     rows = json.loads(capsys.readouterr().out)
     assert [(r["name"], r["graph"], r["default"]) for r in rows] == [
-        ("other", "other", False),
+        ("other", "dataset_6f74686572", False),
         (DEFAULT_DATASET, "universe2026_md", True),
     ]
     assert rows[0]["kb"] == str(tmp_path / "vendor" / "other" / "kb")

@@ -14,10 +14,14 @@ import json
 import queue
 import shutil
 import threading
+import time
 from collections.abc import Callable
+from itertools import pairwise
 from pathlib import Path
 from tempfile import mkdtemp
 from typing import Any
+
+import pytest
 
 from paraverse_graph.connection import delete_graph
 from paraverse_graph.kb import DEFAULT_DATASET, Artifact, KbError, KbNode, KnowledgeBase, load_kb
@@ -341,6 +345,111 @@ def test_watch_reloads_after_the_build_swaps_kb_by_rename():
         watcher.join(timeout=5)
         delete_graph(db, name)
     assert not watcher.is_alive()
+
+
+def test_watch_retries_a_build_that_failed_to_load():
+    from paraverse_graph import cli
+
+    db, _, _, _ = _loaded()
+    name = f"{GRAPH}_watch_retry"
+    kb_dir = Path(mkdtemp(prefix="paraverse-graph-watch-")) / "kb"
+    _write_kb(kb_dir, 1)
+    attempts: queue.Queue[Exception | None] = queue.Queue()
+
+    def reload() -> None:
+        try:
+            cli._reload(db, kb_dir, name)  # pyright: ignore[reportPrivateUsage]
+        except Exception as e:
+            attempts.put(e)
+            raise
+        attempts.put(None)
+
+    stop = threading.Event()
+    watcher = threading.Thread(
+        target=cli.watch_kb,
+        args=(kb_dir, stop, reload),
+        kwargs={"seen": cli.kb_signature(kb_dir), "debounce_ms": 100, "poll_ms": 200},
+        daemon=True,
+    )
+    watcher.start()
+    try:
+        # The watch reads a build whose `stats.json` landed before the rest of it.
+        _swap_in_build(kb_dir, 1, stats=json.dumps({"nodes": {"person": 2}, "edges": {}}))
+        assert isinstance(attempts.get(timeout=10), LoadError)
+        # The rest lands in place, with no further `stats.json` change to wake the watch.
+        complete = Path(mkdtemp(prefix="paraverse-graph-watch-")) / "kb"
+        _write_kb(complete, 2)
+        shutil.copytree(complete / "people", kb_dir / "people", dirs_exist_ok=True)
+        shutil.copy(complete / "_graph" / "nodes.jsonl", kb_dir / "_graph" / "nodes.jsonl")
+        while (result := attempts.get(timeout=10)) is not None:
+            assert isinstance(result, (KbError, LoadError)), result
+        graph = db.select_graph(name)
+        assert graph.ro_query("MATCH (p:Person) RETURN count(p)").result_set == [[2]]
+    finally:
+        stop.set()
+        watcher.join(timeout=5)
+        delete_graph(db, name)
+    assert not watcher.is_alive()
+
+
+def test_watch_backs_off_from_a_build_that_keeps_failing(tmp_path: Path):
+    from paraverse_graph import cli
+
+    kb_dir = tmp_path / "kb"
+    _write_kb(kb_dir, 1)
+    calls: list[float] = []
+
+    def reload() -> None:
+        calls.append(time.monotonic())
+        raise RuntimeError("simulated broken build")
+
+    stop = threading.Event()
+    watcher = threading.Thread(
+        target=cli.watch_kb,
+        args=(kb_dir, stop, reload),
+        kwargs={"seen": None, "debounce_ms": 50, "poll_ms": 100},
+        daemon=True,
+    )
+    watcher.start()
+    time.sleep(2.5)
+    stop.set()
+    watcher.join(timeout=5)
+    assert not watcher.is_alive()
+    # Retried, but at doubling intervals (0.1, 0.2, 0.4, 0.8 s ...), not on every poll.
+    assert 3 <= len(calls) <= 8, calls
+    gaps = [b - a for a, b in pairwise(calls)]
+    assert gaps[-1] > 2 * gaps[0], gaps
+
+
+def test_reload_rejects_schema_changes_before_publishing(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
+    from paraverse_graph import loader
+    from paraverse_graph.schemas import load_kind_schemas
+
+    db, _, _, _ = _loaded()
+    name = f"{GRAPH}_schema_changed"
+    root = tmp_path / "kb"
+    _write_kb(root, 1)
+    load_graph(db, load_kb(root), name)
+    original = load_kind_schemas
+
+    def read_then_change(kb_root: Path) -> Any:
+        schemas = original(kb_root)
+        (kb_root / "_schemas").mkdir()
+        (kb_root / "_schemas" / "person.schema.yaml").write_text("type: object\n")
+        return schemas
+
+    monkeypatch.setattr(loader, "load_kind_schemas", read_then_change)
+    try:
+        with pytest.raises(KbError, match="changed while reading"):
+            load_graph(db, load_kb(root), name, keep_failed=False)
+        assert db.select_graph(name).ro_query("MATCH (p:Person) RETURN count(p)").result_set == [
+            [1]
+        ]
+        assert not _staging_graphs(db, name)
+    finally:
+        delete_graph(db, name)
 
 
 def test_every_catalog_query_runs():

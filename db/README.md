@@ -3,11 +3,9 @@
 This component loads a conference knowledge base (KB) into
 [FalkorDB](https://www.falkordb.com/), a graph database, and serves it.
 Each KB is a dataset in its own repository, mounted as a git submodule under `vendor/`
-(see [Datasets](#datasets)).
-The first is GitHub Universe,
+(see [Datasets](#datasets)). The first is GitHub Universe,
 [universe2026-md](https://github.com/jlevy/universe2026-md) (editions 2023 to 2026), at
-`vendor/universe2026-md/`.
-The browser, API and CLI stay here and work on any dataset.
+`vendor/universe2026-md/`. The browser, API and CLI stay here and work on any dataset.
 It provides:
 
 - a read-only KB browser, with a table for every kind of entity, record views, link
@@ -17,8 +15,8 @@ It provides:
 - a Swift client that decodes the API’s JSON
 
 The KB stores each entity as a softschema record and exports its nodes and edges to
-`kb/_graph/`. A graph database makes those relationships queryable: neighborhoods,
-paths between two entities, shared expertise.
+`kb/_graph/`. A graph database makes those relationships queryable: neighborhoods, paths
+between two entities, shared expertise.
 The browser is generic: it renders every kind from the KB’s own compiled schemas.
 
 How it relates to the rest of the repository:
@@ -54,8 +52,8 @@ make lint      # codespell, ruff, basedpyright
 swift test --package-path clients/swift   # the Swift client
 ```
 
-`make load` and `make serve` take `DATASET=<name>` for another dataset under
-`vendor/`, or `KB=<dir>` for any KB directory (relative to `db/`), as in
+`make load` and `make serve` take `DATASET=<name>` for another dataset under `vendor/`,
+or `KB=<dir>` for any KB directory (relative to `db/`), as in
 `make load serve DATASET=other`.
 
 `uv run paraverse-graph serve --watch` reloads the graph whenever a KB build rewrites
@@ -95,20 +93,19 @@ Every command finds its dataset in this order:
 4. The default dataset, `vendor/universe2026-md/kb`.
 
 `--kb` and `--dataset` cannot be combined.
-Named datasets are found by walking up from the working directory, so commands work
-from the repository root or from `db/`.
-If the KB is missing, the error says to run `git submodule update --init` or pass
-`--kb` or `--dataset`.
+Named datasets are found by walking up from the working directory, so commands work from
+the repository root or from `db/`. If the KB is missing, the error says to run
+`git submodule update --init` or pass `--kb` or `--dataset`.
 
 Each dataset loads into its own graph, so several can share one database.
-The graph’s name is the dataset’s name in lower case, with every character other than
-a letter, digit or underscore replaced by `_`: `universe2026-md` loads into
-`universe2026_md`.
+The default dataset, `universe2026-md`, loads into `universe2026_md`. Every other exact
+dataset name uses `dataset_` followed by its UTF-8 bytes in hex: `other` loads into
+`dataset_6f74686572`. Case and punctuation remain distinct, so `foo-bar`, `foo_bar`,
+`Foo` and `foo` have different graph names.
 A dataset given as a KB directory is named after the directory that holds `kb/`, or
-after the KB directory itself if it is not called `kb`.
-`--graph NAME` overrides the graph name.
-The browser shows the loaded dataset’s name in its header, and `/api/meta` returns it
-as `dataset`.
+after the KB directory itself if it is not called `kb`. `--graph NAME` overrides the
+graph name. The browser shows the loaded dataset’s name in its header, and `/api/meta`
+returns it as `dataset`.
 
 ## Commands
 
@@ -144,8 +141,7 @@ It accepts only loopback Host headers.
 | `/api/events` | Server-sent events: `hello`, `graph.loaded`, heartbeats |
 
 `connecting_paths` returns paths of one to three hops between two entities, shortest
-first.
-It skips paths through hub nodes (events, days and facets), which connect almost
+first. It skips paths through hub nodes (events, days and facets), which connect almost
 everything and so explain nothing.
 
 `similar_people` suggests only people the event itself published (`inclusion_basis` of
@@ -167,12 +163,16 @@ everything and so explain nothing.
 - **Indexes and constraints:** `id` indexes on every label, filter indexes, full-text
   search, and a unique constraint on `Entity.id`.
 - **Load checks:** each load builds a uniquely named staging graph with its indexes,
-  constraint, schemas and metadata, and checks it against `kb/_graph/stats.json`.
-  Only then does it replace the live graph atomically with Redis `RENAME`, so readers
-  never see a partial graph, and publish a `graph.loaded` event on the Redis channel
+  constraint, schemas and metadata, and checks it against `kb/_graph/stats.json`. Only
+  then does it replace the live graph atomically with Redis `RENAME`, so readers never
+  see a partial graph, and publish a `graph.loaded` event on the Redis channel
   `paraverse-graph:<graph>`. A failed load leaves the live graph untouched and keeps its
-  `<graph>__staging_*` graph for inspection; delete it with `GRAPH.DELETE`.
-  A failed `serve --watch` reload deletes its staging graph instead.
+  `<graph>__staging_*` graph for inspection; delete it with `GRAPH.DELETE`. A failed
+  `serve --watch` reload deletes its staging graph instead.
+  Changes to the KB root, exports, artifacts or schemas during a load abort it before
+  publication. The watch retries failed loads with exponential backoff, capped at a
+  minute. Build producers must publish complete builds atomically; an in-place build
+  paused in a mixed state cannot always be identified from file metadata.
 
 ## Layout
 

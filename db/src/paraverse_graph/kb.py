@@ -91,6 +91,12 @@ class KnowledgeBase:
     stats: dict[str, Any]
     artifacts: dict[str, Artifact]
     digest: str
+    snapshot: dict[str, tuple[int, ...]] | None = field(default=None, repr=False)
+
+    def check_unchanged(self) -> None:
+        """Reject a build replaced or edited since its graph/artifact reads began."""
+        if self.snapshot is not None and _build_snapshot(self.root) != self.snapshot:
+            raise KbError("KB changed while reading; retry after the build finishes")
 
     def payload_for(self, node: KbNode) -> dict[str, Any] | None:
         """
@@ -140,6 +146,8 @@ def load_kb(root: Path) -> KnowledgeBase:
         if not (graph_dir / name).is_file():
             raise KbError(f"{graph_dir / name} not found; the KB graph export is incomplete")
 
+    snapshot = _build_snapshot(root)
+
     sha = hashlib.sha256()
     node_bytes = (graph_dir / "nodes.jsonl").read_bytes()
     edge_bytes = (graph_dir / "edges.jsonl").read_bytes()
@@ -170,14 +178,48 @@ def load_kb(root: Path) -> KnowledgeBase:
             raise KbError(f"{rel_path}: referenced by the graph export but missing")
         artifacts[rel_path] = read_artifact(path, rel_path)
 
-    return KnowledgeBase(
+    kb = KnowledgeBase(
         root=root,
         nodes=nodes,
         edges=edges,
         stats=stats,
         artifacts=artifacts,
         digest=sha.hexdigest()[:16],
+        snapshot=snapshot,
     )
+    kb.check_unchanged()
+    return kb
+
+
+def _build_snapshot(root: Path) -> dict[str, tuple[int, ...]]:
+    """
+    Track the root, build marker, exports, artifacts and compiled schemas. Comparing
+    metadata detects edits and directory swaps during a read. The producer must
+    still publish a complete build atomically: a paused partial build cannot be
+    distinguished from a complete one using file metadata alone.
+    """
+    try:
+        paths = [
+            root,
+            *(
+                p
+                for p in root.rglob("*")
+                if p.suffix in (".md", ".yaml", ".json", ".jsonl") and p.is_file()
+            ),
+        ]
+        result: dict[str, tuple[int, ...]] = {}
+        for path in paths:
+            st = path.stat()
+            result[str(path.relative_to(root))] = (
+                st.st_dev,
+                st.st_ino,
+                st.st_size,
+                st.st_mtime_ns,
+                st.st_ctime_ns,
+            )
+        return result
+    except OSError as e:
+        raise KbError(f"KB changed while reading; cannot inspect {e.filename}") from e
 
 
 def find_kb_root(start: Path | None = None, dataset: str = DEFAULT_DATASET) -> Path | None:

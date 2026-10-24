@@ -98,8 +98,9 @@ def dataset_name(kb_root: Path) -> str:
 
 def graph_name(dataset: str) -> str:
     """
-    The graph a dataset loads into: the dataset name in lower case, with every
-    character other than a letter, digit or underscore replaced by `_`, so it is a
-    plain identifier (`universe2026-md` loads into `universe2026_md`).
+    The default dataset keeps `universe2026_md`. Every other exact name is encoded
+    as UTF-8 hex in a reserved namespace, so case and punctuation never collide.
     """
-    return re.sub(r"[^a-z0-9_]", "_", dataset.lower())
+    if dataset == DEFAULT_DATASET:
+        return "universe2026_md"
+    return "dataset_" + dataset.encode("utf-8").hex()

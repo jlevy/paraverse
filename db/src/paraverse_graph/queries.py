@@ -261,13 +261,16 @@ QUERIES: tuple[NamedQuery, ...] = (
     ),
     NamedQuery(
         "sponsors",
-        "Sponsors by tier, with the number of sessions each hosts.",
+        "Sponsors by their highest tier, with the distinct sessions each hosts.",
         _q("""
             MATCH (o:Sponsor)-[r:SPONSORS]->(:Event)
-            OPTIONAL MATCH (o)-[:HOSTS]->(s:Session)
-            WITH o, r.tier AS tier, count(s) AS hosted,
+            WITH DISTINCT o, r.tier AS tier,
                  CASE r.tier WHEN 'platinum' THEN 0 WHEN 'gold' THEN 1 WHEN 'silver' THEN 2
                              WHEN 'bronze' THEN 3 ELSE 4 END AS rank
+            ORDER BY rank, tier
+            WITH o, collect(tier)[0] AS tier, min(rank) AS rank
+            OPTIONAL MATCH (o)-[:HOSTS]->(s:Session)
+            WITH o, tier, rank, count(DISTINCT s) AS hosted
             RETURN o.id AS organization, o.display_name AS name, tier, hosted
             ORDER BY rank, name
             """),
