@@ -92,15 +92,20 @@ published here, leave it out and ask.
 
 ## Repository Layout
 
-Keep the top level small: `README.md`, `AGENTS.md`, `LICENSE`, `docs/`, and one
-directory for each component.
+Keep the top level small: `README.md`, `AGENTS.md`, `LICENSE`, `docs/`, `vendor/`, and
+one directory for each component.
 Each component is a self-contained project.
 Its packaging (`pyproject.toml`, `uv.lock`, `uv.toml`, `Makefile`) lives in its own
 directory, never at the repository root.
 Run a component’s commands from inside its directory.
 
+Datasets live in their own repositories and are mounted under `vendor/` as git
+submodules, such as `vendor/universe2026-md`.
+Edit a dataset in its own repository, never through the submodule in this repository.
+
 ## Build & Test
 
+- Check out datasets first: `git submodule update --init`.
 - Graph DB, in `db/`: `make install`, then `make lint` and `make test`, then `make load`
   and `make serve` (browser at http://127.0.0.1:8766/).
   `make datasets` lists the datasets the browser can load; use
