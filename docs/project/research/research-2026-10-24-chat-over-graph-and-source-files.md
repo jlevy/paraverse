@@ -24,7 +24,7 @@ and synchronization work.
 The target datasets are GitHub Universe, covering multiple editions, and Patch the
 Conference Hackathon (PTC), with cross-dataset questions where evidence permits.
 The [hackathon’s official site](https://www.wemakedevs.org/hackathons/ptc) describes its
-program; the second dataset and combined view are pending in
+program; the second dataset and combined view were added in
 [PR #10](https://github.com/jlevy/paraverse/pull/10).
 
 ## Questions to Answer
