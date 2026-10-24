@@ -21,7 +21,7 @@ from typing import Any
 
 from paraverse_graph.connection import delete_graph
 from paraverse_graph.kb import DEFAULT_DATASET, Artifact, KbError, KbNode, KnowledgeBase, load_kb
-from paraverse_graph.loader import STAGING_INFIX, events_channel, load_graph
+from paraverse_graph.loader import STAGING_INFIX, LoadError, events_channel, load_graph
 from paraverse_graph.mapping import LABELS
 from paraverse_graph.queries import CATALOG, run_query
 from paraverse_graph.review import CHECKS, ROW_LIMIT, run_check
@@ -273,6 +273,29 @@ def test_failed_loads_leave_the_live_graph_untouched():
         assert _staging_graphs(db, live) == set()
     finally:
         delete_graph(db, live)
+
+
+def test_failed_watch_reloads_delete_their_staging_graphs():
+    from paraverse_graph import cli
+
+    db, _, _, _ = _loaded()
+    name = f"{GRAPH}_watch_fail"
+    kb_dir = Path(mkdtemp(prefix="paraverse-graph-watch-")) / "kb"
+    _write_kb(kb_dir, 1, stats=json.dumps({"nodes": {"person": 2}, "edges": {}}))
+    try:
+        # Each failed reload of a broken build would otherwise leave a full graph copy.
+        for _ in range(2):
+            try:
+                cli._reload(db, kb_dir, name)  # pyright: ignore[reportPrivateUsage]
+            except LoadError as e:
+                assert "does not match the KB" in str(e)
+            else:
+                raise AssertionError("a count mismatch should fail the reload")
+        assert _staging_graphs(db, name) == set()
+        assert name not in db.list_graphs()
+    finally:
+        for graph in _staging_graphs(db, name):
+            delete_graph(db, graph)
 
 
 def test_watch_reloads_after_the_build_swaps_kb_by_rename():
