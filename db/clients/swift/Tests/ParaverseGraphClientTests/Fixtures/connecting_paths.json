@@ -1,0 +1,229 @@
+{
+  "query": "connecting_paths",
+  "columns": [
+    "path",
+    "hops"
+  ],
+  "rows": [
+    [
+      {
+        "nodes": [
+          "person:april-leonard",
+          "software:github-copilot",
+          "person:ronen-lewit",
+          "org:jfrog"
+        ],
+        "relationships": [
+          "WORKS_WITH",
+          "WORKS_WITH",
+          "AFFILIATED_WITH"
+        ]
+      },
+      3
+    ],
+    [
+      {
+        "nodes": [
+          "person:april-leonard",
+          "software:github-copilot",
+          "person:ronen-lewit",
+          "org:jfrog"
+        ],
+        "relationships": [
+          "WORKS_WITH",
+          "WORKS_WITH",
+          "AFFILIATED_WITH"
+        ]
+      },
+      3
+    ],
+    [
+      {
+        "nodes": [
+          "person:april-leonard",
+          "software:github-copilot",
+          "person:baruch-sadogursky",
+          "org:jfrog"
+        ],
+        "relationships": [
+          "WORKS_WITH",
+          "WORKS_WITH",
+          "MENTIONS"
+        ]
+      },
+      3
+    ]
+  ],
+  "graph": {
+    "nodes": [
+      {
+        "id": "person:april-leonard",
+        "labels": [
+          "Entity",
+          "Person",
+          "Speaker"
+        ],
+        "kind": "person",
+        "name": "April Leonard",
+        "data": {
+          "id": "person:april-leonard",
+          "entity_kind": "person",
+          "display_name": "April Leonard",
+          "kb_path": "people/april-leonard.md",
+          "name": "April Leonard",
+          "job_title": "VP, Engineering",
+          "affiliation_label": "GitHub",
+          "participation_roles": [
+            "speaker"
+          ]
+        }
+      },
+      {
+        "id": "software:github-copilot",
+        "labels": [
+          "Entity",
+          "Software"
+        ],
+        "kind": "software",
+        "name": "GitHub Copilot",
+        "data": {
+          "id": "software:github-copilot",
+          "entity_kind": "software",
+          "display_name": "GitHub Copilot",
+          "kb_path": "software/github-copilot.yaml",
+          "name": "GitHub Copilot",
+          "kind": "github_product",
+          "homepage": "https://github.com/features/copilot"
+        }
+      },
+      {
+        "id": "person:ronen-lewit",
+        "labels": [
+          "Entity",
+          "Person",
+          "Speaker"
+        ],
+        "kind": "person",
+        "name": "Ronen Lewit",
+        "data": {
+          "id": "person:ronen-lewit",
+          "entity_kind": "person",
+          "display_name": "Ronen Lewit",
+          "kb_path": "people/ronen-lewit.md",
+          "name": "Ronen Lewit",
+          "job_title": "VP Strategics and Field CTO",
+          "affiliation_label": "JFrog",
+          "participation_roles": [
+            "speaker"
+          ]
+        }
+      },
+      {
+        "id": "org:jfrog",
+        "labels": [
+          "Entity",
+          "Organization",
+          "Sponsor"
+        ],
+        "kind": "organization",
+        "name": "JFrog",
+        "data": {
+          "id": "org:jfrog",
+          "entity_kind": "organization",
+          "display_name": "JFrog",
+          "kb_path": "organizations/jfrog.md",
+          "name": "JFrog",
+          "roles": [
+            "affiliation",
+            "mentioned",
+            "session_host",
+            "sponsor"
+          ],
+          "website": "https://jfrog.com",
+          "sponsor_tier": "platinum"
+        }
+      },
+      {
+        "id": "person:baruch-sadogursky",
+        "labels": [
+          "Entity",
+          "Person",
+          "Speaker"
+        ],
+        "kind": "person",
+        "name": "Baruch Sadogursky",
+        "data": {
+          "id": "person:baruch-sadogursky",
+          "entity_kind": "person",
+          "display_name": "Baruch Sadogursky",
+          "kb_path": "people/baruch-sadogursky.md",
+          "name": "Baruch Sadogursky",
+          "job_title": "Head of Developer Relations",
+          "affiliation_label": "Port.io",
+          "participation_roles": [
+            "speaker"
+          ]
+        }
+      }
+    ],
+    "links": [
+      {
+        "id": 8652,
+        "relationship": "WORKS_WITH",
+        "source": "person:april-leonard",
+        "target": "software:github-copilot",
+        "data": {
+          "basis": "bio"
+        }
+      },
+      {
+        "id": 9008,
+        "relationship": "WORKS_WITH",
+        "source": "person:ronen-lewit",
+        "target": "software:github-copilot",
+        "data": {
+          "basis": "session_facets"
+        }
+      },
+      {
+        "id": 764,
+        "relationship": "AFFILIATED_WITH",
+        "source": "person:ronen-lewit",
+        "target": "org:jfrog",
+        "data": {
+          "basis": "github_profile",
+          "current": true
+        }
+      },
+      {
+        "id": 763,
+        "relationship": "AFFILIATED_WITH",
+        "source": "person:ronen-lewit",
+        "target": "org:jfrog",
+        "data": {
+          "basis": "event_listing",
+          "current": true,
+          "title": "VP Strategics and Field CTO"
+        }
+      },
+      {
+        "id": 8666,
+        "relationship": "WORKS_WITH",
+        "source": "person:baruch-sadogursky",
+        "target": "software:github-copilot",
+        "data": {
+          "basis": "session_facets"
+        }
+      },
+      {
+        "id": 5868,
+        "relationship": "MENTIONS",
+        "source": "person:baruch-sadogursky",
+        "target": "org:jfrog",
+        "data": {
+          "field": "bio"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "query": "schedule",
+  "columns": [
+    "start",
+    "end",
+    "session",
+    "code",
+    "title",
+    "type",
+    "room",
+    "speakers",
+    "start_epoch"
+  ],
+  "rows": [
+    [
+      "2026-10-28T09:00:00-07:00",
+      "2026-10-28T09:45:00-07:00",
+      "session:1809k",
+      "1809K",
+      "Opening Keynote",
+      "Keynote",
+      "Main Stage",
+      [
+        "April Leonard",
+        "Burke Holland",
+        "Cassidy Williams",
+        "Damian Brady",
+        "Jay Parikh"
+      ],
+      1793203200
+    ],
+    [
+      "2026-10-28T09:00:00-07:00",
+      "2026-10-29T14:45:00-07:00",
+      "session:2386e",
+      "2386E",
+      "Watch the Keynote from the Outdoor Theater",
+      "Special Event",
+      "Outdoor Theater",
+      [],
+      1793203200
+    ],
+    [
+      "2026-10-28T09:00:00-07:00",
+      "2026-10-29T14:45:00-07:00",
+      "session:2388e",
+      "2388E",
+      "Watch the Keynote from Cowell Theater",
+      "Special Event",
+      "Cowell Theater",
+      [],
+      1793203200
+    ],
+    [
+      "2026-10-28T10:15:00-07:00",
+      "2026-10-29T09:35:00-07:00",
+      "session:2153b",
+      "2153B",
+      "Agentic Workflows: Automation at scale",
+      "Breakout Session",
+      "The Speakeasy",
+      [
+        "Landon Cox",
+        "Peli de Halleux"
+      ],
+      1793207700
+    ],
+    [
+      "2026-10-28T10:30:00-07:00",
+      "2026-10-28T11:15:00-07:00",
+      "session:bld1132s",
+      "BLD1132S",
+      "Your benchmark is lying: What evals actually look like",
+      "Sandbox Session",
+      "Sandbox",
+      [
+        "Julia Kasper",
+        "Walker Chabbott"
+      ],
+      1793208600
+    ]
+  ],
+  "graph": {
+    "nodes": [],
+    "links": []
+  }
+}
