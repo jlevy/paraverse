@@ -3,9 +3,9 @@ type: is
 id: is-01m5qpee2srx8rmjhpb2vd80nt
 title: Install the softschema agent skill
 kind: chore
-status: in_progress
+status: closed
 priority: 2
-version: 3
+version: 4
 delegate: claude-code@spud10.local
 labels: []
 dependencies: []
@@ -15,7 +15,11 @@ child_order_hints:
 hold: null
 hold_until: null
 created_at: 2026-10-24T19:33:18.040Z
-updated_at: 2026-10-24T21:04:32.297Z
+updated_at: 2026-10-24T22:34:20.377Z
 started_at: 2026-10-24T19:33:25.066Z
+closed_at: 2026-10-24T22:34:20.377Z
+close_reason: "Paraverse foundation PRs #1–4 reviewed, all findings dispositioned or linked to open upstream deferrals, and merged with merge commits at main22b2049."
+resolution: null
+duplicate_of: null
 ---
 Layer 2. Branch setup/softschema, PR #2.
