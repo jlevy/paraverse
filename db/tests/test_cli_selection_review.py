@@ -11,6 +11,7 @@ from typing import Any
 import pytest
 import uvicorn
 import yaml
+from redis.exceptions import ResponseError
 from starlette.testclient import TestClient
 
 from paraverse_graph import cli
@@ -21,6 +22,42 @@ from paraverse_graph.kb import load_kb
 from paraverse_graph.loader import load_graph
 from paraverse_graph.selection import DatasetSelection
 from tests.test_selection import source
+
+
+@pytest.mark.parametrize("remote", [False, True])
+def test_optional_persistence_failure_keeps_serving_and_remote_never_saves(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, remote: bool
+) -> None:
+    local = source(tmp_path / "local", "local")
+    db = open_db(tmp_path / "optional-cache.rdb")
+    saves, served = [], []
+
+    def cannot_save() -> None:
+        saves.append(True)
+        raise ResponseError("test disk unavailable")
+
+    def serve(app: Any, **_kwargs: Any) -> None:
+        with TestClient(app) as client:
+            assert client.get("/api/meta").status_code == 200
+            served.append(True)
+
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.delenv(KB_ENV, raising=False)
+    monkeypatch.setattr(cli, "open_db", lambda *_args: db)
+    monkeypatch.setattr(db.connection, "save", cannot_save)
+    monkeypatch.setattr(uvicorn, "run", serve)
+    monkeypatch.setattr(
+        cli,
+        "create_app",
+        lambda graph, **kwargs: create_app(graph, extra_hosts=frozenset({"testserver"}), **kwargs),
+    )
+    try:
+        options = ["--url", "redis://example.invalid:6379"] if remote else []
+        assert cli.main(["serve", "--kb", str(local), "--select-all", *options]) == 0
+        assert served == [True]
+        assert len(saves) == (0 if remote else 1)
+    finally:
+        db.close()
 
 
 @pytest.mark.parametrize(

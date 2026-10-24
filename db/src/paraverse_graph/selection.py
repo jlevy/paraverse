@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import threading
@@ -13,8 +14,24 @@ from typing import Any
 from redis.exceptions import RedisError
 
 from paraverse_graph.composition import compose_kbs
-from paraverse_graph.kb import KbError
+from paraverse_graph.kb import KbError, build_snapshot
 from paraverse_graph.loader import LoadError, load_graph
+from paraverse_graph.mapping import ENTITY_LABEL, META_LABEL
+
+# Loader and dependency changes invalidate persisted browser views too.
+_CACHE_CODE_DIGEST = hashlib.sha256(
+    b"browser-cache-v1"
+    + b"".join(
+        path.read_bytes()
+        for path in [
+            *sorted(Path(__file__).parent.glob("*.py")),
+            Path(__file__).parents[2] / "pyproject.toml",
+            Path(__file__).parents[2] / "uv.lock",
+        ]
+        if path.is_file()
+    )
+).hexdigest()
+
 
 type SourceSignatures = tuple[tuple[int, int, int] | None, ...]
 
@@ -101,8 +118,15 @@ class DatasetSelection:
     def _load(self, names: tuple[str, ...], signatures: SourceSignatures) -> None:
         # Only callers holding the build lock may compose or replace the browser graph.
         try:
-            kb = compose_kbs({name: self.sources[name] for name in names})
-            load_graph(self.db, kb, self.graph_name, keep_failed=False)
+            key = self._cache_key(names)
+            if not (self._cached_graph_matches(key) and self._cache_key(names) == key):
+                kb = compose_kbs({name: self.sources[name] for name in names})
+                loaded_key = self._cache_key(
+                    names, {name: source.snapshot for name, source in kb.source_kbs.items()}
+                )
+                load_graph(
+                    self.db, kb, self.graph_name, keep_failed=False, browser_cache_key=loaded_key
+                )
         except (KbError, LoadError, RedisError, OSError, ValueError) as exc:
             failed_build = (names, signatures)
             if failed_build != self._failed_build:
@@ -128,6 +152,43 @@ class DatasetSelection:
         self._failed_build = None
         self._retry_at = None
         self._retry_delay = 30
+
+    def _cache_key(
+        self,
+        names: tuple[str, ...],
+        snapshots: Mapping[str, dict[str, tuple[int, ...]] | None] | None = None,
+    ) -> str:
+        sources = {
+            name: {
+                "root": str(self.sources[name].resolve()),
+                "files": snapshots[name]
+                if snapshots is not None
+                else build_snapshot(self.sources[name]),
+            }
+            for name in names
+        }
+        return hashlib.sha256(
+            json.dumps([_CACHE_CODE_DIGEST, sources], sort_keys=True).encode()
+        ).hexdigest()
+
+    def _cached_graph_matches(self, key: str) -> bool:
+        if self.db is None:
+            return False
+        try:
+            graph = self.db.select_graph(self.graph_name)
+            rows = graph.ro_query(
+                f"MATCH (m:{META_LABEL}) WHERE m.graph = $graph "
+                "RETURN m.browser_cache_key, m.kb_digest, m.stats_json",
+                {"graph": self.graph_name},
+            ).result_set
+            if len(rows) != 1 or rows[0][0] != key or not rows[0][1]:
+                return False
+            stats = json.loads(rows[0][2])
+            nodes = graph.ro_query(f"MATCH (n:{ENTITY_LABEL}) RETURN count(n)").result_set[0][0]
+            edges = graph.ro_query("MATCH ()-[r]->() RETURN count(r)").result_set[0][0]
+            return nodes == stats["node_total"] and edges == stats["edge_total"]
+        except (RedisError, ValueError, TypeError, KeyError, IndexError):
+            return False
 
     def _signature(self, names: tuple[str, ...]) -> SourceSignatures:
         signatures = []

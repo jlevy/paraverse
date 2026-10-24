@@ -114,6 +114,7 @@ def load_graph(
     *,
     batch_size: int = BATCH_SIZE,
     keep_failed: bool = True,
+    browser_cache_key: str | None = None,
 ) -> LoadReport:
     """
     Rebuild `graph_name` from `kb`. Raises `LoadError` and leaves the live graph
@@ -129,7 +130,7 @@ def load_graph(
     """
     staging = f"{graph_name}{STAGING_INFIX}{os.getpid()}_{secrets.token_hex(3)}"
     try:
-        return _load_via(db, kb, graph_name, staging, batch_size)
+        return _load_via(db, kb, graph_name, staging, batch_size, browser_cache_key)
     except BaseException:
         if not keep_failed:
             # Best effort, so the load's own error is the one reported.
@@ -139,7 +140,12 @@ def load_graph(
 
 
 def _load_via(
-    db: Any, kb: KnowledgeBase, graph_name: str, staging: str, batch_size: int
+    db: Any,
+    kb: KnowledgeBase,
+    graph_name: str,
+    staging: str,
+    batch_size: int,
+    browser_cache_key: str | None = None,
 ) -> LoadReport:
     """
     Build the staging graph, check it, and rename it over the live graph.
@@ -201,6 +207,7 @@ def _load_via(
         {
             "meta": {
                 "graph": graph_name,
+                "browser_cache_key": browser_cache_key,
                 "dataset": report.dataset,
                 "datasets": report.datasets or [report.dataset],
                 "source_roots_json": json.dumps(

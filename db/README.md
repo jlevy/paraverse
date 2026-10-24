@@ -111,6 +111,14 @@ returns it as `dataset`.
 
 ### Selecting and Combining Datasets
 
+Completed browser views are cached in the embedded database. Starting the browser
+with unchanged sources reuses the view after checking every KB file's build metadata,
+the loader and dependency versions, and the cached node and relationship counts.
+Changed or damaged views rebuild atomically. Saving the embedded cache is best effort;
+a persistence failure leaves the in-memory browser usable. Remote connections never
+request a database save for this cache.
+
+
 The browser’s **Datasets** control selects one or several sources.
 With multiple datasets selected, tables, search and records show their combined view.
 Selection is shared by browsers using the same server address.

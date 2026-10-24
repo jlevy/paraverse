@@ -17,6 +17,7 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
+from redis.exceptions import RedisError
 from rich.console import Console
 from rich.markup import escape
 from rich.table import Table
@@ -334,6 +335,13 @@ def _serve(args: argparse.Namespace) -> int:
         selection = DatasetSelection(db, sources, graph_name)
         initial = sorted(sources) if args.select_all else [dataset.name]
         selection.select(initial)
+        if args.url is None:
+            # Retain the completed view across immediate app restarts. A full
+            # disk must not stop an otherwise usable in-memory browser.
+            try:
+                db.connection.save()
+            except RedisError:
+                err.print("Warning: the browser cache could not be saved; continuing in memory.")
         graph = db.select_graph(graph_name)
         kb_root = None
     else:
