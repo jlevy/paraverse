@@ -17,6 +17,7 @@ from typing import Any
 
 import yaml
 
+from paraverse_graph.kb import KbError
 from paraverse_graph.mapping import LABELS
 
 # Typed-ID prefixes and the entity kind each one names.
@@ -69,7 +70,13 @@ def load_kind_schemas(kb_root: Path) -> dict[str, KindSchema]:
     raw: dict[str, dict[str, Any]] = {}
     for path in sorted((kb_root / "_schemas").glob("*.schema.yaml")):
         kind = path.name.removesuffix(".schema.yaml").replace("-", "_")
-        raw[kind] = yaml.safe_load(path.read_text(encoding="utf-8"))
+        try:
+            schema = yaml.safe_load(path.read_text(encoding="utf-8"))
+        except (UnicodeDecodeError, yaml.YAMLError) as e:
+            raise KbError(f"{path}: cannot parse: {e}") from e
+        if not isinstance(schema, dict):
+            raise KbError(f"{path}: not a YAML mapping")
+        raw[kind] = schema
 
     result: dict[str, KindSchema] = {}
     for kind, schema in raw.items():
@@ -170,3 +177,17 @@ def test_field_descriptions():
     assert fields["slots"]["def"] == "Slot" and fields["slots"]["type"] == "object"
     assert fields["photo_url"]["format"] == "url"
     assert fields["basis"]["enum"] == ["a", "b"]
+
+
+def test_unreadable_schema_is_a_kb_error():
+    from tempfile import TemporaryDirectory
+
+    with TemporaryDirectory() as tmp:
+        (Path(tmp) / "_schemas").mkdir()
+        (Path(tmp) / "_schemas" / "person.schema.yaml").write_text("properties: [\n")
+        try:
+            load_kind_schemas(Path(tmp))
+        except KbError as e:
+            assert "person.schema.yaml" in str(e)
+        else:
+            raise AssertionError("a broken schema file should be a KbError")

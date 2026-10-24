@@ -111,9 +111,12 @@ def read_artifact(path: Path, rel_path: str) -> Artifact:
     """
     Read a frontmatter-md or pure-yaml artifact and return its envelope payload.
     """
-    text = path.read_text(encoding="utf-8")
-    match = _FRONTMATTER.match(text)
-    data = yaml.load(match.group(1) if match else text, Loader=_PortableScalarLoader)
+    try:
+        text = path.read_text(encoding="utf-8")
+        match = _FRONTMATTER.match(text)
+        data = yaml.load(match.group(1) if match else text, Loader=_PortableScalarLoader)
+    except (UnicodeDecodeError, yaml.YAMLError) as e:
+        raise KbError(f"{rel_path}: cannot parse: {e}") from e
     if not isinstance(data, dict):
         raise KbError(f"{rel_path}: not a YAML mapping")
     block = data.get("softschema")
@@ -145,7 +148,7 @@ def load_kb(root: Path) -> KnowledgeBase:
 
     nodes = [
         KbNode(id=row["id"], kind=row["kind"], name=row.get("name") or row["id"], path=row["path"])
-        for row in _parse_jsonl(node_bytes)
+        for row in _parse_jsonl(node_bytes, graph_dir / "nodes.jsonl", ("id", "kind", "path"))
     ]
     edges = [
         KbEdge(
@@ -154,9 +157,11 @@ def load_kb(root: Path) -> KnowledgeBase:
             target=row.pop("target"),
             attrs=row,
         )
-        for row in _parse_jsonl(edge_bytes)
+        for row in _parse_jsonl(
+            edge_bytes, graph_dir / "edges.jsonl", ("source", "relation", "target")
+        )
     ]
-    stats = json.loads((graph_dir / "stats.json").read_text(encoding="utf-8"))
+    stats = _read_stats(graph_dir / "stats.json")
 
     artifacts: dict[str, Artifact] = {}
     for rel_path in sorted({node.path for node in nodes}):
@@ -189,12 +194,42 @@ def find_kb_root(start: Path | None = None, dataset: str = DEFAULT_DATASET) -> P
     return None
 
 
-def _parse_jsonl(data: bytes) -> Iterator[dict[str, Any]]:
+def _parse_jsonl(
+    data: bytes, source: Path | str, required: tuple[str, ...] = ()
+) -> Iterator[dict[str, Any]]:
+    """
+    One JSON object per non-blank line, each with the `required` keys. A malformed
+    line is a `KbError` naming `source` and the line number.
+    """
+    try:
+        text = data.decode("utf-8")
+    except UnicodeDecodeError as e:
+        raise KbError(f"{source}: not UTF-8: {e}") from e
     # Split on newlines only: `splitlines()` also splits on U+2028 and similar
     # characters, which JSON allows unescaped inside strings.
-    for line in data.decode("utf-8").split("\n"):
-        if line.strip():
-            yield json.loads(line)
+    for number, line in enumerate(text.split("\n"), start=1):
+        if not line.strip():
+            continue
+        try:
+            row = json.loads(line)
+        except json.JSONDecodeError as e:
+            raise KbError(f"{source}:{number}: not valid JSON: {e}") from e
+        if not isinstance(row, dict):
+            raise KbError(f"{source}:{number}: not a JSON object")
+        missing = [key for key in required if key not in row]
+        if missing:
+            raise KbError(f"{source}:{number}: missing {', '.join(missing)}")
+        yield row
+
+
+def _read_stats(path: Path) -> dict[str, Any]:
+    try:
+        stats = json.loads(path.read_text(encoding="utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as e:
+        raise KbError(f"{path}: not valid JSON: {e}") from e
+    if not isinstance(stats, dict):
+        raise KbError(f"{path}: not a JSON object")
+    return stats
 
 
 def _find_by_id(value: Any, wanted: str) -> dict[str, Any] | None:
@@ -231,7 +266,7 @@ def test_frontmatter_and_portable_timestamps():
 
 def test_jsonl_lines_split_on_newlines_only():
     data = '{"id": "a", "bio": "one\u2028two"}\r\n\n{"id": "b"}\n'.encode()
-    assert [row["id"] for row in _parse_jsonl(data)] == ["a", "b"]
+    assert [row["id"] for row in _parse_jsonl(data, "x.jsonl")] == ["a", "b"]
 
 
 def test_nested_payload_lookup():
