@@ -194,6 +194,7 @@ def _load_via(
                 "kb_root": str(kb.root),
                 "kb_digest": kb.digest,
                 "loaded_at": loaded_at,
+                "load_id": secrets.token_hex(16),
                 "stats_json": json.dumps(kb.stats, sort_keys=True),
                 "rel_stats_json": json.dumps(_relationship_stats(graph)),
             }

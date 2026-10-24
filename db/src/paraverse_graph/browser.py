@@ -319,7 +319,9 @@ class GraphCatalog:
         query; it covers a `graph.loaded` event that never arrived.
         """
         reader = self.reader()
-        rows = reader.ro_query(f"MATCH (m:{META_LABEL}) RETURN m.kb_digest, m.loaded_at").result_set
+        rows = reader.ro_query(
+            f"MATCH (m:{META_LABEL}) RETURN m.kb_digest, m.loaded_at, m.load_id"
+        ).result_set
         stamp = rows[0] if rows else None
         with self._lock:
             if stamp == self._stamp:
