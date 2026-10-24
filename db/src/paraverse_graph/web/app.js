@@ -86,8 +86,8 @@ async function render({ live = false, replaced = false } = {}) {
   const returning = !live && !replaced && Boolean(history.state?.kbEntry);
   hideCard();
   hideTooltip();
-  if (current?.update && current.key === route.key) {
-    // Same view, new parameters (or a live reload): refresh the data in place, so the
+  if (!live && current?.update && current.key === route.key) {
+    // Same view, new parameters: refresh the data in place, so the
     // filter keeps focus and open menus stay open, e.g. the column picker.
     if (!live && !replaced) remember();
     const focus = focusKey();
@@ -314,7 +314,7 @@ function connectEvents() {
       let hello = null;
       try { hello = JSON.parse(event.data); } catch { /* a malformed hello is ignored */ }
       // A reload that happened while we were disconnected.
-      if (hello && state.meta && (hello.kb_digest !== state.meta.kb_digest || hello.loaded_at !== state.meta.loaded_at)) graphLoaded();
+      if (hello && state.meta && (hello.load_id !== state.meta.load_id || hello.kb_digest !== state.meta.kb_digest || hello.loaded_at !== state.meta.loaded_at)) graphLoaded();
     });
     source.addEventListener('graph.loaded', () => graphLoaded());
     source.addEventListener('resync', () => reconnect(500));

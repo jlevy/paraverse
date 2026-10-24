@@ -185,6 +185,7 @@ def _load_via(
     # guards later writes. It is built before the swap, so the live graph never lacks it.
     _create_unique_id_constraint(db, staging)
     loaded_at = datetime.now(UTC).isoformat(timespec="seconds")
+    load_id = secrets.token_hex(16)
     graph.query(
         f"CREATE (m:{META_LABEL}) SET m += $meta",
         {
@@ -194,6 +195,7 @@ def _load_via(
                 "kb_root": str(kb.root),
                 "kb_digest": kb.digest,
                 "loaded_at": loaded_at,
+                "load_id": load_id,
                 "stats_json": json.dumps(kb.stats, sort_keys=True),
                 "rel_stats_json": json.dumps(_relationship_stats(graph)),
             }
@@ -208,7 +210,14 @@ def _load_via(
     # FalkorDB is Redis, so open browsers learn about the new graph over pub/sub.
     db.connection.publish(
         events_channel(graph_name),
-        json.dumps({"type": "graph.loaded", "kb_digest": kb.digest, "loaded_at": loaded_at}),
+        json.dumps(
+            {
+                "type": "graph.loaded",
+                "kb_digest": kb.digest,
+                "loaded_at": loaded_at,
+                "load_id": load_id,
+            }
+        ),
     )
     return report
 

@@ -62,7 +62,7 @@ QUERY_TIMEOUT_MS = 4000
 ALLOWED_HOSTS = frozenset({"localhost", "127.0.0.1", "::1", "[::1]"})
 # The only pub/sub event types forwarded to browsers, and the fields kept from them.
 EVENT_TYPES = frozenset({"graph.loaded"})
-_EVENT_FIELDS = ("kb_digest", "loaded_at")
+_EVENT_FIELDS = ("kb_digest", "loaded_at", "load_id")
 SCALAR_TYPES = frozenset({"string", "integer", "number", "boolean"})
 _MAX_INT = 2**63 - 1
 
@@ -319,7 +319,9 @@ class GraphCatalog:
         query; it covers a `graph.loaded` event that never arrived.
         """
         reader = self.reader()
-        rows = reader.ro_query(f"MATCH (m:{META_LABEL}) RETURN m.kb_digest, m.loaded_at").result_set
+        rows = reader.ro_query(
+            f"MATCH (m:{META_LABEL}) RETURN m.kb_digest, m.loaded_at, m.load_id"
+        ).result_set
         stamp = rows[0] if rows else None
         with self._lock:
             if stamp == self._stamp:
@@ -360,17 +362,18 @@ class GraphCatalog:
                     f"""
                     MATCH (m:{META_LABEL})
                     RETURN m.graph, m.dataset, m.kb_digest, m.loaded_at, m.stats_json,
-                           m.rel_stats_json
+                           m.rel_stats_json, m.load_id
                     """
                 ).result_set
                 if not rows:
                     raise Unavailable("the graph has no GraphMeta node; run `paraverse-graph load`")
-                name, dataset, digest, loaded_at, stats, rel_stats = rows[0]
+                name, dataset, digest, loaded_at, stats, rel_stats, load_id = rows[0]
                 self._meta = {
                     "graph": name,
                     "dataset": dataset,
                     "kb_digest": digest,
                     "loaded_at": loaded_at,
+                    "load_id": load_id,
                     "stats": json.loads(stats),
                     "rel_stats": json.loads(rel_stats or "[]"),
                 }
@@ -477,6 +480,7 @@ def create_app(
                 "dataset": info["dataset"],
                 "kb_digest": info["kb_digest"],
                 "loaded_at": info["loaded_at"],
+                "load_id": info["load_id"],
                 "node_total": sum(counts.values()),
                 "edge_total": sum(info["stats"].get("edges", {}).values()),
                 "groups": groups,
@@ -689,6 +693,7 @@ def create_app(
 
     async def hello() -> dict[str, Any]:
         try:
+            await run_in_threadpool(catalog.revalidate)
             info = await run_in_threadpool(catalog.meta)
         except Exception:
             # A stamp no client has makes the browser refetch `/api/meta`, which
@@ -699,11 +704,13 @@ def create_app(
             "type": "hello",
             "kb_digest": info.get("kb_digest"),
             "loaded_at": info.get("loaded_at"),
+            "load_id": info.get("load_id"),
         }
 
     async def events(request: Request) -> Response:
         # A graph that cannot be read is a JSON 503 before the stream starts, not a
         # stream that breaks after its headers. EventSource reconnects either way.
+        await run_in_threadpool(catalog.revalidate)
         await run_in_threadpool(catalog.meta)
 
         async def stream() -> AsyncIterator[bytes]:
