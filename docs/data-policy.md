@@ -4,8 +4,8 @@ Paraverse publishes conference knowledge bases in a public repository.
 Anything committed here can be copied and indexed by anyone, and it stays in git history
 even after a later commit deletes it.
 This policy sets what may be committed.
-Check every change that adds or alters data against it before you commit, and again
-when you review the pull request.
+Check every change that adds or alters data against it before you commit, and again when
+you review the pull request.
 
 When in doubt, leave it out.
 Information that was never committed is easy to add later, but once something is in a
@@ -30,8 +30,7 @@ professional audience and would expect to see connected to a conference:
 - **Public profiles on GitHub, LinkedIn and X:** the person’s own public profile
   information, such as name, handle, headline or bio, city-level location, current and
   past roles, education, links, and public counts, along with their own public posts
-  about their work.
-  These profiles are central to the knowledge base.
+  about their work. These profiles are central to the knowledge base.
   The same applies to other accounts a person uses for their work, such as Bluesky,
   Mastodon and YouTube.
 - **Professional work people published themselves:** public repositories, packages they
@@ -45,8 +44,8 @@ professional audience and would expect to see connected to a conference:
 
 ## What Must Not Be Included
 
-- **Contact details:** email addresses, phone numbers and postal addresses, even when the
-  person published them.
+- **Contact details:** email addresses, phone numbers and personal postal addresses,
+  even when the person published them.
   Remove them from free text as well.
   Nothing removes or detects them automatically yet, so check by hand before you commit.
 - **Non-public sources:** anything behind a login, paywall or other access control, and
@@ -61,11 +60,10 @@ professional audience and would expect to see connected to a conference:
   The knowledge base never adds, derives or infers them: not in a structured field, tag,
   interest, label, selected post, evidence string or generated text.
   The one exception is text people wrote about themselves and published in a public
-  source, such as an official speaker bio, a profile bio or a profile README.
-  Keep that text verbatim, as they wrote it, including any pronouns they list.
+  source, such as an official speaker bio, a profile bio or a profile README. Keep that
+  text verbatim, as they wrote it, including any pronouns they list.
 - **Unstated attendance:** do not list someone as attending unless they said so
-  publicly.
-  A like, a follow or another person’s post is not enough.
+  publicly. A like, a follow or another person’s post is not enough.
 - **Personal accounts:** accounts and pages unrelated to a person’s professional work.
 - **Credentials:** API keys, tokens, cookies and browser session state.
   `.gitignore` excludes the usual files; check anyway.
