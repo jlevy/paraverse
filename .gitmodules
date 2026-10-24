@@ -1,0 +1,4 @@
+[submodule "vendor/universe2026-md"]
+	path = vendor/universe2026-md
+	url = https://github.com/jlevy/universe2026-md
+	branch = main
