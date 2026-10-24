@@ -19,6 +19,25 @@ struct WorldSpeaker: Codable, Identifiable {
     var avatarAsset: String?
     var avatarNote: String?
     var isJudge: Bool { id.hasPrefix("ptc-judge:") }
+    var directorySummary: String {
+        if isJudge { return [company, "Patch the Conference"].filter { !$0.isEmpty }.joined(separator: " · ") }
+        return [attendee == true ? "Attendee" : "Speaker", company, role]
+            .filter { !$0.isEmpty }
+            .reduce(into: [String]()) { result, item in
+                if !result.contains(where: { $0.caseInsensitiveCompare(item) == .orderedSame }) { result.append(item) }
+            }.joined(separator: " · ")
+    }
+    func matchesDirectorySearch(_ query: String) -> Bool {
+        let term = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        let category = isJudge ? "judge judges" : (attendee == true ? "attendee attendees" : "speaker speakers")
+        return term.isEmpty || "\(name) \(company) \(role) \(biography) \(category)".localizedCaseInsensitiveContains(term)
+    }
+    static func directoryOrder(_ lhs: WorldSpeaker, _ rhs: WorldSpeaker) -> Bool {
+        let leftPlaceholder = lhs.isJudge && lhs.avatarNote != nil
+        let rightPlaceholder = rhs.isJudge && rhs.avatarNote != nil
+        if leftPlaceholder != rightPlaceholder { return !leftPlaceholder }
+        return lhs.name.localizedCaseInsensitiveCompare(rhs.name) == .orderedAscending
+    }
     static let all: [WorldSpeaker] = (try? JSONDecoder().decode([WorldSpeaker].self, from: Data(contentsOf: worldAsset("world-speakers.json")))) ?? []
     static let judges: [WorldSpeaker] = (try? JSONDecoder().decode([WorldSpeaker].self, from: Data(contentsOf: worldAsset("ptc-judges.json")))) ?? []
     static let directoryPeople: [WorldSpeaker] = {
@@ -32,7 +51,7 @@ struct WorldSpeaker: Codable, Identifiable {
         }.map { person in
             WorldSpeaker(id:"attendee:" + person.id,name:person.name,role:person.role ?? "Attendee",company:"",biography:person.about ?? person.evidence,sourceURL:person.source_url,photo:nil,linkedinURL:person.linkedin_url,xURL:person.profile_url,githubURL:person.github_url,sessions:[],attendee:true,avatarAsset:person.avatar_asset)
         }
-        return (speakers + extras + judges).sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+        return (speakers + extras + judges).sorted(by: directoryOrder)
     }()
 
 }
@@ -181,13 +200,13 @@ struct UniverseWorld: View {
                 .overlay(PixelPanel().stroke(Brand.fieldBorder, lineWidth: 1))
                 ScrollView {
                     LazyVStack(spacing: 2) {
-                        ForEach(WorldSpeaker.directoryPeople.filter { search.isEmpty || "\($0.name) \($0.company) \($0.role) \($0.attendee == true ? "attendee" : "speaker")".localizedCaseInsensitiveContains(search) }) { person in
+                        ForEach(WorldSpeaker.directoryPeople.filter { $0.matchesDirectorySearch(search) }) { person in
                             Button { directory = false; selected = person } label: {
                                 HStack(spacing: 12) {
                                     portrait(person).frame(width: 44, height: 52).accessibilityHidden(true)
                                     VStack(alignment: .leading, spacing: 4) {
                                         Text(person.name).font(.system(size: 14, weight: .semibold))
-                                        Text(directorySubtitle(person)).font(.system(size: 12)).foregroundStyle(Brand.welcomeSubtitle).lineLimit(2)
+                                        Text(person.directorySummary).font(.system(size: 12)).foregroundStyle(Brand.welcomeSubtitle).lineLimit(2)
                                     }
                                     Spacer(minLength: 8)
                                     Image(systemName: "chevron.right").font(.system(size: 11, weight: .semibold)).foregroundStyle(Brand.welcomeSubtitle)
@@ -209,7 +228,6 @@ struct UniverseWorld: View {
             planner.generate(completePlan: true)
         } label: { Label("PLAN MY DAY", systemImage: "sparkles") }
             .buttonStyle(WorldButtonStyle(teal: true))
-            .disabled(planner.busy)
             .help("Generate sessions, people to meet, and external events")
         Button {
             assistantOpen = false
@@ -232,14 +250,6 @@ struct UniverseWorld: View {
             Image(systemName:ambientPaused ? "play.fill":"pause.fill")
         }.buttonStyle(WorldButtonStyle())
             .accessibilityLabel(ambientPaused ? "Resume activity":"Pause activity")
-    }
-    private func directorySubtitle(_ person: WorldSpeaker) -> String {
-        let category = person.isJudge ? "Judge" : (person.attendee == true ? "Attendee" : "Speaker")
-        return [category, person.company, person.role]
-            .filter { !$0.isEmpty }
-            .reduce(into: [String]()) { result, item in
-                if !result.contains(where: { $0.caseInsensitiveCompare(item) == .orderedSame }) { result.append(item) }
-            }.joined(separator: " · ")
     }
     @ViewBuilder private func portrait(_ person: WorldSpeaker) -> some View {
         if let image = WorldCharacter.image(for: person.id) {

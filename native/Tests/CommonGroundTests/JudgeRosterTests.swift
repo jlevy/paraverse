@@ -17,6 +17,20 @@ final class JudgeRosterTests: XCTestCase {
         }
     }
 
+    func testJudgeCardsHideCategoryButKeepSingularAndPluralSearch() {
+        for judge in WorldSpeaker.judges.filter(\.isJudge) {
+            XCTAssertFalse(judge.directorySummary.lowercased().contains("judge"))
+            XCTAssertTrue(judge.matchesDirectorySearch("judge"))
+            XCTAssertTrue(judge.matchesDirectorySearch(" JUDGES "))
+            XCTAssertTrue(judge.matchesDirectorySearch(judge.name))
+        }
+        let judges = WorldSpeaker.directoryPeople.filter(\.isJudge)
+        let firstPlaceholder = judges.firstIndex { $0.avatarNote != nil }
+        if let firstPlaceholder {
+            XCTAssertTrue(judges[firstPlaceholder...].allSatisfy { $0.avatarNote != nil })
+        } else { XCTFail("Expected explicitly labeled placeholder avatars") }
+    }
+
     @MainActor func testEveryJudgeHasAnExplicitBundledAvatar() throws {
         for judge in WorldSpeaker.judges {
             let character = try XCTUnwrap(WorldCharacter.all.first { $0.personID == judge.id })

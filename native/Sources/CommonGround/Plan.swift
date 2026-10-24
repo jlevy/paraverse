@@ -88,7 +88,7 @@ struct SessionPlanResponse: Decodable { let sessions: [PlannedSession]; let mess
     }
     func generate(late newLate: Bool = false, request text: String = "Recommend speaker sessions for both days", external: Bool = false, completePlan: Bool = false) {
         guard !busy else { return }
-        let earliestReveal = ContinuousClock.now.advanced(by: .seconds(5))
+        let earliestReveal = ContinuousClock.now.advanced(by: .seconds(3))
         generatingRecommendations = completePlan
         if completePlan { showPlan = false; recommendationWarnings = [] }
         busy = true; status = external ? "Finding events around your sessions…" : "Matching your interests to speaker sessions…"

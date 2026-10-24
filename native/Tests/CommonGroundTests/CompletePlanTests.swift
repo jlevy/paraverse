@@ -116,7 +116,7 @@ final class CompletePlanTests: XCTestCase {
         planner.generate(completePlan: true)
         for _ in 0..<800 where planner.busy { try await Task.sleep(for: .milliseconds(10)) }
         XCTAssertFalse(planner.busy)
-        XCTAssertGreaterThanOrEqual(started.duration(to: .now), .seconds(5))
+        XCTAssertGreaterThanOrEqual(started.duration(to: .now), .seconds(3))
         XCTAssertEqual(calls, ["/session-plan", "/chat", "external"])
         XCTAssertEqual(planner.sessions.count, 1)
         XCTAssertEqual(planner.peopleToMeet.count, 1)
