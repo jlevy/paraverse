@@ -27,6 +27,20 @@ final class KnowledgeBaseBrowserTests: XCTestCase {
         }
     }
 
+    func testReuseRequiresIntendedDatasetSetAndContentDigest() throws {
+        let metadata = Data(#"{"graph":"combined","dataset":"all","kb_digest":"expected","node_total":2,"edge_total":1,"groups":[],"relationships":{}}"#.utf8)
+        let expected = KnowledgeBaseRuntime.ExpectedSelection(selected: ["one", "two"], kb_digest: "expected")
+        func selection(_ names: [String]) throws -> Data {
+            try JSONSerialization.data(withJSONObject: ["selection_enabled": true, "selected": names])
+        }
+        XCTAssertTrue(KnowledgeBaseProbe.matchesSelection(metadata: metadata, selection: try selection(["two", "one"]), expected: expected))
+        for names in [["one"], ["other"], ["one", "two", "other"]] {
+            XCTAssertFalse(KnowledgeBaseProbe.matchesSelection(metadata: metadata, selection: try selection(names), expected: expected))
+        }
+        let stale = KnowledgeBaseRuntime.ExpectedSelection(selected: ["one", "two"], kb_digest: "stale")
+        XCTAssertFalse(KnowledgeBaseProbe.matchesSelection(metadata: metadata, selection: try selection(["one", "two"]), expected: stale))
+    }
+
     @MainActor func testExistingServerIsReusedAndConflictingServiceIsLeftAlone() async {
         for response in [KnowledgeBaseProbe.ready, .unavailable("Another service owns this port")] {
             var launches = 0
@@ -94,7 +108,7 @@ final class KnowledgeBaseBrowserTests: XCTestCase {
         }, makeProcess: {
             status.launches += 1
             return status.launches == 1 ? first : replacement
-        })
+        }, shutdownGrace: .milliseconds(100))
         await server.connect()
         XCTAssertEqual(server.state, .ready)
         status.reopening = true

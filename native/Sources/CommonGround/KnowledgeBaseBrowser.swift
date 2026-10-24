@@ -52,7 +52,30 @@ enum KnowledgeBaseRuntime {
         throw SetupError.repositoryMissing
     }
 
-    static func makeProcess() throws -> Process {
+    struct ExpectedSelection: Codable, Sendable {
+        let selected: [String]
+        let kb_digest: String
+    }
+
+    static func expectedSelection() async throws -> ExpectedSelection {
+        try await Task.detached {
+            let process = try command("describe")
+            let output = Pipe(); let errors = Pipe()
+            process.standardOutput = output
+            process.standardError = errors
+            try process.run()
+            let data = output.fileHandleForReading.readDataToEndOfFile()
+            process.waitUntilExit()
+            guard process.terminationStatus == 0 else {
+                throw NSError(domain: "KnowledgeBaseRuntime", code: Int(process.terminationStatus), userInfo: [NSLocalizedDescriptionKey: "The intended local datasets could not be read. Check that their knowledge bases are built."])
+            }
+            return try JSONDecoder().decode(ExpectedSelection.self, from: data)
+        }.value
+    }
+
+    static func makeProcess() throws -> Process { try command("serve") }
+
+    private static func command(_ operation: String) throws -> Process {
         let root = try repositoryRoot()
         let python = root.appendingPathComponent("db/.venv/bin/python")
         guard FileManager.default.isExecutableFile(atPath: python.path) else {
@@ -61,10 +84,7 @@ enum KnowledgeBaseRuntime {
         let process = Process()
         process.executableURL = python
         process.currentDirectoryURL = root.appendingPathComponent("db")
-        process.arguments = [
-            "-c", "from paraverse_graph.cli import main; raise SystemExit(main())",
-            "serve", "--select-all", "--watch", "--port", "8766",
-        ]
+        process.arguments = [root.appendingPathComponent("backend/kb_browser_runtime.py").path, operation]
         var environment = ProcessInfo.processInfo.environment
         environment["PYTHONPATH"] = root.appendingPathComponent("db/src").path
         environment["PYTHONUNBUFFERED"] = "1"
@@ -95,6 +115,20 @@ enum KnowledgeBaseProbe: Equatable {
         return !meta.graph.isEmpty && !meta.dataset.isEmpty && !meta.kb_digest.isEmpty
             && meta.node_total >= 0 && meta.edge_total >= 0
     }
+
+    static func matchesSelection(metadata: Data, selection: Data, expected: KnowledgeBaseRuntime.ExpectedSelection) -> Bool {
+        struct Selection: Decodable {
+            let selection_enabled: Bool
+            let selected: [String]
+        }
+        guard recognizesMetadata(metadata),
+              let meta = try? JSONSerialization.jsonObject(with: metadata) as? [String: Any],
+              let actual = try? JSONDecoder().decode(Selection.self, from: selection),
+              actual.selection_enabled, !expected.selected.isEmpty else { return false }
+        return actual.selected.sorted() == expected.selected.sorted()
+            && meta["kb_digest"] as? String == expected.kb_digest
+    }
+
 }
 
 private final class BrowserProbeDelegate: NSObject, URLSessionTaskDelegate {
@@ -123,15 +157,18 @@ private final class BrowserProbeDelegate: NSObject, URLSessionTaskDelegate {
     private let probe: @MainActor () async -> KnowledgeBaseProbe
     private let makeProcess: @MainActor () throws -> Process
     private let startupTimeout: Duration
+    private let shutdownGrace: Duration
 
     init(
         probe: @escaping @MainActor () async -> KnowledgeBaseProbe = KnowledgeBaseBrowserServer.probeServer,
         makeProcess: @escaping @MainActor () throws -> Process = KnowledgeBaseRuntime.makeProcess,
-        startupTimeout: Duration = .seconds(120)
+        startupTimeout: Duration = .seconds(120),
+        shutdownGrace: Duration = .seconds(35)
     ) {
         self.probe = probe
         self.makeProcess = makeProcess
         self.startupTimeout = startupTimeout
+        self.shutdownGrace = shutdownGrace
     }
 
     static func probeServer() async -> KnowledgeBaseProbe {
@@ -145,6 +182,13 @@ private final class BrowserProbeDelegate: NSObject, URLSessionTaskDelegate {
             guard let response = response as? HTTPURLResponse, response.statusCode == 200,
                   KnowledgeBaseProbe.recognizesMetadata(data) else {
                 return .unavailable("Port 8766 is responding, but it is not a ready Paraverse knowledge base browser. Stop the other service or start the graph browser, then try again.")
+            }
+            let expected = try await KnowledgeBaseRuntime.expectedSelection()
+            let selectionRequest = URLRequest(url: address.appendingPathComponent("api/datasets"), cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 3)
+            let (selection, selectionResponse) = try await session.data(for: selectionRequest)
+            guard (selectionResponse as? HTTPURLResponse)?.statusCode == 200,
+                  KnowledgeBaseProbe.matchesSelection(metadata: data, selection: selection, expected: expected) else {
+                return .unavailable("Port 8766 serves different datasets or different knowledge base content than this app’s local repository. That service has been left running. Stop it yourself or use the intended repository, then try again.")
             }
             return .ready
         } catch let error as URLError where error.code == .cannotConnectToHost {
@@ -266,7 +310,10 @@ private final class BrowserProbeDelegate: NSObject, URLSessionTaskDelegate {
             await previousShutdown?.value
             // SIGTERM lets uvicorn and the embedded database clean up normally.
             // Escalate only for the exact child launched by this app.
-            let deadline = ContinuousClock.now.advanced(by: .seconds(2))
+            // redislite daemonizes and its atexit cleanup can exceed two seconds.
+            // Give the native launcher time to reap its Redis daemon before any
+            // exact-child fallback. Never signal an externally reused service.
+            let deadline = ContinuousClock.now.advanced(by: shutdownGrace)
             while process.isRunning, ContinuousClock.now < deadline {
                 try? await Task.sleep(for: .milliseconds(10))
             }
