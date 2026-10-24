@@ -28,7 +28,7 @@ struct WorldSpeaker: Codable, Identifiable {
             }.joined(separator: " · ")
     }
     func matchesDirectorySearch(_ query: String) -> Bool {
-        let term = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        let term = query.trimmingCharacters(in: .whitespacesAndNewlines.union(CharacterSet(charactersIn: "*•-–—")))
         let category = isJudge ? "judge judges" : (attendee == true ? "attendee attendees" : "speaker speakers")
         return term.isEmpty || "\(name) \(company) \(role) \(biography) \(category)".localizedCaseInsensitiveContains(term)
     }
