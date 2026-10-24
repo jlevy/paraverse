@@ -5,6 +5,7 @@ struct WorldPlannerPanel: View {
     @Binding var showPlan: Bool
     @State private var browsing = false
     @State private var search = ""
+    @FocusState private var searchFocused: Bool
     private static let catalog = (try? JSONDecoder().decode([String: [PlannedSession]].self, from: Data(contentsOf: worldAsset("browse-events.json")))) ?? [:]
     @State private var section: PlanSection = .sessions
     private enum PlanSection: String, CaseIterable {
@@ -186,9 +187,19 @@ struct WorldPlannerPanel: View {
                     }
                 }
                 if browsing {
-                    TextField(section == .attendees ? "Search people, roles, or interests" : "Search by title, speaker, or topic", text: $search)
-                        .textFieldStyle(.roundedBorder)
-                        .accessibilityLabel("Search catalog")
+                    HStack(spacing: 12) {
+                        PixelSearchIcon().fill(Brand.welcomeSubtitle)
+                            .frame(width: 18, height: 18).accessibilityHidden(true)
+                        TextField(section == .attendees ? "Search people, roles, or interests" : "Search by title, speaker, or topic", text: $search)
+                            .textFieldStyle(.plain)
+                            .focused($searchFocused)
+                            .accessibilityLabel("Search catalog")
+                    }
+                    .padding(.horizontal, 16).padding(.vertical, 13)
+                    .background(PixelPanel().fill(.black.opacity(0.22)))
+                    .overlay(PixelPanel().stroke(searchFocused ? Brand.welcomeSubtitle : Brand.fieldBorder, lineWidth: searchFocused ? 2 : 1))
+                    .contentShape(PixelPanel())
+                    .onTapGesture { searchFocused = true }
                     if section == .attendees ? visiblePeople.isEmpty : (section == .sessions ? visibleSessions : visibleEvents).isEmpty {
                         Text("No matches. Try another search.").foregroundStyle(.secondary)
                     }
