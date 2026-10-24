@@ -1,0 +1,19 @@
+---
+type: is
+id: is-01m5r3vr8txvmqfkfde5crbb5b
+title: "PR #14 B1: require owned self-report for attendance export"
+kind: bug
+status: in_progress
+priority: 2
+version: 2
+delegate: claude-code@spud10.local
+labels: []
+dependencies: []
+parent_id: is-01m5r23chnhgvbw2529w9d655c
+hold: null
+hold_until: null
+created_at: 2026-10-24T23:27:45.944Z
+updated_at: 2026-10-24T23:28:01.121Z
+started_at: 2026-10-24T23:28:01.120Z
+---
+Security review5640564360 B1: schema-valid confirmed attendee with no owned account or own attendance self-report emits attendee=true. Export only attendance claims backed by validated owned account and explicit self-report evidence; synthetic negative regression; preserve official roles.
