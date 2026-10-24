@@ -29,7 +29,8 @@ professional audience and would expect to see connected to a conference:
   speaker bios, sponsors, exhibitors, venues and rooms.
 - **Public profiles on GitHub, LinkedIn and X:** the person’s own public profile
   information, such as name, handle, headline or bio, city-level location, current and
-  past roles, education, links, and public counts, along with their own public posts.
+  past roles, education, links, and public counts, along with their own public posts
+  about their work.
   These profiles are central to the knowledge base.
   The same applies to other accounts a person uses for their work, such as Bluesky,
   Mastodon and YouTube.
@@ -53,10 +54,14 @@ professional audience and would expect to see connected to a conference:
   about people other than the profile’s owner, such as “people also viewed” lists,
   similar profiles, and other people’s posts and reactions.
   Strip it, along with scraper bookkeeping that describes no one, before committing.
-- **Sensitive personal attributes:** health, religion, political views, sexual
+- **Added sensitive personal attributes:** health, religion, political views, sexual
   orientation, ethnicity, family and relationships, immigration status, finances, birth
   date or age, and any location finer than a city or metro area.
-  Do not infer them either.
+  The knowledge base never adds, derives or infers them: not in a structured field, tag,
+  interest, label, selected post, evidence string or generated text.
+  The one exception is text people wrote about themselves and published in a public
+  source, such as an official speaker bio, a profile bio or a profile README.
+  Keep that text verbatim, as they wrote it, including any pronouns they list.
 - **Unstated attendance:** do not list someone as attending unless they said so
   publicly.
   A like, a follow or another person’s post is not enough.
@@ -99,7 +104,8 @@ checklist in its description, and the reviewer checks each item:
 - [ ] No contact details appear, and the redaction test passes.
 - [ ] Profile data covers only the profile’s owner, with no other people’s data and no
   scraper bookkeeping.
-- [ ] No sensitive attributes are stated or inferred.
+- [ ] No sensitive attributes are added or inferred; only self-written public bio text
+  states them, verbatim.
 - [ ] Attendance appears only where the person said so publicly.
 - [ ] Generated text cites its sources and stays professional.
 - [ ] No credentials, local paths or machine details appear.
