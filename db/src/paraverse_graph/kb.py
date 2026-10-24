@@ -113,10 +113,16 @@ class KnowledgeBase:
         return _find_by_id(artifact.payload, node.id)
 
 
-def read_artifact(path: Path, rel_path: str) -> Artifact:
-    """
-    Read a frontmatter-md or pure-yaml artifact and return its envelope payload.
-    """
+def referenced_artifact_paths(root: Path) -> set[str]:
+    """Every artifact path the graph export will load, regardless of its extension."""
+    nodes = root / "_graph" / "nodes.jsonl"
+    if not nodes.is_file():
+        return set()
+    return {row["path"] for row in _parse_jsonl(nodes.read_bytes(), nodes, ("id", "kind", "path"))}
+
+
+def read_artifact_document(path: Path, rel_path: str) -> tuple[dict[str, Any], bool]:
+    """Read portable YAML and report whether the document has Markdown frontmatter."""
     try:
         text = path.read_text(encoding="utf-8")
         match = _FRONTMATTER.match(text)
@@ -125,6 +131,14 @@ def read_artifact(path: Path, rel_path: str) -> Artifact:
         raise KbError(f"{rel_path}: cannot parse: {e}") from e
     if not isinstance(data, dict):
         raise KbError(f"{rel_path}: not a YAML mapping")
+    return data, match is not None
+
+
+def read_artifact(path: Path, rel_path: str) -> Artifact:
+    """
+    Read a frontmatter-md or pure-yaml artifact and return its envelope payload.
+    """
+    data, _ = read_artifact_document(path, rel_path)
     block = data.get("softschema")
     if not isinstance(block, dict) or "envelope" not in block:
         raise KbError(f"{rel_path}: missing softschema block")
@@ -203,11 +217,7 @@ def build_snapshot(root: Path) -> dict[str, tuple[int, ...]]:
     try:
         paths = [
             root,
-            *(
-                p
-                for p in root.rglob("*")
-                if p.suffix in (".md", ".yaml", ".json", ".jsonl") and p.is_file()
-            ),
+            *(p for p in root.rglob("*") if p.is_file()),
         ]
         result: dict[str, tuple[int, ...]] = {}
         for path in paths:

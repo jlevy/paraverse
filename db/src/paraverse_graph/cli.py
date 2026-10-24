@@ -186,6 +186,8 @@ def _validate_kb(dataset: Dataset, kb_root: Path) -> None:
 
     err.print(f"Validating dataset `{dataset.name}` at {kb_root} with softschema …")
     report = validate_artifacts(kb_root)
+    if not report.checked:
+        raise CLIError("No artifacts found in the selected KB; nothing was loaded.")
     if not report.ok:
         # Every failed path, one per line, printed as is: error text is not markup.
         for problem in report.problems:
