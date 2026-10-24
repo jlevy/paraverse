@@ -47,7 +47,8 @@ professional audience and would expect to see connected to a conference:
 
 - **Contact details:** email addresses, phone numbers and postal addresses, even when the
   person published them.
-  The build redacts them from free text, and a test fails if any remain.
+  Remove them from free text as well.
+  Nothing removes or detects them automatically yet, so check by hand before you commit.
 - **Non-public sources:** anything behind a login, paywall or other access control, and
   anything obtained by working around one.
 - **Other people’s data inside a profile:** scraped profile payloads often carry data
@@ -101,7 +102,7 @@ Every pull request that adds or changes data, fixtures or doc examples includes 
 checklist in its description, and the reviewer checks each item:
 
 - [ ] Every new source is public and needs no login.
-- [ ] No contact details appear, and the redaction test passes.
+- [ ] No contact details appear, in structured fields or in free text.
 - [ ] Profile data covers only the profile’s owner, with no other people’s data and no
   scraper bookkeeping.
 - [ ] No sensitive attributes are added or inferred; only self-written public bio text
