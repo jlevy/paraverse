@@ -3,9 +3,9 @@ type: is
 id: is-01m5r9fjmavx2q1gfqadc3vzv1
 title: "PTC PR1: reject encoded contact URLs in sanitizer and public-data gate"
 kind: bug
-status: in_progress
+status: closed
 priority: 1
-version: 4
+version: 5
 delegate: claude-code@spud10.local
 labels: []
 dependencies: []
@@ -13,8 +13,12 @@ parent_id: is-01m5r936jh6h5sbf0a7vanfmvm
 hold: null
 hold_until: null
 created_at: 2026-10-25T01:05:58.409Z
-updated_at: 2026-10-25T01:41:33.512Z
+updated_at: 2026-10-25T01:44:08.180Z
 started_at: 2026-10-25T01:06:11.024Z
+closed_at: 2026-10-25T01:44:08.180Z
+close_reason: "Fixed in PTC PR1 feature180815d15134ac2ebb41f95812eba3e5719143db and verified merged as64e3c0e7c5923baf74c88e408e642837da1bc54f. Final D/E clean;29tests and both CI pass;132artifacts valid. Public PR: https://github.com/jlevy/ptc2026-md/pull/1"
+resolution: null
+duplicate_of: null
 ---
 Privacy C2 repro: a synthetic percent-encoded email in a contact URL passes clean_tree and privacy.findings. Decode bounded URL/contact forms for screening, sanitize/reject without echoing values, and regress safe URL/account identifiers to avoid overbroad exclusions.
 
