@@ -5,7 +5,7 @@ title: Verify Tina native app and planning backend at PR14 top
 kind: task
 status: in_progress
 priority: 1
-version: 27
+version: 28
 delegate: claude-code@spud10.local
 labels: []
 dependencies: []
@@ -34,10 +34,11 @@ child_order_hints:
   - is-01m5ra13s2j4kscp87k9sze6zd
   - is-01m5rbeafbbe28dvtjbd9f6ae1
   - is-01m5rbeat369k54kcrd7sac2h1
+  - is-01m5rc0n1xf9vrjhnbwwkg500c
 hold: null
 hold_until: null
 created_at: 2026-10-24T22:56:58.932Z
-updated_at: 2026-10-25T01:40:14.786Z
+updated_at: 2026-10-25T01:50:15.089Z
 started_at: 2026-10-24T22:57:09.641Z
 ---
 User explicitly requested testing all work Tina committed on top. Test pinned PR14 1c6266593b050649425f0f122033708ad55377eb Swift release and backend suites in persistent external source checkout; compare demo b918f3c changes without dragging old ancestry; report launch readiness, exact heads, failures and any missing demo behavior. No native stack metadata mutations or pushes.
