@@ -332,3 +332,66 @@ def test_nested_typed_records_merge_consistently_with_their_graph_nodes(
         {"dataset": "alpha", "value": "First title"},
         {"dataset": "beta", "value": "Second title"},
     ]
+
+
+@pytest.mark.parametrize("strict_name", ["alpha", "beta"])
+def test_schema_union_accepts_sources_that_omit_constraints(tmp_path: Path, strict_name: str):
+    cases = [
+        ("length", {"type": "string", "minLength": 5}, {"type": "string"}, "x", "longer"),
+        (
+            "items",
+            {"type": "array", "items": {"type": "string"}},
+            {"type": "array"},
+            [1],
+            ["one"],
+        ),
+        (
+            "additional",
+            {"type": "object", "additionalProperties": False},
+            {"type": "object"},
+            {"extra": 1},
+            {},
+        ),
+        (
+            "definitions",
+            {"$ref": "#/$defs/Details"},
+            {"$ref": "#/$defs/Details"},
+            {"label": "x"},
+            {"label": "longer"},
+        ),
+    ]
+    for case, strict_value, loose_value, loose, strict in cases:
+        roots = {}
+        documents = {}
+        for name in ("alpha", "beta"):
+            restrictive = name == strict_name
+            root = write_kb(tmp_path / case / name, [("organization", {"id": f"org:{name}"})])
+            label = {"type": "string", "minLength": 5} if restrictive else {"type": "string"}
+            spec = {
+                "type": "object",
+                "properties": {
+                    "value": strict_value if restrictive else loose_value,
+                    "event": {"type": "string", "pattern": "^(event):[a-z]+$"},
+                },
+                "$defs": {"Details": {"type": "object", "properties": {"label": label}}},
+            }
+            if case == "definitions" and restrictive:
+                spec["additionalProperties"] = False
+            document = {"value": strict if restrictive else loose, "event": "event:example"}
+            if case == "definitions" and not restrictive:
+                document["extra"] = "allowed"
+            assert Draft202012Validator(spec).is_valid(document)
+            documents[name] = document
+            (root / "_schemas/person.schema.yaml").write_text(yaml.safe_dump(spec))
+            roots[name] = root
+        schemas = compose_kbs(roots).kind_schemas
+        assert schemas is not None
+        person = schemas["person"]
+        validator = Draft202012Validator(person.schema)
+        assert all(validator.is_valid(document) for document in documents.values()), case
+        assert not validator.is_valid({"value": None, "event": "event:example"}), case
+        fields = {field["name"]: field for field in person.fields}
+        assert fields["event"]["ref_kinds"] == ["event"]
+        if case == "definitions":
+            assert fields["value"]["def"] == "Details"
+            assert person.defs["Details"][0]["name"] == "label"
