@@ -3,14 +3,18 @@ type: is
 id: is-01m5r2sdmbpyk8zjfybhnfa0xc
 title: "PR #13 Qodo r4368861855: A cancelled plan can unlock the ui mid-request"
 kind: bug
-status: open
+status: in_progress
 priority: 2
-version: 1
+version: 2
+delegate: claude-code@spud10.local
 labels: []
 dependencies: []
 parent_id: is-01m5r2962gx3jdwh8zwdp57h42
+hold: null
+hold_until: null
 created_at: 2026-10-24T23:09:00.938Z
-updated_at: 2026-10-24T23:09:00.938Z
+updated_at: 2026-10-25T04:45:10.459Z
+started_at: 2026-10-25T04:45:10.459Z
 ---
 Medium. Original review: https://github.com/jlevy/paraverse/pull/13#discussion_r4368861855. Location: native/Sources/CommonGround/Plan.swift:149. 8\. A cancelled plan can unlock the ui mid-request 🐞 Bug ☼ Reliability
 

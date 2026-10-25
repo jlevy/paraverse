@@ -3,14 +3,18 @@ type: is
 id: is-01m5r2sggt7mfhs6jeatwth0nr
 title: "PR #14 Qodo r4368869190: Recommended people's cards lose their avatars"
 kind: bug
-status: open
+status: in_progress
 priority: 3
-version: 1
+version: 2
+delegate: claude-code@spud10.local
 labels: []
 dependencies: []
 parent_id: is-01m5r2962gx3jdwh8zwdp57h42
+hold: null
+hold_until: null
 created_at: 2026-10-24T23:09:03.897Z
-updated_at: 2026-10-24T23:09:03.897Z
+updated_at: 2026-10-25T04:45:10.486Z
+started_at: 2026-10-25T04:45:10.486Z
 ---
 Low. Original review: https://github.com/jlevy/paraverse/pull/14#discussion_r4368869190. Location: backend/chat_service.py:17. 6\. Recommended people's cards lose their avatars 🐞 Bug ≡ Correctness
 
