@@ -114,12 +114,19 @@ Edit a dataset in its own repository, never through the submodule in this reposi
   uv settings stay out of `uv.lock`.
 - Swift client: `swift test --package-path db/clients/swift`.
 
-## Canonical app launch
+## Canonical App Launch
 
-When the user asks to run, open, or restart Paraverse, use the Knowledge Base build named **Paraverse Final**. Run:
+When the user asks to run, open, or restart Paraverse, use the Knowledge Base build
+named **Paraverse Final**. Run from the repository root:
 
 ```bash
-bash /Users/tnguyen/Documents/ChatGPT/Paraverse-review/native/run-app.sh
+bash native/run-app.sh
 ```
 
-This launcher rebuilds the Knowledge Base version, closes packaged Paraverse copies, and opens the exact app path. Do not launch `Conference/native/build/Paraverse.app` or resolve the app by its display name. Keep the bundle identifier unchanged to preserve local account state and privacy grants.
+This launcher rebuilds the Knowledge Base version, closes packaged Paraverse copies,
+and opens `native/build/Paraverse Final.app`.
+Keep the bundle identifier unchanged to preserve local account state and privacy grants.
+
+<!-- This document follows common-doc-guidelines.md.
+See github.com/jlevy/practical-prose and review guidelines before editing.
+-->
