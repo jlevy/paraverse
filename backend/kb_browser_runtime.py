@@ -1,10 +1,13 @@
 """Native-owned KB launcher: bind reuse to local inputs and clean up on early close."""
+
 from __future__ import annotations
 
 import json
 import signal
 import sys
 from pathlib import Path
+from types import FrameType
+from typing import Any
 
 
 def expected_selection(root: Path) -> dict:
@@ -16,7 +19,9 @@ def expected_selection(root: Path) -> dict:
     if target.kb_root is not None and (target.kb_root / "_graph/nodes.jsonl").is_file():
         sources[target.name] = target.require_kb()
     if not sources:
-        raise ValueError("No local knowledge bases are available; initialize the dataset submodules.")
+        raise ValueError(
+            "No local knowledge bases are available; initialize the dataset submodules."
+        )
     kb = compose_kbs(sources)
     return {"selected": sorted(sources), "kb_digest": kb.digest}
 
@@ -25,13 +30,34 @@ def serve() -> int:
     # Install this before importing the CLI or opening Redis. During startup
     # uvicorn has no signal handler yet. SystemExit runs redislite's registered
     # atexit cleanup, including its detached daemon, on an early native close.
-    def terminate(signum, _frame):
+    def terminate(signum: int, _frame: FrameType | None) -> None:
         raise SystemExit(128 + signum)
 
     signal.signal(signal.SIGTERM, terminate)
-    from paraverse_graph.cli import main
+    from paraverse_graph import cli
 
-    return main(["serve", "--select-all", "--watch", "--port", "8766"])
+    # The CLI owns the factory binding; instrument only this native process.
+    original_open_db = cli.open_db  # pyright: ignore[reportPrivateLocalImportUsage]
+    databases: list[Any] = []
+
+    def open_owned_db(db_file: Path | None = None, url: str | None = None) -> Any:
+        db = original_open_db(db_file, url)
+        if url is None:
+            databases.append(db)
+        return db
+
+    cli.open_db = open_owned_db  # pyright: ignore[reportPrivateLocalImportUsage]
+    try:
+        return cli.main(["serve", "--select-all", "--watch", "--port", "8766"])
+    finally:
+        cli.open_db = original_open_db  # pyright: ignore[reportPrivateLocalImportUsage]
+        for db in reversed(databases):
+            # Uvicorn/pubsub can leave several of our own pooled connections.
+            # redislite mistakes them for other clients and skips daemon cleanup.
+            # Disconnect ours first; its shared-client guard still protects users
+            # connected through a different pool or process.
+            db.connection.connection_pool.disconnect()
+            db.close()
 
 
 def main() -> int:
