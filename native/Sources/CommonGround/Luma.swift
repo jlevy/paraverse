@@ -32,6 +32,8 @@ struct LumaEventCard: View {
             Label(draft.timeLabel, systemImage: "calendar")
             Label(draft.venueName, systemImage: "cup.and.saucer")
             Text(draft.address).font(.caption).foregroundStyle(.secondary)
+            Text("Unlisted · Anyone with the link may view it")
+                .font(.caption).foregroundStyle(.secondary)
             DisclosureGroup("Venue details") {
                 VStack(alignment: .leading, spacing: 8) {
                     Text(draft.venueReason).font(.callout).fixedSize(horizontal: false, vertical: true)
