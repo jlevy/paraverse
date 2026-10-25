@@ -3,9 +3,9 @@ type: is
 id: is-01m5qvmnvwcsnrwe45tndkdcnw
 title: "Address PR #3 review qodo-5639984481: Qodo finding on the data policy"
 kind: task
-status: in_progress
+status: closed
 priority: 1
-version: 3
+version: 4
 delegate: claude-code@spud10.local
 labels: []
 dependencies: []
@@ -14,8 +14,12 @@ child_order_hints:
 hold: null
 hold_until: null
 created_at: 2026-10-24T21:04:05.499Z
-updated_at: 2026-10-25T04:49:09.551Z
+updated_at: 2026-10-25T04:49:59.656Z
 started_at: 2026-10-25T04:49:09.551Z
+closed_at: 2026-10-25T04:49:59.656Z
+close_reason: "Historical PR2/3/4 review handling is complete: all child finding beads are closed, the PRs are merged, and upstream generated-skill limitations are tracked separately at jlevy/softschema#61 and jlevy/tbd#327. This closes the addressing parent, not the still-open upstream follow-ups."
+resolution: null
+duplicate_of: null
 ---
 Qodo (qodo-code-review[bot]) reviewed PR #3 (docs: add the README and a data policy for public data, branch docs/data-policy) at head 59c82ed259ee91654e08ee36d876124869b9e8b6. The review is unmarked (no tbd:review marker), so findings keep Qodo's numbering and are referenced by review URL plus ID.
 
