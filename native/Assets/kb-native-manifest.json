@@ -1,7 +1,7 @@
 {
   "datasets": [
     {
-      "commit": "cd41b074e6057eba5a55f1941c99e023adf691e8",
+      "commit": "a82367923bee34147da575dbd0cef17b5bc285a8",
       "contracts": [
         "paraverse.conference:Event/v2",
         "paraverse.conference:Experience/v2",
@@ -51,7 +51,7 @@
       "softschemaValidated": true
     },
     {
-      "commit": "afa82b56cb1eeb92c29029f271b3ed45db1ef44e",
+      "commit": "64e3c0e7c5923baf74c88e408e642837da1bc54f",
       "contracts": [
         "paraverse.conference:Event/v1",
         "paraverse.conference:GitHubAccount/v1",
@@ -72,7 +72,7 @@
         ],
         "unscheduledSessions": []
       },
-      "graphDigest": "1d9aa2a4801b5469",
+      "graphDigest": "4a78c3f6b3358a79",
       "people": 10,
       "repository": "https://github.com/jlevy/ptc2026-md",
       "sessionSlots": 0,
