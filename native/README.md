@@ -1,67 +1,25 @@
 # Paraverse for macOS
 
-A native macOS 14+ conference demo with a pixel-art world, personal recommendations,
-attendee search, AI chat, and calendar review. Build with Xcode command-line tools.
+Build and run instructions are in the [repository README](../README.md#native-app).
+The native SwiftUI/SpriteKit app requires macOS 14 or later.
 
-## Run from a fresh clone
+The far-right Knowledge Base toolbar button opens a native window containing the raw
+record browser. It starts `db/` locally, loads both dataset submodules into embedded
+FalkorDB, and watches their builds. The browser remains inside the app; external source
+links open in the default browser.
 
-From the repository root:
+Native people and sessions are generated from the same pinned KB records at build time.
+The bundled `kb-native-manifest.json` records exact commits, validation and missing
+source fields. Empty biographies remain empty. Judges, hosts, speakers and public
+attendee self-reports retain their distinct roles. Illustrative character artwork does
+not establish attendance or location.
 
-```sh
-git submodule update --init --recursive
-python3 -m venv backend/.venv
-backend/.venv/bin/pip install -r backend/requirements.txt
-cp .env.example .env
-```
+Profile imports and model-assisted planning use the separate local backend on port
+8765. Credentials stay in the repository’s ignored `.env`, never in the app bundle.
+`COMMON_GROUND_PROFILE_ENDPOINT` can override profile import during development;
+other planning endpoints currently use localhost. Calendar and Luma actions use the
+existing review flows.
 
-Set your own `OPENAI_API_KEY` in `.env`. Live public-profile imports also require
-`BRIGHT_DATA_API_KEY`. Keys and local profiles are not included in GitHub.
-
-Start the local service in one terminal:
-
-```sh
-backend/.venv/bin/python backend/profile_service.py
-```
-
-In another terminal, build and launch:
-
-```sh
-bash native/build-app.sh
-open native/build/Paraverse.app
-```
-
-The app calls the local service on port 8765. Conference browsing uses bundled
-catalogs. AI chat needs the service and a valid model key. Optional FalkorDB access
-uses `FALKORDB_HOST`, `FALKORDB_PORT`, `FALKORDB_PASSWORD`, and
-`FALKORDB_USERNAME`; without it, chat uses the public catalog and reports graph
-retrieval as unavailable. The separate `db/` component from PR #10 retains its own
-setup and dataset browser.
-
-Luma creation/invitations require a separately authenticated local connection.
-Install the optional runner with `npm ci --prefix backend/luma-browser` and
-`backend/luma-browser/node_modules/.bin/playwright install chromium` if using it.
-No browser sessions, contacts, credentials, or invitations are shared in this repo.
-
-## Demo
-
-Onboard with your public profile links, review your bio and interests, then enter
-GitHub Universe. The guide appears automatically. Recommended / All switch between
-personal recommendations and the full catalog. The category tabs show speaker
-sessions, attendees, and external events. The sidebar opens only when requested.
-
-In chat, try “Can you find me events on the first day around security?” Results
-with known catalog IDs render as event cards. Add to calendar opens the existing
-review flow; merely asking a question does not create calendar events.
-
-## Checks
-
-```sh
-swift test --package-path native
-cd backend
-python3 -m unittest discover -p 'test_*.py'
-```
-
-The app is development-signed, not notarized. Generated builds, local user defaults,
-raw profile research, and credentials stay on each developer’s machine. The
-`vendor/` submodules are the canonical shared knowledge bases; legacy raw research
-is deliberately excluded from this public repository.
+Run `swift test -c release --package-path native` for native checks. The app is signed
+for local development and needs its checkout/runtime to start the knowledge-base server;
+it is not a self-contained distribution package.

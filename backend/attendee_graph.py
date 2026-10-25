@@ -6,6 +6,8 @@ from session_service import catalog
 TOPICS={'ai-agents':('AI agents',r'\bagents?\b|agentic|copilot'),'developer-tools':('Developer tools',r'developer tool|devops|github|coding|software development'),'workflow-automation':('Workflow automation',r'workflow|automat|ci/cd|continuous integration'),'cloud':('Cloud infrastructure',r'\bcloud\b|\baws\b|azure|infrastructure'),'open-source':('Open source',r'open.source|oss|maintainer'),'design':('Product design',r'\bdesign\b|typography|interface'),'data':('Data systems',r'\bdata\b|database|postgres|machine learning')}
 def topics(text):return [{'id':k,'name':name} for k,(name,pattern) in TOPICS.items() if re.search(pattern,text,re.I)]
 def people():
+ canonical=ROOT/'native/Assets/kb-attendees.json'
+ if canonical.exists():return json.loads(canonical.read_text())
  base=json.loads((ROOT/'native/Assets/universe-attendees.json').read_text())
  source=ROOT/'work/data/external/attendance-x-api/candidate-users.json'
  bios={p['username'].lower():p.get('description','') for p in json.loads(source.read_text())['data']} if source.exists() else {}
@@ -50,6 +52,8 @@ def sync():
  return graph.ro_query('MATCH (n) RETURN count(n)').result_set
 
 def lookup(profile):
+ if (ROOT/'native/Assets/kb-native-manifest.json').exists():
+  raise RuntimeError('The legacy demo graph is separate from the current knowledge-base snapshot')
  labels=topics(' '.join(profile.get('interests',[])))
  graph=connect()
  rows=graph.ro_query('MATCH (p:Person)-[r:HAS_INTEREST]->(t:Topic) WHERE t.id IN $topics MATCH (p)-[a:ATTENDANCE_SIGNAL]->(:Conference {id:$conference}) OPTIONAL MATCH (s:Session)-[:COVERS]->(t) RETURN p.id,p.name,t.name,r.evidence_json,a.source_url,collect(DISTINCT s.title) AS related_sessions LIMIT 30',{'topics':[t['id'] for t in labels],'conference':'universe-2026'}).result_set

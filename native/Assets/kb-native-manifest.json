@@ -1,0 +1,91 @@
+{
+  "datasets": [
+    {
+      "commit": "a82367923bee34147da575dbd0cef17b5bc285a8",
+      "contracts": [
+        "paraverse.conference:Event/v2",
+        "paraverse.conference:Experience/v2",
+        "paraverse.conference:Facet/v2",
+        "paraverse.conference:GitHubAccount/v2",
+        "paraverse.conference:Organization/v2",
+        "paraverse.conference:Package/v2",
+        "paraverse.conference:Page/v2",
+        "paraverse.conference:Person/v2",
+        "paraverse.conference:Profile/v2",
+        "paraverse.conference:Repository/v2",
+        "paraverse.conference:Room/v2",
+        "paraverse.conference:Session/v2",
+        "paraverse.conference:SocialAccount/v2",
+        "paraverse.conference:Software/v2",
+        "paraverse.conference:Venue/v2",
+        "paraverse.conference:Website/v2"
+      ],
+      "dataset": "universe2026-md",
+      "eventID": "event:github-universe-2026",
+      "gaps": {
+        "missingBiographies": [
+          "person:alex-gorischek",
+          "person:andrew-norris",
+          "person:annamalai-chockalingam",
+          "person:catharine-mcnally",
+          "person:evan-boyle",
+          "person:jessehouwing",
+          "person:kartik-bharath",
+          "person:leo-balter",
+          "person:matt-alvarez",
+          "person:michael-beemer",
+          "person:rohan-varma",
+          "person:sai-gade",
+          "person:yanan-cai",
+          "person:ying-chang"
+        ],
+        "missingLegacyIdentity": [
+          "person:jessehouwing"
+        ],
+        "unscheduledSessions": []
+      },
+      "graphDigest": "bc33dc8fd8bde7ae",
+      "people": 183,
+      "repository": "https://github.com/jlevy/universe2026-md",
+      "sessionSlots": 161,
+      "softschemaValidated": true
+    },
+    {
+      "commit": "64e3c0e7c5923baf74c88e408e642837da1bc54f",
+      "contracts": [
+        "paraverse.conference:Event/v1",
+        "paraverse.conference:GitHubAccount/v1",
+        "paraverse.conference:Organization/v1",
+        "paraverse.conference:Person/v1",
+        "paraverse.conference:Profile/v1",
+        "paraverse.conference:Repository/v1",
+        "paraverse.conference:SocialAccount/v1",
+        "paraverse.conference:Venue/v1",
+        "paraverse.conference:Website/v1"
+      ],
+      "dataset": "ptc2026-md",
+      "eventID": "event:patch-the-conference-2026",
+      "gaps": {
+        "missingBiographies": [],
+        "missingLegacyIdentity": [
+          "person:kunal-kushwaha"
+        ],
+        "unscheduledSessions": []
+      },
+      "graphDigest": "4a78c3f6b3358a79",
+      "people": 10,
+      "repository": "https://github.com/jlevy/ptc2026-md",
+      "sessionSlots": 0,
+      "softschemaValidated": true
+    }
+  ],
+  "generator": "backend/export_kb_native.py",
+  "limitations": [
+    "Offline snapshot; regenerate after changing a dataset pin.",
+    "Only confirmed or self-reported participation in the selected event is included.",
+    "Missing structured biographies stay empty; Markdown bodies are never consumed.",
+    "External side-event assets are maintained separately and are not refreshed here.",
+    "Native social buttons use the first account ID in sorted order per platform; accountURLs retains all linked accounts."
+  ],
+  "schemaVersion": 1
+}

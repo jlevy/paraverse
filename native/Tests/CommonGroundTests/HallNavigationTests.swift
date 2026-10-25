@@ -120,7 +120,8 @@ final class HallNavigationTests: XCTestCase {
 
     func testOfficialCatalogHasUniqueIDsAndPhotos() throws {
         let people = WorldSpeaker.all
-        XCTAssertEqual(people.count,183)
+        XCTAssertEqual(people.filter { $0.attendee != true }.count,182)
+        XCTAssertEqual(people.filter { $0.attendee == true }.count,1)
         XCTAssertEqual(Set(people.map(\.id)).count,people.count)
         for person in people {
             XCTAssertFalse(person.name.isEmpty)

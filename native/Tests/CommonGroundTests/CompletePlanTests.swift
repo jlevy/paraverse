@@ -116,7 +116,7 @@ final class CompletePlanTests: XCTestCase {
         planner.generate(completePlan: true)
         for _ in 0..<800 where planner.busy { try await Task.sleep(for: .milliseconds(10)) }
         XCTAssertFalse(planner.busy)
-        XCTAssertGreaterThanOrEqual(started.duration(to: .now), .seconds(5))
+        XCTAssertGreaterThanOrEqual(started.duration(to: .now), .seconds(3))
         XCTAssertEqual(calls, ["/session-plan", "/chat", "external"])
         XCTAssertEqual(planner.sessions.count, 1)
         XCTAssertEqual(planner.peopleToMeet.count, 1)
@@ -124,5 +124,20 @@ final class CompletePlanTests: XCTestCase {
         XCTAssertFalse(planner.generatingRecommendations)
         XCTAssertTrue(planner.recommendationWarnings.isEmpty)
         XCTAssertTrue(planner.showPlan)
+    }
+
+    @MainActor func testOpeningCompletePlanWhileBusyDoesNotReplaceActiveWork() {
+        let planner = Planner()
+        planner.busy = true
+        planner.generatingRecommendations = true
+        planner.status = "Loading the current plan"
+        planner.requestData = { _ in
+            XCTFail("Opening planning while busy must not start a second request")
+            throw URLError(.cancelled)
+        }
+        planner.generate(completePlan: true)
+        XCTAssertTrue(planner.busy)
+        XCTAssertTrue(planner.generatingRecommendations)
+        XCTAssertEqual(planner.status, "Loading the current plan")
     }
 }

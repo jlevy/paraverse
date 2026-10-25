@@ -1,0 +1,10 @@
+Generated with built-in imagegen, 2026-10-24.
+Style reference: attendees-0.png.
+2x2 transparent atlas, row-major identities: riken-shah, nitish-mane, manpreet-singh, schezeen-fazulbhoy.
+Illustrative pixel sprites based on public LinkedIn profile photos; not exact likenesses.
+Roster source: https://www.wemakedevs.org/hackathons/ptc/judges
+Photo references recorded in vendor/ptc2026-md public account dataset:
+https://www.linkedin.com/in/shah-riken/
+https://www.linkedin.com/in/nitish-mane/
+https://www.linkedin.com/in/manpoffc/
+https://www.linkedin.com/in/schezeenfazulbhoy/
