@@ -5,7 +5,7 @@ title: Review PR15 cache and app-entry performance layer
 kind: task
 status: in_progress
 priority: 1
-version: 8
+version: 9
 delegate: codex@spud10.local
 labels: []
 dependencies: []
@@ -18,11 +18,11 @@ child_order_hints:
 hold: null
 hold_until: null
 created_at: 2026-10-24T23:28:21.029Z
-updated_at: 2026-10-25T00:40:14.012Z
+updated_at: 2026-10-25T01:29:21.792Z
 started_at: 2026-10-24T23:28:28.330Z
 ---
 Independent strong-max senior and dedicated performance/security/correctness reviews of PR15, pinned to1cd2c057 on base021a745. Isolated read-only worktree; publish formal reviews, track findings with owner, no code edits or merges.
 
 ## Notes
 
-Original A5640602183 B5640610923 C5640617959 D5640623486 at1cd2/base021a verified. Latest boundedE5640774432 exact0e4cf066/base9037 parentverified trustedjlevy COMMENTED,20/20files incl12Tinadeltas;25focusednativepass7.137s,42avatarcrop/cache andfastsearchresetprobes pass, cachedpeopleprobeRED twoassertions/1requestinstead2 after completeA sessions-onlyB completeB. ExistingnavigationHighfixed. All six additionalQodo findings valid: personalAGENTSpath8909/stalepackagepath8910/Discoverprose8911 rootfixbeadpv-gq27; renamedappcopies8905deferredopenpv-mdct; eagerchat8908deferredopenpv-jxra; cachedpeople4369017647 priorityP1pv-k49x rootassignedfixpending. NewE1MediumunlistedLumanoticepv-hndd open; restore2linecopy or explicitdefer. DBtreeexactmain837 hash1882f55f, crossrestartcachedeferredopenpv-vdku, oldrestart/reconnectbenchmarksremovedfromcurrentdescription. No launchers executed/liveapps terminated, source/ref/beads untouchedbyreviewer, originalreviewtreeclean1cd2. Finalsourcefixes/restack stillneed exactdelta confirmation; rootowns all15refs andmerge. Updated durablepr15-dispositions-draft includesE+allQodoreviewURLs/IDs/beadmap but FIX_REQUIRED/VERIFY andFINAL_HEAD placeholders MUSTresolvebeforepublication. Alltracking synced; noCIchecks reported.
+Original A5640602183 B5640610923 C5640617959 D5640623486 at1cd2/base021a verified. BoundedE5640774432 exact0e4/base9037 coveredall20filesincl12Tina additions,25focusednativePASS; cachedpeopleREDtwoassertionsrootfixed70529d5. LatestboundedF5640908331 exact4af553bbf0729417e72c851c7a69f437ef30f719/basef05e7e00c58db649643339943d5302ae56e5da80 publishedandparentverified. Independent same REDreproducer now2testsPASS2.322s/build40.12; all9ownpatches range-diff equal. Docs17da removes personalpath, fixesportablelauncherandDiscover-firstprose;462539restoresLumaunlistednoticeE1/pv-hndd. SixQodo extras:8909/8910/8911 fixedpv-gq27;8905renamecopiesdeferredpv-mdct;8908eagerchatdeferredpv-jxra;4369017647 cachedpeoplefixedpv-k49x. Crossrestartcachepv-vdku remainsopen; do notquoteobsoletebenchmarks. No ownDBchanges, inheritedruntimecleanup retained. Finalrootclean13reconstruction8cf/basef041 andsafePTCpin change require boundedparentcarry review beforefinal15merge; F is not clearanceofunseenrestack. Durablepr15-dispositions-draft updatedFandactualfixes butFINAL_HEAD/finalparentcarrymustfill. Rootowns allrefs/source/merges; no launcher/liveapp terminated. PTCprivacyHOLDseparateuntilownerfinaldatasetreview. Trackingupdatedforhandoff; noCIpassclaim.
