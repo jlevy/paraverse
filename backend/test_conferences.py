@@ -27,7 +27,7 @@ class ConferenceTests(unittest.TestCase):
         p=copy.deepcopy(self.p);p['travel']='Online';self.assertNotEqual(cache_key(p),cache_key(self.p))
         self.assertEqual(clean_profile({**self.p,'name':'Other'}),self.p)
     def test_private_source_blocked(self):
-        with patch('conference_service.socket.getaddrinfo',return_value=[(2,1,6,'',('127.0.0.1',443))]):
+        with patch('conference_http.socket.getaddrinfo',return_value=[(2,1,6,'',('127.0.0.1',443))]):
             with self.assertRaises(ValueError):public_url('https://example.com')
         with self.assertRaises(ValueError):public_url('file:///etc/passwd')
 if __name__=='__main__':unittest.main()

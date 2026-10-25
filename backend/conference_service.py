@@ -1,10 +1,11 @@
 """Live conference discovery, source extraction, and profile-specific ranking."""
-import concurrent.futures, hashlib, ipaddress, json, os, re, socket, time, uuid
+import concurrent.futures, hashlib, json, os, re, time, uuid
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 from html.parser import HTMLParser
 from urllib.parse import urlparse, urljoin
-from urllib.request import Request, build_opener, HTTPRedirectHandler
+from urllib.request import Request
+from conference_http import open_public_url, validate_public_url
 from pathlib import Path
 from profile_service import api, load_env, ROOT, obj, STR
 VERSION='live-conferences-v2'
@@ -56,17 +57,11 @@ class TextPage(HTMLParser):
         if not self.skip and data.strip():self.parts.append(data.strip())
 
 def public_url(url):
-    u=urlparse(url)
-    if u.scheme!='https' or not u.hostname or u.username or u.password or u.port not in [None,443]:raise ValueError('Only public HTTPS event pages are accepted.')
-    addresses=socket.getaddrinfo(u.hostname,443,type=socket.SOCK_STREAM)
-    if not addresses or any(not ipaddress.ip_address(a[4][0]).is_global for a in addresses):raise ValueError('Private addresses are not allowed.')
-    return url
-class SafeRedirect(HTTPRedirectHandler):
-    def redirect_request(self,req,fp,code,msg,headers,newurl):return super().redirect_request(req,fp,code,msg,headers,public_url(urljoin(req.full_url,newurl)))
+    return validate_public_url(url)
 
 def fetch_page(candidate):
-    url=public_url(candidate['url'])
-    with build_opener(SafeRedirect()).open(Request(url,headers={'User-Agent':'CommonGround/0.1 conference-research','Accept':'text/html,text/plain'}),timeout=25) as r:
+    url=candidate['url']
+    with open_public_url(Request(url,headers={'User-Agent':'CommonGround/0.1 conference-research','Accept':'text/html,text/plain'}),timeout=25) as r:
         if not any(x in r.headers.get('Content-Type','') for x in ['text/html','text/plain','text/markdown']):raise ValueError('Unsupported page format.')
         raw=r.read(2000001)
         if len(raw)>2000000:raise ValueError('Page too large.')
