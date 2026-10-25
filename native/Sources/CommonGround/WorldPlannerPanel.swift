@@ -140,7 +140,7 @@ struct WorldPlannerPanel: View {
                                 Text(message.isUser ? "YOU" : "UNIVERSE GUIDE").font(.system(size:10,weight:.bold,design:.monospaced)).foregroundStyle(message.isUser ? Color.cyan : Color(red:0.80,green:0.69,blue:0.98))
                                 Text(.init(message.text)).font(.system(size:14)).lineSpacing(4).textSelection(.enabled).frame(maxWidth:.infinity,alignment:.leading)
                                 if let card = message.meetupCard { card }
-                                ForEach(message.recommendations) { person in MeetPersonCard(person:person,gameStyle:true,showReason:false) }
+                                ForEach(message.recommendations) { person in MeetPersonCard(person:person,gameStyle:true,showReason:true) }
                                 ForEach(message.eventSessions) { session in recommendationCard(session, showReason: false) }
                                 if message.hasPlan { Button("View recommendations") {browsing=false;search="";showPlan=true}.buttonStyle(WorldButtonStyle(teal:true)) }
                             }.padding(14).background(PixelPanel().fill(message.isUser ? Color.teal.opacity(0.14) : Color.white.opacity(0.045)))
