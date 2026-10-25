@@ -2,6 +2,47 @@ import XCTest
 @testable import CommonGround
 
 final class CompletePlanTests: XCTestCase {
+    @MainActor func testPeopleAndEventsLoadConcurrently() async throws {
+        let planner = Planner()
+        let suite = "CompletePlanTests." + UUID().uuidString
+        planner.storage = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { planner.storage.removePersistentDomain(forName: suite) }
+        var externalStarted = false
+        planner.requestData = { request in
+            let body = try XCTUnwrap(JSONSerialization.jsonObject(with: request.httpBody!) as? [String: Any])
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            if request.url!.path == "/chat" {
+                for _ in 0..<50 where !externalStarted { try await Task.sleep(for: .milliseconds(10)) }
+                XCTAssertTrue(externalStarted, "External lookup must start before people lookup finishes")
+                return (Data("{\"action\":\"answer\",\"message\":\"Ready\",\"recommendations\":[]}".utf8), response)
+            }
+            if body["external"] as? Bool == true { externalStarted = true }
+            return (Data("{\"sessions\":[],\"message\":\"Ready\",\"calendarChecked\":false}".utf8), response)
+        }
+        planner.generate(completePlan: true)
+        for _ in 0..<300 where planner.busy { try await Task.sleep(for: .milliseconds(10)) }
+        XCTAssertFalse(planner.busy)
+        XCTAssertTrue(planner.recommendationWarnings.isEmpty)
+    }
+
+    @MainActor func testUnassociatedSavedPeopleAreRefreshed() async throws {
+        let planner = Planner()
+        let suite = "CompletePlanTests." + UUID().uuidString
+        planner.storage = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { planner.storage.removePersistentDomain(forName: suite) }
+        planner.peopleToMeet = (0..<10).map { PersonRecommendation(personID: "p\($0)", name: "Person", role: "Engineer", reason: "Fit", profileURL: "https://example.com", sourceURL: "https://example.com", avatarAsset: nil) }
+        planner.requestData = { request in
+            let data = request.url!.path == "/chat"
+                ? Data(#"{"action":"answer","message":"Ready","recommendations":[{"personID":"fresh","name":"Synthetic person","role":"Engineer","reason":"Current plan","profileURL":"https://example.org/profile","sourceURL":"https://example.org/source"}]}"#.utf8)
+                : Data(#"{"sessions":[],"message":"Ready","calendarChecked":false}"#.utf8)
+            return (data, HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!)
+        }
+        planner.generate(completePlan: true)
+        for _ in 0..<300 where planner.busy { try await Task.sleep(for: .milliseconds(10)) }
+        XCTAssertEqual(planner.peopleToMeet.map(\.personID), ["fresh"])
+        XCTAssertFalse(planner.busy)
+    }
+
     @MainActor func testSessionFailureEndsLoadingWithoutOpeningPlan() async throws {
         let planner = Planner()
         planner.requestData = { _ in throw URLError(.cannotConnectToHost) }
@@ -116,7 +157,8 @@ final class CompletePlanTests: XCTestCase {
         planner.generate(completePlan: true)
         for _ in 0..<800 where planner.busy { try await Task.sleep(for: .milliseconds(10)) }
         XCTAssertFalse(planner.busy)
-        XCTAssertGreaterThanOrEqual(started.duration(to: .now), .seconds(3))
+        XCTAssertGreaterThanOrEqual(started.duration(to: .now), .milliseconds(750))
+        XCTAssertLessThan(started.duration(to: .now), .seconds(2))
         XCTAssertEqual(calls, ["/session-plan", "/chat", "external"])
         XCTAssertEqual(planner.sessions.count, 1)
         XCTAssertEqual(planner.peopleToMeet.count, 1)

@@ -45,6 +45,22 @@ struct CompanionReply: Decodable {
         let groups = (try? JSONDecoder().decode([String: [PlannedSession]].self, from: Data(contentsOf: worldAsset("browse-events.json")))) ?? [:]
         return (groups["sessions"] ?? []) + (groups["external"] ?? [])
     }()
+    static func quickSecuritySearch(_ prompt: String) -> [PlannedSession]? {
+        let normalized = prompt.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+            .trimmingCharacters(in: CharacterSet(charactersIn: ".!?"))
+        let supported = ["find me security sessions on the first day of github universe", "find security sessions on the first day of github universe", "find me security sessions on day 1 of github universe"]
+        guard supported.contains(normalized) else { return nil }
+        let groups = (try? JSONDecoder().decode([String: [PlannedSession]].self, from: Data(contentsOf: worldAsset("browse-events.json")))) ?? [:]
+        let sessions = groups["sessions"] ?? []
+        // Universe starts October 28; the catalog also includes pre-conference workshops.
+        let firstDay = "2026-10-28"
+        let terms = ["security", "secure", "vulnerabil", "appsec", "threat", "supply chain", "secret scanning"]
+        return sessions.filter { session in
+            let text = (session.title + " " + (session.about ?? "")).lowercased()
+            return session.day == firstDay && terms.contains(where: { text.contains($0) })
+        }.sorted { $0.start < $1.start }
+    }
+
     func eventCards(catalog: [PlannedSession]? = nil) -> [PlannedSession] {
         let known = catalog ?? Self.catalog
         var seen = Set<String>()
@@ -103,7 +119,7 @@ struct SessionPlanResponse: Decodable { let sessions: [PlannedSession]; let mess
     }
     func generate(late newLate: Bool = false, request text: String = "Recommend speaker sessions for both days", external: Bool = false, completePlan: Bool = false) {
         guard !busy else { return }
-        let earliestReveal = ContinuousClock.now.advanced(by: .seconds(3))
+        let earliestReveal = ContinuousClock.now.advanced(by: .milliseconds(750))
         generatingRecommendations = completePlan
         if completePlan { showPlan = false; recommendationWarnings = [] }
         busy = true; status = external ? "Finding events around your sessions…" : "Matching your interests to speaker sessions…"
@@ -127,7 +143,17 @@ struct SessionPlanResponse: Decodable { let sessions: [PlannedSession]; let mess
                 if !external { lastRankingRequest = rankingText }
                 var incompleteSections: [String] = []
                 if completePlan {
-                    status = "Finding people you’ll click with…"
+                    status = "Finding people and events for you…"
+                    // Both requests depend on the session plan, but not on each other.
+                    let plannedSessions = sessions
+                    let eventsTask = Task { @MainActor in
+                        try self.checkGeneration(generation)
+                        let events: SessionPlanResponse = try await self.requestJSON("session-plan", body: ["profile": profileData, "prompt": "Recommend up to 10 external events across the available days that fit my interests and do not overlap my conference sessions. Explain specifically why each fits me.", "late": newLate, "busy": occupied + plannedSessions.map { ["start": $0.start, "end": $0.end] }, "calendarConnected": connection.selected != nil, "external": true])
+                        return events
+                    }
+                    defer { eventsTask.cancel() }
+                    // Saved people do not carry the inputs that generated them.
+                    // Refresh them for this plan instead of assuming they still match.
                     do {
                         let reply: CompanionReply = try await requestJSON("chat", body: ["profile": profileData, "prompt": "Who should I meet at GitHub Universe based on my interests? Recommend at least 10 people, including both attendees and speakers, with a specific reason for each match.", "sessions": try JSONSerialization.jsonObject(with: JSONEncoder().encode(sessions)), "history": []])
                         try checkGeneration(generation)
@@ -136,9 +162,8 @@ struct SessionPlanResponse: Decodable { let sessions: [PlannedSession]; let mess
                         try checkGeneration(generation)
                         incompleteSections.append(peopleToMeet.isEmpty ? "People recommendations couldn’t load. Try again." : "People couldn’t refresh. Showing your saved recommendations.")
                     }
-                    status = "Finding side quests around your sessions…"
                     do {
-                        let events: SessionPlanResponse = try await requestJSON("session-plan", body: ["profile": profileData, "prompt": "Recommend up to 10 external events across the available days that fit my interests and do not overlap my conference sessions. Explain specifically why each fits me.", "late": newLate, "busy": occupied + sessions.map { ["start": $0.start, "end": $0.end] }, "calendarConnected": connection.selected != nil, "external": true])
+                        let events = try await eventsTask.value
                         guard events.sessions.allSatisfy({ ISO8601DateFormatter().date(from: $0.start) != nil && ISO8601DateFormatter().date(from: $0.end) != nil }) else { throw ProfileImportError.invalidResponse }
                         try checkGeneration(generation)
                         sideEvents = events.sessions
@@ -197,6 +222,21 @@ struct SessionPlanResponse: Decodable { let sessions: [PlannedSession]; let mess
         let value = (text ?? prompt).trimmingCharacters(in: .whitespacesAndNewlines)
         guard !value.isEmpty, !busy else { return }
         prompt = ""; messages.append(Message(text: value, isUser: true))
+        if let sessions = CompanionReply.quickSecuritySearch(value) {
+            busy = true; status = "Finding security sessions…"
+            work = Task {
+                do {
+                    try await Task.sleep(for: .milliseconds(500))
+                    try Task.checkCancellation()
+                    messages.append(Message(text: sessions.isEmpty ? "No matching security sessions were found for the first day." : "Here are the first-day sessions covering security.", isUser: false, eventSessions: sessions))
+                    busy = false; status = "Ready"
+                } catch {
+                    // Reset owns the loading state when this task is cancelled.
+                }
+            }
+            return
+        }
+
         if value.lowercased().contains("invite"),
            let source = messages.last(where: { $0.eventDraft != nil }) {
             messages.append(Message(text: "Choose who to invite below. Linked demo recipients are selected for you.", isUser: false, eventDraft: source.eventDraft, eventPeople: source.eventPeople))

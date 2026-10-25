@@ -113,3 +113,20 @@ Edit a dataset in its own repository, never through the submodule in this reposi
   Run uv in `db/` only through `make`, or with `UV_CONFIG_FILE=uv.toml`, so user-level
   uv settings stay out of `uv.lock`.
 - Swift client: `swift test --package-path db/clients/swift`.
+
+## Canonical App Launch
+
+When the user asks to run, open, or restart Paraverse, use the Knowledge Base build
+named **Paraverse Final**. Run from the repository root:
+
+```bash
+bash native/run-app.sh
+```
+
+This launcher rebuilds the Knowledge Base version, closes packaged Paraverse copies,
+and opens `native/build/Paraverse Final.app`.
+Keep the bundle identifier unchanged to preserve local account state and privacy grants.
+
+<!-- This document follows common-doc-guidelines.md.
+See github.com/jlevy/practical-prose and review guidelines before editing.
+-->

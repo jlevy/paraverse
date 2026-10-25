@@ -32,7 +32,7 @@ struct WorldSpeaker: Codable, Identifiable {
             }.joined(separator: " · ")
     }
     func matchesDirectorySearch(_ query: String) -> Bool {
-        let term = query.trimmingCharacters(in: .whitespacesAndNewlines)
+        let term = query.trimmingCharacters(in: .whitespacesAndNewlines.union(CharacterSet(charactersIn: "*•-–—")))
         let category = isJudge ? "judge judges" : (isHost ? "host hosts" : (attendee == true ? "attendee attendees" : "speaker speakers"))
         return term.isEmpty || "\(name) \(company) \(role) \(biography) \(category)".localizedCaseInsensitiveContains(term)
     }
@@ -212,6 +212,8 @@ struct UniverseWorld: View {
             }.padding(12).foregroundStyle(Color(red:0.96,green:0.91,blue:0.80))
     }
     @ViewBuilder private var primaryControls:some View {
+        WorldNavigationMenu(openDiscovery: openDiscovery, openSchedule: openSchedule, openPeople: openPeople)
+
         Button {
             dismissWelcome()
             directory = false

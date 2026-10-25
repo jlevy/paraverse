@@ -5,6 +5,7 @@ struct WorldPlannerPanel: View {
     @Binding var showPlan: Bool
     @State private var browsing = false
     @State private var search = ""
+    @FocusState private var searchFocused: Bool
     private static let catalog = (try? JSONDecoder().decode([String: [PlannedSession]].self, from: Data(contentsOf: worldAsset("browse-events.json")))) ?? [:]
     @State private var section: PlanSection = .sessions
     private enum PlanSection: String, CaseIterable {
@@ -133,23 +134,32 @@ struct WorldPlannerPanel: View {
             GeometryReader { geometry in
             ScrollViewReader { proxy in
                 ScrollView {
-                    LazyVStack(alignment:.leading,spacing:18) {
+                    VStack(alignment:.leading,spacing:18) {
                         ForEach(chatMessages) { message in
                             VStack(alignment:.leading,spacing:10) {
                                 Text(message.isUser ? "YOU" : "UNIVERSE GUIDE").font(.system(size:10,weight:.bold,design:.monospaced)).foregroundStyle(message.isUser ? Color.cyan : Color(red:0.80,green:0.69,blue:0.98))
                                 Text(.init(message.text)).font(.system(size:14)).lineSpacing(4).textSelection(.enabled).frame(maxWidth:.infinity,alignment:.leading)
                                 if let card = message.meetupCard { card }
-                                ForEach(message.recommendations) { person in MeetPersonCard(person:person,gameStyle:true) }
-                                ForEach(message.eventSessions) { session in recommendationCard(session) }
+                                ForEach(message.recommendations) { person in MeetPersonCard(person:person,gameStyle:true,showReason:true) }
+                                ForEach(message.eventSessions) { session in recommendationCard(session, showReason: false) }
                                 if message.hasPlan { Button("View recommendations") {browsing=false;search="";showPlan=true}.buttonStyle(WorldButtonStyle(teal:true)) }
                             }.padding(14).background(PixelPanel().fill(message.isUser ? Color.teal.opacity(0.14) : Color.white.opacity(0.045)))
+                            .id(message.id)
                         }
                         if planner.busy { ThinkingStatus(text: planner.status) }
                         Color.clear.frame(height:1).id("bottom")
                     }.padding(.vertical,4)
                         .frame(minHeight: geometry.size.height, alignment: .topLeading)
-                }.onChange(of:planner.messages.count) {_,_ in proxy.scrollTo("bottom",anchor:.bottom)}
-                    .onChange(of:planner.busy) {_,_ in proxy.scrollTo("bottom",anchor:.bottom)}
+                }.onChange(of: planner.messages.count) { _, _ in
+                    if let question = chatMessages.last(where: \.isUser) {
+                        proxy.scrollTo(question.id, anchor: .top)
+                    }
+                }
+                .onAppear {
+                    if let question = chatMessages.last(where: \.isUser) {
+                        proxy.scrollTo(question.id, anchor: .top)
+                    }
+                }
             }
             }
             }
@@ -186,9 +196,19 @@ struct WorldPlannerPanel: View {
                     }
                 }
                 if browsing {
-                    TextField(section == .attendees ? "Search people, roles, or interests" : "Search by title, speaker, or topic", text: $search)
-                        .textFieldStyle(.roundedBorder)
-                        .accessibilityLabel("Search catalog")
+                    HStack(spacing: 12) {
+                        PixelSearchIcon().fill(Brand.welcomeSubtitle)
+                            .frame(width: 18, height: 18).accessibilityHidden(true)
+                        TextField(section == .attendees ? "Search people, roles, or interests" : "Search by title, speaker, or topic", text: $search)
+                            .textFieldStyle(.plain)
+                            .focused($searchFocused)
+                            .accessibilityLabel("Search catalog")
+                    }
+                    .padding(.horizontal, 16).padding(.vertical, 13)
+                    .background(PixelPanel().fill(.black.opacity(0.22)))
+                    .overlay(PixelPanel().stroke(searchFocused ? Brand.welcomeSubtitle : Brand.fieldBorder, lineWidth: searchFocused ? 2 : 1))
+                    .contentShape(PixelPanel())
+                    .onTapGesture { searchFocused = true }
                     if section == .attendees ? visiblePeople.isEmpty : (section == .sessions ? visibleSessions : visibleEvents).isEmpty {
                         Text("No matches. Try another search.").foregroundStyle(.secondary)
                     }
@@ -210,9 +230,11 @@ struct WorldPlannerPanel: View {
                         ForEach(visiblePeople) { person in
                             Button { openSpeaker(person) } label: {
                                 HStack(spacing: 12) {
-                                    if let sprite = WorldCharacter.recommendationImage(for: person.id) {
-                                        Image(nsImage: sprite).resizable().interpolation(.none).scaledToFit().frame(width: 44, height: 52)
-                                    }
+                                    Group {
+                                        if let sprite = WorldCharacter.directoryImage(for: person.id) {
+                                            Image(nsImage: sprite).resizable().interpolation(.none).scaledToFit()
+                                        } else { Color.clear }
+                                    }.frame(width: 32, height: 44, alignment: .leading)
                                     VStack(alignment: .leading, spacing: 4) {
                                         Text(person.name).font(.headline)
                                         Text(person.isJudge ? person.directorySummary : [person.role, person.company].filter { !$0.isEmpty }.joined(separator: " · "))
@@ -221,7 +243,7 @@ struct WorldPlannerPanel: View {
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                 }.frame(maxWidth: .infinity, alignment: .leading)
-                            }.buttonStyle(PlannerQuietButtonStyle())
+                            }.buttonStyle(DirectoryRowStyle())
                         }
                     } else {
                     if planner.peopleToMeet.isEmpty {
@@ -259,9 +281,9 @@ struct WorldPlannerPanel: View {
                 .id("\(browsing)-\(section.rawValue)")
         }
     }
-    private func recommendationCard(_ session: PlannedSession) -> some View {
+    private func recommendationCard(_ session: PlannedSession, showReason: Bool = true) -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            RecommendationReason(reason: session.reason)
+            if showReason { RecommendationReason(reason: session.reason) }
         VStack(alignment: .leading, spacing: 16) {
             sessionDetails(session)
             HStack(alignment: .center, spacing: 12) {
@@ -418,7 +440,7 @@ private struct ChatSuggestionStyle: ButtonStyle {
     }
 }
 
-private struct ThinkingStatus: View {
+struct ThinkingStatus: View {
     let text: String
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
