@@ -119,7 +119,9 @@ struct SessionPlanResponse: Decodable { let sessions: [PlannedSession]; let mess
     }
     func generate(late newLate: Bool = false, request text: String = "Recommend speaker sessions for both days", external: Bool = false, completePlan: Bool = false) {
         guard !busy else { return }
-        let earliestReveal = ContinuousClock.now.advanced(by: .seconds(3))
+        let earliestReveal = ContinuousClock.now.advanced(by: .milliseconds(750))
+        let previousRankingRequest = lastRankingRequest
+        let hadPeopleWarning = recommendationWarnings.contains { $0.hasPrefix("People") }
         generatingRecommendations = completePlan
         if completePlan { showPlan = false; recommendationWarnings = [] }
         busy = true; status = external ? "Finding events around your sessions…" : "Matching your interests to speaker sessions…"
@@ -136,6 +138,7 @@ struct SessionPlanResponse: Decodable { let sessions: [PlannedSession]; let mess
                 var occupied = connection.events(from: start, to: end).filter { $0.availability != .free && !($0.notes ?? "").contains("Paraverse session:") && !($0.notes ?? "").contains("Common Ground session:") }.map { ["start": formatter.string(from: $0.startDate), "end": formatter.string(from: $0.endDate)] }
                 if external { occupied += sessions.map { ["start": $0.start, "end": $0.end] } }
                 let profileData = try JSONSerialization.jsonObject(with: JSONEncoder().encode(requestedProfile))
+                let previousSessionIDs = sessions.map(\.id)
                 let result: SessionPlanResponse = try await requestJSON("session-plan", body: ["profile": profileData, "prompt": rankingText, "late": newLate, "busy": occupied, "calendarConnected": connection.selected != nil, "external": external])
                 guard result.sessions.allSatisfy({ ISO8601DateFormatter().date(from: $0.start) != nil && ISO8601DateFormatter().date(from: $0.end) != nil }) else { throw ProfileImportError.invalidResponse }
                 try checkGeneration(generation)
@@ -143,7 +146,18 @@ struct SessionPlanResponse: Decodable { let sessions: [PlannedSession]; let mess
                 if !external { lastRankingRequest = rankingText }
                 var incompleteSections: [String] = []
                 if completePlan {
-                    status = "Finding people you’ll click with…"
+                    status = "Finding people and events for you…"
+                    // Both requests depend on the session plan, but not on each other.
+                    let plannedSessions = sessions
+                    let eventsTask = Task { @MainActor in
+                        try self.checkGeneration(generation)
+                        let events: SessionPlanResponse = try await self.requestJSON("session-plan", body: ["profile": profileData, "prompt": "Recommend up to 10 external events across the available days that fit my interests and do not overlap my conference sessions. Explain specifically why each fits me.", "late": newLate, "busy": occupied + plannedSessions.map { ["start": $0.start, "end": $0.end] }, "calendarConnected": connection.selected != nil, "external": true])
+                        return events
+                    }
+                    defer { eventsTask.cancel() }
+                    let reusePeople = peopleToMeet.count >= 10 && previousSessionIDs == sessions.map(\.id)
+                        && rankingText == previousRankingRequest && !hadPeopleWarning
+                    if !reusePeople {
                     do {
                         let reply: CompanionReply = try await requestJSON("chat", body: ["profile": profileData, "prompt": "Who should I meet at GitHub Universe based on my interests? Recommend at least 10 people, including both attendees and speakers, with a specific reason for each match.", "sessions": try JSONSerialization.jsonObject(with: JSONEncoder().encode(sessions)), "history": []])
                         try checkGeneration(generation)
@@ -152,9 +166,9 @@ struct SessionPlanResponse: Decodable { let sessions: [PlannedSession]; let mess
                         try checkGeneration(generation)
                         incompleteSections.append(peopleToMeet.isEmpty ? "People recommendations couldn’t load. Try again." : "People couldn’t refresh. Showing your saved recommendations.")
                     }
-                    status = "Finding side quests around your sessions…"
+                    }
                     do {
-                        let events: SessionPlanResponse = try await requestJSON("session-plan", body: ["profile": profileData, "prompt": "Recommend up to 10 external events across the available days that fit my interests and do not overlap my conference sessions. Explain specifically why each fits me.", "late": newLate, "busy": occupied + sessions.map { ["start": $0.start, "end": $0.end] }, "calendarConnected": connection.selected != nil, "external": true])
+                        let events = try await eventsTask.value
                         guard events.sessions.allSatisfy({ ISO8601DateFormatter().date(from: $0.start) != nil && ISO8601DateFormatter().date(from: $0.end) != nil }) else { throw ProfileImportError.invalidResponse }
                         try checkGeneration(generation)
                         sideEvents = events.sessions
