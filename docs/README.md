@@ -26,6 +26,12 @@ Architecture, describing how the system works now:
 - [KB browser](project/architecture/arch-2026-10-24-kb-browser.md): the read-only,
   schema-driven browser, its JSON API and live updates.
 
+Research:
+
+- [Chat over graphs and curated source files](project/research/research-2026-10-24-chat-over-graph-and-source-files.md):
+  comparison of file-based tools, graph queries, semantic retrieval, and GraphRAG, with
+  a recommended chat architecture and evaluation questions.
+
 Plans:
 
 - [Graph catalog extensions and hardening](project/specs/active/plan-2026-10-24-graph-catalog-and-hardening.md)
