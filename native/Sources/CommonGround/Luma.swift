@@ -14,7 +14,7 @@ struct DemoInviteContact: Decodable { let email: String; let demo: Bool }
 struct LumaActionResult: Decodable { let status: String; var message: String?; var url: String?; var authURL: String?; var recipients: [String: DemoInviteContact]? }
 struct LumaEventCard: View {
     let draft: LumaEventDraft
-    var people: [PersonRecommendation] = []
+    let people: [PersonRecommendation]
     @State private var contacts: [String: DemoInviteContact] = [:]
     @State private var selected = Set<String>()
     @State private var selectionLoaded = false
@@ -113,4 +113,9 @@ struct LumaEventCard: View {
             }
         }
     }
+}
+
+// Shared construction keeps both chat surfaces on the same recipient inputs.
+extension Message {
+    var meetupCard: LumaEventCard? { eventDraft.map { LumaEventCard(draft: $0, people: eventPeople) } }
 }

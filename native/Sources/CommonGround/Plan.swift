@@ -8,6 +8,7 @@ struct Message: Identifiable {
     var hasPlan = false
     var recommendations: [PersonRecommendation] = []
     var eventDraft: LumaEventDraft?
+    var eventPeople: [PersonRecommendation] = []
     var eventSessions: [PlannedSession] = []
 }
 struct PlannedSession: Codable, Identifiable {
@@ -62,7 +63,10 @@ struct SessionPlanResponse: Decodable { let sessions: [PlannedSession]; let mess
     var messages: [Message] = []
     var sessions: [PlannedSession] = []
     var sideEvents: [PlannedSession] = []
-    var peopleToMeet: [PersonRecommendation] = []
+    private var latestRecommendationPeople: [PersonRecommendation] = []
+    var peopleToMeet: [PersonRecommendation] = [] {
+        didSet { latestRecommendationPeople = peopleToMeet }
+    }
     var hasPlan = false
     var showPlan = false
     var late = false
@@ -194,13 +198,14 @@ struct SessionPlanResponse: Decodable { let sessions: [PlannedSession]; let mess
         guard !value.isEmpty, !busy else { return }
         prompt = ""; messages.append(Message(text: value, isUser: true))
         if value.lowercased().contains("invite"),
-           let draft = messages.compactMap(\.eventDraft).last {
-            messages.append(Message(text: "Choose who to invite below. Linked demo recipients are selected for you.", isUser: false, eventDraft: draft))
+           let source = messages.last(where: { $0.eventDraft != nil }) {
+            messages.append(Message(text: "Choose who to invite below. Linked demo recipients are selected for you.", isUser: false, eventDraft: source.eventDraft, eventPeople: source.eventPeople))
             return
         }
         busy = true; status = "Thinking…"
         let generation = self.generation
         let requestedProfile = profile
+        let requestedPeople = latestRecommendationPeople
         work = Task {
             do {
                 var request = URLRequest(url: URL(string: "http://127.0.0.1:8765/chat")!)
@@ -209,7 +214,7 @@ struct SessionPlanResponse: Decodable { let sessions: [PlannedSession]; let mess
                 let profileData = try JSONSerialization.jsonObject(with: JSONEncoder().encode(requestedProfile))
                 let planData = try JSONSerialization.jsonObject(with: JSONEncoder().encode(sessions))
                 request.httpBody = try JSONSerialization.data(withJSONObject: ["profile": profileData, "prompt": value, "sessions": planData, "history": messages.dropLast().suffix(8).map { ["role": $0.isUser ? "user" : "assistant", "text": $0.text] }])
-                let (data, response) = try await URLSession.shared.data(for: request)
+                let (data, response) = try await requestData(request)
                 guard (response as? HTTPURLResponse)?.statusCode == 200 else { throw ProfileImportError.failed }
                 let reply = try JSONDecoder().decode(CompanionReply.self, from: data)
                 try checkGeneration(generation)
@@ -220,7 +225,11 @@ struct SessionPlanResponse: Decodable { let sessions: [PlannedSession]; let mess
                 case "show_calendar": messages.append(Message(text: "Open Calendar in the sidebar to see your events.", isUser: false))
                 default:
                     let cards = reply.eventCards()
-                    messages.append(Message(text: reply.message, isUser: false, recommendations: reply.recommendations ?? [], eventDraft: reply.eventDraft, eventSessions: cards))
+                    if let people = reply.recommendations, !people.isEmpty { latestRecommendationPeople = people }
+                    // A meetup reply has an empty recommendations array; retain the list
+                    // captured when its request began rather than a later plan's people.
+                    let eventPeople = (reply.recommendations?.isEmpty == false ? reply.recommendations : nil) ?? requestedPeople
+                    messages.append(Message(text: reply.message, isUser: false, recommendations: reply.recommendations ?? [], eventDraft: reply.eventDraft, eventPeople: reply.eventDraft == nil ? [] : eventPeople, eventSessions: cards))
                 }
             } catch {
                 if generation == self.generation && !Task.isCancelled { busy = false; status = "Couldn’t answer"; messages.append(Message(text: "I couldn’t answer that question right now. Please try again.", isUser: false)) }

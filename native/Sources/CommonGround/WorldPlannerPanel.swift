@@ -138,7 +138,7 @@ struct WorldPlannerPanel: View {
                             VStack(alignment:.leading,spacing:10) {
                                 Text(message.isUser ? "YOU" : "UNIVERSE GUIDE").font(.system(size:10,weight:.bold,design:.monospaced)).foregroundStyle(message.isUser ? Color.cyan : Color(red:0.80,green:0.69,blue:0.98))
                                 Text(.init(message.text)).font(.system(size:14)).lineSpacing(4).textSelection(.enabled).frame(maxWidth:.infinity,alignment:.leading)
-                                if let draft=message.eventDraft {LumaEventCard(draft:draft, people: planner.peopleToMeet)}
+                                if let card = message.meetupCard { card }
                                 ForEach(message.recommendations) { person in MeetPersonCard(person:person,gameStyle:true) }
                                 ForEach(message.eventSessions) { session in recommendationCard(session) }
                                 if message.hasPlan { Button("View recommendations") {browsing=false;search="";showPlan=true}.buttonStyle(WorldButtonStyle(teal:true)) }

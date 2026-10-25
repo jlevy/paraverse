@@ -274,7 +274,7 @@ struct ContentView: View {
                                 } else {
                                     HStack(alignment: .top, spacing: 12) { CompanionMark(size: 25); Text(.init(message.text)).lineSpacing(5).textSelection(.enabled) }
                                 }
-                                if let draft = message.eventDraft { LumaEventCard(draft: draft) }
+                                if let card = message.meetupCard { card }
                                 SidebarEventCards(sessions: message.eventSessions) { sessions in
                                     calendarSelection = sessions
                                     sheet = .calendar
