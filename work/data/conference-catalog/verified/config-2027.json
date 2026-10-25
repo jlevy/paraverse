@@ -1,0 +1,29 @@
+{
+  "id": "config-2027",
+  "name": "Figma Config",
+  "host": "Figma",
+  "start_date": "2027-05-25",
+  "end_date": "2027-05-27",
+  "city": "San Francisco",
+  "venue": "Pier 80",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "design",
+    "product development"
+  ],
+  "price": null,
+  "source_url": "https://config.figma.com/",
+  "retrieved_at": "2026-10-23T19:09:21.097708-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/config-2027.json",
+  "evidence_quotes": [
+    "May 25\u201327, 2027",
+    "Pier 80 San Francisco, CA"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_found_on_checked_sources",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null,
+  "agenda_note": "Call for speakers open; 2026 highlight talks intentionally excluded from 2027 program."
+}

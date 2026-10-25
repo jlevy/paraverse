@@ -1,0 +1,271 @@
+{
+  "id": "osacon-2026",
+  "name": "OSA Con",
+  "start_date": "2026-11-02",
+  "end_date": "2026-11-02",
+  "city": "San Francisco",
+  "venue": "AWS Builder Loft",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "data",
+    "analytics",
+    "AI",
+    "open source"
+  ],
+  "price": {
+    "amount": 0,
+    "currency": "USD",
+    "ticket": "Free"
+  },
+  "source_url": "https://osacon.io/",
+  "retrieved_at": "2026-10-23T23:26:14.230707-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/osacon-2026.json",
+  "evidence_quotes": [
+    "November 2, 2026",
+    "San Francisco + Online",
+    "Nov 2 · Free"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "published_schedule",
+  "agenda_note": "18 named sessions across two stages; two untitled reserved slots excluded from named sessions. One named panel has speakers TBD. Speaker strings retained verbatim; abstracts not yet collected.",
+  "sessions": [
+    {
+      "title": "From Data Modeling to Agent Modeling",
+      "date": "2026-11-02",
+      "start_time": "10:00",
+      "end_time": "10:25",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage A",
+      "speaker_text": "Max Beauchemin (Preset)",
+      "track": "Development with AI",
+      "source_url": "https://osacon.io/sessions/2026/from-data-modeling-to-agent-modeling"
+    },
+    {
+      "title": "How AI Is Changing Database Architecture: It's Not What You Think",
+      "date": "2026-11-02",
+      "start_time": "10:00",
+      "end_time": "10:25",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage B",
+      "speaker_text": "Robert Hodges (Altinity)",
+      "track": "Data Storage and Query",
+      "source_url": "https://osacon.io/sessions/2026/how-ai-is-changing-database-architecture-its-not-what-you-think"
+    },
+    {
+      "title": "Getting Your Agents to Write (Good) Pipelines on Apache Spark",
+      "date": "2026-11-02",
+      "start_time": "10:35",
+      "end_time": "11:00",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage A",
+      "speaker_text": "Lisa Cao (Databricks)",
+      "track": "Development with AI",
+      "source_url": "https://osacon.io/sessions/2026/getting-your-agents-to-write-good-pipelines-on-apache-spark"
+    },
+    {
+      "title": "Presto C++ Engine in 2026",
+      "date": "2026-11-02",
+      "start_time": "10:35",
+      "end_time": "11:00",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage B",
+      "speaker_text": "Aditi Pandit (IBM)",
+      "track": "Data Storage and Query",
+      "source_url": "https://osacon.io/sessions/2026/presto-cpp-engine-in-2026"
+    },
+    {
+      "title": "Who Watches the Watcher: Benchmarking AI Agents That Debug Your Dashboards",
+      "date": "2026-11-02",
+      "start_time": "11:10",
+      "end_time": "11:35",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage A",
+      "speaker_text": "Wei-Chin Call & Jun Ding (Grafana Labs)",
+      "track": "Development with AI",
+      "source_url": "https://osacon.io/sessions/2026/who-watches-the-watcher-benchmarking-ai-agents-that-debug-your-dashboards"
+    },
+    {
+      "title": "ADBC in Production: From Zero-Copy Promise to Reality",
+      "date": "2026-11-02",
+      "start_time": "11:10",
+      "end_time": "11:35",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage B",
+      "speaker_text": "Matthew Topol (Columnar)",
+      "track": "Data Storage and Query",
+      "source_url": "https://osacon.io/sessions/2026/adbc-in-production-from-zero-copy-promise-to-reality"
+    },
+    {
+      "title": "Gaming Analytics for the Agentic Era",
+      "date": "2026-11-02",
+      "start_time": "11:45",
+      "end_time": "12:10",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage A",
+      "speaker_text": "Brandon Wilcox (Gamebeast)",
+      "track": "AI and Analytics in Production",
+      "source_url": "https://osacon.io/sessions/2026/gaming-analytics-for-the-agentic-era"
+    },
+    {
+      "title": "Paying Rent on Your Own Data",
+      "date": "2026-11-02",
+      "start_time": "11:45",
+      "end_time": "12:10",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage B",
+      "speaker_text": "Patrick McFadin (McFadin Data and AI Advisory)",
+      "track": "Analytic and AI Infrastructure",
+      "source_url": "https://osacon.io/sessions/2026/paying-rent-on-your-own-data"
+    },
+    {
+      "title": "The Open Agentic Lakehouse: Building an Open Data and AI Ecosystem",
+      "date": "2026-11-02",
+      "start_time": "12:20",
+      "end_time": "12:45",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage A",
+      "speaker_text": "Alex Merced (Dremio)",
+      "track": "AI and Analytics in Production",
+      "source_url": "https://osacon.io/sessions/2026/the-open-agentic-lakehouse-building-an-open-data-and-ai-ecosystem"
+    },
+    {
+      "title": "The Biggest Dataset Nobody Modeled: Building an Open Semantic Layer for Telemetry with DuckDB and DataFusion",
+      "date": "2026-11-02",
+      "start_time": "12:20",
+      "end_time": "12:45",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage B",
+      "speaker_text": "Clay Smith (Tero)",
+      "track": "Data Storage and Query",
+      "source_url": "https://osacon.io/sessions/2026/the-biggest-dataset-nobody-modeled"
+    },
+    {
+      "title": "Panel: Whose Code Is It Anyway?",
+      "date": "2026-11-02",
+      "start_time": "14:15",
+      "end_time": "14:40",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage A",
+      "speaker_text": "Heather Meeker (Chinstrap Community) with Roman Shaposhnik (AIFoundry.org) and Robert Hodges (Altinity)",
+      "track": "Development with AI",
+      "source_url": "https://osacon.io/sessions/2026/whose-code-is-it-anyway-panel-discussion"
+    },
+    {
+      "title": "10 Useful Dashboards You Can't Make with Grafana",
+      "date": "2026-11-02",
+      "start_time": "14:15",
+      "end_time": "14:40",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage B",
+      "speaker_text": "David Morrison (Applied Computing Research Labs)",
+      "track": "Visualization Technologies",
+      "source_url": "https://osacon.io/sessions/2026/10-useful-dashboards-you-cant-make-with-grafana"
+    },
+    {
+      "title": "What Breaks When Open Source Data Platforms Become Agent Infrastructure?",
+      "date": "2026-11-02",
+      "start_time": "14:50",
+      "end_time": "15:15",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage A",
+      "speaker_text": "Siddharth Arun (Salesforce)",
+      "track": "Analytic and AI Infrastructure",
+      "source_url": "https://osacon.io/sessions/2026/what-breaks-when-open-source-data-platforms-become-agent-infrastructure"
+    },
+    {
+      "title": "Panel: What Should Be Open in the Age of AI?",
+      "date": "2026-11-02",
+      "start_time": "14:50",
+      "end_time": "15:15",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage B",
+      "speaker_text": null,
+      "track": "Panel",
+      "source_url": "https://osacon.io/schedule/"
+    },
+    {
+      "title": "Serverless Eventing: Simplifying Message Delivery",
+      "date": "2026-11-02",
+      "start_time": "15:25",
+      "end_time": "15:50",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage A",
+      "speaker_text": "Jason Smith (Google Cloud)",
+      "track": "Analytic and AI Infrastructure",
+      "source_url": "https://osacon.io/sessions/2026/serverless-eventing-simplifying-message-delivery"
+    },
+    {
+      "title": "Your Observability Stack Is Messing Up Your Agents",
+      "date": "2026-11-02",
+      "start_time": "16:00",
+      "end_time": "16:25",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage A",
+      "speaker_text": "Perla Gámez (Foam)",
+      "track": "Development with AI",
+      "source_url": "https://osacon.io/schedule/"
+    },
+    {
+      "title": "Measuring Agents, Not Vibes",
+      "date": "2026-11-02",
+      "start_time": "16:35",
+      "end_time": "17:00",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage A",
+      "speaker_text": "Rafael Aviles (ObsessionDB)",
+      "track": "AI and Analytics in Production",
+      "source_url": "https://osacon.io/sessions/2026/measuring-agents-not-vibes"
+    },
+    {
+      "title": "Legacy-Free, Zero-Maintenance RISC-V Kubernetes Clusters With Immutable Linux and ClickHouse",
+      "date": "2026-11-02",
+      "start_time": "16:35",
+      "end_time": "17:00",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage B",
+      "speaker_text": "Felicitas Pojtinger (Loophole Labs)",
+      "track": "Cool Projects and Apps",
+      "source_url": "https://osacon.io/sessions/2026/legacy-free-zero-maintenance-risc-v-kubernetes-clusters-with-immutable-linux-and-clickhouse"
+    }
+  ],
+  "speakers": [],
+  "registration_url": "https://luma.com/eis7567t",
+  "online": true,
+  "agenda_source_url": "https://osacon.io/schedule/",
+  "agenda_evidence_file": "sources/osacon-agenda-2026.json",
+  "agenda_checked_at": "2026-10-24T09:46:10.058333-07:00",
+  "reserved_slots": [
+    {
+      "title": "TBD",
+      "date": "2026-11-02",
+      "start_time": "15:25",
+      "end_time": "15:50",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage B",
+      "speaker_text": "Benjamin Wagner (Firebolt)",
+      "track": "TBD/reserved",
+      "source_url": "https://osacon.io/schedule/"
+    },
+    {
+      "title": "TBD",
+      "date": "2026-11-02",
+      "start_time": "16:00",
+      "end_time": "16:25",
+      "timezone": "America/Los_Angeles",
+      "room": "Main Stage B",
+      "speaker_text": "",
+      "track": "TBD/reserved",
+      "source_url": "https://osacon.io/schedule/"
+    }
+  ],
+  "additional_registration_url": "https://events.builder.aws.com/ReRbol",
+  "venue_evidence": {
+    "url": "https://luma.com/eis7567t",
+    "retrieved_at": "2026-10-24T09:46:10.058333-07:00",
+    "retrieval_method": "Web tool; organizer-linked registration page",
+    "quote": "Nov 2 · AWS Builder Loft, San Francisco + Online · [Free to attend / Limited in-person capacity]",
+    "address": "525 Market St, Courtyard Entrance, San Francisco, CA 94105",
+    "note": "In-person attendees must also register at the AWS event link."
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "id": "data-ai-2027",
+  "name": "Data + AI Summit",
+  "start_date": "2027-06-21",
+  "end_date": "2027-06-24",
+  "city": "San Francisco",
+  "venue": null,
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "data",
+    "AI",
+    "engineering"
+  ],
+  "price": null,
+  "source_url": "https://www.databricks.com/dataaisummit",
+  "retrieved_at": "2026-10-23T20:49:54.338775-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/data-ai-2027.json",
+  "evidence_quotes": [
+    "June 21\u201324, 2027 / San Francisco + Virtual"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_found_on_checked_sources",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null,
+  "agenda_note": "Homepage mixes next-edition dates and previous-edition on-demand material; featured speakers not attributed to 2027 without edition-specific evidence."
+}

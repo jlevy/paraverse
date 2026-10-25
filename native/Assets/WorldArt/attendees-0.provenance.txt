@@ -1,0 +1,5 @@
+Generated with built-in imagegen, 2026-10-24.
+Reference images: native/Assets/attendee-internetdialup.jpg, native/Assets/attendee-aaishika.jpg, native/Assets/attendee-fadi_zuabi.jpg, native/Assets/attendee-OrenMe.jpg
+Style reference: person-0.png
+2x2 atlas; row-major identities: internetdialup, aaishika, fadi_zuabi, OrenMe
+Illustrative sprites based on saved X avatars, not exact likenesses.

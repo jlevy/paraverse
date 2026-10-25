@@ -1,0 +1,30 @@
+{
+  "id": "fms-2027",
+  "name": "Future of Memory and Storage 2027",
+  "start_date": "2027-07-27",
+  "end_date": "2027-07-29",
+  "city": "Santa Clara",
+  "venue": "Santa Clara Convention Center",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "storage",
+    "memory",
+    "AI infrastructure",
+    "data centers",
+    "engineering"
+  ],
+  "price": null,
+  "source_url": "https://www.terrapinn.com/conference/future-memory-storage/",
+  "retrieved_at": "2026-10-24T20:18:54.951390+00:00",
+  "retrieval_method": "Web tool official organizer page",
+  "evidence_file": "sources/fms-2027.json",
+  "evidence_quotes": [
+    "Future of Memory and Storage 2027: 2027-07-27 through 2027-07-29, Santa Clara Convention Center, Santa Clara."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_found_on_checked_sources",
+  "agenda_note": "Organizer confirms July 27\u201329, 2027, Santa Clara Convention Center. Speaker highlights explicitly labeled 2026 and excluded. No 2027 session agenda or pricing found on checked homepage.",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

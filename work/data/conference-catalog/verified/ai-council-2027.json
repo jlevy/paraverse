@@ -1,0 +1,30 @@
+{
+  "id": "ai-council-2027",
+  "name": "AI Council",
+  "start_date": "2027-03-23",
+  "end_date": "2027-03-24",
+  "city": "San Francisco",
+  "venue": "Palace Hotel",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "data",
+    "AI infrastructure"
+  ],
+  "price": null,
+  "source_url": "https://www.aicouncil.com/",
+  "retrieved_at": "2026-10-23T20:35:08.317975-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/ai-council-2027.json",
+  "evidence_quotes": [
+    "2027",
+    "March 23-24",
+    "Palace Hotel"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_found_on_checked_sources",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null,
+  "agenda_note": "2027 speakers coming soon; past speaker list excluded."
+}

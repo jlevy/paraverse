@@ -1,0 +1,246 @@
+[
+  {
+    "personID": "1728947931718001NQRK_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "person-0.png"
+  },
+  {
+    "personID": "1774907852299001CTAy_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "person-1.png"
+  },
+  {
+    "personID": "1777686068448001FY1d_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "person-2.png"
+  },
+  {
+    "personID": "1785529803526001UEKt_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "person-3.png"
+  },
+  {
+    "personID": "1777675947876001stxC_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "person-4.png"
+  },
+  {
+    "personID": "1730130715640001vsRb_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "person-5.png"
+  },
+  {
+    "personID": "1787354992642001uhKf_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "person-6.png"
+  },
+  {
+    "personID": "1698155176352001xFka_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "person-7.png"
+  },
+  {
+    "personID": "1745004107585001M3SH_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "person-8.png"
+  },
+  {
+    "personID": "1791508119101001tyPC_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "person-9.png"
+  },
+  {
+    "personID": "1744218970649001rp28_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "person-10.png"
+  },
+  {
+    "personID": "1777657145023001F7OK_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "person-11.png"
+  },
+  {
+    "personID": "attendee:internetdialup",
+    "roles": [
+      "attendee"
+    ],
+    "sprite": "attendees-0.png",
+    "atlasCell": 0
+  },
+  {
+    "personID": "attendee:aaishika",
+    "roles": [
+      "attendee"
+    ],
+    "sprite": "attendees-0.png",
+    "atlasCell": 1
+  },
+  {
+    "personID": "attendee:fadi_zuabi",
+    "roles": [
+      "attendee"
+    ],
+    "sprite": "attendees-0.png",
+    "atlasCell": 2
+  },
+  {
+    "personID": "attendee:OrenMe",
+    "roles": [
+      "attendee"
+    ],
+    "sprite": "attendees-0.png",
+    "atlasCell": 3
+  },
+  {
+    "personID": "attendee:TechnoTimLive",
+    "roles": [
+      "attendee"
+    ],
+    "sprite": "attendees-1.png",
+    "atlasCell": 0
+  },
+  {
+    "personID": "attendee:rishabincloud",
+    "roles": [
+      "attendee"
+    ],
+    "sprite": "attendees-1.png",
+    "atlasCell": 1
+  },
+  {
+    "personID": "attendee:jessehouwing",
+    "roles": [
+      "attendee"
+    ],
+    "sprite": "attendees-1.png",
+    "atlasCell": 2
+  },
+  {
+    "personID": "attendee:mishrasangeet",
+    "roles": [
+      "attendee"
+    ],
+    "sprite": "attendees-1.png",
+    "atlasCell": 3
+  },
+  {
+    "personID": "attendee:BenMilshtein",
+    "roles": [
+      "attendee"
+    ],
+    "sprite": "attendees-2.png",
+    "atlasCell": 0
+  },
+  {
+    "personID": "attendee:thisistonydang",
+    "roles": [
+      "attendee"
+    ],
+    "sprite": "attendees-2.png",
+    "atlasCell": 1
+  },
+  {
+    "personID": "attendee:fkadev",
+    "roles": [
+      "attendee"
+    ],
+    "sprite": "attendees-2.png",
+    "atlasCell": 2
+  },
+  {
+    "personID": "attendee:scottsauber",
+    "roles": [
+      "attendee"
+    ],
+    "sprite": "attendees-2.png",
+    "atlasCell": 3
+  },
+  {
+    "personID": "1761577835512001JaKw_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "recommended-speakers-0.png",
+    "atlasCell": 0
+  },
+  {
+    "personID": "1694120273763001Iy5q_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "recommended-speakers-0.png",
+    "atlasCell": 1
+  },
+  {
+    "personID": "1699392208201001T40f_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "recommended-speakers-0.png",
+    "atlasCell": 2
+  },
+  {
+    "personID": "1786655592532001E5CV_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "recommended-speakers-0.png",
+    "atlasCell": 3
+  },
+  {
+    "personID": "1715352580561001WhDd_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "recommended-speakers-1.png",
+    "atlasCell": 0
+  },
+  {
+    "personID": "1683842376812001m7gi_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "recommended-speakers-1.png",
+    "atlasCell": 1
+  },
+  {
+    "personID": "1686678866005001uQkv_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "recommended-speakers-1.png",
+    "atlasCell": 2
+  },
+  {
+    "personID": "1761601511739001H64z_1768417809universe26",
+    "roles": [
+      "speaker"
+    ],
+    "sprite": "recommended-speakers-1.png",
+    "atlasCell": 3
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "id": "ietf-127-2026",
+  "name": "IETF 127 San Francisco",
+  "start_date": "2026-11-14",
+  "end_date": "2026-11-20",
+  "city": "San Francisco",
+  "venue": "Hilton San Francisco Union Square",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "networking",
+    "security",
+    "Internet standards",
+    "engineering"
+  ],
+  "price": null,
+  "source_url": "https://www.ietf.org/meeting/127/",
+  "retrieved_at": "2026-10-24T21:55:05.526560+00:00",
+  "retrieval_method": "Web tool official organizer pages",
+  "evidence_file": "sources/ietf-127-2026.json",
+  "evidence_quotes": [
+    "IETF 127 San Francisco: 2026-11-14 through 2026-11-20; Hilton San Francisco Union Square, San Francisco."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "retrieval_pending",
+  "agenda_note": "Official agenda link resolves but retrieved text did not expose session content. Weekend includes hackathon and codesprint; not counted separately.",
+  "agenda_checked_at": "2026-10-24T21:55:05.526560+00:00",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null,
+  "agenda_url": "https://datatracker.ietf.org/meeting/127/agenda"
+}

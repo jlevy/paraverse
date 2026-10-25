@@ -1,0 +1,35 @@
+{
+  "id": "dpe-2027",
+  "name": "DPE Summit",
+  "start_date": "2027-02-02",
+  "end_date": "2027-02-03",
+  "city": "San Francisco",
+  "venue": null,
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "developer productivity",
+    "engineering",
+    "AI"
+  ],
+  "price": {
+    "amount": 349,
+    "currency": "USD",
+    "ticket": "Early Bird",
+    "valid_through": "2026-10-30",
+    "standard_amount": 449
+  },
+  "source_url": "https://dpe.org/",
+  "retrieved_at": "2026-10-23T20:49:54.188498-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/dpe-2027.json",
+  "evidence_quotes": [
+    "February 2\u20133, 2027",
+    "San Francisco, CA"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_found_on_checked_sources",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null,
+  "agenda_note": "Official agenda explicitly coming soon; source dpe-agenda-2027.json. Venue disclosed to registered attendees."
+}

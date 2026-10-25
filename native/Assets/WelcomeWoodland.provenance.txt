@@ -1,0 +1,5 @@
+Asset: WelcomeWoodland.png
+Created with the built-in image generation tool from the user-provided splash reference.
+
+Prompt:
+Use case: precise-object-edit. Asset type: macOS application splash background. Edit the supplied image: remove ONLY the centered sprout logo, the words Common Ground, both subtitle lines, and the orange Start button and arrow. Seamlessly fill those removed areas with the same dark olive-black softly textured background. Keep the moon, tiny stars, etched gold wind lines, friendly ghosts, pumpkins, botanical plants and detailed rolling woodland hills exactly in their current positions and style. Preserve the wide landscape composition and dark subdued palette. The large center should be empty negative space for native UI controls. No text, no logo, no button, no new elements. Output a high-resolution landscape background matching the source aspect ratio.

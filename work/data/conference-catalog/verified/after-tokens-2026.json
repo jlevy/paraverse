@@ -1,0 +1,76 @@
+{
+  "id": "after-tokens-2026",
+  "name": "After Tokens",
+  "host": "Stigg",
+  "start_date": "2026-11-10",
+  "end_date": "2026-11-10",
+  "city": "San Francisco",
+  "venue": "Terra",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "engineering",
+    "infrastructure"
+  ],
+  "price": null,
+  "source_url": "https://www.stigg.io/after-tokens",
+  "retrieved_at": "2026-10-23T19:09:20.888079-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/after-tokens-2026.json",
+  "evidence_quotes": [
+    "November 10, 2026. In person at Terra, San Francisco.",
+    "The schedule will be announced."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "speakers_only",
+  "sessions": [],
+  "speakers": [
+    {
+      "name": "Jonah Cohen"
+    },
+    {
+      "name": "Peter Walker"
+    },
+    {
+      "name": "Kyle Poyar"
+    },
+    {
+      "name": "Vidhi Agrawal"
+    },
+    {
+      "name": "Lakshmi Subbramanian"
+    },
+    {
+      "name": "Dor Sasson"
+    },
+    {
+      "name": "Jerome Z. Ng"
+    },
+    {
+      "name": "Matan-Paul Shetrit"
+    },
+    {
+      "name": "Daniel Weber"
+    },
+    {
+      "name": "Christopher Bonadonna"
+    },
+    {
+      "name": "Erick K Bett"
+    },
+    {
+      "name": "Rohit Gupta"
+    },
+    {
+      "name": "Tomas Lorinc"
+    },
+    {
+      "name": "Arjun Garg"
+    },
+    {
+      "name": "Jeffrey Goldberg"
+    }
+  ],
+  "registration_url": null,
+  "agenda_note": "Organizer explicitly says schedule will be announced; event hours 08:00\u201317:00 PT."
+}

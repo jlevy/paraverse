@@ -130,6 +130,19 @@ You can also use a built KB from a separate dataset checkout: from `db/`, run
 `make load serve KB=../path/to/kb`. See the
 [demo prerequisites](docs/hackathon-demo.md#run-the-graph-demo) before loading it.
 
+## Native App
+
+The macOS prototype lives in `native/`, with its local profile and planning service in
+`backend/`. It requires macOS 14 or later, Swift 6 and Python 3.10 or later.
+Copy `.env.example` to `.env`, configure service credentials locally, start
+`python3 backend/profile_service.py`, run `bash native/build-app.sh`, and open
+`native/build/Paraverse.app`.
+
+Run `swift test --package-path native` and
+`PYTHONPATH=backend python3 -m unittest discover -s backend -p 'test_*.py'`.
+Tests use public bundled data or synthetic records and require no account credentials.
+The earlier standalone web preview remains in `ui/`.
+
 ## Data Policy
 
 Everything in this repository is public.

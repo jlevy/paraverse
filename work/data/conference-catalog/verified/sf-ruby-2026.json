@@ -1,0 +1,380 @@
+{
+  "id": "sf-ruby-2026",
+  "name": "San Francisco Ruby Conference",
+  "start_date": "2026-11-10",
+  "end_date": "2026-11-12",
+  "city": "San Francisco",
+  "venue": "SFJAZZ Center",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "software engineering",
+    "Ruby",
+    "Rails",
+    "AI",
+    "open source"
+  ],
+  "price": {
+    "amount": 500,
+    "currency": "USD",
+    "ticket": "Both days and community day",
+    "valid_through": "2026-11-08",
+    "company_sponsored_amount": 650
+  },
+  "source_url": "https://sfruby.com/",
+  "retrieved_at": "2026-10-23T22:37:14.569096-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/sf-ruby-2026.json",
+  "evidence_quotes": [
+    "Nov 10-12, 2026",
+    "201 Franklin St, San Francisco, CA 94102",
+    "Agents in production, AI in legacy codebases, and the Ruby tooling for both."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "registration_url": null,
+  "sessions": [
+    {
+      "id": "sf-ruby-2026-session-1",
+      "title": "Why start a new company on Rails, and AI, today",
+      "date": "2026-11-10",
+      "start_time": "9:15 am",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "Irina Nazarova"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Tuesday, Nov 10 \u00b7 9:15 am \u201cWhy start a new company on Rails, and AI, today\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    },
+    {
+      "id": "sf-ruby-2026-session-2",
+      "title": "Ruby for AI and AI for Ruby",
+      "date": "2026-11-10",
+      "start_time": "10:05 am",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "Vladimir Dementyev"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Tuesday, Nov 10 \u00b7 10:05 am \u201cRuby for AI and AI for Ruby\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    },
+    {
+      "id": "sf-ruby-2026-session-3",
+      "title": "The System Nobody Understood (Including AI)",
+      "date": "2026-11-10",
+      "start_time": "10:35 am",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "Madison Sites"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Tuesday, Nov 10 \u00b7 10:35 am \u201cThe System Nobody Understood (Including AI)\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    },
+    {
+      "id": "sf-ruby-2026-session-4",
+      "title": "Multiplayer Rails: collaborative editing, no Node required",
+      "date": "2026-11-10",
+      "start_time": "11:05 am",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "JP Camara"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Tuesday, Nov 10 \u00b7 11:05 am \u201cMultiplayer Rails: collaborative editing, no Node required\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    },
+    {
+      "id": "sf-ruby-2026-session-5",
+      "title": "Building the same app twice: same problems, different decade",
+      "date": "2026-11-10",
+      "start_time": "1:15 pm",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "Ben Sheldon"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Tuesday, Nov 10 \u00b7 1:15 pm \u201cBuilding the same app twice: same problems, different decade\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    },
+    {
+      "id": "sf-ruby-2026-session-6",
+      "title": "Agents Scale, Humans Don't: Hiring Without Slowing Down",
+      "date": "2026-11-10",
+      "start_time": "1:45 pm",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "Svyatoslav Kryukov"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Tuesday, Nov 10 \u00b7 1:45 pm \u201cAgents Scale, Humans Don't: Hiring Without Slowing Down\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    },
+    {
+      "id": "sf-ruby-2026-session-7",
+      "title": "RubyLLM 2.2: The AI Framework Python Should Envy",
+      "date": "2026-11-10",
+      "start_time": "2:15 pm",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "Carmine Paolino"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Tuesday, Nov 10 \u00b7 2:15 pm \u201cRubyLLM 2.2: The AI Framework Python Should Envy\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    },
+    {
+      "id": "sf-ruby-2026-session-8",
+      "title": "Assign to Claude: Making an Agent a First\u2011Class Teammate in Your SaaS",
+      "date": "2026-11-10",
+      "start_time": "3:05 pm",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "CJ Avilla"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Tuesday, Nov 10 \u00b7 3:05 pm \u201cAssign to Claude: Making an Agent a First\u2011Class Teammate in Your SaaS\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    },
+    {
+      "id": "sf-ruby-2026-session-9",
+      "title": "The Multiplayer Al Manifesto: Teamwork in the Agentic Engineering Era.",
+      "date": "2026-11-10",
+      "start_time": "3:35 pm",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "Sergey Karayev"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Tuesday, Nov 10 \u00b7 3:35 pm \u201cThe Multiplayer Al Manifesto: Teamwork in the Agentic Engineering Era.\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    },
+    {
+      "id": "sf-ruby-2026-session-10",
+      "title": "Who Watches the Agents? Closing the Rails Loop from Code to Customers",
+      "date": "2026-11-10",
+      "start_time": "4:15 pm",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "Ryan Sherlock"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Tuesday, Nov 10 \u00b7 4:15 pm \u201cWho Watches the Agents? Closing the Rails Loop from Code to Customers\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    },
+    {
+      "id": "sf-ruby-2026-session-11",
+      "title": "Solid Queue: two years on Rails",
+      "date": "2026-11-11",
+      "start_time": "9:00 am",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "Rosa Guti\u00e9rrez"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Wednesday, Nov 11 \u00b7 9:00 am \u201cSolid Queue: two years on Rails\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    },
+    {
+      "id": "sf-ruby-2026-session-12",
+      "title": "Building a Developer-friendly PaaS for Kubernetes on Ruby",
+      "date": "2026-11-11",
+      "start_time": "9:50 am",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "Celina Lopez"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Wednesday, Nov 11 \u00b7 9:50 am \u201cBuilding a Developer-friendly PaaS for Kubernetes on Ruby\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    },
+    {
+      "id": "sf-ruby-2026-session-13",
+      "title": "How We Bootstrapped an Open Source Search Engine to $10M+ ARR with 15 People and Ruby on Rails",
+      "date": "2026-11-11",
+      "start_time": "10:20 am",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "Jason Bosco"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Wednesday, Nov 11 \u00b7 10:20 am \u201cHow We Bootstrapped an Open Source Search Engine to $10M+ ARR with 15 People and Ruby on Rails\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    },
+    {
+      "id": "sf-ruby-2026-session-14",
+      "title": "Reactive Rails Views, No Rewrite Required",
+      "date": "2026-11-11",
+      "start_time": "10:50 am",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "Marco Roth"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Wednesday, Nov 11 \u00b7 10:50 am \u201cReactive Rails Views, No Rewrite Required\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    },
+    {
+      "id": "sf-ruby-2026-session-15",
+      "title": "Keeping Your Head on Straight in Concurrent & Complex Ruby Applications",
+      "date": "2026-11-11",
+      "start_time": "1:00 pm",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "Alex Coomans"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Wednesday, Nov 11 \u00b7 1:00 pm \u201cKeeping Your Head on Straight in Concurrent & Complex Ruby Applications\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    },
+    {
+      "id": "sf-ruby-2026-session-16",
+      "title": "Background processing at Gusto: The Parts Where People Look Puzzled",
+      "date": "2026-11-11",
+      "start_time": "1:30 pm",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "Phillip Campbell"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Wednesday, Nov 11 \u00b7 1:30 pm \u201cBackground processing at Gusto: The Parts Where People Look Puzzled\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    },
+    {
+      "id": "sf-ruby-2026-session-17",
+      "title": "Open Source is the Most Fragile and Most Resilient Ecosystem",
+      "date": "2026-11-11",
+      "start_time": "2:00 pm",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "Peter Zhu"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Wednesday, Nov 11 \u00b7 2:00 pm \u201cOpen Source is the Most Fragile and Most Resilient Ecosystem\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    },
+    {
+      "id": "sf-ruby-2026-session-18",
+      "title": "Building a new startup on Rails and Starlink",
+      "date": "2026-11-11",
+      "start_time": "2:50 pm",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "Cole Robertson"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Wednesday, Nov 11 \u00b7 2:50 pm \u201cBuilding a new startup on Rails and Starlink\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    },
+    {
+      "id": "sf-ruby-2026-session-19",
+      "title": "Satellite command and control with Ruby and COSMOS",
+      "date": "2026-11-11",
+      "start_time": "3:20 pm",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "Jason Thomas"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Wednesday, Nov 11 \u00b7 3:20 pm \u201cSatellite command and control with Ruby and COSMOS\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    },
+    {
+      "id": "sf-ruby-2026-session-20",
+      "title": "Rails: The Founder's Unfair Advantage",
+      "date": "2026-11-11",
+      "start_time": "4:00 pm",
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "speakers": [
+        "Chris Oliver"
+      ],
+      "source_url": "https://sfruby.com/",
+      "evidence_quote": "Wednesday, Nov 11 \u00b7 4:00 pm \u201cRails: The Founder's Unfair Advantage\u201d",
+      "retrieved_at": "2026-10-23T22:37:14.569096-07:00"
+    }
+  ],
+  "speakers": [
+    {
+      "name": "Irina Nazarova"
+    },
+    {
+      "name": "Vladimir Dementyev"
+    },
+    {
+      "name": "Madison Sites"
+    },
+    {
+      "name": "JP Camara"
+    },
+    {
+      "name": "Ben Sheldon"
+    },
+    {
+      "name": "Svyatoslav Kryukov"
+    },
+    {
+      "name": "Carmine Paolino"
+    },
+    {
+      "name": "CJ Avilla"
+    },
+    {
+      "name": "Sergey Karayev"
+    },
+    {
+      "name": "Ryan Sherlock"
+    },
+    {
+      "name": "Rosa Guti\u00e9rrez"
+    },
+    {
+      "name": "Celina Lopez"
+    },
+    {
+      "name": "Jason Bosco"
+    },
+    {
+      "name": "Marco Roth"
+    },
+    {
+      "name": "Alex Coomans"
+    },
+    {
+      "name": "Phillip Campbell"
+    },
+    {
+      "name": "Peter Zhu"
+    },
+    {
+      "name": "Cole Robertson"
+    },
+    {
+      "name": "Jason Thomas"
+    },
+    {
+      "name": "Chris Oliver"
+    }
+  ],
+  "agenda_status": "scheduled",
+  "agenda_note": "20 published talks with explicit start times. Individual end times not inferred. Parallel conversation groups and Nov 12 community activities remain in saved source; structured extraction pending."
+}

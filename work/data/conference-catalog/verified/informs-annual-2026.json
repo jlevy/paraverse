@@ -1,0 +1,236 @@
+{
+  "id": "informs-annual-2026",
+  "name": "INFORMS Annual Meeting 2026",
+  "start_date": "2026-11-01",
+  "end_date": "2026-11-04",
+  "city": "San Francisco",
+  "venue": "Moscone Center South and Marriott Marquis San Francisco",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "data science",
+    "analytics",
+    "AI",
+    "optimization",
+    "machine learning"
+  ],
+  "price": null,
+  "source_url": "https://meetings.informs.org/wordpress/annual/",
+  "retrieved_at": "2026-10-24T21:42:06.229557+00:00",
+  "retrieval_method": "Web tool official organizer and venue pages",
+  "evidence_file": "sources/informs-annual-2026.json",
+  "evidence_quotes": [
+    "November 1-4, 2026",
+    "Moscone Center South & Marriott Marquis San Francisco"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "published_partial",
+  "agenda_note": "All 13 named plenaries/keynotes on the official page saved. Technical session abstracts and workshop details remain uncollected. Rooms not published on the retrieved keynote page. Registration page retrieval failed; price unknown.",
+  "agenda_url": "https://meetings.informs.org/wordpress/annual/agenda/",
+  "agenda_checked_at": "2026-10-24T21:42:06.229557+00:00",
+  "sessions": [
+    {
+      "title": "A Collectivist, Economic Perspective on AI",
+      "date": "2026-11-01",
+      "start_time": "09:30",
+      "end_time": "10:45",
+      "time_zone": "America/Los_Angeles",
+      "timezone": "America/Los_Angeles",
+      "room": null,
+      "track": "Plenary",
+      "speakers": [
+        "Michael Jordan"
+      ],
+      "source_url": "https://meetings.informs.org/wordpress/annual/plenaries-keynotes/"
+    },
+    {
+      "title": "The Use of Optimization Models in Public Sector Decision-making",
+      "date": "2026-11-02",
+      "start_time": "09:45",
+      "end_time": "10:45",
+      "time_zone": "America/Los_Angeles",
+      "timezone": "America/Los_Angeles",
+      "room": null,
+      "track": "Plenary",
+      "speakers": [
+        "Karen Smilowitz"
+      ],
+      "source_url": "https://meetings.informs.org/wordpress/annual/plenaries-keynotes/"
+    },
+    {
+      "title": "From Manual Integration to Autonomous Decisions: Organizational and Data Challenges Using AI to Optimize Supply Chain Operations",
+      "date": "2026-11-03",
+      "start_time": "09:45",
+      "end_time": "10:45",
+      "time_zone": "America/Los_Angeles",
+      "timezone": "America/Los_Angeles",
+      "room": null,
+      "track": "Plenary",
+      "speakers": [
+        "Russell Allgor"
+      ],
+      "source_url": "https://meetings.informs.org/wordpress/annual/plenaries-keynotes/"
+    },
+    {
+      "title": "Three Ideas Toward GPU-Enhanced Mixed-Integer Optimization",
+      "date": "2026-11-04",
+      "start_time": "11:00",
+      "end_time": "12:00",
+      "time_zone": "America/Los_Angeles",
+      "timezone": "America/Los_Angeles",
+      "room": null,
+      "track": "Plenary",
+      "speakers": [
+        "Andrea Lodi"
+      ],
+      "source_url": "https://meetings.informs.org/wordpress/annual/plenaries-keynotes/"
+    },
+    {
+      "title": "LabOS: The AI-XR Co-Scientist That Sees and Works with Humans",
+      "date": "2026-11-01",
+      "start_time": "17:45",
+      "end_time": "18:35",
+      "time_zone": "America/Los_Angeles",
+      "timezone": "America/Los_Angeles",
+      "room": null,
+      "track": "Keynote",
+      "speakers": [
+        "Mengdi Wang"
+      ],
+      "source_url": "https://meetings.informs.org/wordpress/annual/plenaries-keynotes/"
+    },
+    {
+      "title": "Indistinguishability: The Stuff of Magic",
+      "date": "2026-11-01",
+      "start_time": "17:45",
+      "end_time": "18:35",
+      "time_zone": "America/Los_Angeles",
+      "timezone": "America/Los_Angeles",
+      "room": null,
+      "track": "Keynote",
+      "speakers": [
+        "Cynthia Dwork"
+      ],
+      "source_url": "https://meetings.informs.org/wordpress/annual/plenaries-keynotes/"
+    },
+    {
+      "title": "Aligning Superintelligence",
+      "date": "2026-11-01",
+      "start_time": "17:45",
+      "end_time": "18:35",
+      "time_zone": "America/Los_Angeles",
+      "timezone": "America/Los_Angeles",
+      "room": null,
+      "track": "Keynote",
+      "speakers": [
+        "Benjamin Van Roy"
+      ],
+      "source_url": "https://meetings.informs.org/wordpress/annual/plenaries-keynotes/"
+    },
+    {
+      "title": "Microsoft Cloud Supply Chain: Democratizing Hyperscale Optimization for Cloud Fulfillment",
+      "date": "2026-11-02",
+      "start_time": "17:45",
+      "end_time": "18:35",
+      "time_zone": "America/Los_Angeles",
+      "timezone": "America/Los_Angeles",
+      "room": null,
+      "track": "Keynote",
+      "speakers": [
+        "Kayla Kummerlowe",
+        "Konstantina Mellou",
+        "Ishai Menache",
+        "Jeevan Pathuri"
+      ],
+      "source_url": "https://meetings.informs.org/wordpress/annual/plenaries-keynotes/"
+    },
+    {
+      "title": "Optimization Models for Group-Level Explainability in Machine Learning",
+      "date": "2026-11-02",
+      "start_time": "17:45",
+      "end_time": "18:35",
+      "time_zone": "America/Los_Angeles",
+      "timezone": "America/Los_Angeles",
+      "room": null,
+      "track": "Keynote",
+      "speakers": [
+        "Dolores Romero Morales"
+      ],
+      "source_url": "https://meetings.informs.org/wordpress/annual/plenaries-keynotes/"
+    },
+    {
+      "title": "Mathematical Optimization in the Era of AI",
+      "date": "2026-11-02",
+      "start_time": "17:45",
+      "end_time": "18:35",
+      "time_zone": "America/Los_Angeles",
+      "timezone": "America/Los_Angeles",
+      "room": null,
+      "track": "Keynote",
+      "speakers": [
+        "Yinyu Ye"
+      ],
+      "source_url": "https://meetings.informs.org/wordpress/annual/plenaries-keynotes/"
+    },
+    {
+      "title": "Engineering Medicine: Technology, Convergence, and the Transformation of Human Health",
+      "date": "2026-11-03",
+      "start_time": "17:45",
+      "end_time": "18:35",
+      "time_zone": "America/Los_Angeles",
+      "timezone": "America/Los_Angeles",
+      "room": null,
+      "track": "Keynote",
+      "speakers": [
+        "Tueng Shen"
+      ],
+      "source_url": "https://meetings.informs.org/wordpress/annual/plenaries-keynotes/"
+    },
+    {
+      "title": "Georgia Institute of Technology Team",
+      "date": "2026-11-03",
+      "start_time": "17:45",
+      "end_time": "18:35",
+      "time_zone": "America/Los_Angeles",
+      "timezone": "America/Los_Angeles",
+      "room": null,
+      "track": "Keynote",
+      "speakers": [
+        "Joel Sokol"
+      ],
+      "source_url": "https://meetings.informs.org/wordpress/annual/plenaries-keynotes/"
+    },
+    {
+      "title": "Location Science, Once More: New Challenges for a Mature Area",
+      "date": "2026-11-03",
+      "start_time": "17:45",
+      "end_time": "18:35",
+      "time_zone": "America/Los_Angeles",
+      "timezone": "America/Los_Angeles",
+      "room": null,
+      "track": "Keynote",
+      "speakers": [
+        "Elena Fernandez"
+      ],
+      "source_url": "https://meetings.informs.org/wordpress/annual/plenaries-keynotes/"
+    }
+  ],
+  "speakers": [
+    "Andrea Lodi",
+    "Benjamin Van Roy",
+    "Cynthia Dwork",
+    "Dolores Romero Morales",
+    "Elena Fernandez",
+    "Ishai Menache",
+    "Jeevan Pathuri",
+    "Joel Sokol",
+    "Karen Smilowitz",
+    "Kayla Kummerlowe",
+    "Konstantina Mellou",
+    "Mengdi Wang",
+    "Michael Jordan",
+    "Russell Allgor",
+    "Tueng Shen",
+    "Yinyu Ye"
+  ],
+  "registration_url": "https://meetings.informs.org/wordpress/annual/register/"
+}

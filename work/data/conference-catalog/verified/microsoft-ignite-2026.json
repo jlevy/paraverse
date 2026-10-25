@@ -1,0 +1,30 @@
+{
+  "id": "microsoft-ignite-2026",
+  "name": "Microsoft Ignite 2026",
+  "start_date": "2026-11-17",
+  "end_date": "2026-11-20",
+  "city": "San Francisco",
+  "venue": "Moscone North, South, and West",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "cloud",
+    "security",
+    "software engineering",
+    "developer tools"
+  ],
+  "price": null,
+  "source_url": "https://moscone.com/events/microsoft-ignite-2026",
+  "retrieved_at": "2026-10-24T20:34:05.753734+00:00",
+  "retrieval_method": "Web tool official venue listing",
+  "evidence_file": "sources/microsoft-ignite-2026.json",
+  "evidence_quotes": [
+    "Microsoft Ignite 2026, November 17\u201320, Moscone North, South, and West, San Francisco."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "retrieval_pending",
+  "agenda_note": "Official venue verifies November 17\u201320, 2026. Organizer homepage returns empty extracted content; agenda retrieval remains pending, not evidence that no agenda exists. Do not use search-result local-time agenda without timezone conversion.",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": "https://ignite.microsoft.com/en-US/home"
+}

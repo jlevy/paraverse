@@ -1,0 +1,28 @@
+{
+  "id": "data-outpost-2026",
+  "name": "Data Outpost",
+  "start_date": "2026-11-04",
+  "end_date": "2026-11-05",
+  "city": "San Francisco",
+  "venue": "Convene 100 Stockton",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "data",
+    "AI"
+  ],
+  "price": null,
+  "source_url": "https://www.dataoutpost.ai/",
+  "retrieved_at": "2026-10-23T21:04:56.172051-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/data-outpost-2026.json",
+  "evidence_quotes": [
+    "November 4-5, 2026",
+    "Convene 100 Stockton, San Francisco"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_checked",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null,
+  "agenda_note": "Source saved; detailed agenda extraction and edition validation pending."
+}

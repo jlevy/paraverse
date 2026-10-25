@@ -1,0 +1,39 @@
+{
+  "id": "pyai-2027",
+  "name": "PyAI",
+  "start_date": "2027-03-09",
+  "end_date": "2027-03-09",
+  "city": "San Francisco",
+  "venue": "SHACK15",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "developer tools"
+  ],
+  "price": null,
+  "source_url": "https://pyai.events/",
+  "retrieved_at": "2026-10-23T20:20:00.914552-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/pyai-2027.json",
+  "evidence_quotes": [
+    "March 9, 2027",
+    "SHACK15, San Francisco"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "speakers_only",
+  "sessions": [],
+  "speakers": [
+    {
+      "name": "Samuel Colvin",
+      "title": "Founder & CEO",
+      "company": "Pydantic"
+    },
+    {
+      "name": "Jeremiah Lowin",
+      "title": "Founder & CEO",
+      "company": "Prefect / FastMCP"
+    }
+  ],
+  "registration_url": null,
+  "agenda_note": "Full schedule forthcoming; 2026 talks excluded."
+}
