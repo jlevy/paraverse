@@ -1,0 +1,29 @@
+{
+  "id": "sais-2027",
+  "name": "USENIX Conference on Secure Agentic-AI Systems (SAIS '27)",
+  "start_date": "2027-06-07",
+  "end_date": "2027-06-08",
+  "city": "Santa Clara",
+  "venue": "Hyatt Regency Santa Clara",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "agents",
+    "security",
+    "software engineering"
+  ],
+  "price": null,
+  "source_url": "https://www.usenix.org/conference/sais27",
+  "retrieved_at": "2026-10-24T09:47:58.007931-07:00",
+  "retrieval_method": "Web tool, official page",
+  "evidence_file": "sources/sais-2027.json",
+  "evidence_quotes": [
+    "The USENIX Conference on Secure Agentic-AI Systems (SAIS '27) will take place on June 7\u20138, 2027, at the Hyatt Regency Santa Clara in Santa Clara, CA, USA."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_found_on_checked_sources",
+  "agenda_note": "Homepage has preliminary call for papers and organizers; no named session program on checked page. Organizers are not treated as speakers.",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

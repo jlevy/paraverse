@@ -1,0 +1,17 @@
+{
+  "name": "GitHub Universe 2026",
+  "host": "GitHub",
+  "start_date": "2026-10-28",
+  "end_date": "2026-10-29",
+  "timezone": "America/Los_Angeles",
+  "venue": "Fort Mason Center",
+  "city": "San Francisco, CA",
+  "individual_in_person_price": 1399,
+  "currency": "USD",
+  "virtual_price": 0,
+  "source_url": "https://githubuniverse.com/",
+  "retrieval_method": "Bright Data Web Unlocker; saved rendered retrieval result",
+  "evidence_file": "../universe-homepage-retrieval.txt",
+  "pricing_scope": "Individual tab only; group/level-up options not validated",
+  "retrieved_date": "2026-10-23"
+}

@@ -1,0 +1,29 @@
+{
+  "id": "gdc-2027",
+  "name": "GDC Festival of Gaming",
+  "start_date": "2027-03-01",
+  "end_date": "2027-03-04",
+  "city": "San Francisco",
+  "venue": "Moscone Center",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "game development",
+    "design",
+    "engineering"
+  ],
+  "price": null,
+  "source_url": "https://gdconf.com/about-gdc/",
+  "retrieved_at": "2026-10-23T19:09:23.863037-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/gdc-2027.json",
+  "evidence_quotes": [
+    "March 1-4, 2027",
+    "Moscone Center San Francisco"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_checked",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null,
+  "agenda_note": "Detailed program and pricing still require review."
+}

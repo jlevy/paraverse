@@ -1,0 +1,271 @@
+{
+  "id": "digital-infrastructure-world-2027",
+  "name": "Digital Infrastructure World 2027",
+  "start_date": "2027-02-03",
+  "end_date": "2027-02-04",
+  "city": "San Jose",
+  "venue": "San Jose McEnery Convention Center",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "infrastructure",
+    "data centers",
+    "hardware engineering",
+    "GPU clusters"
+  ],
+  "price": {
+    "amount": 699,
+    "currency": "USD",
+    "ticket": "Advance pass",
+    "valid_through": "2026-10-29",
+    "standard_amount": 799
+  },
+  "source_url": "https://difusionforum.com/",
+  "retrieved_at": "2026-10-24T10:48:02.878807-07:00",
+  "retrieval_method": "Web tool official homepage",
+  "evidence_file": "sources/digital-infrastructure-world-2027.json",
+  "evidence_quotes": [
+    "February 3\u20134, 2027 \u00b7 San Jose",
+    "San Jose McEnery Convention Center"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "partially_extracted",
+  "agenda_note": "Saved 12 scheduled blocks: day-one Cluster track and day-two morning Mainstage. Other tracks remain unextracted. 26 announced speaker names saved; no unsupported assignment to sessions. Generic track/keynote blocks may later receive specific titles.",
+  "tracks": [
+    "Rack",
+    "Cluster",
+    "Data Center",
+    "Energy"
+  ],
+  "sessions": [
+    {
+      "date": "2027-02-03",
+      "start_time": "11:10",
+      "end_time": "11:40",
+      "track": "Cluster",
+      "title": "OCP Cluster - Track Keynote",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-03",
+      "start_time": "11:45",
+      "end_time": "12:05",
+      "track": "Cluster",
+      "title": "Open Networking Software",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-03",
+      "start_time": "12:10",
+      "end_time": "12:30",
+      "track": "Cluster",
+      "title": "AI Inference Clusters",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-03",
+      "start_time": "13:50",
+      "end_time": "14:10",
+      "track": "Cluster",
+      "title": "Neocloud AI Cluster Designs",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-03",
+      "start_time": "14:15",
+      "end_time": "14:35",
+      "track": "Cluster",
+      "title": "Scale-Across Between Data Centers",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-03",
+      "start_time": "14:40",
+      "end_time": "15:00",
+      "track": "Cluster",
+      "title": "AI Training Clusters",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-03",
+      "start_time": "15:40",
+      "end_time": "16:00",
+      "track": "Cluster",
+      "title": "Scale-Out Fabrics for AI Clusters",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-03",
+      "start_time": "16:05",
+      "end_time": "16:40",
+      "track": "Cluster",
+      "title": "Architecting 1M GPU Clusters",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-04",
+      "start_time": "08:30",
+      "end_time": "08:50",
+      "track": "Mainstage",
+      "title": "IT and Data Centers, Designed as One",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-04",
+      "start_time": "08:50",
+      "end_time": "09:25",
+      "track": "Mainstage",
+      "title": "Panel: The Neocloud Giants of AI",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-04",
+      "start_time": "09:25",
+      "end_time": "09:45",
+      "track": "Mainstage",
+      "title": "Fireside Chat: Frontier Factories for AI Training",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    },
+    {
+      "date": "2027-02-04",
+      "start_time": "09:45",
+      "end_time": "10:15",
+      "track": "Mainstage",
+      "title": "Panel: 3P Data Centers, At the Speed of AI",
+      "timezone": "America/Los_Angeles",
+      "speakers": [],
+      "source_url": "https://difusionforum.com/education/agenda/"
+    }
+  ],
+  "speakers": [
+    {
+      "name": "Kyle Chien",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Arun Anbumani",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Ella Zhou",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Ian Wright",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Jack Backes",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Dudy Cohen",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Vishal Singh",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Moshe Tanach",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Saloni Garg",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Satarupa Bal",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "John Lyntton",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Brian Deckard",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Harshada Jadhao",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Scott Willis",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Astrid Atkinson",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Andrejka Bernatova",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Nicole Dierksheide",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Shahar Noy",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Jigar Savla",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Kiran Thakkar",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Paul Quigley",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Jake Ring",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Daniel Medina",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Jeffery Potvin",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Shripad Chandrachood",
+      "source_url": "https://difusionforum.com/"
+    },
+    {
+      "name": "Tom Moyer",
+      "source_url": "https://difusionforum.com/"
+    }
+  ],
+  "registration_url": null,
+  "agenda_checked_at": "2026-10-24T11:03:52.460399-07:00",
+  "agenda_source_url": "https://difusionforum.com/education/agenda/"
+}

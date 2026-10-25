@@ -1,0 +1,17 @@
+{
+  "checked_at": "2026-10-24T21:21:19.178355+00:00",
+  "eligible_verified_count": 53,
+  "runs": 30,
+  "median_ms": 5.571812449488789,
+  "max_ms": 19.356000004336238,
+  "results": [
+    "GitHub Universe 2026",
+    "San Francisco Ruby Conference",
+    "PortCon",
+    "TDX 2027",
+    "Stripe Sessions 2027",
+    "QCon San Francisco"
+  ],
+  "catalog_version": "e9eed0cda79e33dd",
+  "scope": "Backend catalog read and local ranking only; UI rendering, server roundtrip and images excluded."
+}

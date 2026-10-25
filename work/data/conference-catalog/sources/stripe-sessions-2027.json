@@ -1,0 +1,26 @@
+{
+  "url": "https://stripesessions.com/",
+  "retrieved_at": "2026-10-24T10:33:24.704972-07:00",
+  "retrieval_method": "Web tool, official edition homepage",
+  "text": "May 4\u20136, 2027; Moscone North & South, San Francisco. Early-bird admission $599, regular $999; early-bird rates expire January 27, 2027. 2027 speaker announcements coming soon.",
+  "agenda_overview": {
+    "2027-05-04": [
+      "Partner Summit (Stripe partners only)",
+      "Opening keynote",
+      "Fireside chat",
+      "Welcome reception"
+    ],
+    "2027-05-05": [
+      "Product keynote",
+      "Breakout sessions",
+      "Developer keynote",
+      "Fireside chat",
+      "Sessions celebration"
+    ],
+    "2027-05-06": [
+      "Keynote",
+      "Breakout sessions",
+      "Fireside chat"
+    ]
+  }
+}

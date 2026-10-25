@@ -1,0 +1,43 @@
+{
+  "id": "linear-orbit-2026",
+  "name": "Orbit by Linear",
+  "host": "Linear",
+  "start_date": "2026-12-09",
+  "end_date": "2026-12-09",
+  "timezone": "America/Los_Angeles",
+  "city": "San Francisco",
+  "venue": "Palace of Fine Arts",
+  "topics": [
+    "software engineering",
+    "design",
+    "product development"
+  ],
+  "price": null,
+  "registration_status": "request to attend; organizer confirmation required",
+  "source_url": "https://orbit.linear.app/",
+  "retrieved_at": "2026-10-23T18:55:03.361769-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "speakers_status": "partially_announced",
+  "speakers": [
+    {
+      "name": "Karri Saarinen",
+      "organization": "Linear"
+    },
+    {
+      "name": "Katelyn Lesse",
+      "organization": "Anthropic"
+    },
+    {
+      "name": "Will Larson",
+      "organization": "Imprint"
+    },
+    {
+      "name": "Can Duruk",
+      "organization": "Modal"
+    }
+  ],
+  "sessions_status": "not_found_on_checked_page",
+  "sessions": [],
+  "evidence_file": "orbit-2026-source.json",
+  "verification_status": "official_date_location_confirmed"
+}

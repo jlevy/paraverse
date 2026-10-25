@@ -1,0 +1,250 @@
+{
+  "id": "reverie-2026",
+  "name": "Reverie",
+  "host": "LanceDB",
+  "start_date": "2026-11-05",
+  "end_date": "2026-11-05",
+  "city": "San Francisco",
+  "venue": "Contemporary Jewish Museum",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI",
+    "data",
+    "engineering"
+  ],
+  "price": "$200",
+  "source_url": "https://www.reveriesummit.com/",
+  "retrieved_at": "2026-10-23T19:09:20.645342-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/reverie-2026.json",
+  "evidence_quotes": [
+    "November 5, 2026",
+    "Contemporary Jewish Museum, San Francisco. $200"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "scheduled",
+  "sessions": [
+    {
+      "start_local": "8:30 am",
+      "end_local": "9:15 am",
+      "room": "Lobby",
+      "title": "Doors, Registration & Coffee",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "9:15 am",
+      "end_local": "9:30 am",
+      "room": "Mainstage",
+      "title": "Welcome: What Will AI Dream Next?",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "9:30 am",
+      "end_local": "10:00 am",
+      "room": "Mainstage",
+      "title": "Keynote | Still Training: A Decade of Learning the Hard Way",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "10:00 am",
+      "end_local": "10:25 am",
+      "room": "Mainstage",
+      "title": "Cosmos: Omnimodal World Models for Physical AI",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "10:25 am",
+      "end_local": "10:50 am",
+      "room": "Mainstage",
+      "title": "Scalable, Multimodal Data Curation",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "10:50 am",
+      "end_local": "11:05 am",
+      "room": "Lobby",
+      "title": "Break",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "11:05 am",
+      "end_local": "11:30 am",
+      "room": "Mainstage",
+      "title": "Building the Data Flywheel for Frontier AI Model",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "11:30 am",
+      "end_local": "11:55 am",
+      "room": "Mainstage",
+      "title": "From Raw Driving Logs to RL Training: A Petabyte-Scale Lance Pipeline in Production",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "11:55 am",
+      "end_local": "1:05 pm",
+      "room": "Lobby",
+      "title": "Lunch",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "1:05 pm",
+      "end_local": "1:30 pm",
+      "room": "Mainstage",
+      "title": "From Raw Delivery to the Training Loop: Luma's Data Platform on Lance",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "1:40 pm",
+      "end_local": "2:05 pm",
+      "room": "Upstairs Stage",
+      "title": "Lance in Action: Speeding Up Training and Scaling Data for Self-Driving AI",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "1:40 pm",
+      "end_local": "2:05 pm",
+      "room": "Downstairs Stage",
+      "title": "How Adobe Built a Multimodal Lakehouse for AI-Native Experiences",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "2:10 pm",
+      "end_local": "2:30 pm",
+      "room": "Upstairs Stage",
+      "title": "Data Infrastructure for Robotics Foundation Models",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "2:10 pm",
+      "end_local": "2:30 pm",
+      "room": "Downstairs Stage",
+      "title": "What Does \"Now\" Mean to Your Model? Time Alignment for Multimodal AI Data",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "2:35 pm",
+      "end_local": "3:00 pm",
+      "room": "Upstairs Stage",
+      "title": "Beyond HPC Storage: S3-Native Training Without the Performance Tradeoff",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "2:35 pm",
+      "end_local": "3:00 pm",
+      "room": "Downstairs Stage",
+      "title": "Cornucopia: Serving Up Every Modality of Data at the AI Feast",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "3:05 pm",
+      "end_local": "3:30 pm",
+      "room": "Upstairs Stage",
+      "title": "Managing an Index of 100s of Billions of Pages With Exa Skeleton",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "3:05 pm",
+      "end_local": "3:30 pm",
+      "room": "Downstairs Stage",
+      "title": "Scaling the Data Foundation for XPENG's VLA 2.0",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "3:30 pm",
+      "end_local": "3:40 pm",
+      "room": "Lobby",
+      "title": "Break",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "3:40 pm",
+      "end_local": "4:25 pm",
+      "room": "Upstairs Stage",
+      "title": "Panel Physical AI Researchers",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "3:40 pm",
+      "end_local": "4:25 pm",
+      "room": "Downstairs Stage",
+      "title": "Panel Building the Autonomous Driving Data Flywheel",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "4:25 pm",
+      "end_local": "4:35 pm",
+      "room": "Lobby",
+      "title": "Break",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "4:35 pm",
+      "end_local": "5:00 pm",
+      "room": "Mainstage",
+      "title": "Keynote | Rethinking AI Infrastructure",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "5:00 pm",
+      "end_local": "5:10 pm",
+      "room": "Mainstage",
+      "title": "Closing Remarks: From What AI Dreams to What We Build Next",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    },
+    {
+      "start_local": "5:10 pm",
+      "end_local": "6:40 pm",
+      "room": "Lobby",
+      "title": "Reception",
+      "date": "2026-11-05",
+      "source_url": "https://www.reveriesummit.com/"
+    }
+  ],
+  "speakers": [
+    {
+      "name": "Rohan Anil"
+    },
+    {
+      "name": "Max Li"
+    },
+    {
+      "name": "Ethan Rosenthal"
+    },
+    {
+      "name": "Barkley Dai"
+    },
+    {
+      "name": "Zhipeng Yan"
+    },
+    {
+      "name": "Suqiang (Jack) Song"
+    }
+  ],
+  "registration_url": null,
+  "agenda_note": "All 25 published agenda entries on saved homepage, including breaks. Speaker-to-session assignments not established."
+}

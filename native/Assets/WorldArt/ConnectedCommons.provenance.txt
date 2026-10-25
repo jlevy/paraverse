@@ -1,0 +1,8 @@
+Generated with image_gen from the user-approved Connected Commons concept.
+TrueForge and OpenAI split into separate name-only booths. No prize labels.
+Architecture is an illustrated interpretation, not an official venue plan.
+Background is a flattened environment illustration; interactive people are separate sprites.
+World coordinates: 2200x1100, nearest-neighbor texture sampling, camera scale 0.4–4.
+Navigation: authored connected floor bands in CommonsLayout.swift.
+Character data: WorldArt/characters.json maps official speaker IDs to headshot-inspired artwork.
+Activity gestures and character positions are illustrative, not actual attendance or actions.

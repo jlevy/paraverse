@@ -1,0 +1,31 @@
+{
+  "id": "embedded-vision-2027",
+  "name": "Embedded Vision Summit",
+  "start_date": "2027-02-02",
+  "end_date": "2027-02-04",
+  "city": "San Francisco",
+  "venue": "Moscone West",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "computer vision",
+    "physical AI",
+    "engineering"
+  ],
+  "price": null,
+  "source_url": "https://embeddedvisionsummit.com/attend/",
+  "retrieved_at": "2026-10-23T20:20:00.912963-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/embedded-vision-2027.json",
+  "evidence_quotes": [
+    "February 2\u20134, 2027",
+    "800 Howard Street"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_found_on_checked_sources",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null,
+  "agenda_note": "Official full-program page still exposes 2026 sessions and a 2025 schedule; these are excluded from 2027. Current edition agenda not found on checked page.",
+  "agenda_source_url": "https://embeddedvisionsummit.com/full-program",
+  "agenda_evidence_file": "sources/embedded-vision-program-2027.json"
+}

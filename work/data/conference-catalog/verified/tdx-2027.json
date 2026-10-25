@@ -1,0 +1,30 @@
+{
+  "id": "tdx-2027",
+  "name": "TDX 2027",
+  "start_date": "2027-03-10",
+  "end_date": "2027-03-11",
+  "city": "San Francisco",
+  "venue": "Moscone West",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "software engineering",
+    "AI agents",
+    "automation",
+    "developer tools",
+    "data"
+  ],
+  "price": null,
+  "source_url": "https://www.moscone.com/events/tdx-2027",
+  "retrieved_at": "2026-10-24T20:03:57.266606+00:00",
+  "retrieval_method": "Web tool official organizer and venue pages",
+  "evidence_file": "sources/tdx-2027.json",
+  "evidence_quotes": [
+    "TDX 2027: 2027-03-10 through 2027-03-11, Moscone West, San Francisco."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_verified_for_edition",
+  "agenda_note": "Official venue confirms dates and location. Organizer /tdx currently retains 2026 content; prior agenda and speakers excluded. Venue page invites notifications for future session and registration announcements.",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}

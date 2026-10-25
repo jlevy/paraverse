@@ -1,0 +1,90 @@
+{
+  "id": "isscc-2027",
+  "name": "IEEE International Solid-State Circuits Conference 2027",
+  "start_date": "2027-02-14",
+  "end_date": "2027-02-18",
+  "city": "San Francisco",
+  "venue": "San Francisco Marriott Marquis",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "engineering",
+    "semiconductors",
+    "AI",
+    "hardware",
+    "circuit design"
+  ],
+  "price": null,
+  "source_url": "https://www.isscc.org/",
+  "retrieved_at": "2026-10-24T21:55:05.526560+00:00",
+  "retrieval_method": "Web tool official organizer pages",
+  "evidence_file": "sources/isscc-2027.json",
+  "evidence_quotes": [
+    "IEEE International Solid-State Circuits Conference 2027: 2027-02-14 through 2027-02-18; San Francisco Marriott Marquis, San Francisco."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "published_partial",
+  "agenda_note": "Four named plenaries saved from official 2027 homepage; detailed program remains uncollected. Registration opens November 23, 2026.",
+  "agenda_checked_at": "2026-10-24T21:55:05.526560+00:00",
+  "sessions": [
+    {
+      "title": "Holistic Semiconductor Lithography for the Age of AI",
+      "date": null,
+      "start_time": null,
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "room": null,
+      "track": "Plenary",
+      "speakers": [
+        "Marco Pieters"
+      ],
+      "source_url": "https://www.isscc.org/"
+    },
+    {
+      "title": "The Next Leap in Image Sensors: Pixels and Beyond in the AI Era",
+      "date": null,
+      "start_time": null,
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "room": null,
+      "track": "Plenary",
+      "speakers": [
+        "Yusuke Oike"
+      ],
+      "source_url": "https://www.isscc.org/"
+    },
+    {
+      "title": "At the End of the Copper Tunnel, There Is Light",
+      "date": null,
+      "start_time": null,
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "room": null,
+      "track": "Plenary",
+      "speakers": [
+        "Matt Murphy"
+      ],
+      "source_url": "https://www.isscc.org/"
+    },
+    {
+      "title": "From Silicon to Deployed Infrastructure: Redefining the Semiconductor Design Challenge at Hyperscale",
+      "date": null,
+      "start_time": null,
+      "end_time": null,
+      "timezone": "America/Los_Angeles",
+      "room": null,
+      "track": "Plenary",
+      "speakers": [
+        "Rani Borkar"
+      ],
+      "source_url": "https://www.isscc.org/"
+    }
+  ],
+  "speakers": [
+    "Marco Pieters",
+    "Yusuke Oike",
+    "Matt Murphy",
+    "Rani Borkar"
+  ],
+  "registration_url": null,
+  "agenda_url": "https://www.isscc.org/program-overview"
+}

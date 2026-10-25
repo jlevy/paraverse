@@ -1,0 +1,35 @@
+{
+  "id": "ai-engineer-code-2026",
+  "name": "AI Engineer Code Summit 2026",
+  "start_date": "2026-11-10",
+  "end_date": "2026-11-12",
+  "city": "San Francisco",
+  "venue": "Hilton Union Square",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "AI agents",
+    "developer tools",
+    "coding",
+    "AI evaluation"
+  ],
+  "price": {
+    "amount": 1299,
+    "currency": "USD",
+    "ticket": "Talks and expo November 11\u201312, plus fees; approval required",
+    "workshop_add_on": 299
+  },
+  "source_url": "https://ai.engineer/code/2026",
+  "retrieved_at": "2026-10-24T21:55:05.526560+00:00",
+  "retrieval_method": "Web tool official organizer pages",
+  "evidence_file": "sources/ai-engineer-code-2026.json",
+  "evidence_quotes": [
+    "AI Engineer Code Summit 2026: 2026-11-10 through 2026-11-12; Hilton Union Square, San Francisco."
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_yet_announced",
+  "agenda_note": "Official page says speaker lineup and full agenda coming soon. November 10 workshops; November 11\u201312 talks. Application required.",
+  "agenda_checked_at": "2026-10-24T21:55:05.526560+00:00",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": "https://ai.engineer/code/2026#apply"
+}

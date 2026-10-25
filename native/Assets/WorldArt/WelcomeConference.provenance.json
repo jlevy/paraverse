@@ -1,0 +1,8 @@
+{
+  "tool": "built-in image_gen",
+  "reference": "ConnectedCommons.png (style only)",
+  "purpose": "Common Ground welcome and profile backdrop",
+  "prompt": "Year-round conference campus at blue hour, crisp retro RPG pixel illustration, purple and teal, warm ivory and brass, modern glass pavilion, networking professionals and greenery; quiet sky for native title and controls. No Halloween, GitHub branding, text or UI.",
+  "filtering": "nearest",
+  "status": "selected and integrated"
+}

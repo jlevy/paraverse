@@ -230,3 +230,40 @@ __marimo__/
 **/storageState*.json
 **/cookies*.json
 **/auth-state*.json
+
+# Imported local demo exclusions
+.env
+.env.*
+!.env.example
+backend/__pycache__/
+work/profile-jobs/
+native/.build/
+native/build/
+
+node_modules/
+.env.x
+
+# Local runs, credentials, browser sessions, and generated previews
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+outputs/
+work/*
+!work/data/
+work/data/profiles/
+work/data/attendee-contacts/
+**/storage-state*.json
+**/storageState*.json
+**/cookies*.json
+**/auth-state*.json
+*.log
+
+.local-migration/
+
+# Local imports and research; canonical datasets are the vendor submodules.
+/conferences/
+/output/
+/work/data/attendee-profiles/
+/work/data/external/attendance-x-api/
+/work/data/official/universe-brightdata-raw.json

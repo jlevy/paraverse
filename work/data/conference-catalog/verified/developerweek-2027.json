@@ -1,0 +1,31 @@
+{
+  "id": "developerweek-2027",
+  "name": "DeveloperWeek",
+  "start_date": "2027-02-09",
+  "end_date": "2027-02-11",
+  "city": "Santa Clara",
+  "venue": "Santa Clara Convention Center",
+  "timezone": "America/Los_Angeles",
+  "topics": [
+    "software engineering",
+    "AI",
+    "cloud",
+    "data engineering",
+    "security"
+  ],
+  "price": null,
+  "source_url": "https://www.developerweek.com/",
+  "retrieved_at": "2026-10-23T23:26:14.543717-07:00",
+  "retrieval_method": "Direct HTTPS, static HTML text extraction",
+  "evidence_file": "sources/developerweek-2027.json",
+  "evidence_quotes": [
+    "February 9-11, 2027",
+    "Santa Clara Convention Center, CA"
+  ],
+  "verification_status": "official_date_location_confirmed",
+  "agenda_status": "not_found_on_checked_sources",
+  "agenda_note": "2027 overall schedule and tracks published. Named sessions unverified. Past speakers excluded. Includes Feb 9 workshop day. Four co-located conference tracks counted once.",
+  "sessions": [],
+  "speakers": [],
+  "registration_url": null
+}
