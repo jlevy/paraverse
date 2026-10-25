@@ -5,7 +5,7 @@ title: Review PR15 cache and app-entry performance layer
 kind: task
 status: in_progress
 priority: 1
-version: 9
+version: 12
 delegate: codex@spud10.local
 labels: []
 dependencies: []
@@ -15,10 +15,13 @@ child_order_hints:
   - is-01m5r7pzw9hf5t48vgq06683x3
   - is-01m5r7q089v6f0brmb1k70ayhy
   - is-01m5r7q0jfj07d2asjpraampcx
+  - is-01m5rbfvbmqkp4552tyykb1zqg
+  - is-01m5rbfvqmpejy4jc67k7t67w7
+  - is-01m5rbfw432axqsq3pyd3sd7wr
 hold: null
 hold_until: null
 created_at: 2026-10-24T23:28:21.029Z
-updated_at: 2026-10-25T01:29:21.792Z
+updated_at: 2026-10-25T01:41:05.282Z
 started_at: 2026-10-24T23:28:28.330Z
 ---
 Independent strong-max senior and dedicated performance/security/correctness reviews of PR15, pinned to1cd2c057 on base021a745. Isolated read-only worktree; publish formal reviews, track findings with owner, no code edits or merges.
