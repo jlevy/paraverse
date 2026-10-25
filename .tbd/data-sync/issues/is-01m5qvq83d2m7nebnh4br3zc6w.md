@@ -3,9 +3,9 @@ type: is
 id: is-01m5qvq83d2m7nebnh4br3zc6w
 title: "PR #9 qodo-5640006360 #1: cloning does not give loadable data until the dataset pin moves (https://github.com/jlevy/paraverse/pull/9#discussion_r4368502073)"
 kind: bug
-status: open
+status: in_progress
 priority: 2
-version: 4
+version: 5
 delegate: claude-code@spud10.local
 labels: []
 dependencies: []
@@ -13,7 +13,7 @@ parent_id: is-01m5qvq0n2h1swggks54s011d7
 hold: null
 hold_until: null
 created_at: 2026-10-24T21:05:29.708Z
-updated_at: 2026-10-24T21:05:46.640Z
+updated_at: 2026-10-25T04:45:44.500Z
 started_at: 2026-10-24T21:05:45.497Z
 ---
 PR: jlevy/paraverse#9 (layer vendor/universe2026-md).
