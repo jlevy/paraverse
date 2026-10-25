@@ -5,7 +5,7 @@ title: Review native app PRs 13 and 14 at pinned heads
 kind: task
 status: in_progress
 priority: 1
-version: 9
+version: 14
 delegate: codex@spud10.local
 labels: []
 dependencies: []
@@ -15,10 +15,15 @@ child_order_hints:
   - is-01m5r3wth6ew3crzr3qm9tydb0
   - is-01m5r6fxfqdpsvd8p6cwmrkgax
   - is-01m5r6fy0pfqdmaex9h2wg846s
+  - is-01m5r7d1cze511fqmksbyw2qxh
+  - is-01m5r7d1rzbe3c09384c3a4r8w
+  - is-01m5r7d22r15w7qqby0a2375b6
+  - is-01m5r7d2c5f1f5419mxf2hza0t
+  - is-01m5r7d2nvvjye8fk8c0zvmb6a
 hold: null
 hold_until: null
 created_at: 2026-10-24T23:03:16.314Z
-updated_at: 2026-10-25T00:13:44.341Z
+updated_at: 2026-10-25T00:29:39.386Z
 started_at: 2026-10-24T23:03:56.343Z
 ---
 Independent strong-max senior, security, performance and correctness reviews for PR13 at7f9d33b/basec78d29b and PR14 at1186a567/base7f9d33b; later PR15 trackedchildpv-jrkz. Formal original-pin artifacts published and verified. Read-only isolated worktrees, no code edits or merges. Landing coordinator owns priority fixes, deferred finding beads/dispositions and13/14/15stack merges. Final exactrestacked fix-delta carryforward pending; original tests/reviews do not certify unseen final code.
