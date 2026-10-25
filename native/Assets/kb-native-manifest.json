@@ -1,24 +1,24 @@
 {
   "datasets": [
     {
-      "commit": "c6b4faa9a6df7e176bd265f3c3f706d31ec3c3ef",
+      "commit": "cd41b074e6057eba5a55f1941c99e023adf691e8",
       "contracts": [
-        "paraverse.conference:Event/v1",
-        "paraverse.conference:Experience/v1",
-        "paraverse.conference:Facet/v1",
-        "paraverse.conference:GitHubAccount/v1",
-        "paraverse.conference:Organization/v1",
-        "paraverse.conference:Package/v1",
-        "paraverse.conference:Page/v1",
-        "paraverse.conference:Person/v1",
-        "paraverse.conference:Profile/v1",
-        "paraverse.conference:Repository/v1",
-        "paraverse.conference:Room/v1",
-        "paraverse.conference:Session/v1",
-        "paraverse.conference:SocialAccount/v1",
-        "paraverse.conference:Software/v1",
-        "paraverse.conference:Venue/v1",
-        "paraverse.conference:Website/v1"
+        "paraverse.conference:Event/v2",
+        "paraverse.conference:Experience/v2",
+        "paraverse.conference:Facet/v2",
+        "paraverse.conference:GitHubAccount/v2",
+        "paraverse.conference:Organization/v2",
+        "paraverse.conference:Package/v2",
+        "paraverse.conference:Page/v2",
+        "paraverse.conference:Person/v2",
+        "paraverse.conference:Profile/v2",
+        "paraverse.conference:Repository/v2",
+        "paraverse.conference:Room/v2",
+        "paraverse.conference:Session/v2",
+        "paraverse.conference:SocialAccount/v2",
+        "paraverse.conference:Software/v2",
+        "paraverse.conference:Venue/v2",
+        "paraverse.conference:Website/v2"
       ],
       "dataset": "universe2026-md",
       "eventID": "event:github-universe-2026",
@@ -44,8 +44,8 @@
         ],
         "unscheduledSessions": []
       },
-      "graphDigest": "3a0dd8e80828ae28",
-      "people": 184,
+      "graphDigest": "bc33dc8fd8bde7ae",
+      "people": 183,
       "repository": "https://github.com/jlevy/universe2026-md",
       "sessionSlots": 161,
       "softschemaValidated": true

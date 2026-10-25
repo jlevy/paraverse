@@ -3637,48 +3637,7 @@
     "photo": null,
     "role": "Attendee",
     "sessions": [],
-    "sourceURL": "https://hachyderm.io/@jessehouwing/117450953035342148",
-    "xURL": null
-  },
-  {
-    "accountURLs": [
-      "https://bsky.app/profile/skyarkitekten.bsky.social",
-      "https://github.com/skyarkitekten",
-      "https://www.linkedin.com/in/chadcthomas"
-    ],
-    "attendee": false,
-    "biography": "Chad is an AI Architect and Engineer at IBM Consulting, where he works at the intersection of GitHub, Copilot, and agent‑driven software delivery. He focuses on applying spec‑driven development and AI‑assisted engineering patterns to help enterprise teams modernize how software is designed, built, and governed. He works closely with GitHub and Microsoft engineering partners to translate emerging AI capabilities into practical, scalable development workflows used in real‑world enterprise environments.",
-    "biographyProvenance": {
-      "basis": "event_bio",
-      "cites": [
-        "https://api.github.com/graphql",
-        "https://events.githubuniverse.com/api/sessions"
-      ]
-    },
-    "company": "IBM",
-    "eventID": "event:github-universe-2026",
-    "githubURL": "https://github.com/skyarkitekten",
-    "id": "1777678753640001XhOR_1768417809universe26",
-    "kbID": "person:jihan-thomas",
-    "linkedinURL": "https://www.linkedin.com/in/chadcthomas",
-    "name": "Jihan Thomas",
-    "participationRoles": [
-      "speaker"
-    ],
-    "photo": "jihan-thomas.jpg",
-    "role": "Chief AI Architect",
-    "sessions": [
-      {
-        "date": "2026-10-29",
-        "id": "1791895677566001pbO0",
-        "room": "Silent Disco Demos @ Festival Pavilion",
-        "start": "9:55 AM",
-        "startISO": "2026-10-29T09:55:00-07:00",
-        "title": "IBM Neo: From specifications to verified software delivery (Sponsored)",
-        "url": "https://reg.githubuniverse.com/flow/github/universe26/attendee-portal/page/sessioncatalog/session/1791895677566001pbO0"
-      }
-    ],
-    "sourceURL": "https://reg.githubuniverse.com/flow/github/universe26/attendee-portal/page/sessioncatalog/session/1791895677566001pbO0",
+    "sourceURL": "https://hachyderm.io/@jessehouwing/117450685326837594",
     "xURL": null
   },
   {
