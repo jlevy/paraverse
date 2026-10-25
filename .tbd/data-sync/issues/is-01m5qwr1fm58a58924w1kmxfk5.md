@@ -3,9 +3,9 @@ type: is
 id: is-01m5qwr1fm58a58924w1kmxfk5
 title: Port closed enforced v2 contracts to verified Universe KB
 kind: task
-status: in_progress
+status: closed
 priority: 1
-version: 5
+version: 6
 delegate: claude-code@spud10.local
 labels: []
 dependencies: []
@@ -13,8 +13,12 @@ parent_id: is-01m5qwpf7egtr4snchk904vy3s
 hold: null
 hold_until: null
 created_at: 2026-10-24T21:23:24.275Z
-updated_at: 2026-10-24T23:31:30.953Z
+updated_at: 2026-10-24T23:53:36.460Z
 started_at: 2026-10-24T21:23:41.121Z
+closed_at: 2026-10-24T23:53:36.429Z
+close_reason: Universe PR12 merged cd41b074 after final a4b5f1a independent A-D/Qodo review, make check 216 passed and all 4977 valid; full repair zero changes, payload/export bytes preserved.
+resolution: null
+duplicate_of: null
 ---
 Apply the saved adapted contracts-v2 port on kb/contracts-v2. Rebase onto final privacy-verified kb/data; regenerate 18 schemas and KB from target pipeline; prove payload/search/graph equality; run make check and softschema repair; publish after dependency confirmation.
 
