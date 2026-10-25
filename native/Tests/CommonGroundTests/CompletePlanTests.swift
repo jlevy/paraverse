@@ -25,19 +25,21 @@ final class CompletePlanTests: XCTestCase {
         XCTAssertTrue(planner.recommendationWarnings.isEmpty)
     }
 
-    @MainActor func testUnchangedPlanReusesPeopleMatches() async throws {
+    @MainActor func testUnassociatedSavedPeopleAreRefreshed() async throws {
         let planner = Planner()
         let suite = "CompletePlanTests." + UUID().uuidString
         planner.storage = try XCTUnwrap(UserDefaults(suiteName: suite))
         defer { planner.storage.removePersistentDomain(forName: suite) }
         planner.peopleToMeet = (0..<10).map { PersonRecommendation(personID: "p\($0)", name: "Person", role: "Engineer", reason: "Fit", profileURL: "https://example.com", sourceURL: "https://example.com", avatarAsset: nil) }
         planner.requestData = { request in
-            XCTAssertNotEqual(request.url!.path, "/chat", "Unchanged matches should not need another people request")
-            return (Data("{\"sessions\":[],\"message\":\"Ready\",\"calendarChecked\":false}".utf8), HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!)
+            let data = request.url!.path == "/chat"
+                ? Data(#"{"action":"answer","message":"Ready","recommendations":[{"personID":"fresh","name":"Synthetic person","role":"Engineer","reason":"Current plan","profileURL":"https://example.org/profile","sourceURL":"https://example.org/source"}]}"#.utf8)
+                : Data(#"{"sessions":[],"message":"Ready","calendarChecked":false}"#.utf8)
+            return (data, HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!)
         }
         planner.generate(completePlan: true)
         for _ in 0..<300 where planner.busy { try await Task.sleep(for: .milliseconds(10)) }
-        XCTAssertEqual(planner.peopleToMeet.count, 10)
+        XCTAssertEqual(planner.peopleToMeet.map(\.personID), ["fresh"])
         XCTAssertFalse(planner.busy)
     }
 

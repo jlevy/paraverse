@@ -120,8 +120,6 @@ struct SessionPlanResponse: Decodable { let sessions: [PlannedSession]; let mess
     func generate(late newLate: Bool = false, request text: String = "Recommend speaker sessions for both days", external: Bool = false, completePlan: Bool = false) {
         guard !busy else { return }
         let earliestReveal = ContinuousClock.now.advanced(by: .milliseconds(750))
-        let previousRankingRequest = lastRankingRequest
-        let hadPeopleWarning = recommendationWarnings.contains { $0.hasPrefix("People") }
         generatingRecommendations = completePlan
         if completePlan { showPlan = false; recommendationWarnings = [] }
         busy = true; status = external ? "Finding events around your sessions…" : "Matching your interests to speaker sessions…"
@@ -138,7 +136,6 @@ struct SessionPlanResponse: Decodable { let sessions: [PlannedSession]; let mess
                 var occupied = connection.events(from: start, to: end).filter { $0.availability != .free && !($0.notes ?? "").contains("Paraverse session:") && !($0.notes ?? "").contains("Common Ground session:") }.map { ["start": formatter.string(from: $0.startDate), "end": formatter.string(from: $0.endDate)] }
                 if external { occupied += sessions.map { ["start": $0.start, "end": $0.end] } }
                 let profileData = try JSONSerialization.jsonObject(with: JSONEncoder().encode(requestedProfile))
-                let previousSessionIDs = sessions.map(\.id)
                 let result: SessionPlanResponse = try await requestJSON("session-plan", body: ["profile": profileData, "prompt": rankingText, "late": newLate, "busy": occupied, "calendarConnected": connection.selected != nil, "external": external])
                 guard result.sessions.allSatisfy({ ISO8601DateFormatter().date(from: $0.start) != nil && ISO8601DateFormatter().date(from: $0.end) != nil }) else { throw ProfileImportError.invalidResponse }
                 try checkGeneration(generation)
@@ -155,9 +152,8 @@ struct SessionPlanResponse: Decodable { let sessions: [PlannedSession]; let mess
                         return events
                     }
                     defer { eventsTask.cancel() }
-                    let reusePeople = peopleToMeet.count >= 10 && previousSessionIDs == sessions.map(\.id)
-                        && rankingText == previousRankingRequest && !hadPeopleWarning
-                    if !reusePeople {
+                    // Saved people do not carry the inputs that generated them.
+                    // Refresh them for this plan instead of assuming they still match.
                     do {
                         let reply: CompanionReply = try await requestJSON("chat", body: ["profile": profileData, "prompt": "Who should I meet at GitHub Universe based on my interests? Recommend at least 10 people, including both attendees and speakers, with a specific reason for each match.", "sessions": try JSONSerialization.jsonObject(with: JSONEncoder().encode(sessions)), "history": []])
                         try checkGeneration(generation)
@@ -165,7 +161,6 @@ struct SessionPlanResponse: Decodable { let sessions: [PlannedSession]; let mess
                     } catch {
                         try checkGeneration(generation)
                         incompleteSections.append(peopleToMeet.isEmpty ? "People recommendations couldn’t load. Try again." : "People couldn’t refresh. Showing your saved recommendations.")
-                    }
                     }
                     do {
                         let events = try await eventsTask.value
