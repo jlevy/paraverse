@@ -3,17 +3,21 @@ type: is
 id: is-01m5qvng1cng75mqt7h63etd8r
 title: "Address PR #2 review qodo-5639977034: Qodo findings on the softschema skill files"
 kind: task
-status: open
+status: in_progress
 priority: 1
-version: 3
+version: 4
+delegate: claude-code@spud10.local
 labels: []
 dependencies: []
 parent_id: is-01m5qpee2srx8rmjhpb2vd80nt
 child_order_hints:
   - is-01m5qvnwvdp0vgb933243sjwbh
   - is-01m5qvnxgkp56sj4j8x21jyyem
+hold: null
+hold_until: null
 created_at: 2026-10-24T21:04:32.297Z
-updated_at: 2026-10-24T21:04:46.097Z
+updated_at: 2026-10-25T04:49:09.560Z
+started_at: 2026-10-25T04:49:09.560Z
 ---
 Address the Qodo review (unmarked) on jlevy/paraverse#2, branch setup/softschema, pinned head 18e48374946ed95598d052efd70a7176fa832125.
 Review: https://github.com/jlevy/paraverse/pull/2#pullrequestreview-5639977034
