@@ -3,9 +3,9 @@ type: is
 id: is-01m5qvq83d2m7nebnh4br3zc6w
 title: "PR #9 qodo-5640006360 #1: cloning does not give loadable data until the dataset pin moves (https://github.com/jlevy/paraverse/pull/9#discussion_r4368502073)"
 kind: bug
-status: in_progress
+status: closed
 priority: 2
-version: 5
+version: 6
 delegate: claude-code@spud10.local
 labels: []
 dependencies: []
@@ -13,8 +13,12 @@ parent_id: is-01m5qvq0n2h1swggks54s011d7
 hold: null
 hold_until: null
 created_at: 2026-10-24T21:05:29.708Z
-updated_at: 2026-10-25T04:45:44.500Z
+updated_at: 2026-10-25T04:46:17.294Z
 started_at: 2026-10-24T21:05:45.497Z
+closed_at: 2026-10-25T04:46:17.294Z
+close_reason: Completed in merged Paraverse PR14, merge 01cae9f21e5f3d0f5c95b52027bfa223959ab457. Final safe merged dataset pins a823679/64e3c0e match manifest; 4977+132 artifacts valid, deterministic native assets, owned explicit attendance proof and expected browser identity gates verified. Independent F/G/H carry exact source; final upper-stack 96 backend/64 release Swift tests pass. Both safe datasets run in browser8879 (5536 entities/25564 relationships); all nonpressing findings remain separate open beads.
+resolution: null
+duplicate_of: null
 ---
 PR: jlevy/paraverse#9 (layer vendor/universe2026-md).
 Review: https://github.com/jlevy/paraverse/pull/9#pullrequestreview-5640006360

@@ -3,9 +3,9 @@ type: is
 id: is-01m5r4vnjyqzp07wm8q8jhp649
 title: Pin final Universe v2 and regenerate native assets
 kind: task
-status: in_progress
+status: closed
 priority: 1
-version: 4
+version: 5
 delegate: claude-code@spud10.local
 labels: []
 dependencies: []
@@ -13,8 +13,12 @@ parent_id: is-01m5r23chnhgvbw2529w9d655c
 hold: null
 hold_until: null
 created_at: 2026-10-24T23:45:11.773Z
-updated_at: 2026-10-25T01:46:39.983Z
+updated_at: 2026-10-25T04:46:17.235Z
 started_at: 2026-10-24T23:45:23.936Z
+closed_at: 2026-10-25T04:46:17.234Z
+close_reason: Completed in merged Paraverse PR14, merge 01cae9f21e5f3d0f5c95b52027bfa223959ab457. Final safe merged dataset pins a823679/64e3c0e match manifest; 4977+132 artifacts valid, deterministic native assets, owned explicit attendance proof and expected browser identity gates verified. Independent F/G/H carry exact source; final upper-stack 96 backend/64 release Swift tests pass. Both safe datasets run in browser8879 (5536 entities/25564 relationships); all nonpressing findings remain separate open beads.
+resolution: null
+duplicate_of: null
 ---
 Parent-authorized final PR14 data-pin update after actual Universe v2 main merge. Preflight publisheda4b5f1a compatibility, then pin actual mergedmain SHA, run honest guarded native exporter preserving attendance proof gates and unsupported biographies empty. Verify deterministic outputs, contacts, counts, provenance and full Swift/backend gates in isolated source only. Root owns stack integration/publication.
 
