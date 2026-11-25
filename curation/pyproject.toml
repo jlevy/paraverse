@@ -74,3 +74,5 @@ reportImplicitStringConcatenation = false
 [tool.pytest.ini_options]
 python_files = ["test_*.py"]
 testpaths = ["tests"]
+# Delete passing tests' temp files when they finish; keep failing tests' for debugging.
+tmp_path_retention_policy = "failed"

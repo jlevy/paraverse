@@ -139,3 +139,5 @@ testpaths = [
 ]
 norecursedirs = []
 filterwarnings = []
+# Delete passing tests' temp files when they finish; keep failing tests' for debugging.
+tmp_path_retention_policy = "failed"
